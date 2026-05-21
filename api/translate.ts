@@ -57,7 +57,7 @@ export default async function handler(req: any, res: any) {
 
   try {
     // 1. Détermination de l'IP du client pour le Rate Limiting
-    const ip = (req.headers['x-forwarded-for'] as string) || req.socket.remoteAddress || "unknown";
+    const ip = (req.headers['x-forwarded-for'] as string) || req.socket?.remoteAddress || "unknown";
     const limitCheck = checkRateLimit(ip);
     if (!limitCheck.allowed) {
       return res.status(429).json({ error: limitCheck.message });

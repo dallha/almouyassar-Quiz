@@ -26,7 +26,7 @@ const ai = new GoogleGenAI({
 const ipCache = new Map<string, { count: number; resetTime: number }>();
 
 function rateLimiter(req: express.Request, res: express.Response, next: express.NextFunction) {
-  const ip = (req.headers['x-forwarded-for'] as string) || req.ip || req.socket.remoteAddress || "unknown";
+  const ip = (req.headers['x-forwarded-for'] as string) || req.ip || req.socket?.remoteAddress || "unknown";
   const now = Date.now();
   const limit = 30; // Maximum 30 requêtes
   const windowMs = 15 * 60 * 1000; // Par fenêtre de 15 minutes
