@@ -1,12 +1,12 @@
 /// <reference types="vite/client" />
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL || '').replace(/^['"]|['"]$/g, '').trim();
+const supabaseAnonKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '').replace(/^['"]|['"]$/g, '').trim();
 
 if (!supabaseUrl || !supabaseAnonKey) {
   console.warn(
-    "⚠️ Supabase URL or Anon Key is missing in your .env configuration. " +
+    "⚠️ Supabase URL or Anon Key is missing in your environment configuration. " +
     "The application will fallback to localStorage for user stats and chats."
   );
 }
