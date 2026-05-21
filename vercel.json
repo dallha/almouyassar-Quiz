@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/oustaz", "destination": "/api/oustaz" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
