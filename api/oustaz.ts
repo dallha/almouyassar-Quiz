@@ -3,17 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// Initialisation du client Gemini en dehors du handler pour le réutiliser d'une invocation à l'autre (optimisation cold start)
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-  httpOptions: {
-    headers: {
-      'User-Agent': 'aistudio-build',
-    }
-  }
-});
-
-// Cache de Rate Limiting en mémoire (partagé au sein de la même instance serverless)
+// Cache de Rate Limiting en mémoire
 const ipCache = new Map<string, { count: number; resetTime: number }>();
 
 function checkRateLimit(ip: string): { allowed: boolean; remaining?: number; message?: string } {
@@ -65,8 +55,19 @@ function hasInappropriateContent(text: string): boolean {
 
 // Handler de la fonction Serverless Vercel
 export default async function handler(req: any, res: any) {
-  // Vercel gère les CORS par défaut ou on peut les configurer si besoin.
-  // Autoriser uniquement les requêtes POST
+  // Configurer les en-têtes CORS de base pour autoriser les requêtes depuis la SPA
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
     return res.status(405).json({ error: `Méthode ${req.method} non autorisée.` });
@@ -98,7 +99,23 @@ export default async function handler(req: any, res: any) {
       });
     }
 
-    // 4. Appel à l'API Gemini 3.5 Flash
+    // 4. Initialisation du client GoogleGenAI à l'intérieur du handler pour s'assurer que les variables d'environnement sont injectées
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      console.error("Erreur de configuration : GEMINI_API_KEY est manquante dans les variables d'environnement.");
+      return res.status(500).json({ error: "Configuration de l'IA incomplète sur le serveur." });
+    }
+
+    const ai = new GoogleGenAI({
+      apiKey: apiKey,
+      httpOptions: {
+        headers: {
+          'User-Agent': 'aistudio-build',
+        }
+      }
+    });
+
+    // 5. Appel à l'API Gemini 3.5 Flash
     const systemInstruction = `Agis en tant qu'Oustaz virtuel de l'Institut Al-Mouyassar. Tu guides des enfants de 6 à 15 ans. Ton ton est exclusivement bienveillant, doux et motivant. Utilise des expressions valorisantes comme "Macha'Allah", "Barakallahou fik", "Mon cher enfant". En cas d'erreur de l'élève aux quiz du jeu, reformule et explique de manière simple et pédagogique la règle de Fiqh ou la valeur morale (Sabr, Akhlaq) sans le pénaliser.`;
 
     const chat = ai.chats.create({
@@ -114,6 +131,9 @@ export default async function handler(req: any, res: any) {
     return res.status(200).json({ text: response.text });
   } catch (error: any) {
     console.error("Gemini Serverless API Error:", error);
-    return res.status(500).json({ error: "Impossible de joindre l'Oustaz Virtuel en ce moment." });
+    return res.status(500).json({ 
+      error: "Impossible de joindre l'Oustaz Virtuel en ce moment.",
+      details: error.message || error
+    });
   }
 }
