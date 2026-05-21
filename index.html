@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="fr" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    
+    <!-- General Primary Title -->
+    <title>Al-Mouyassar Play & Learn</title>
+
+    <!-- Mobile capabilities configuration -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Almouyassar" />
+
+    <!-- Favicons & Manifest Link -->
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="apple-touch-icon" href="/logo.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#004D40" />
+
+    <!-- Google Fonts pairing: Elegant serif + geometric title display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;750&family=Inter:wght@400;500;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet" />
+  </head>
+  <body class="bg-[#FCF8F2] text-[#004D40] select-none antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Native Service Worker execution pipeline -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then((reg) => {
+              console.log('Almouyassar Service Worker registered with scope: ', reg.scope);
+            })
+            .catch((err) => {
+              console.warn('Almouyassar Service Worker registration failed: ', err);
+            });
+        });
+      }
+    </script>
+  </body>
+</html>
