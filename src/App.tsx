@@ -2023,12 +2023,12 @@ export default function App() {
                   <Users className="w-6 h-6" />
                 </div>
                 <h3 className="text-lg font-black text-[#004D40] uppercase tracking-tight">
-                  {currentUser ? "Mon Profil Enseignant / Élève" : authMode === 'signin' ? "Connexion Élève" : "Créer un Compte Élève"}
+                  {currentUser ? "🌟 Mon Profil d'Apprenti Ansar" : authMode === 'signin' ? "🔑 Connexion à l'Aventure" : "🚀 Créer mon Espace de Jeu"}
                 </h3>
                 <p className="text-xs text-stone-500 max-w-xs mx-auto">
                   {currentUser 
-                    ? "Vos statistiques, badges et conversations avec l'Oustaz sont synchronisés."
-                    : "Connectez-vous pour enregistrer votre progression en ligne et y accéder de n'importe quel appareil !"}
+                    ? "Tes précieux badges, tes points XP et tes conversations avec l'Oustaz Virtuel sont bien enregistrés !"
+                    : "Connecte-toi ou crée un compte pour enregistrer tes précieux points (XP) et tes magnifiques badges de réussite !"}
                 </p>
               </div>
 
@@ -2037,12 +2037,12 @@ export default function App() {
                 <div className="space-y-4">
                   <div className="p-4 bg-white border border-stone-200 rounded-xl space-y-2">
                     <div className="flex justify-between items-center text-xs text-stone-700">
-                      <span className="text-stone-400 font-semibold uppercase">Email connecté</span>
+                      <span className="text-stone-400 font-semibold uppercase">📧 Mon E-mail</span>
                       <span className="font-extrabold text-[#004D40]">{currentUser.email}</span>
                     </div>
                     <div className="flex justify-between items-center text-xs text-stone-700">
-                      <span className="text-stone-400 font-semibold uppercase">Points XP</span>
-                      <span className="font-bold text-[#D0A21C]">{stats.xp} XP</span>
+                      <span className="text-stone-400 font-semibold uppercase">✨ Mes Points d'Expérience</span>
+                      <span className="font-extrabold text-[#D0A21C]">{stats.xp} XP</span>
                     </div>
                   </div>
 
@@ -2059,7 +2059,7 @@ export default function App() {
                     className="w-full py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md disabled:opacity-50"
                   >
                     <LogOut className="w-4 h-4" />
-                    <span>Se déconnecter</span>
+                    <span>🚪 Quitter mon Espace</span>
                   </button>
                 </div>
               ) : (
@@ -2090,7 +2090,7 @@ export default function App() {
                           password: authPassword,
                         });
                         if (error) throw error;
-                        alert("Macha'Allah ! Compte créé. Veuillez vérifier vos e-mails pour confirmer votre inscription si requis.");
+                        alert("Macha'Allah ! Ton compte d'aventurier a bien été créé. Amuse-toi bien et progresse sur le chemin du savoir ! ✨");
                       }
                       setShowAuthModal(false);
                     } catch (err: any) {
