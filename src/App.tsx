@@ -496,6 +496,106 @@ export default function App() {
   const [latestSessionBadges, setLatestSessionBadges] = useState<Badge[]>([]);
   const [showSessionBadgeBanner, setShowSessionBadgeBanner] = useState(false);
 
+  // --- Cache de Traduction IA et États ---
+  const [aiTranslationsCache, setAiTranslationsCache] = useState<Record<string, any>>(() => {
+    const saved = localStorage.getItem('mouyassar_ai_translations_cache');
+    return saved ? JSON.parse(saved) : {};
+  });
+  const [isTranslatingQuestion, setIsTranslatingQuestion] = useState(false);
+
+  useEffect(() => {
+    if (!session) return;
+    const { currentIndex, questions } = session;
+    if (currentIndex >= questions.length) return;
+
+    const currentQuestion = questions[currentIndex];
+    
+    // Si la langue est 'fr', pas besoin de traduire
+    if (language === 'fr') return;
+
+    // Si la question a déjà la traduction statique dans les données, pas besoin de traduire
+    if (currentQuestion.translations?.[language as 'ar' | 'wo']) return;
+
+    const cacheKey = `${currentQuestion.id}_${language}`;
+
+    // Si la question est déjà dans le cache de traduction IA, on l'injecte dans la question !
+    if (aiTranslationsCache[cacheKey]) {
+      setSession(prev => {
+        if (!prev) return null;
+        const updatedQuestions = [...prev.questions];
+        const qToUpdate = { ...updatedQuestions[currentIndex] };
+        qToUpdate.translations = {
+          ...qToUpdate.translations,
+          [language]: aiTranslationsCache[cacheKey]
+        };
+        updatedQuestions[currentIndex] = qToUpdate;
+        return {
+          ...prev,
+          questions: updatedQuestions
+        };
+      });
+      return;
+    }
+
+    // Sinon, on doit lancer la traduction via l'API !
+    const performAiTranslation = async () => {
+      setIsTranslatingQuestion(true);
+      try {
+        const response = await fetch('/api/translate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            questionText: currentQuestion.question,
+            options: currentQuestion.options,
+            reponseCorrecte: currentQuestion.reponse_correcte,
+            explication: currentQuestion.explication,
+            language: language
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error("Erreur HTTP " + response.status);
+        }
+
+        const data = await response.json();
+
+        // Mettre à jour le cache local
+        setAiTranslationsCache(prev => {
+          const updated = {
+            ...prev,
+            [cacheKey]: data
+          };
+          localStorage.setItem('mouyassar_ai_translations_cache', JSON.stringify(updated));
+          return updated;
+        });
+
+        // Injecter la traduction dans la session
+        setSession(prev => {
+          if (!prev) return null;
+          const updatedQuestions = [...prev.questions];
+          const qToUpdate = { ...updatedQuestions[currentIndex] };
+          qToUpdate.translations = {
+            ...qToUpdate.translations,
+            [language]: data
+          };
+          updatedQuestions[currentIndex] = qToUpdate;
+          return {
+            ...prev,
+            questions: updatedQuestions
+          };
+        });
+      } catch (error) {
+        console.error("AI Translation failure, falling back to French:", error);
+      } finally {
+        setIsTranslatingQuestion(false);
+      }
+    };
+
+    performAiTranslation();
+  }, [language, session?.currentIndex, session?.questions[session?.currentIndex]?.id]);
+
   const handleToggleCategory = (cat: string) => {
     playSelectSound();
     setSelectedCategories(prev => 
@@ -1109,6 +1209,7 @@ export default function App() {
                   totalQuestions={session.questions.length}
                   timerActive={timerEnabled}
                   timerLimit={timerMinutes}
+                  isTranslating={isTranslatingQuestion}
                   onAnswerValidated={handleAnswerValidatedCallback}
                 />
               ) : (

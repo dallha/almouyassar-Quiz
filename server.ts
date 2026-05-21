@@ -111,6 +111,81 @@ app.post("/api/oustaz", rateLimiter, async (req, res) => {
   }
 });
 
+app.post("/api/translate", rateLimiter, async (req, res) => {
+  try {
+    const { questionText, options, reponseCorrecte, explication, language } = req.body;
+
+    // Validation des entrées
+    if (typeof questionText !== "string" || !questionText.trim()) {
+      return res.status(400).json({ error: "Le paramètre questionText est obligatoire et doit être une chaîne non vide." });
+    }
+    if (!Array.isArray(options) || options.length === 0) {
+      return res.status(400).json({ error: "Le paramètre options est obligatoire et doit être un tableau non vide." });
+    }
+    if (typeof reponseCorrecte !== "string" || !reponseCorrecte.trim()) {
+      return res.status(400).json({ error: "Le paramètre reponseCorrecte est obligatoire et doit être une chaîne non vide." });
+    }
+    if (typeof explication !== "string") {
+      return res.status(400).json({ error: "Le paramètre explication doit être une chaîne." });
+    }
+    if (language !== 'ar' && language !== 'wo') {
+      return res.status(400).json({ error: "La langue de destination doit être 'ar' (Arabe) ou 'wo' (Wolof)." });
+    }
+
+    const prompt = `Agis en tant que traducteur expert bilingue spécialisé dans la pédagogie islamique pour les enfants de 6 à 15 ans.
+Traduis les éléments de ce quiz islamique de manière fluide, bienveillante et adaptée aux enfants en : ${
+      language === 'ar' 
+        ? 'Arabe simple, littéraire et ENTIÈREMENT vocalisé (avec tout le Tashkeel / Harakat obligatoirement pour faciliter la lecture aux enfants).' 
+        : 'Wolof simple écrit en alphabet latin conventionnel d\'Afrique de l\'Ouest tel que pratiqué couramment.'
+    }
+
+Données d'entrée (en Français) :
+Question: "${questionText}"
+Options: ${JSON.stringify(options)}
+Réponse correcte à traduire: "${reponseCorrecte}"
+Explication pédagogique: "${explication}"
+
+Tu dois impérativement renvoyer EXCLUSIVEMENT un objet JSON valide contenant cette structure exacte, sans enrobage markdown (\`\`\`json ... \`\`\`), sans texte explicatif avant ou après :
+{
+  "question": "traduction de la question",
+  "options": ["traduction option 1", "traduction option 2", "traduction option 3", "traduction option 4"],
+  "reponse_correcte": "traduction de la réponse correcte",
+  "explication": "traduction de l'explication"
+}
+
+Règles impératives :
+1. Les options doivent rester dans le même ordre de positionnement.
+2. Le champ "reponse_correcte" doit correspondre à la traduction exacte de l'option gagnante contenue dans le tableau "options".
+3. L'explication doit rester très douce, poétique, motivante et pleine de pédagogie pour les enfants.
+4. N'invente pas d'autres détails, traduis fidèlement le sens théologique de la question d'origine en adaptant le ton.`;
+
+    const response = await ai.models.generateContent({
+      model: "gemini-3.5-flash",
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        temperature: 0.1,
+      }
+    });
+
+    const translatedText = response.text;
+    if (!translatedText) {
+      throw new Error("L'IA a retourné une réponse vide.");
+    }
+
+    const parsedTranslation = JSON.parse(translatedText.trim());
+
+    if (!parsedTranslation.question || !Array.isArray(parsedTranslation.options) || !parsedTranslation.reponse_correcte || !parsedTranslation.explication) {
+      throw new Error("La structure de traduction retournée par l'IA est incomplète.");
+    }
+
+    res.json(parsedTranslation);
+  } catch (error: any) {
+    console.error("Gemini Oustaz Translate API error:", error);
+    res.status(500).json({ error: "Impossible de traduire cette question en ce moment." });
+  }
+});
+
 // Boot helper
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {

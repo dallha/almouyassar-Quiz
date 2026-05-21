@@ -2,26 +2,466 @@ import { Question, Badge } from './types';
 import { EXTRA_QUESTIONS } from './questions_extra';
 
 export const QUESTIONS: Question[] = [
-  { "id": 1, "categorie": "Fiqh", "niveau": "Débutant", "question": "Quel est le premier pilier de l'Islam ?", "options": ["La Prière", "L'Attestation de foi (Chahada)", "Le Jeûne", "La Zakat"], "reponse_correcte": "L'Attestation de foi (Chahada)", "explication": "C'est la base de l'Islam : attester qu'il n'y a de divinité digne d'adoration qu'Allah et que Muhammad est Son messager." },
-  { "id": 2, "categorie": "Fiqh", "niveau": "Débutant", "question": "Combien y a-t-il de prières obligatoires par jour ?", "options": ["3", "4", "5", "6"], "reponse_correcte": "5", "explication": "Le musulman doit accomplir 5 prières quotidiennes : Subh, Dhuhr, Asr, Maghrib et Isha." },
-  { "id": 3, "categorie": "Fiqh", "niveau": "Débutant", "question": "Par quoi doit-on commencer avant de faire ses ablutions ?", "options": ["Dire Bismillah", "Se laver les pieds", "Dire Allahu Akbar", "S'essuyer la tête"], "reponse_correcte": "Dire Bismillah", "explication": "Toute action importante en Islam commence par le nom d'Allah." },
-  { "id": 4, "categorie": "Fiqh", "niveau": "Débutant", "question": "Combien de fois est-il recommandé de laver chaque membre pendant les ablutions ?", "options": ["1 fois", "2 fois", "3 fois", "4 fois"], "reponse_correcte": "3 fois", "explication": "La Sunnah recommande de laver le visage, les bras et les pieds trois fois." },
-  { "id": 5, "categorie": "Fiqh", "niveau": "Débutant", "question": "Que purifie-t-on en premier lors des ablutions ?", "options": ["Le visage", "Les mains jusqu'aux poignets", "Les pieds", "La bouche"], "reponse_correcte": "Les mains jusqu'aux poignets", "explication": "On commence par se laver les mains trois fois avant de procéder au reste." },
-  { "id": 6, "categorie": "Fiqh", "niveau": "Intermédiaire", "question": "Quelle prière a lieu avant le lever du soleil ?", "options": ["Dhuhr", "Asr", "Maghrib", "Subh (Fajr)"], "reponse_correcte": "Subh (Fajr)", "explication": "La prière de Subh s'accomplit à l'aube, avant l'apparition du soleil." },
-  { "id": 7, "categorie": "Fiqh", "niveau": "Intermédiaire", "question": "Combien de Rak'ats (unités) composent la prière de Dhuhr ?", "options": ["2", "3", "4", "5"], "reponse_correcte": "4", "explication": "La prière du midi (Dhuhr) compte 4 Rak'ats." },
-  { "id": 8, "categorie": "Fiqh", "niveau": "Intermédiaire", "question": "Comment s'appelle l'appel à la prière ?", "options": ["Iqama", "Adhan", "Tasbih", "Takbir"], "reponse_correcte": "Adhan", "explication": "L'Adhan est l'appel public annonçant l'heure de la prière." },
-  { "id": 9, "categorie": "Fiqh", "niveau": "Intermédiaire", "question": "Que récite-t-on obligatoirement à chaque Rak'at de la prière ?", "options": ["Sourate Al-Ikhlas", "Sourate Al-Fatiha", "Ayat Al-Kursi", "Une invocation libre"], "reponse_correcte": "Sourate Al-Fatiha", "explication": "La prière n'est pas valide sans la récitation de la sourate Al-Fatiha." },
-  { "id": 10, "categorie": "Fiqh", "niveau": "Intermédiaire", "question": "Quelle est la direction vers laquelle on se tourne pour prier ?", "options": ["Le Nord", "Le Soleil", "La Qibla (La Mecque)", "Jérusalem"], "reponse_correcte": "La Qibla (La Mecque)", "explication": "Tous les musulmans prient en direction de la Kaaba à La Mecque." },
-  { "id": 11, "categorie": "Fiqh", "niveau": "Débutant", "question": "Quel mois jeûne-t-on obligatoirement ?", "options": ["Muharram", "Ramadan", "Cha'ban", "Chawwal"], "reponse_correcte": "Ramadan", "explication": "Le jeûne du Ramadan est le 4ème pilier de l'Islam." },
-  { "id": 12, "categorie": "Fiqh", "niveau": "Intermédiaire", "question": "Que rompt le jeûne à la fin de la journée ?", "options": ["Le repas du Souhour", "Le repas de l'Iftar", "La prière de l'Aube", "Le sommeil"], "reponse_correcte": "Le repas de l'Iftar", "explication": "L'Iftar est le repas qui marque la rupture du jeûne au coucher du soleil." },
-  { "id": 13, "categorie": "Fiqh", "niveau": "Avancé", "question": "Qu'est-ce que la Zakat ?", "options": ["L'aumône légale obligatoire", "Une prière nocturne", "Le nom d'un Ange", "Un mois de l'année"], "reponse_correcte": "L'aumône légale obligatoire", "explication": "La Zakat is une part de la richesse donnée aux pauvres, c'est le 3ème pilier de l'Islam." },
-  { "id": 14, "categorie": "Fiqh", "niveau": "Intermédiaire", "question": "Quand s'accomplit la prière de Jumu'ah ?", "options": ["Le vendredi midi", "Le lundi matin", "Le jeudi soir", "Le dimanche"], "reponse_correcte": "Le vendredi midi", "explication": "La Jumu'ah remplace la prière de Dhuhr le vendredi en congrégation." },
-  { "id": 15, "categorie": "Fiqh", "niveau": "Avancé", "question": "Quel acte annule les ablutions ?", "options": ["Manger", "Dormir profondément", "Parler", "Sourire"], "reponse_correcte": "Dormir profondément", "explication": "Le sommeil lourd fait perdre les ablutions car on ne contrôle plus son état." },
-  { "id": 16, "categorie": "Fiqh", "niveau": "Intermédiaire", "question": "Comment s'appelle l'ablution sèche avec de la terre pure ?", "options": ["Ghusl", "Tayammum", "Wudu", "Masah"], "reponse_correcte": "Tayammum", "explication": "Le Tayammum remplace le Wudu quand il n'y a pas d'eau ou qu'on est malade." },
-  { "id": 17, "categorie": "Fiqh", "niveau": "Intermédiaire", "question": "Quelle prière suit directement Dhuhr ?", "options": ["Maghrib", "Asr", "Isha", "Subh"], "reponse_correcte": "Asr", "explication": "La prière de l'après-midi est Asr." },
-  { "id": 18, "categorie": "Fiqh", "niveau": "Avancé", "question": "Combien de Rak'ats composent les prières du Maghrib et de l'Isha réunies ?", "options": ["5", "7", "6", "8"], "reponse_correcte": "7", "explication": "Maghrib (3) + Isha (4) font un total de 7 Rak'ats." },
-  { "id": 19, "categorie": "Fiqh", "niveau": "Débutant", "question": "Que signifie 'Allahu Akbar' ?", "options": ["Allah est le Miséricordieux", "Allah est le plus Grand", "Gloire à Allah", "Merci à Allah"], "reponse_correcte": "Allah est le plus Grand", "explication": "C'est le Takbir, prononcé pour entrer en prière." },
-  { "id": 20, "categorie": "Fiqh", "niveau": "Intermédiaire", "question": "Dans quelle position doit-on poser le front au sol pendant la prière ?", "options": ["Le Ruku (Inclinaison)", "Le Sujud (Prosternation)", "Le Qiyam (Debout)", "Le Tachahoud"], "reponse_correcte": "Le Sujud (Prosternation)", "explication": "Le Sujud est l'acte de soumission totale où le front touche la terre." },
+  { 
+    "id": 1, 
+    "categorie": "Fiqh", 
+    "niveau": "Débutant", 
+    "question": "Quel est le premier pilier de l'Islam ?", 
+    "options": ["La Prière", "L'Attestation de foi (Chahada)", "Le Jeûne", "La Zakat"], 
+    "reponse_correcte": "L'Attestation de foi (Chahada)", 
+    "explication": "C'est la base de l'Islam : attester qu'il n'y a de divinité digne d'adoration qu'Allah et que Muhammad est Son messager.",
+    "translations": {
+      "ar": {
+        "question": "مَا هُوَ الرُّكْنُ الْأَوَّلُ مِنَ الْإِسْلَامِ؟",
+        "options": ["الصَّلَاةُ", "شَهَادَةُ أَنْ لَا إِلٰهَ إِلَّا اللهُ (الشَّهَادَةُ)", "الصَّوْمُ", "الزَّكَاةُ"],
+        "reponse_correcte": "شَهَادَةُ أَنْ لَا إِلٰهَ إِلَّا اللهُ (الشَّهَادَةُ)",
+        "explication": "هَذَا هُوَ أَسَاسُ الْإِسْلَامِ: أَنْ تَشْهَدَ أَنْ لَا إِلٰهَ إِلَّا اللهُ وَأَنَّ مُحَمَّدًا رَسُولُ اللهِ."
+      },
+      "wo": {
+        "question": "Ban moy pontu Lislaam bu jëkk bi ?",
+        "options": ["Julli", "Tuurëal bi (Chahada)", "Koor", "Asaka"],
+        "reponse_correcte": "Tuurëal bi (Chahada)",
+        "explication": "Lii moy dëgërlay u Lislaam: Seere né amul benn yàlla bu war a jaamu budul Allah té Yonent bi Muhammad (PSL) ndawam la."
+      }
+    }
+  },
+  { 
+    "id": 2, 
+    "categorie": "Fiqh", 
+    "niveau": "Débutant", 
+    "question": "Combien y a-t-il de prières obligatoires par jour ?", 
+    "options": ["3", "4", "5", "6"], 
+    "reponse_correcte": "5", 
+    "explication": "Le musulman doit accomplir 5 prières quotidiennes : Subh, Dhuhr, Asr, Maghrib et Isha.",
+    "translations": {
+      "ar": {
+        "question": "كَمْ عَدَدُ الصَّلَوَاتِ الْمَفْرُوضَةِ فِي الْيَوْمِ؟",
+        "options": ["3", "4", "5", "6"],
+        "reponse_correcte": "5",
+        "explication": "يَجِبُ عَلَى الْمُسْلِمِ أَنْ يُؤَدِّيَ خَمْسَ صَلَوَاتٍ فِي الْيَوْمِ: الصُّبْحُ، الظُّهْرُ، الْعَصْرُ، الْمَغْرِبُ، وَالْعِشَاءُ."
+      },
+      "wo": {
+        "question": "Ñata julli yu war ño am ci bëjj-gël ?",
+        "options": ["3", "4", "5", "6"],
+        "reponse_correcte": "5",
+        "explication": "Julit bi dafa wara julli juróomi yoon ci bës bi: Fajar (Fadjr), Tisbar (Dhuhr), Takusaan (Asr), Timis (Maghrib) ak Gee (Isha)."
+      }
+    }
+  },
+  { 
+    "id": 3, 
+    "categorie": "Fiqh", 
+    "niveau": "Débutant", 
+    "question": "Par quoi doit-on commencer avant de faire ses ablutions ?", 
+    "options": ["Dire Bismillah", "Se laver les pieds", "Dire Allahu Akbar", "S'essuyer la tête"], 
+    "reponse_correcte": "Dire Bismillah", 
+    "explication": "Toute action importante en Islam commence par le nom d'Allah.",
+    "translations": {
+      "ar": {
+        "question": "بِمَاذَا يَجِبُ أَنْ نَبْدَأَ قَبْلَ الْوُضُوءِ؟",
+        "options": ["قَوْلُ بِسْمِ اللهِ", "غَسْلُ الرِّجْلَيْنِ", "قَوْلُ اللهُ أَكْبَرُ", "مَسْحُ الرَّأْسِ"],
+        "reponse_correcte": "قَوْلُ بِسْمِ اللهِ",
+        "explication": "كُلُّ عَمَلٍ مُهِمٍّ فِي الْإِسْلَامِ يَبْدَأُ بِاسْمِ اللهِ."
+      },
+      "wo": {
+        "question": "Lan lañuy jëkka wax bala ngay soso ?",
+        "options": ["Wax Bismillah", "Raxass say tànk", "Wax Allahu Akbar", "Mape sa bop"],
+        "reponse_correcte": "Wax Bismillah",
+        "explication": "Lép lu am solo ci Lislaam ci turu Yàlla lañ koy tambalee."
+      }
+    }
+  },
+  { 
+    "id": 4, 
+    "categorie": "Fiqh", 
+    "niveau": "Débutant", 
+    "question": "Combien de fois est-il recommandé de laver chaque membre pendant les ablutions ?", 
+    "options": ["1 fois", "2 fois", "3 fois", "4 fois"], 
+    "reponse_correcte": "3 fois", 
+    "explication": "La Sunnah recommande de laver le visage, les bras et les pieds trois fois.",
+    "translations": {
+      "ar": {
+        "question": "كَمْ مَرَّةً يُسْتَحَبُّ غَسْلُ كُلِّ عُضْوٍ فِي الْوُضُوءِ؟",
+        "options": ["مَرَّةً وَاحِدَةً", "مَرَّتَيْنِ", "٣ مَرَّاتٍ", "٤ مَرَّاتٍ"],
+        "reponse_correcte": "٣ مَرَّاتٍ",
+        "explication": "تَنْصَحُ السُّنَّةُ بِغَسْلِ الْوَجْهِ، الْيَدَيْنِ، وَالرِّجْلَيْنِ ثَلَاثَ مَرَّاتٍ."
+      },
+      "wo": {
+        "question": "Ñata yoon lañuy raxass sa cér bu nekk buy soso ci Sunnah bi ?",
+        "options": ["1 yoon", "2 yoon", "3 yoon", "4 yoon"],
+        "reponse_correcte": "3 yoon",
+        "explication": "Sunnah bi dafa digle raxass kanam bi, loxo yi ak tànk yi ñati yoon."
+      }
+    }
+  },
+  { 
+    "id": 5, 
+    "categorie": "Fiqh", 
+    "niveau": "Débutant", 
+    "question": "Que purifie-t-on en premier lors des ablutions ?", 
+    "options": ["Le visage", "Les mains jusqu'aux poignets", "Les pieds", "La bouche"], 
+    "reponse_correcte": "Les mains jusqu'aux poignets", 
+    "explication": "On commence par se laver les mains trois fois avant de procéder au reste.",
+    "translations": {
+      "ar": {
+        "question": "مَاذَا نُطَهِّرُ أَوَّلاً فِي الْوُضُوءِ؟",
+        "options": ["الْوَجْهُ", "الْغَسْلُ إِلَى الْكُوعَيْنِ (الْيَدَيْنِ)", "الرِّجْلَانِ", "الْفَمُ"],
+        "reponse_correcte": "الْغَسْلُ إِلَى الْكُوعَيْنِ (الْيَدَيْنِ)",
+        "explication": "نَبْدَأُ بِغَسْلِ الْيَدَيْنِ ثَلَاثَ مَرَّاتٍ قَبْلَ الِاسْتِمْرَارِ فِي الْبَاقِي."
+      },
+      "wo": {
+        "question": "Lan lañuy jëkka raxass buy soso ?",
+        "options": ["Kanam bi", "Loxo yi ba ci col yi", "Tànk yi", "Gemiñ bi"],
+        "reponse_correcte": "Loxo yi ba ci col yi",
+        "explication": "Dañuy tambalee raxass loxo yi ñati yoon bala ngay wëy."
+      }
+    }
+  },
+  { 
+    "id": 6, 
+    "categorie": "Fiqh", 
+    "niveau": "Intermédiaire", 
+    "question": "Quelle prière a lieu avant le lever du soleil ?", 
+    "options": ["Dhuhr", "Asr", "Maghrib", "Subh (Fajr)"], 
+    "reponse_correcte": "Subh (Fajr)", 
+    "explication": "La prière de Subh s'accomplit à l'aube, avant l'apparition du soleil.",
+    "translations": {
+      "ar": {
+        "question": "أَيُّ صَلَاةٍ تَكُونُ قَبْلَ شُرُوقِ الشَّمْسِ؟",
+        "options": ["الظُّهْرُ", "الْعَصْرُ", "الْمَغْرِبُ", "الصُّبْحُ (الْفَجْرُ)"],
+        "reponse_correcte": "الصُّبْحُ (الْفَجْرُ)",
+        "explication": "صَلَاةُ الصُّبْحِ تُؤَدَّى عِنْدَ الْفَجْرِ قَبْلَ ظُهُورِ الشَّمْسِ."
+      },
+      "wo": {
+        "question": "Ban julli moy taxaw bala jant biy feeñ ?",
+        "options": ["Tisbar", "Takusaan", "Timis", "Fajar (Fadjr)"],
+        "reponse_correcte": "Fajar (Fadjr)",
+        "explication": "Jullit u Fajar dafay taxaw ci lëndëm bu dëggër bi bala jant biy feeñ."
+      }
+    }
+  },
+  { 
+    "id": 7, 
+    "categorie": "Fiqh", 
+    "niveau": "Intermédiaire", 
+    "question": "Combien de Rak'ats (unités) composent la prière de Dhuhr ?", 
+    "options": ["2", "3", "4", "5"], 
+    "reponse_correcte": "4", 
+    "explication": "La prière du midi (Dhuhr) compte 4 Rak'ats.",
+    "translations": {
+      "ar": {
+        "question": "كَمْ عَدَدُ الرَّكَعَاتِ فِي صَلَاةِ الظُّهْرِ؟",
+        "options": ["2", "3", "4", "5"],
+        "reponse_correcte": "4",
+        "explication": "صَلَاةُ الظُّهْرِ تَتَكَوَّنُ مِنْ أَرْبَعِ رَكَعَاتٍ."
+      },
+      "wo": {
+        "question": "Ñata Rak'ats (sëgg) ño am ci Tisbar ?",
+        "options": ["2", "3", "4", "5"],
+        "reponse_correcte": "4",
+        "explication": "Julli Tisbar (Dhuhr) ñeenti sëgg la am."
+      }
+    }
+  },
+  { 
+    "id": 8, 
+    "categorie": "Fiqh", 
+    "niveau": "Intermédiaire", 
+    "question": "Comment s'appelle l'appel à la prière ?", 
+    "options": ["Iqama", "Adhan", "Tasbih", "Takbir"], 
+    "reponse_correcte": "Adhan", 
+    "explication": "L'Adhan est l'appel public annonçant l'heure de la prière.",
+    "translations": {
+      "ar": {
+        "question": "مَا هُوَ اسْمُ النِّدَاءِ لِلصَّلَاةِ؟",
+        "options": ["الْإِقَامَةُ", "الْأَذَانُ", "التَّسْبِيحُ", "التَّكْبِيرُ"],
+        "reponse_correcte": "الْأَذَانُ",
+        "explication": "الْأَذَانُ هُوَ النِّدَاءُ الْعَامُّ الَّذِي يُعْلِنُ عَنْ وَقْتِ الصَّلَاةِ."
+      },
+      "wo": {
+        "question": "Naka lañuy waxëal nodd bi ?",
+        "options": ["Likkam bi (Iqama)", "Nodd bi (Adhan)", "Tassbi bi", "Takbiir bi"],
+        "reponse_correcte": "Nodd bi (Adhan)",
+        "explication": "Nodd bi (Adhan) moy yégle bi wone né waxtu julli jotna."
+      }
+    }
+  },
+  { 
+    "id": 9, 
+    "categorie": "Fiqh", 
+    "niveau": "Intermédiaire", 
+    "question": "Que récite-t-on obligatoirement à chaque Rak'at de la prière ?", 
+    "options": ["Sourate Al-Ikhlas", "Sourate Al-Fatiha", "Ayat Al-Kursi", "Une invocation libre"], 
+    "reponse_correcte": "Sourate Al-Fatiha", 
+    "explication": "La prière n'est pas valide sans la récitation de la sourate Al-Fatiha.",
+    "translations": {
+      "ar": {
+        "question": "مَاذَا نَقْرَأُ وُجُوباً فِي كُلِّ رَكْعَةٍ مِنَ الصَّلَاةِ؟",
+        "options": ["سُورَةُ الْإِخْلَاصِ", "سُورَةُ الْفَاتِحَةِ", "آيَةُ الْكُرْسِيِّ", "دُعَاءٌ حُرٌّ"],
+        "reponse_correcte": "سُورَةُ الْفَاتِحَةِ",
+        "explication": "الصَّلَاةُ لَا تَصِحُّ بِدُونِ قِرَاءَةِ سُورَةِ الْفَاتِحَةِ."
+      },
+      "wo": {
+        "question": "Lan la wara jàng ci sëgg bu nekk ci sa julli ?",
+        "options": ["Sura Al-Ikhlas", "Sura Al-Fatiha", "Ayat Al-Kursi", "Ñaan gu la neex"],
+        "reponse_correcte": "Sura Al-Fatiha",
+        "explication": "Julli du baax bu jàngulëo Sura Al-Fatiha ci sëgg bu nekk."
+      }
+    }
+  },
+  { 
+    "id": 10, 
+    "categorie": "Fiqh", 
+    "niveau": "Intermédiaire", 
+    "question": "Quelle est la direction vers laquelle on se tourne pour prier ?", 
+    "options": ["Le Nord", "Le Soleil", "La Qibla (La Mecque)", "Jérusalem"], 
+    "reponse_correcte": "La Qibla (La Mecque)", 
+    "explication": "Tous les musulmans prient en direction de la Kaaba à La Mecque.",
+    "translations": {
+      "ar": {
+        "question": "مَا هُوَ الِاتِّجَاهُ الَّذِي نَتَوَجَّهُ إِلَيْهِ لِلصَّلَاةِ؟",
+        "options": ["الشَّمَالُ", "الشَّمْسُ", "الْقِبْلَةُ (مَكَّةُ)", "الْقُدْسُ"],
+        "reponse_correcte": "الْقِبْلَةُ (مَكَّةُ)",
+        "explication": "يُصَلِّي جَمِيعُ الْمُسْلِمِينَ فِي اتِّجَاهِ الْكَعْبَةِ الْمُشَرَّفَةِ فِي مَكَّةَ."
+      },
+      "wo": {
+        "question": "Ban wét la julit bi wara wëlikut buy julli ?",
+        "options": ["Nord", "Jant bi", "Kibla bi (Makkah)", "Al-Quds"],
+        "reponse_correcte": "Kibla bi (Makkah)",
+        "explication": "Mbooloo julit yépp dañuy wëlikut ci Kaaba gu tédd ga ci Makkah buy julli."
+      }
+    }
+  },
+  { 
+    "id": 11, 
+    "categorie": "Fiqh", 
+    "niveau": "Débutant", 
+    "question": "Quel mois jeûne-t-on obligatoirement ?", 
+    "options": ["Muharram", "Ramadan", "Cha'ban", "Chawwal"], 
+    "reponse_correcte": "Ramadan", 
+    "explication": "Le jeûne du Ramadan est le 4ème pilier de l'Islam.",
+    "translations": {
+      "ar": {
+        "question": "أَيُّ شَهْرٍ نَصُومُهُ وُجُوباً؟",
+        "options": ["مُحَرَّمُ", "رَمَضَانُ", "شَعْبَانُ", "شَوَّالُ"],
+        "reponse_correcte": "رَمَضَانُ",
+        "explication": "صَوْمُ رَمَضَانَ هُوَ الرُّكْنُ الرَّابِعُ مِنَ أَرْكَانِ الْإِسْلَامِ."
+      },
+      "wo": {
+        "question": "Ban weer lañuy woor bu woor ?",
+        "options": ["Weeru Tamxarit", "Weeru Koor (Ramadan)", "Weeru Diggi", "Weeru Koorite"],
+        "reponse_correcte": "Weeru Koor (Ramadan)",
+        "explication": "Woor Weeru Koor (Ramadan) moy pontu Lislaam bu ñeentel bi."
+      }
+    }
+  },
+  { 
+    "id": 12, 
+    "categorie": "Fiqh", 
+    "niveau": "Intermédiaire", 
+    "question": "Que rompt le jeûne à la fin de la journée ?", 
+    "options": ["Le repas du Souhour", "Le repas de l'Iftar", "La prière de l'Aube", "Le sommeil"], 
+    "reponse_correcte": "Le repas de l'Iftar", 
+    "explication": "Le repas de l'Iftar est le repas qui marque la rupture du jeûne au coucher du soleil.",
+    "translations": {
+      "ar": {
+        "question": "مَا الَّذِي يَكْسِرُ الصِّيَامَ فِي نِهَايَةِ الْيَوْمِ؟",
+        "options": ["وَجْبَةُ السَّحُورِ", "وَجْبَةُ الْإِفْطَارِ", "صَلَاةُ الْفَجْرِ", "النَّوْمُ"],
+        "reponse_correcte": "وَجْبَةُ الْإِفْطَارِ",
+        "explication": "الْإِفْطَارُ هُوَ الْوَجْبَةُ الَّتِي تُمَيِّزُ نِهَايَةَ الصَّوْمِ عِنْدَ غُرُوبِ الشَّمْسِ."
+      },
+      "wo": {
+        "question": "Lan lañuy dogé bu jant biy so ?",
+        "options": ["Xëdd bi (Souhour)", "Dogu bi (Iftar)", "Jullig Fajar", "Nelaw bi"],
+        "reponse_correcte": "Dogu bi (Iftar)",
+        "explication": "Dogu bi (Iftar) moy ñam wi ngay lekk buy dog bu jant biy so."
+      }
+    }
+  },
+  { 
+    "id": 13, 
+    "categorie": "Fiqh", 
+    "niveau": "Avancé", 
+    "question": "Qu'est-ce que la Zakat ?", 
+    "options": ["L'aumône légale obligatoire", "Une prière nocturne", "Le nom d'un Ange", "Un mois de l'année"], 
+    "reponse_correcte": "L'aumône légale obligatoire", 
+    "explication": "La Zakat is une part de la richesse donnée aux pauvres, c'est le 3ème pilier de l'Islam.",
+    "translations": {
+      "ar": {
+        "question": "مَا هِيَ الزَّكَاةُ؟",
+        "options": ["الصَّدَقَةُ الْوَاجِبَةُ", "صَلَاةٌ لَيْلِيَّةٌ", "اسْمُ مَلَكٍ", "شَهْرٌ مِنَ السَّنَةِ"],
+        "reponse_correcte": "الصَّدَقَةُ الْوَاجِبَةُ",
+        "explication": "الزَّكَاةُ هِيَ جُزْءٌ مِنَ الْمَالِ يُعْطَى لِلْفُقَرَاءِ، وَهِيَ الرُّكْنُ الثَّالِثُ مِنَ الْإِسْلَامِ."
+      },
+      "wo": {
+        "question": "Lan moy Asaka ?",
+        "options": ["Alal ji ñuy géné bu war", "Jullig Guddi", "Turu ab Malaaka", "Weer ci at mi"],
+        "reponse_correcte": "Alal ji ñuy géné bu war",
+        "explication": "Asaka (Zakat) moy wàll ci sa alal ji ngay jox miskiin yi, pontu Lislaam bu ñettel bi la."
+      }
+    }
+  },
+  { 
+    "id": 14, 
+    "categorie": "Fiqh", 
+    "niveau": "Intermédiaire", 
+    "question": "Quand s'accomplit la prière de Jumu'ah ?", 
+    "options": ["Le vendredi midi", "Le lundi matin", "Le jeudi soir", "Le dimanche"], 
+    "reponse_correcte": "Le vendredi midi", 
+    "explication": "La Jumu'ah remplace la prière de Dhuhr le vendredi en congrégation.",
+    "translations": {
+      "ar": {
+        "question": "مَتَى تُؤَدَّى صَلَاةُ الْجُمُعَةِ؟",
+        "options": ["ظُهْرَ الْجُمُعَةِ", "صَبَاحَ الِاثْنَيْنِ", "مَسَاءَ الْخَمِيسِ", "يَوْمَ الْأَحَدِ"],
+        "reponse_correcte": "ظُهْرَ الْجُمُعَةِ",
+        "explication": "صَلَاةُ الْجُمُعَةِ تَحُلُّ مَحَلَّ صَلَاةِ الظُّهْرِ يَوْمَ الْجُمُعَةِ جَمَاعَةً."
+      },
+      "wo": {
+        "question": "Ban waxtu lañuy julli Jumaa ?",
+        "options": ["Àjjuma midi", "Altine suba", "Alxamis ngoon", "Dibéer"],
+        "reponse_correcte": "Àjjuma midi",
+        "explication": "Jullig Àjjuma dafay wutu Tisbar bu Àjjuma joté ci mbooloo."
+      }
+    }
+  },
+  { 
+    "id": 15, 
+    "categorie": "Fiqh", 
+    "niveau": "Avancé", 
+    "question": "Quel acte annule les ablutions ?", 
+    "options": ["Manger", "Dormir profondément", "Parler", "Sourire"], 
+    "reponse_correcte": "Dormir profondément", 
+    "explication": "Le sommeil lourd fait perdre les ablutions car on ne contrôle plus son état.",
+    "translations": {
+      "ar": {
+        "question": "أَيُّ عَمَلٍ يُبْطِلُ الْوُضُوءَ؟",
+        "options": ["الْأَكْلُ", "النَّوْمُ الْعَمِيقُ", "الْكَلَامُ", "الِابْتِسَامُ"],
+        "reponse_correcte": "النَّوْمُ الْعَمِيقُ",
+        "explication": "النَّوْمُ الثَّقِيلُ يُفْقِدُ الْوُضُوءَ لِأَنَّ الشَّخْصَ لَا يَعُودُ يَتَحَكَّمُ فِي حَالَتِهِ."
+      },
+      "wo": {
+        "question": "Lan moy yaq soso ?",
+        "options": ["Lekk", "Nelaw bu dëggër", "Wax", "Muñëal"],
+        "reponse_correcte": "Nelaw bu dëggër",
+        "explication": "Nelaw bu dëggër dafay yaq soso ndax danga nay faté sa bop."
+      }
+    }
+  },
+  { 
+    "id": 16, 
+    "categorie": "Fiqh", 
+    "niveau": "Intermédiaire", 
+    "question": "Comment s'appelle l'ablution sèche avec de la terre pure ?", 
+    "options": ["Ghusl", "Tayammum", "Wudu", "Masah"], 
+    "reponse_correcte": "Tayammum", 
+    "explication": "Le Tayammum remplace le Wudu quand il n'y a pas d'eau ou qu'on est malade.",
+    "translations": {
+      "ar": {
+        "question": "مَا اسْمُ التَّطَهُّرِ الْجَافِّ بِالتُّرَابِ الطَّاهِرِ؟",
+        "options": ["الْغُسْلُ", "التَّيَمُّمُ", "الْوُضُوءُ", "الْمَسْحُ"],
+        "reponse_correcte": "التَّيَمُّمُ",
+        "explication": "التَّيَمُّمُ يَحُلُّ مَحَلَّ الْوُضُوءِ عِنْدَ فِقْدَانِ الْمَاءِ أَوْ عِنْدَ الْمَرَضِ."
+      },
+      "wo": {
+        "question": "Naka lañuy waxëal soso ak suuf si bu ndox amul ?",
+        "options": ["Sangat bi (Ghusl)", "Tiyammum bi", "Soso bi (Wudu)", "Mape bi"],
+        "reponse_correcte": "Tiyammum bi",
+        "explication": "Tiyammum (ablution sèche) moy wutu soso ndox bi bu ndox amul walla bu la febar sonalee."
+      }
+    }
+  },
+  { 
+    "id": 17, 
+    "categorie": "Fiqh", 
+    "niveau": "Intermédiaire", 
+    "question": "Quelle prière suit directement Dhuhr ?", 
+    "options": ["Maghrib", "Asr", "Isha", "Subh"], 
+    "reponse_correcte": "Asr", 
+    "explication": "La prière de l'après-midi est Asr.",
+    "translations": {
+      "ar": {
+        "question": "أَيُّ صَلَاةٍ تَلِي صَلَاةَ الظُّهْرِ مُبَاشَرَةً؟",
+        "options": ["الْمَغْرِبُ", "الْعَصْرُ", "الْعِشَاءُ", "الصُّبْحُ"],
+        "reponse_correcte": "الْعَصْرُ",
+        "explication": "صَلَاةُ بَعْدَ الظُّهْرِ هِيَ صَلَاةُ الْعَصْرِ."
+      },
+      "wo": {
+        "question": "Ban julli moy tofto Tisbar ?",
+        "options": ["Timis", "Takusaan (Asr)", "Gee", "Fajar"],
+        "reponse_correcte": "Takusaan (Asr)",
+        "explication": "Takusaan (Asr) moy julli ngoon gui di tofto Tisbar."
+      }
+    }
+  },
+  { 
+    "id": 18, 
+    "categorie": "Fiqh", 
+    "niveau": "Avancé", 
+    "question": "Combien de Rak'ats composent les prières du Maghrib et de l'Isha réunies ?", 
+    "options": ["5", "7", "6", "8"], 
+    "reponse_correcte": "7", 
+    "explication": "Maghrib (3) + Isha (4) font un total de 7 Rak'ats.",
+    "translations": {
+      "ar": {
+        "question": "كَمْ عَدَدُ الرَّكَعَاتِ فِي صَلَاتَيِ الْمَغْرِبِ وَالْعِشَاءِ مَعاً؟",
+        "options": ["5", "7", "6", "8"],
+        "reponse_correcte": "7",
+        "explication": "الْمَغْرِبُ (٣) + الْعِشَاءُ (٤) يُسَاوِي ٧ رَكَعَاتٍ."
+      },
+      "wo": {
+        "question": "Ñata sëgg (Rak'ats) ño nek ci Timis ak Gee buñ ko boole ?",
+        "options": ["5", "7", "6", "8"],
+        "reponse_correcte": "7",
+        "explication": "Timis (3) ak Gee (4) buñ ko boole juróom ñaari sëgg lay don."
+      }
+    }
+  },
+  { 
+    "id": 19, 
+    "categorie": "Fiqh", 
+    "niveau": "Débutant", 
+    "question": "Que signifie 'Allahu Akbar' ?", 
+    "options": ["Allah est le Miséricordieux", "Allah est le plus Grand", "Gloire à Allah", "Merci à Allah"], 
+    "reponse_correcte": "Allah est le plus Grand", 
+    "explication": "C'est le Takbir, prononcé pour entrer en prière.",
+    "translations": {
+      "ar": {
+        "question": "مَا مَعْنَى 'اللهُ أَكْبَرُ'؟",
+        "options": ["اللهُ هُوَ الرَّحْمٰنُ", "اللهُ أَكْبَرُ (أَعْظَمُ)", "سُبْحَانَ اللهِ", "الْحَمْدُ للهِ"],
+        "reponse_correcte": "اللهُ أَكْبَرُ (أَعْظَمُ)",
+        "explication": "هَذَا هُوَ التَّكْبِيرُ، يُقَالُ لِلدُّخُولِ فِي الصَّلَاةِ."
+      },
+      "wo": {
+        "question": "Lan moy firi 'Allahu Akbar' ?",
+        "options": ["Yàlla moy Borom Yërmande", "Yàlla moy Ka gën a mak", "Sabala Yàlla", "Sant Yàlla"],
+        "reponse_correcte": "Yàlla moy Ka gën a mak",
+        "explication": "Lii moy Takbiir bi ñuy waxé buy dugg ci julli bi."
+      }
+    }
+  },
+  { 
+    "id": 20, 
+    "categorie": "Fiqh", 
+    "niveau": "Intermédiaire", 
+    "question": "Dans quelle position doit-on poser le front au sol pendant la prière ?", 
+    "options": ["Le Ruku (Inclinaison)", "Le Sujud (Prosternation)", "Le Qiyam (Debout)", "Le Tachahoud"], 
+    "reponse_correcte": "Le Sujud (Prosternation)", 
+    "explication": "Le Sujud est l'acte de soumission totale où le front touche la terre.",
+    "translations": {
+      "ar": {
+        "question": "فِي أَيِّ وَضْعِيَّةٍ نَضَعُ الْجَبْهَةَ عَلَى الْأَرْضِ أَثْنَاءَ الصَّلَاةِ؟",
+        "options": ["الرُّكُوعُ", "السُّجُودُ", "الْقِيَامُ", "التَّشَهُّدُ"],
+        "reponse_correcte": "السُّجُودُ",
+        "explication": "السُّجُودُ هُوَ فِعْلُ الْخُضُوعِ التَّامِّ حَيْثُ يَلْمِسُ الْجَبْهَةُ الْأَرْضَ."
+      },
+      "wo": {
+        "question": "Ban fiire la sa jékk biy laal suuf si ci julli bi ?",
+        "options": ["Ruku bi (Sëgg bi)", "Sujud bi (Sëj bi)", "Qiyam (Taxaw bi)", "Tachahoud bi"],
+        "reponse_correcte": "Sujud bi (Sëj bi)",
+        "explication": "Sëj bi (Sujud) moy féñal wofi sango bi ci suuf ak tiitëlëm."
+      }
+    }
+  },
   { "id": 21, "categorie": "Aqidah", "niveau": "Débutant", "question": "Qui est le Créateur de l'Univers ?", "options": ["Les Anges", "Les Prophètes", "Allah", "La nature"], "reponse_correcte": "Allah", "explication": "Allah est le Créateur Unique et Tout-Puissant de toutes choses." },
   { "id": 22, "categorie": "Aqidah", "niveau": "Débutant", "question": "Quel est le Livre Sacré des musulmans ?", "options": ["L'Injil", "Le Tawrat", "Le Coran", "Le Zabur"], "reponse_correcte": "Le Coran", "explication": "Le Coran est la parole finale d'Allah." },
   { "id": 23, "categorie": "Aqidah", "niveau": "Intermédiaire", "question": "Combien y a-t-il de piliers de la Foi (Iman) ?", "options": ["4", "5", "6", "7"], "reponse_correcte": "6", "explication": "Il y a 6 piliers : croire en Allah, Ses anges, Ses livres, Ses messagers, le Jour Dernier et le Destin." },

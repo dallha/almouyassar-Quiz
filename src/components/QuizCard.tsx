@@ -19,6 +19,7 @@ interface QuizCardProps {
   onAnswerValidated: (selectedAnswer: string, isCorrect: boolean, timeSpent: number) => void;
   timerActive: boolean;
   timerLimit: number;
+  isTranslating?: boolean;
 }
 
 export default function QuizCard({
@@ -27,7 +28,8 @@ export default function QuizCard({
   totalQuestions,
   onAnswerValidated,
   timerActive,
-  timerLimit
+  timerLimit,
+  isTranslating = false
 }: QuizCardProps) {
   const { language, t } = useLanguage();
   const q = getLocalizedQuestion(question, language);
@@ -270,138 +272,171 @@ export default function QuizCard({
 
       {/* Question Card Content Area */}
       <div className="p-5 sm:p-6 space-y-6">
-        {/* Beautiful Interactive Question Display */}
-        <div className="space-y-2">
-          <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight leading-relaxed">
-            {q.question}
-          </h3>
-        </div>
-
-        {/* Options List */}
-        <div className="grid gap-3">
-          {q.options.map((option, idx) => {
-            const isSelected = selectedOption === option;
-            const isCorrect = q.reponse_correcte === option;
-
-            // Determine rich dynamic animations
-            let animateObj = {};
-            if (isValidated) {
-              if (isCorrect) {
-                // Gentle positive bob/bounce
-                animateObj = {
-                  scale: [1, 1.03, 0.98, 1.01, 1],
-                  y: [0, -4, 2, -1, 0],
-                  transition: { duration: 0.5, ease: "easeInOut" }
-                };
-              } else if (isSelected) {
-                // Dynamic horizontal shake for errors
-                animateObj = {
-                  x: [0, -6, 6, -6, 6, -3, 3, 0],
-                  transition: { duration: 0.5, ease: "easeInOut" }
-                };
-              }
-            } else if (isSelected) {
-              animateObj = {
-                scale: 1.01,
-                transition: { duration: 0.15 }
-              };
-            }
-
-            return (
-              <motion.button
-                key={option}
-                onClick={() => handleOptionSelect(option)}
-                disabled={isValidated}
-                whileHover={!isValidated ? { 
-                  scale: 1.012, 
-                  x: 4,
-                  boxShadow: isSelected 
-                    ? "0 4px 20px rgba(208,162,28,0.18)" 
-                    : "0 4px 12px rgba(0,0,0,0.25)"
-                } : {}}
-                whileTap={!isValidated ? { scale: 0.992 } : {}}
-                animate={animateObj}
-                className={`relative w-full text-left p-4 rounded-xl border font-sans text-sm font-semibold transition-all duration-300 flex items-center justify-between cursor-pointer ${getOptionStyle(option)}`}
+        {isTranslating ? (
+          <div className="flex flex-col items-center justify-center py-10 text-center space-y-5 min-h-[220px]">
+            <div className="relative flex items-center justify-center">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ repeat: Infinity, duration: 3.5, ease: "linear" }}
+                className="w-14 h-14 rounded-full border-4 border-dashed border-teal-500/20 border-t-teal-500"
+              />
+              <motion.div
+                animate={{ y: [0, -5, 0] }}
+                transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
+                className="absolute text-teal-400"
               >
-                <div className="flex items-center gap-3">
-                  <span className={`w-6 h-6 rounded-lg text-xs font-bold font-mono flex items-center justify-center border transition-all duration-300 ${
-                    isSelected && !isValidated
-                      ? "bg-[#D0A21C]/20 text-[#D0A21C] border-[#D0A21C]/40" 
-                      : isValidated && isCorrect
-                        ? "bg-emerald-500/25 text-emerald-450 border-emerald-500/45"
-                        : isSelected && isValidated && !isCorrect
-                          ? "bg-rose-500/25 text-rose-450 border-rose-500/45"
-                          : "bg-slate-930 text-slate-400 border-slate-800"
-                  }`}>
-                    {String.fromCharCode(65 + idx)}
-                  </span>
-                  <span>{option}</span>
-                </div>
-
-                {/* Status Indicator inside Option button */}
-                {isValidated && (
-                  <div>
-                    {isCorrect && (
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                      >
-                        <Check className="w-5 h-5 text-emerald-400 shrink-0" />
-                      </motion.div>
-                    )}
-                    {isSelected && !isCorrect && (
-                      <motion.div
-                        initial={{ scale: 0, rotate: -45 }}
-                        animate={{ scale: 1, rotate: 0 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                      >
-                        <X className="w-5 h-5 text-rose-400 shrink-0" />
-                      </motion.div>
-                    )}
-                  </div>
-                )}
-              </motion.button>
-            );
-          })}
-        </div>
-
-        {/* Action button bar or explanatory container */}
-        <div className="flex justify-end pt-4 border-t border-slate-850">
-          {!isValidated ? (
-            <button
-              onClick={handleValidate}
-              disabled={!selectedOption}
-              className={`px-5 py-2.5 rounded-lg text-xs font-bold tracking-wide uppercase transition-all flex items-center gap-1.5 cursor-pointer shadow-md ${
-                selectedOption 
-                  ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-950/30 hover:shadow-emerald-950/40 hover:-translate-y-0.5' 
-                  : 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-750'
-              }`}
-            >
-              <span>{t('validate_answer', 'Valider la réponse')}</span>
-              <BookOpen className="w-4 h-4" />
-            </button>
-          ) : null}
-        </div>
-
-        {/* Detailed Explanation Panel which appears once answer is validated */}
-        <AnimatePresence>
-          {isValidated && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              className="mt-4 p-4 rounded-xl bg-amber-500/5 border border-amber-500/10 overflow-hidden space-y-2 text-slate-300"
-            >
-              <div className="flex items-center gap-2 text-amber-400">
-                <ShieldQuestion className="w-4 h-4 shrink-0" />
-                <span className="text-xs font-extrabold uppercase tracking-wider font-mono">{t('islamic_explanation', 'Explication Islamique')}</span>
-              </div>
-              <p className="text-sm font-medium leading-relaxed italic border-l-2 border-amber-400/40 pl-3">
-                &ldquo;{q.explication}&rdquo;
+                <ShieldQuestion className="w-7 h-7" />
+              </motion.div>
+            </div>
+            <div className="space-y-2">
+              <h4 className="text-base font-extrabold text-teal-300 tracking-wide font-sans">
+                {language === 'ar' ? 'جَارِي تَرْجَمَةُ السُّؤَالِ بِلُطْفٍ...' : language === 'wo' ? 'Oustaz bi yàngi lay firi laaj bi...' : "L'Oustaz traduit la question..."}
+              </h4>
+              <p className="text-xs text-slate-400 max-w-xs mx-auto italic leading-relaxed">
+                {language === 'ar' 
+                  ? 'جاري تعريب السؤال وتشكيله بالكامل بلطف ليكون سهلاً لأحبائنا الأطفال.'
+                  : language === 'wo' 
+                    ? 'Oustaz bi yàngi firi laaj bi ak faramfacceel ko ci wolof bu yomb ngir yaw.'
+                    : "L'Oustaz traduit la question avec bienveillance pour faciliter ton apprentissage."}
               </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Beautiful Interactive Question Display */}
+            <div className="space-y-2">
+              <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight leading-relaxed">
+                {q.question}
+              </h3>
+            </div>
+
+            {/* Options List */}
+            <div className="grid gap-3">
+              {q.options.map((option, idx) => {
+                const isSelected = selectedOption === option;
+                const isCorrect = q.reponse_correcte === option;
+
+                // Determine rich dynamic animations
+                let animateObj = {};
+                if (isValidated) {
+                  if (isCorrect) {
+                    // Gentle positive bob/bounce
+                    animateObj = {
+                      scale: [1, 1.03, 0.98, 1.01, 1],
+                      y: [0, -4, 2, -1, 0],
+                      transition: { duration: 0.5, ease: "easeInOut" }
+                    };
+                  } else if (isSelected) {
+                    // Dynamic horizontal shake for errors
+                    animateObj = {
+                      x: [0, -6, 6, -6, 6, -3, 3, 0],
+                      transition: { duration: 0.5, ease: "easeInOut" }
+                    };
+                  }
+                } else if (isSelected) {
+                  animateObj = {
+                    scale: 1.01,
+                    transition: { duration: 0.15 }
+                  };
+                }
+
+                return (
+                  <motion.button
+                    key={option}
+                    onClick={() => handleOptionSelect(option)}
+                    disabled={isValidated}
+                    whileHover={!isValidated ? { 
+                      scale: 1.012, 
+                      x: 4,
+                      boxShadow: isSelected 
+                        ? "0 4px 20px rgba(208,162,28,0.18)" 
+                        : "0 4px 12px rgba(0,0,0,0.25)"
+                    } : {}}
+                    whileTap={!isValidated ? { scale: 0.992 } : {}}
+                    animate={animateObj}
+                    className={`relative w-full text-left p-4 rounded-xl border font-sans text-sm font-semibold transition-all duration-300 flex items-center justify-between cursor-pointer ${getOptionStyle(option)}`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className={`w-6 h-6 rounded-lg text-xs font-bold font-mono flex items-center justify-center border transition-all duration-300 ${
+                        isSelected && !isValidated
+                          ? "bg-[#D0A21C]/20 text-[#D0A21C] border-[#D0A21C]/40" 
+                          : isValidated && isCorrect
+                            ? "bg-emerald-500/25 text-emerald-450 border-emerald-500/45"
+                            : isSelected && isValidated && !isCorrect
+                              ? "bg-rose-500/25 text-rose-450 border-rose-500/45"
+                              : "bg-slate-930 text-slate-400 border-slate-800"
+                      }`}>
+                        {String.fromCharCode(65 + idx)}
+                      </span>
+                      <span>{option}</span>
+                    </div>
+
+                    {/* Status Indicator inside Option button */}
+                    {isValidated && (
+                      <div>
+                        {isCorrect && (
+                          <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                          >
+                            <Check className="w-5 h-5 text-emerald-400 shrink-0" />
+                          </motion.div>
+                        )}
+                        {isSelected && !isCorrect && (
+                          <motion.div
+                            initial={{ scale: 0, rotate: -45 }}
+                            animate={{ scale: 1, rotate: 0 }}
+                            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                          >
+                            <X className="w-5 h-5 text-rose-400 shrink-0" />
+                          </motion.div>
+                        )}
+                      </div>
+                    )}
+                  </motion.button>
+                );
+              })}
+            </div>
+
+            {/* Action button bar or explanatory container */}
+            <div className="flex justify-end pt-4 border-t border-slate-850">
+              {!isValidated ? (
+                <button
+                  onClick={handleValidate}
+                  disabled={!selectedOption}
+                  className={`px-5 py-2.5 rounded-lg text-xs font-bold tracking-wide uppercase transition-all flex items-center gap-1.5 cursor-pointer shadow-md ${
+                    selectedOption 
+                      ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-950/30 hover:shadow-emerald-950/40 hover:-translate-y-0.5' 
+                      : 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-750'
+                  }`}
+                >
+                  <span>{t('validate_answer', 'Valider la réponse')}</span>
+                  <BookOpen className="w-4 h-4" />
+                </button>
+              ) : null}
+            </div>
+
+            {/* Detailed Explanation Panel which appears once answer is validated */}
+            <AnimatePresence>
+              {isValidated && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  className="mt-4 p-4 rounded-xl bg-amber-500/5 border border-amber-500/10 overflow-hidden space-y-2 text-slate-300"
+                >
+                  <div className="flex items-center gap-2 text-amber-400">
+                    <ShieldQuestion className="w-4 h-4 shrink-0" />
+                    <span className="text-xs font-extrabold uppercase tracking-wider font-mono">{t('islamic_explanation', 'Explication Islamique')}</span>
+                  </div>
+                  <p className="text-sm font-medium leading-relaxed italic border-l-2 border-amber-400/40 pl-3">
+                    &ldquo;{q.explication}&rdquo;
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </>
+        )}
       </div>
     </motion.div>
   );
