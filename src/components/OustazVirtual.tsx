@@ -10,6 +10,7 @@ import { playSelectSound } from './SoundEngine';
 import SchoolLogo from './SchoolLogo';
 import { User } from '@supabase/supabase-js';
 import { supabase, isSupabaseConfigured } from '../supabaseClient';
+import { useLanguage } from '../LanguageContext';
 
 interface Message {
   role: 'user' | 'model';
@@ -23,10 +24,16 @@ interface SavedChat {
   messages: Message[];
 }
 
-const DEFAULT_WELCOME_MSG: Message[] = [
+const WELCOME_MESSAGES: Record<string, string> = {
+  fr: "Assalamou alaykoum, mon cher enfant ! Macha'Allah, je suis ravi de t'accueillir ici. Je suis l'Oustaz Virtuel de l'Institut Al-Mouyassar. Pose-moi n'importe quelle question sur l'islam, la prière, le Coran, le comportement (Akhlaq) ou l'histoire de notre école, et je te répondrai avec la plus grande bienveillance. Que souhaites-tu apprendre aujourd'hui ?",
+  ar: "السلام عليكم يا بني الحبيب! ما شاء الله، أنا سعيد جداً باستقبالك هنا. أنا الأستاذ الافتراضي لمعهد الميسر للقرآن الكريم. اسألني أي سؤال عن الإسلام، أو الصلاة، أو القرآن، أو الأخلاق والآداب، أو تاريخ معهدنا الجميل، وسأجيبك بكل حب ولطف. ماذا تحب أن نتعلم اليوم؟",
+  wo: "Assalamou alaykoum, sama doom bou rafet ! Masha'Allah, contane naa lool ci giss gua fii. Man may Oustaz bou virtuel bou Daara Al-Mouyassar. Laajal ma lëpp lou la neex ci diiné islam, julli, Alquran, téguine (Akhlaq) walla dundug daara bi, dina la tontu ci anam bou am yërmande te yomb a dégg. Lan nga beug jang tay ?"
+};
+
+const getWelcomeMessage = (lang: string): Message[] => [
   {
     role: 'model',
-    parts: [{ text: "Assalamou alaykoum, mon cher enfant ! Macha'Allah, je suis ravi de t'accueillir ici. Je suis l'Oustaz Virtuel de l'Institut Al-Mouyassar. Pose-moi n'importe quelle question sur l'islam, la prière, le Coran, le comportement (Akhlaq) ou l'histoire de notre école, et je te répondrai avec la plus grande bienveillance. Que souhaites-tu apprendre aujourd'hui ?" }]
+    parts: [{ text: WELCOME_MESSAGES[lang] || WELCOME_MESSAGES.fr }]
   }
 ];
 
@@ -35,6 +42,8 @@ interface OustazVirtualProps {
 }
 
 export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
+  const { language, t } = useLanguage();
+  const defaultWelcome = getWelcomeMessage(language);
   // Saved Conversations State
   const [savedChats, setSavedChats] = useState<SavedChat[]>(() => {
     const saved = localStorage.getItem('oustaz_saved_chats_v2');
@@ -77,7 +86,8 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
         if (Array.isArray(parsed) && parsed.length > 0) return parsed;
       } catch (e) {}
     }
-    return [...DEFAULT_WELCOME_MSG];
+    const initLang = localStorage.getItem('preferred_language') || 'fr';
+    return getWelcomeMessage(initLang);
   });
 
   const [inputValue, setInputValue] = useState('');
@@ -123,7 +133,7 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
             }
           } catch (e) {}
         }
-        setMessages([...DEFAULT_WELCOME_MSG]);
+        setMessages(defaultWelcome);
       }
       return;
     }
@@ -179,13 +189,13 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
             setMessages(mappedMessages);
             setSavedChats(prev => prev.map(c => c.id === activeId ? { ...c, messages: mappedMessages } : c));
           } else {
-            setMessages([...DEFAULT_WELCOME_MSG]);
+            setMessages(defaultWelcome);
           }
         } else {
           setSavedChats([]);
           const newId = 'session-' + Date.now();
           setActiveChatId(newId);
-          setMessages([...DEFAULT_WELCOME_MSG]);
+          setMessages(defaultWelcome);
         }
       } catch (err) {
         console.error("Erreur lors de la récupération des données Supabase de l'Oustaz :", err);
@@ -276,8 +286,13 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
     // Nettoyer le texte du markdown
     const cleanText = text.replace(/[\*#_]/g, '');
     const utterance = new SpeechSynthesisUtterance(cleanText);
-    utterance.lang = 'fr-FR';
-    utterance.rate = 0.92; // douce et posée
+    if (language === 'ar') {
+      utterance.lang = 'ar-SA';
+      utterance.rate = 0.85;
+    } else {
+      utterance.lang = 'fr-FR';
+      utterance.rate = 0.92; // douce et posée
+    }
 
     utterance.onend = () => {
       setCurrentlySpeakingIdx(null);
@@ -301,10 +316,22 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
 
   // Suggested quick prompts for kids to make it easy to start
   const suggestedPrompts = [
-    { label: "Qu'est-ce que l'Akhlaq ?", query: "Qu'est-ce que l'Akhlaq et pourquoi c'est important ?" },
-    { label: "C'est quoi le Tahji ?", query: "Peux-tu m'expliquer ce que signifie l'étape du Tahji à l'Institut ?" },
-    { label: "Comment faire le Sabr ?", query: "Comment faire preuve de patience (Sabr) quand j'apprends mes leçons ?" },
-    { label: "Qui est le fondateur ?", query: "Qui était Cheikh El Hadji Abdallah Niasse et comment a-t-il créé l'Institut ?" }
+    { 
+      label: t('oustaz_suggested_1', "Qu'est-ce que l'Akhlaq ?"), 
+      query: t('oustaz_suggested_1_q', "Qu'est-ce que l'Akhlaq et pourquoi c'est important ?") 
+    },
+    { 
+      label: t('oustaz_suggested_2', "C'est quoi le Tahji ?"), 
+      query: t('oustaz_suggested_2_q', "Peux-tu m'expliquer ce que signifie l'étape du Tahji à l'Institut ?") 
+    },
+    { 
+      label: t('oustaz_suggested_3', "Comment faire le Sabr ?"), 
+      query: t('oustaz_suggested_3_q', "Comment faire preuve de patience (Sabr) quand j'apprends mes leçons ?") 
+    },
+    { 
+      label: t('oustaz_suggested_4', "Qui est le fondateur ?"), 
+      query: t('oustaz_suggested_4_q', "Qui était Cheikh El Hadji Abdallah Niasse et comment a-t-il créé l'Institut ?") 
+    }
   ];
 
   // Save/Update current active thread in the list whenever messages or activeChatId changes
@@ -409,7 +436,12 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
       }
       
       setTimeout(() => {
-        const responseText = "Mon cher enfant, l'Oustaz Virtuel est un espace bienveillant dédié à la foi, à la morale (Akhlaq), au Coran et aux belles histoires de notre institut. Ce sujet n'est pas adapté à notre espace d'échange. Parlons plutôt de respect, de générosité, ou d'une belle valeur comme la patience (Sabr) ! 😊";
+        let responseText = "Mon cher enfant, l'Oustaz Virtuel est un espace bienveillant dédié à la foi, à la morale (Akhlaq), au Coran et aux belles histoires de notre institut. Ce sujet n'est pas adapté à notre espace d'échange. Parlons plutôt de respect, de générosité, ou d'une belle valeur comme la patience (Sabr) ! 😊";
+        if (language === 'ar') {
+          responseText = "يا بني الحبيب، الأستاذ الافتراضي هو مساحة حوار لطيفة مخصصة للإيمان، والأخلاق، والقرآن الكريم وقصص معهدنا الجميلة. هذا الموضوع غير مناسب لمساحة حوارنا. فلنتحدث بدلاً من ذلك عن الاحترام، والكرم، أو قيمة جميلة مثل الصبر! 😊";
+        } else if (language === 'wo') {
+          responseText = "Sama doom bou rafet, barabu Oustaz bi denc gnu ko ngir waxtaane diine, teggine, Alquran ak xam-xam yu am solo ci daara bi. Li nga wax fii andul ak sunu waxtaan. Nan faral di waxtaane teggine, yërmande walla mounou (Sabr) ! 😊";
+        }
         setMessages(prev => [
           ...prev,
           {
@@ -468,7 +500,8 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: textToSend,
-          history: chatHistory
+          history: chatHistory,
+          language: language
         })
       });
 
@@ -515,7 +548,7 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
     setCurrentlySpeakingIdx(null);
     const newId = 'session-' + Date.now();
     setActiveChatId(newId);
-    setMessages([...DEFAULT_WELCOME_MSG]);
+    setMessages(defaultWelcome);
     setShowHistoryDrawer(false);
   };
 
@@ -546,7 +579,7 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
           setMessages(mappedMessages);
           setSavedChats(prev => prev.map(c => c.id === chat.id ? { ...c, messages: mappedMessages } : c));
         } else {
-          setMessages([...DEFAULT_WELCOME_MSG]);
+          setMessages(defaultWelcome);
         }
       } catch (err) {
         console.error("Erreur lors du chargement des messages de la discussion sélectionnée:", err);
@@ -583,13 +616,13 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
         setActiveChatId(fallbackId);
         
         if (isSupabaseConfigured() && currentUser) {
-          setMessages([...DEFAULT_WELCOME_MSG]);
+          setMessages(defaultWelcome);
         } else {
           const matchingConvo = remaining.find(c => c.id === fallbackId);
           if (matchingConvo) {
             setMessages(matchingConvo.messages);
           } else {
-            setMessages([...DEFAULT_WELCOME_MSG]);
+            setMessages(defaultWelcome);
           }
         }
       }
@@ -637,7 +670,7 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
         window.speechSynthesis.cancel();
       }
       setCurrentlySpeakingIdx(null);
-      setMessages([...DEFAULT_WELCOME_MSG]);
+      setMessages(defaultWelcome);
 
       if (isSupabaseConfigured() && currentUser) {
         try {
@@ -665,8 +698,8 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
             <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full border border-white animate-pulse" />
           </div>
           <div>
-            <h3 className="text-xs font-black tracking-wider uppercase">L&apos;Oustaz Virtuel AI</h3>
-            <p className="text-[10px] text-[#FCF8F2]/75 font-mono italic">Bienveillant, doux &amp; pédagogue</p>
+            <h3 className="text-xs font-black tracking-wider uppercase">{t('oustaz_title', "L'Oustaz Virtuel AI")}</h3>
+            <p className="text-[10px] text-[#FCF8F2]/75 font-mono italic">{t('oustaz_subtitle', "Bienveillant, doux & pédagogue")}</p>
           </div>
         </div>
 
@@ -676,17 +709,17 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
               playSelectSound();
               setShowHistoryDrawer(!showHistoryDrawer);
             }}
-            title="Mes discussions archivées"
+            title={t('oustaz_history', "Discussions")}
             className="p-1.5 rounded-lg bg-[#FCF8F2]/10 hover:bg-[#FCF8F2]/20 border border-[#FCF8F2]/15 text-[#FCF8F2]/80 hover:text-[#FCF8F2] transition-colors cursor-pointer flex items-center gap-1.5 text-[11px]"
           >
             <FolderOpen className="w-4 h-4 text-[#D0A21C]" />
-            <span className="hidden sm:inline font-bold">Discussions ({savedChats.length})</span>
+            <span className="hidden sm:inline font-bold">{t('oustaz_history', "Discussions")} ({savedChats.length})</span>
           </button>
 
           {messages.length > 1 && (
             <button
               onClick={handleClearHistory}
-              title="Effacer la conversation active"
+              title={t('oustaz_confirm_clear', "Effacer la conversation active")}
               className="p-1.5 rounded-lg bg-[#FCF8F2]/10 hover:bg-[#FCF8F2]/20 border border-[#FCF8F2]/15 text-[#FCF8F2]/80 hover:text-[#FCF8F2] transition-colors cursor-pointer"
             >
               <RotateCcw className="w-4 h-4" />
@@ -716,14 +749,14 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
               <div className="flex items-center justify-between pb-3 border-b border-stone-100">
                 <span className="font-extrabold text-xs uppercase text-[#004D40] tracking-wider flex items-center gap-1.5">
                   <FolderOpen className="w-4 h-4 text-[#D0A21C]" />
-                  Discussions
+                  {t('oustaz_history', "Discussions")}
                 </span>
                 <button
                   onClick={handleStartNewChat}
                   className="px-2.5 py-1.5 bg-[#004D40] text-xs font-bold text-white rounded-lg hover:bg-[#004D40]/90 transition-all flex items-center gap-1 shadow-sm"
                 >
                   <Plus className="w-3.5 h-3.5" />
-                  Nouveau
+                  {t('oustaz_new_chat', "Nouveau")}
                 </button>
               </div>
 
@@ -732,7 +765,7 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
                 {savedChats.length === 0 ? (
                   <div className="text-center py-8 text-stone-400 space-y-2">
                     <FileText className="w-8 h-8 mx-auto text-stone-300 stroke-[1.5]" />
-                    <p className="text-[11px] font-sans">Aucune discussion enregistrée.</p>
+                    <p className="text-[11px] font-sans">{t('oustaz_no_chats', "Aucune discussion enregistrée.")}</p>
                   </div>
                 ) : (
                   savedChats.map((c) => {
@@ -785,14 +818,14 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
                                   e.stopPropagation();
                                   handleRenameChatInit(e, c);
                                 }}
-                                title="Renommer"
+                                title={t('oustaz_rename', "Renommer")}
                                 className="p-1 hover:bg-stone-200 text-stone-500 hover:text-stone-700 rounded transition-colors"
                               >
                                 <Plus className="w-3 h-3 hover:rotate-45 transition-transform" />
                               </button>
                               <button
                                 onClick={(e) => handleDeleteChat(e, c.id)}
-                                title="Supprimer"
+                                title={t('oustaz_delete', "Supprimer")}
                                 className="p-1 hover:bg-rose-50 text-[#C62828] rounded transition-colors"
                               >
                                 <Trash2 className="w-3 h-3" />
@@ -807,7 +840,7 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
               </div>
 
               <div className="pt-3 border-t border-stone-100 text-[10px] text-stone-400 text-center">
-                Cliquez pour reprendre une discussion ou créez-en une nouvelle.
+                {t('oustaz_click_chat', "Cliquez pour reprendre une discussion ou créez-en une nouvelle.")}
               </div>
             </motion.div>
           </motion.div>
@@ -838,7 +871,7 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
                 {isModel && (
                   <div className="flex items-center justify-between gap-4 mb-1">
                     <span className="font-extrabold text-[9px] uppercase tracking-wider block text-[#D0A21C] font-sans">
-                      Oustaz Al-Mouyassar :
+                      {t('oustaz_title', "Oustaz Al-Mouyassar")} :
                     </span>
                     <button
                       onClick={() => speakMessage(msg.parts[0].text, idx)}
@@ -875,7 +908,7 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
           >
             <div className="bg-amber-50 text-[#004D40] max-w-[85%] rounded-2xl rounded-tl-none p-3.5 border border-[#D0A21C]/20 text-xs shadow-sm shadow-stone-100 flex items-center gap-3">
               <span className="text-[10px] font-black text-[#D0A21C] uppercase font-sans animate-pulse">
-                L&apos;Oustaz réfléchit d&apos;un air bienveillant
+                {t('oustaz_thinking', "L'Oustaz réfléchit d'un air bienveillant")}
               </span>
               <div className="flex gap-1.5 items-center">
                 {[0, 1, 2].map((i) => (
@@ -908,7 +941,7 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
               onClick={() => handleSendMessage(messages[messages.length - 1]?.parts[0].text || '')}
               className="text-stone-800 bg-stone-100 hover:bg-stone-200 px-2 py-1 rounded text-[10px] uppercase font-bold tracking-tight shrink-0 transition-colors"
             >
-              Réessayer
+              {t('oustaz_retry', "Réessayer")}
             </button>
           </div>
         )}
@@ -920,7 +953,7 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
       {messages.length < 3 && (
         <div className="px-4 py-2 bg-stone-50 border-t border-stone-100/60 shrink-0 space-y-1.5">
           <p className="text-[10px] text-stone-500 font-bold uppercase tracking-wider">
-            Questions recommandées :
+            {t('oustaz_recommended', "Questions recommandées :")}
           </p>
           <div className="flex flex-wrap gap-1.5">
             {suggestedPrompts.map((p, i) => (
@@ -944,7 +977,7 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSendMessage(inputValue)}
-          placeholder="Pose une question à l'Oustaz... (ex: C'est quoi la prière ?)"
+          placeholder={t('oustaz_placeholder', "Pose une question à l'Oustaz... (ex: C'est quoi la prière ?)")}
           disabled={isLoading}
           className="flex-1 px-4 py-2.5 border border-stone-200 text-stone-800 rounded-xl text-xs focus:outline-none focus:border-[#D0A21C] disabled:bg-stone-50 disabled:text-stone-400"
         />

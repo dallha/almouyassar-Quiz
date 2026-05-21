@@ -82,19 +82,305 @@ export const QUESTIONS: Question[] = [
   { "id": 78, "categorie": "Sirah", "niveau": "Intermédiaire", "question": "Comment s'appelle le mois durant lequel le Prophète (PSL) est né ?", "options": ["Ramadan", "Cha'ban", "Rabi' al-Awwal", "Muharram"], "reponse_correcte": "Rabi' al-Awwal", "explication": "Il est né le 12 Rabi' al-Awwal." },
   { "id": 79, "categorie": "Fiqh", "niveau": "Débutant", "question": "Quel animal est sacrifié pour la fête de l'Aïd al-Adha ?", "options": ["Un cheval", "Un mouton ou assimilé", "Un poulet", "Un poisson"], "reponse_correcte": "Un mouton ou assimilé", "explication": "En commémoration du sacrifice du prophète Ibrahim." },
   { "id": 80, "categorie": "Aqidah", "niveau": "Débutant", "question": "Qui a créé les djinns ?", "options": ["Les Anges", "Les Hommes", "Allah", "Ils n'existent pas"], "reponse_correcte": "Allah", "explication": "Allah a créé les djinns à partir d'un feu sans fumée." },
-  { "id": 81, "categorie": "Institut Al-Mouyassar", "niveau": "Débutant", "question": "Qui est le fondateur de l'Institut Coranique Al-Mouyassar ?", "options": ["Cheikh Ibrahim Niass", "Cheikh El Hadji Abdallah Niasse", "Un groupe d'imams", "L'association des parents"], "reponse_correcte": "Cheikh El Hadji Abdallah Niasse", "explication": "L'institut a été fondé par Cheikh El Hadji Abdallah Niasse, inspiré par Seyda Mariama Niasse." },
-  { "id": 82, "categorie": "Institut Al-Mouyassar", "niveau": "Intermédiaire", "question": "Qui occupe le rôle de Directeur de l'Institut Al-Mouyassar ?", "options": ["Le Maire de la ville", "L'Oustaz virtuel", "Le grand frère du même nom (Abdallah Niass)", "L'AMDMEC"], "reponse_correcte": "Le grand frère du même nom (Abdallah Niass)", "explication": "Le directeur de l'établissement est Abdallah Niass, grand frère du développeur de ce système." },
-  { "id": 83, "categorie": "Institut Al-Mouyassar", "niveau": "Débutant", "question": "En quelle année notre grand institut a-t-il été fondé ?", "options": ["2000", "2005", "2007", "2015"], "reponse_correcte": "2007", "explication": "L'Institut Al-Mouyassar a vu le jour en 2007." },
-  { "id": 84, "categorie": "Institut Al-Mouyassar", "niveau": "Intermédiaire", "question": "Quelles sont les deux couleurs officielles du logotype de l'Institut Al-Mouyassar ?", "options": ["Bleu et Blanc", "Rouge et Noir", "Vert foncé (#004D40) et Jaune doré (#D0A21C)", "Gris et Or"], "reponse_correcte": "Vert foncé (#004D40) et Jaune doré (#D0A21C)", "explication": "Le Vert foncé et le Jaune doré/ocre sont les couleurs identitaires de notre institut." },
-  { "id": 85, "categorie": "Institut Al-Mouyassar", "niveau": "Débutant", "question": "Comment se nomme la toute première étape d'apprentissage à l'institut (lecture et épellation) ?", "options": ["Le Khatm", "Le Tahji", "La Sirah", "Le Fiqh"], "reponse_correcte": "Le Tahji", "explication": "Le Tahji est le premier niveau obligatoire pour maîtriser la lecture." },
-  { "id": 86, "categorie": "Institut Al-Mouyassar", "niveau": "Intermédiaire", "question": "Combien de 'Quarts' composent la phase principale de mémorisation avant le Khatm ?", "options": ["2 Quarts", "3 Quarts", "4 Quarts", "5 Quarts"], "reponse_correcte": "3 Quarts", "explication": "Le système de l'institut est divisé en 1er Quart, 2ème Quart et 3ème Quart de mémorisation." },
-  { "id": 87, "categorie": "Institut Al-Mouyassar", "niveau": "Avancé", "question": "Comment s'appelle l'étape finale qui consacre la mémorisation totale du Coran ?", "options": ["Le Début", "Le Tahji", "Le Khatm", "La Hijra"], "reponse_correcte": "Le Khatm", "explication": "Le Khatm est la clôture, célébrée lors de la grande cérémonie de remise de diplômes." },
-  { "id": 88, "categorie": "Institut Al-Mouyassar", "niveau": "Avancé", "question": "Quel est le nom exact et complet de l'association regroupant les anciens élèves (Ansar) de l'institut ?", "options": ["Amicale des Jeunes", "Les Bourgeons de la Foi", "Association des ressortissants de l'institut coranique almouyassar", "Union des Hafiz"], "reponse_correcte": "Association des ressortissants de l'institut coranique almouyassar", "explication": "C'est la structure vitale qui maintient le lien spirituel et fraternel des anciens pensionnaires." },
-  { "id": 89, "categorie": "Institut Al-Mouyassar", "niveau": "Avancé", "question": "Que signifie exactement le sigle AMDMEC au sein de notre institut ?", "options": ["Association des Maîtres d'École et de Coran", "Association AL-MOUYASSAR Pour le Développement Et la Modernisation de L'Enseignement Coranique", "Alliance des Mamans pour le Développement et le Maintien de l'École Coranique", "Association des Membres Directeurs du Mouvement Éducatif Coranique"], "reponse_correcte": "Association AL-MOUYASSAR Pour le Développement Et la Modernisation de L'Enseignement Coranique", "explication": "L'AMDMEC est essentielle pour accompagner la direction de l'institut, soutenir le double cursus et moderniser les conditions d'apprentissage." },
-  { "id": 90, "categorie": "Institut Al-Mouyassar", "niveau": "Intermédiaire", "question": "Quelle méthode éducative caractérise l'Institut Al-Mouyassar ?", "options": ["Uniquement le jeu", "Le Double Cursus (Coran & Enseignement Académique)", "L'école par correspondance", "Les cours d'été seulement"], "reponse_correcte": "Le Double Cursus (Coran & Enseignement Académique)", "explication": "L'excellence de l'institut repose sur l'alliance de l'enseignement académique moderne et du Coran." },
-  { "id": 91, "categorie": "Institut Al-Mouyassar", "niveau": "Intermédiaire", "question": "Dans quelle ville le futur grand Complexe Arabo-Islamique d'Al-Mouyassar est-il implanté ?", "options": ["Dakar Plateau", "Pikine", "Rufisque", "Saint-Louis"], "reponse_correcte": "Pikine", "explication": "Le nouveau complexe ultramoderne est construit à Pikine." },
-  { "id": 92, "categorie": "Institut Al-Mouyassar", "niveau": "Débutant", "question": "Que signifie le nom 'Al-Mouyassar' ?", "options": ["Le Grand Arbre", "L'Inaccessible", "La Voie Facilitée", "La Montagne"], "reponse_correcte": "La Voie Facilitée", "explication": "Ce nom illustre l'objectif de l'institut : rendre l'apprentissage de l'Islam accessible et facile." },
-  { "id": 93, "categorie": "Institut Al-Mouyassar", "niveau": "Intermédiaire", "question": "Quel bâtiment ne sera PAS présent dans le futur Complexe de l'Institut ?", "options": ["Une Mosquée", "Un Internat", "Une Bibliothèque", "Une salle de cinéma"], "reponse_correcte": "Une salle de cinéma", "explication": "Le complexe comprendra une mosquée, un internat et une bibliothèque dédiée au savoir." },
+  { 
+    "id": 81, 
+    "categorie": "Institut Al-Mouyassar", 
+    "niveau": "Débutant", 
+    "question": "Qui est le fondateur de l'Institut Coranique Al-Mouyassar ?", 
+    "options": ["Cheikh Ibrahim Niass", "Cheikh El Hadji Abdallah Niasse", "Un groupe d'imams", "L'association des parents"], 
+    "reponse_correcte": "Cheikh El Hadji Abdallah Niasse", 
+    "explication": "L'institut a été fondé by Cheikh El Hadji Abdallah Niasse, inspiré par Seyda Mariama Niasse.",
+    "translations": {
+      "ar": {
+        "question": "من هو مؤسس معهد الميسر للقرآن الكريم ؟",
+        "options": ["الشيخ إبراهيم نياس", "الشيخ الحاج عبد الله نياس", "مجموعة من الأئمة", "جمعية أولياء الأمور"],
+        "reponse_correcte": "الشيخ الحاج عبد الله نياس",
+        "explication": "تأسس المعهد على يد الشيخ الحاج عبد الله نياس، مستلهماً من سيدة مريم نياس."
+      },
+      "wo": {
+        "question": "Kan moy kiko sos, di sango Daara Al-Mouyassar ?",
+        "options": ["Cheikh Ibrahim Niass", "Cheikh El Hadji Abdallah Niasse", "Mbooloo Imams", "Mbooloo Wajur yi"],
+        "reponse_correcte": "Cheikh El Hadji Abdallah Niasse",
+        "explication": "Daara bi Cheikh El Hadji Abdallah Niasse moko sos, fas yéné yombal njàng mi."
+      }
+    }
+  },
+  { 
+    "id": 82, 
+    "categorie": "Institut Al-Mouyassar", 
+    "niveau": "Intermédiaire", 
+    "question": "Qui occupe le rôle de Directeur de l'Institut Al-Mouyassar ?", 
+    "options": ["Le Maire de la ville", "L'Oustaz virtuel", "Le grand frère du même nom (Abdallah Niass)", "L'AMDMEC"], 
+    "reponse_correcte": "Le grand frère du même nom (Abdallah Niass)", 
+    "explication": "Le directeur de l'établissement est Abdallah Niass, grand frère du développeur de ce système.",
+    "translations": {
+      "ar": {
+        "question": "من هو مدير معهد الميسر ؟",
+        "options": ["عمدة المدينة", "الأستاذ الافتراضي", "الأخ الأكبر الذي يحمل نفس الاسم (عبد الله نياس)", "جمعية AMDMEC"],
+        "reponse_correcte": "الأخ الأكبر الذي يحمل نفس الاسم (عبد الله نياس)",
+        "explication": "مدير المؤسسة هو عبد الله نياس، الأخ الأكبر لمطور هذا النظام."
+      },
+      "wo": {
+        "question": "Kan moy Directeur u Daara Al-Mouyassar ?",
+        "options": ["Maire u dëkk bi", "Oustaz AI bi", "Magu sango bi (Abdallah Niass)", "AMDMEC"],
+        "reponse_correcte": "Magu sango bi (Abdallah Niass)",
+        "explication": "Magu sango bi Abdallah Niass moy Directeur u daara bi."
+      }
+    }
+  },
+  { 
+    "id": 83, 
+    "categorie": "Institut Al-Mouyassar", 
+    "niveau": "Débutant", 
+    "question": "En quelle année notre grand institut a-t-il été fondé ?", 
+    "options": ["2000", "2005", "2007", "2015"], 
+    "reponse_correcte": "2007", 
+    "explication": "L'Institut Al-Mouyassar a vu le jour en 2007.",
+    "translations": {
+      "ar": {
+        "question": "في أي عام تم تأسيس معهدنا العظيم ؟",
+        "options": ["2000", "2005", "2007", "2015"],
+        "reponse_correcte": "2007",
+        "explication": "رأى معهد الميسر النور في عام 2007."
+      },
+      "wo": {
+        "question": "Ban at lañu sos sunu daara bu mak bi ?",
+        "options": ["2000", "2005", "2007", "2015"],
+        "reponse_correcte": "2007",
+        "explication": "Daara Al-Mouyassar ci atum 2007 la taxaw."
+      }
+    }
+  },
+  { 
+    "id": 84, 
+    "categorie": "Institut Al-Mouyassar", 
+    "niveau": "Intermédiaire", 
+    "question": "Quelles sont les deux couleurs officielles du logotype de l'Institut Al-Mouyassar ?", 
+    "options": ["Bleu et Blanc", "Rouge et Noir", "Vert foncé (#004D40) et Jaune doré (#D0A21C)", "Gris et Or"], 
+    "reponse_correcte": "Vert foncé (#004D40) et Jaune doré (#D0A21C)", 
+    "explication": "Le Vert foncé et le Jaune doré/ocre sont les couleurs identitaires de notre institut.",
+    "translations": {
+      "ar": {
+        "question": "ما هما اللونان الرسميان لشعار معهد الميسر ؟",
+        "options": ["الأزرق والأبيض", "الأحمر والأسود", "الأخضر الداكن (#004D40) والأصفر الذهبي (#D0A21C)", "الرمادي والذهبي"],
+        "reponse_correcte": "الأخضر الداكن (#004D40) والأصفر الذهبي (#D0A21C)",
+        "explication": "الأخضر الداكن والأصفر الذهبي هما اللونان الهوياتيّان لمعهدنا."
+      },
+      "wo": {
+        "question": "Ban ñaari color ño nek ci logo u Daara Al-Mouyassar ?",
+        "options": ["Bleu ak Blanc", "Rouge ak Noir", "Vert foncé (#004D40) ak Jaune doré (#D0A21C)", "Gris ak Or"],
+        "reponse_correcte": "Vert foncé (#004D40) ak Jaune doré (#D0A21C)",
+        "explication": "Vert foncé ak Jaune doré ño nek color u daara bi."
+      }
+    }
+  },
+  { 
+    "id": 85, 
+    "categorie": "Institut Al-Mouyassar", 
+    "niveau": "Débutant", 
+    "question": "Comment se nomme la toute première étape d'apprentissage à l'institut (lecture et épellation) ?", 
+    "options": ["Le Khatm", "Le Tahji", "La Sirah", "Le Fiqh"], 
+    "reponse_correcte": "Le Tahji", 
+    "explication": "Le Tahji est le premier niveau obligatoire pour maîtriser la lecture.",
+    "translations": {
+      "ar": {
+        "question": "ما هو اسم المرحلة الأولى للتعلم في المعهد (القراءة والتهجئة) ؟",
+        "options": ["الختم", "التهجي", "السيرة", "الفقه"],
+        "reponse_correcte": "التهجي",
+        "explication": "التهجي هو المستوى الأول الإلزامي لإتقان القراءة."
+      },
+      "wo": {
+        "question": "Ban jàng moy tambali ci daara bi ngir xam léer ak bind ?",
+        "options": ["Khatm bi", "Tahji bi", "Sirah bi", "Fiqh bi"],
+        "reponse_correcte": "Tahji bi",
+        "explication": "Tahji bi moy tambali njàng mi ngir xam léer bu bax."
+      }
+    }
+  },
+  { 
+    "id": 86, 
+    "categorie": "Institut Al-Mouyassar", 
+    "niveau": "Intermédiaire", 
+    "question": "Combien de 'Quarts' composent la phase principale de mémorisation avant le Khatm ?", 
+    "options": ["2 Quarts", "3 Quarts", "4 Quarts", "5 Quarts"], 
+    "reponse_correcte": "3 Quarts", 
+    "explication": "Le système de l'institut est divisé en 1er Quart, 2ème Quart et 3ème Quart de mémorisation.",
+    "translations": {
+      "ar": {
+        "question": "كم \'ربعاً\' تتكون منها مرحلة الحفظ الرئيسية قبل الختم ؟",
+        "options": ["ربعان", "3 أرباع", "4 أرباع", "5 أرباع"],
+        "reponse_correcte": "3 أرباع",
+        "explication": "ينقسم نظام الحفظ في المعهد إلى الربع الأول، والربع الثاني، والربع الثالث."
+      },
+      "wo": {
+        "question": "Ñata \'Quarts\' lañuy jàng ci mémorial Coran bi bala nga yegg ci Khatm bi ?",
+        "options": ["2 Quarts", "3 Quarts", "4 Quarts", "5 Quarts"],
+        "reponse_correcte": "3 Quarts",
+        "explication": "Njàngum daara bi mungi tegu ci ñati quarts yu woor."
+      }
+    }
+  },
+  { 
+    "id": 87, 
+    "categorie": "Institut Al-Mouyassar", 
+    "niveau": "Avancé", 
+    "question": "Comment s'appelle l'étape finale qui consacre la mémorisation totale du Coran ?", 
+    "options": ["Le Début", "Le Tahji", "Le Khatm", "La Hijra"], 
+    "reponse_correcte": "Le Khatm", 
+    "explication": "Le Khatm est la clôture, célébrée lors de la grande cérémonie de remise de diplômes.",
+    "translations": {
+      "ar": {
+        "question": "ما اسم المرحلة النهائية لتتويج الحفظ الكامل للقرآن الكريم ؟",
+        "options": ["البداية", "التهجي", "الختم", "الهجرة"],
+        "reponse_correcte": "الختم",
+        "explication": "الختم هو النهاية، ويُحتفل به في حفل توزيع الشهادات الكبير."
+      },
+      "wo": {
+        "question": "Nan lañuy wax macc bu muj bi buy wone né paré nga Coran yépp ?",
+        "options": ["Tambali bi", "Tahji bi", "Khatm bi", "Hijra bi"],
+        "reponse_correcte": "Khatm bi",
+        "explication": "Khatm bi moy ubbil buntu ndam li."
+      }
+    }
+  },
+  { 
+    "id": 88, 
+    "categorie": "Institut Al-Mouyassar", 
+    "niveau": "Avancé", 
+    "question": "Quel est le nom exact et complet de l'association regroupant les anciens élèves (Ansar) de l'institut ?", 
+    "options": ["Amicale des Jeunes", "Les Bourgeons de la Foi", "Association des ressortissants de l'institut coranique almouyassar", "Union des Hafiz"], 
+    "reponse_correcte": "Association des ressortissants de l'institut coranique almouyassar", 
+    "explication": "C'est la structure vitale qui maintient le lien spirituel et fraternel des anciens pensionnaires.",
+    "translations": {
+      "ar": {
+        "question": "ما هو الاسم الصحيح والكامل للجمعية التي تضم خريجي المعهد (الأنصار) ؟",
+        "options": ["رابطة الشباب", "براعم الإيمان", "جمعية خريجي معهد الميسر للقرآن الكريم", "اتحاد الحفاظ"],
+        "reponse_correcte": "جمعية خريجي معهد الميسر للقرآن الكريم",
+        "explication": "هي الهيكل الحيوي الذي يحافظ على الروابط الروحية والأخوية بين الطلاب القدامى."
+      },
+      "wo": {
+        "question": "Nan moy turu mbooloo kurel u magu talibé daara bi (Ansar) ?",
+        "options": ["Amicale des Jeunes", "Les Bourgeons de la Foi", "Association des ressortissants de l'institut coranique almouyassar", "Union des Hafiz"],
+        "reponse_correcte": "Association des ressortissants de l'institut coranique almouyassar",
+        "explication": "Association bi moy kurel bu mak bi di bolé talibé yi."
+      }
+    }
+  },
+  { 
+    "id": 89, 
+    "categorie": "Institut Al-Mouyassar", 
+    "niveau": "Avancé", 
+    "question": "Que signifie exactement le sigle AMDMEC au sein de notre institut ?", 
+    "options": ["Association des Maîtres d'École et de Coran", "Association AL-MOUYASSAR Pour le Développement Et la Modernisation de L'Enseignement Coranique", "Alliance des Mamans pour le Développement et le Maintien de l'École Coranique", "Association des Membres Directeurs du Mouvement Éducatif Coranique"], 
+    "reponse_correcte": "Association AL-MOUYASSAR Pour le Développement Et la Modernisation de L'Enseignement Coranique", 
+    "explication": "L'AMDMEC est essentielle pour accompagner la direction de l'institut, soutenir le double cursus et moderniser les conditions d'apprentissage.",
+    "translations": {
+      "ar": {
+        "question": "ماذا يعني بالضبط اختصار AMDMEC في معهدنا ؟",
+        "options": ["جمعية معلمي المدارس والقرآن", "جمعية الميسر لتنمية وتحديث التعليم القرآني", "تحالف الأمهات لتنمية ودعم المدرسة القرآنية", "جمعية الأعضاء المدراء للحركة التعليمية القرآنية"],
+        "reponse_correcte": "جمعية الميسر لتنمية وتحديث التعليم القرآني",
+        "explication": "تعد AMDMEC ضرورية لمرافقة إدارة المعهد، ودعم المنهج المزدوج وتحديث ظروف التعلم."
+      },
+      "wo": {
+        "question": "Ban firi la AMDMEC am ci sunu daara bi ?",
+        "options": ["Association des Maîtres d'École et de Coran", "Association AL-MOUYASSAR Pour le Développement Et la Modernisation de L'Enseignement Coranique", "Alliance des Mamans pour le Développement et le Maintien de l'École Coranique", "Association des Membres Directeurs du Mouvement Éducatif Coranique"],
+        "reponse_correcte": "Association AL-MOUYASSAR Pour le Développement Et la Modernisation de L'Enseignement Coranique",
+        "explication": "Mbooloo AMDMEC mungi taxaw ngir dimbali daara bi ci njàngum xam-xam bi."
+      }
+    }
+  },
+  { 
+    "id": 90, 
+    "categorie": "Institut Al-Mouyassar", 
+    "niveau": "Intermédiaire", 
+    "question": "Quelle méthode éducative caractérise l'Institut Al-Mouyassar ?", 
+    "options": ["Uniquement le jeu", "Le Double Cursus (Coran & Enseignement Académique)", "L'école par correspondance", "Les cours d'été seulement"], 
+    "reponse_correcte": "Le Double Cursus (Coran & Enseignement Académique)", 
+    "explication": "L'excellence de l'institut repose sur l'alliance de l'enseignement académique moderne et du Coran.",
+    "translations": {
+      "ar": {
+        "question": "ما هو الأسلوب التعليمي الذي يتميز به معهد الميسر ؟",
+        "options": ["اللعب فقط", "المنهج المزدوج (القرآن والتعليم الأكاديمي)", "المدرسة بالمراسلة", "الدروس الصيفية فقط"],
+        "reponse_correcte": "المنهج المزدوج (القرآن والتعليم الأكاديمي)",
+        "explication": "يعتمد تميز المعهد على الجمع بين التعليم الأكاديمي الحديث والقرآن الكريم."
+      },
+      "wo": {
+        "question": "Nan moy njàngum Daara Al-Mouyassar ?",
+        "options": ["Po rek", "Double Cursus (Alquran ak jangum daara)", "Jàng ci kër yi", "Jangum vacance rek"],
+        "reponse_correcte": "Double Cursus (Alquran ak jangum daara)",
+        "explication": "Njàngum Double Cursus bi moy jox talibé bi Alquran ak xam-xamu daara."
+      }
+    }
+  },
+  { 
+    "id": 91, 
+    "categorie": "Institut Al-Mouyassar", 
+    "niveau": "Intermédiaire", 
+    "question": "Dans quelle ville le futur grand Complexe Arabo-Islamique d'Al-Mouyassar est-il implanté ?", 
+    "options": ["Dakar Plateau", "Pikine", "Rufisque", "Saint-Louis"], 
+    "reponse_correcte": "Pikine", 
+    "explication": "Le nouveau complexe ultramoderne est construit à Pikine.",
+    "translations": {
+      "ar": {
+        "question": "في أي مدينة يقع مجمع الميسر العربي الإسلامي الكبير الجديد ؟",
+        "options": ["دكار بلاتو", "بيكينه", "روفياسك", "سانت لويس"],
+        "reponse_correcte": "بيكينه",
+        "explication": "يتم بناء المجمع الجديد المتطور للغاية في مدينة بيكينه."
+      },
+      "wo": {
+        "question": "Ban dëkk lañuy tabax tabax bu mak bu daara Al-Mouyassar bi ?",
+        "options": ["Dakar Plateau", "Pikine", "Rufisque", "Saint-Louis"],
+        "reponse_correcte": "Pikine",
+        "explication": "Tabax u daara bi Pikine lañ ko fas yéné def."
+      }
+    }
+  },
+  { 
+    "id": 92, 
+    "categorie": "Institut Al-Mouyassar", 
+    "niveau": "Débutant", 
+    "question": "Que signifie le nom 'Al-Mouyassar' ?", 
+    "options": ["Le Grand Arbre", "L'Inaccessible", "La Voie Facilitée", "La Montagne"], 
+    "reponse_correcte": "La Voie Facilitée", 
+    "explication": "Ce nom illustre l'objectif de l'institut : rendre l'apprentissage de l'Islam accessible et facile.",
+    "translations": {
+      "ar": {
+        "question": "ماذا يعني اسم 'الميسر' ؟",
+        "options": ["الشجرة الكبيرة", "الصعب المنال", "الطريق الميسر والسهل", "الجبل"],
+        "reponse_correcte": "الطريق الميسر والسهل",
+        "explication": "يوضح هذا الاسم هدف المعهد : جعل تعلم الإسلام متاحاً وسهلاً."
+      },
+      "wo": {
+        "question": "Nan moy firi turu 'Al-Mouyassar' ?",
+        "options": ["Garab bu mak", "Lu jafe", "Yoon bu yomb bi", "Tundu bi"],
+        "reponse_correcte": "Yoon bu yomb bi",
+        "explication": "Al-Mouyassar moy yoon bu yomb ngir jangum Coran."
+      }
+    }
+  },
+  { 
+    "id": 93, 
+    "categorie": "Institut Al-Mouyassar", 
+    "niveau": "Intermédiaire", 
+    "question": "Quel bâtiment ne sera PAS présent dans le futur Complexe de l'Institut ?", 
+    "options": ["Une Mosquée", "Un Internat", "Une Bibliothèque", "Une salle de cinéma"], 
+    "reponse_correcte": "Une salle de cinéma", 
+    "explication": "Le complexe comprendra une mosquée, un internat et une bibliothèque dédiée au savoir.",
+    "translations": {
+      "ar": {
+        "question": "ما هو المبنى الذي لن يكون موجوداً في مجمع المعهد مستقبلاً ؟",
+        "options": ["مسجد", "سكن داخلي", "مكتبة", "دار سينما"],
+        "reponse_correcte": "دار سينما",
+        "explication": "سيضم المجمع مسجداً، وسكناً داخلياً، ومكتبة مخصصة للعلم والمعرفة."
+      },
+      "wo": {
+        "question": "Ban tabax lañu du tabax ci tabax bu mak bu daara bi ?",
+        "options": ["Jaka", "Internat", "Bibliothèque", "Cinéma"],
+        "reponse_correcte": "Cinéma",
+        "explication": "Daara bi mungi am jaka, internat ak bibliothèque bu mak."
+      }
+    }
+  },
   { "id": 94, "categorie": "Akhlaq", "niveau": "Débutant", "question": "Comment le Talibé (élève) de l'institut doit-il se comporter avec ses Oustaz (enseignants) ?", "options": ["Avec arrogance", "En les ignorant", "Avec un profond respect et écoute", "En parlant plus fort qu'eux"], "reponse_correcte": "Avec un profond respect et écoute", "explication": "Le respect du maître est la clé de la réussite dans la mémorisation du Coran." },
   { "id": 95, "categorie": "Aqidah", "niveau": "Intermédiaire", "question": "Quel jour aura lieu le jugement des actions ?", "options": ["Le jour de la naissance", "Le Jour Dernier (Yawm al-Qiyamah)", "Le jour de l'Aïd", "Le premier jour du Ramadan"], "reponse_correcte": "Le Jour Dernier (Yawm al-Qiyamah)", "explication": "C'est le jour où Allah jugera chaque être humain." },
   { "id": 96, "categorie": "Coran", "niveau": "Débutant", "question": "Par quelle sourate le Coran se termine-t-il ?", "options": ["Al-Fatiha", "Al-Baqarah", "An-Nas", "Al-Falaq"], "reponse_correcte": "An-Nas", "explication": "An-Nas (Les Hommes) is la 114ème et dernière sourate du Livre." },

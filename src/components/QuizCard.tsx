@@ -8,7 +8,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   Check, X, HelpCircle, ArrowRight, Clock, Award, BookOpen, Volume2, ShieldQuestion 
 } from 'lucide-react';
-import { Question } from '../types';
+import { Question, getLocalizedQuestion } from '../types';
+import { useLanguage } from '../LanguageContext';
 import { playSuccessSound, playErrorSound, playTickSound, playSelectSound } from './SoundEngine';
 
 interface QuizCardProps {
@@ -28,6 +29,9 @@ export default function QuizCard({
   timerActive,
   timerLimit
 }: QuizCardProps) {
+  const { language, t } = useLanguage();
+  const q = getLocalizedQuestion(question, language);
+
   interface OptionParticle {
     id: number;
     x: number;
@@ -124,7 +128,7 @@ export default function QuizCard({
   const handleValidate = () => {
     if (isValidated || !selectedOption) return;
 
-    const isCorrect = selectedOption === question.reponse_correcte;
+    const isCorrect = selectedOption === q.reponse_correcte;
     setIsValidated(true);
     
     if (timerRef.current) {
@@ -144,7 +148,7 @@ export default function QuizCard({
   // Assign distinct styles for options depending on validation state
   const getOptionStyle = (option: string) => {
     const isSelected = selectedOption === option;
-    const isAnswerCorrect = question.reponse_correcte === option;
+    const isAnswerCorrect = q.reponse_correcte === option;
 
     if (!isValidated) {
       if (isSelected) {
@@ -199,7 +203,7 @@ export default function QuizCard({
 
   return (
     <motion.div
-      key={question.id}
+      key={q.id}
       initial={{ opacity: 0, scale: 0.98, y: 10 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.98, y: -10 }}
@@ -232,15 +236,15 @@ export default function QuizCard({
       {/* Upper header section showing category, difficulty and general progress metrics */}
       <div className="p-4 sm:p-5 border-b border-slate-850 flex items-center justify-between gap-4 flex-wrap bg-slate-950/40">
         <div className="flex items-center gap-2">
-          <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${getCategoryBadgeClass(question.categorie)}`}>
-            {question.categorie}
+          <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${getCategoryBadgeClass(q.categorie)}`}>
+            {t(q.categorie)}
           </span>
-          <span className={`text-xs font-bold px-2.5 py-1.5 rounded-full ${getLevelBadgeClass(question.niveau)} flex items-center gap-1.5`}>
+          <span className={`text-xs font-bold px-2.5 py-1.5 rounded-full ${getLevelBadgeClass(q.niveau)} flex items-center gap-1.5`}>
             <span className={`w-1.5 h-1.5 rounded-full ${
-              question.niveau === 'Débutant' ? 'bg-emerald-450 animate-pulse' :
-              question.niveau === 'Intermédiaire' ? 'bg-amber-400' : 'bg-rose-400'
+              q.niveau === 'Débutant' ? 'bg-emerald-450 animate-pulse' :
+              q.niveau === 'Intermédiaire' ? 'bg-amber-400' : 'bg-rose-400'
             }`} />
-            {question.niveau}
+            {t(q.niveau)}
           </span>
         </div>
 
@@ -269,15 +273,15 @@ export default function QuizCard({
         {/* Beautiful Interactive Question Display */}
         <div className="space-y-2">
           <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight leading-relaxed">
-            {question.question}
+            {q.question}
           </h3>
         </div>
 
         {/* Options List */}
         <div className="grid gap-3">
-          {question.options.map((option, idx) => {
+          {q.options.map((option, idx) => {
             const isSelected = selectedOption === option;
-            const isCorrect = question.reponse_correcte === option;
+            const isCorrect = q.reponse_correcte === option;
 
             // Determine rich dynamic animations
             let animateObj = {};
@@ -374,7 +378,7 @@ export default function QuizCard({
                   : 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-750'
               }`}
             >
-              <span>Valider la réponse</span>
+              <span>{t('validate_answer', 'Valider la réponse')}</span>
               <BookOpen className="w-4 h-4" />
             </button>
           ) : null}
@@ -390,10 +394,10 @@ export default function QuizCard({
             >
               <div className="flex items-center gap-2 text-amber-400">
                 <ShieldQuestion className="w-4 h-4 shrink-0" />
-                <span className="text-xs font-extrabold uppercase tracking-wider font-mono">Explication Islamique</span>
+                <span className="text-xs font-extrabold uppercase tracking-wider font-mono">{t('islamic_explanation', 'Explication Islamique')}</span>
               </div>
               <p className="text-sm font-medium leading-relaxed italic border-l-2 border-amber-400/40 pl-3">
-                &ldquo;{question.explication}&rdquo;
+                &ldquo;{q.explication}&rdquo;
               </p>
             </motion.div>
           )}

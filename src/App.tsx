@@ -10,7 +10,7 @@ import {
   ChevronRight, AlertTriangle, Users, BookOpenCheck, Flame, Medal, Check, X, Sparkles, Search, LogOut
 } from 'lucide-react';
 
-import { Question, UserStats, QuizSession, Badge, DailyQuest } from './types';
+import { Question, UserStats, QuizSession, Badge, DailyQuest, getLocalizedQuestion } from './types';
 import { QUESTIONS, BADGES } from './data';
 import Header from './components/Header';
 import QuizCard from './components/QuizCard';
@@ -117,7 +117,7 @@ function StarryBackground() {
 }
 
 export default function App() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   // --- Persistent States ---
   const [stats, setStats] = useState<UserStats>(() => {
     const saved = localStorage.getItem(LOCAL_STORAGE_STATS_KEY);
@@ -1125,37 +1125,53 @@ export default function App() {
 
                   <div className="space-y-2">
                     <h2 className="text-2xl font-black tracking-tight text-white">
-                      Félicitations, Session Terminée !
+                      {t('congratulations_session', 'Félicitations, Session Terminée !')}
                     </h2>
                     <p className="text-sm text-slate-400 max-w-md mx-auto">
-                      Vous avez répondu aux questions de l'exercice avec attention. Prenez le temps d'analyser vos résultats et de lire les explications ci-dessous.
+                      {language === 'ar' ? 'لقد أجبت على أسئلة التمرين بعناية. خذ الوقت الكافي لتحليل نتائجك وقراءة التفسيرات أدناه.' :
+                       language === 'wo' ? 'Tontu nga laaj yi ci anam bu woor. Tannal waxtu ngir seet say ndam ak firi bi ci suuf.' :
+                       "Vous avez répondu aux questions de l'exercice avec attention. Prenez le temps d'analyser vos résultats et de lire les explications ci-dessous."}
                     </p>
                   </div>
 
                   {/* Summary performance block */}
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-lg mx-auto bg-slate-950/45 p-4 rounded-xl border border-slate-850">
                     <div className="text-center p-2 border-r border-slate-850/60 md:border-r">
-                      <p className="text-[10px] text-slate-450 uppercase font-bold tracking-wider mb-1">Score acquis</p>
+                      <p className="text-[10px] text-slate-450 uppercase font-bold tracking-wider mb-1">
+                        {language === 'ar' ? 'النتيجة المحققة' :
+                         language === 'wo' ? 'Ndam li' :
+                         'Score acquis'}
+                      </p>
                       <p className="text-xl font-bold font-mono text-white">
                         {session.score} <span className="text-slate-500 text-sm">/ {session.questions.length}</span>
                       </p>
                     </div>
                     
                     <div className="text-center p-2 md:border-r border-slate-850/60">
-                      <p className="text-[10px] text-slate-450 uppercase font-bold tracking-wider mb-1">Précision</p>
+                      <p className="text-[10px] text-slate-450 uppercase font-bold tracking-wider mb-1">
+                        {language === 'ar' ? 'الدقة' :
+                         language === 'wo' ? 'Woor teguine' :
+                         'Précision'}
+                      </p>
                       <p className="text-xl font-bold font-mono text-emerald-400">
                         {Math.round((session.score / session.questions.length) * 100)}%
                       </p>
                     </div>
 
                     <div className="text-center p-2 col-span-2 md:col-span-1 border-t md:border-t-0 border-slate-850/60 pt-3 md:pt-2">
-                      <p className="text-[10px] text-slate-450 uppercase font-bold tracking-wider mb-1">XP obtenus</p>
+                      <p className="text-[10px] text-slate-450 uppercase font-bold tracking-wider mb-1">
+                        {language === 'ar' ? 'الخبرة المكتسبة' :
+                         language === 'wo' ? 'XP yi am' :
+                         'XP obtenus'}
+                      </p>
                       <p className="text-xl font-bold font-mono text-amber-400">
                         +{session.score * 15 + (session.score === session.questions.length ? 50 : 0)} XP
                       </p>
                       {session.score === session.questions.length && (
                         <span className="text-[8px] font-bold text-amber-500 bg-amber-500/10 px-1 py-0.5 rounded border border-amber-500/20 animate-pulse">
-                          +50 Perfection !
+                          {language === 'ar' ? '+50 ممتاز !' :
+                           language === 'wo' ? '+50 MashaAllah !' :
+                           '+50 Perfection !'}
                         </span>
                       )}
                     </div>
@@ -1166,7 +1182,9 @@ export default function App() {
                     <div className="p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/10 max-w-lg mx-auto space-y-2 text-left">
                       <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-widest flex items-center gap-1.5 font-mono">
                         <Sparkles className="w-3.5 h-3.5 fill-emerald-500" />
-                        Badge(s) Débloqué(s) !
+                        {language === 'ar' ? 'تم إلغاء قفل الأوسمة !' :
+                         language === 'wo' ? 'Néer yi ubbiku na !' :
+                         'Badge(s) Débloqué(s) !'}
                       </h4>
                       <div className="space-y-2">
                         {latestSessionBadges.map(b => (
@@ -1183,13 +1201,16 @@ export default function App() {
                   <div className="text-left space-y-4 max-w-xl mx-auto pt-4 border-t border-slate-850">
                     <h3 className="text-sm font-extrabold text-slate-400 flex items-center gap-2">
                       <Eye className="w-4 h-4 text-emerald-500" />
-                      Revue des questions :
+                      {language === 'ar' ? 'مراجعة الأسئلة :' :
+                       language === 'wo' ? 'Saytu laaj yi :' :
+                       'Revue des questions :'}
                     </h3>
                     
                     <div className="space-y-3.5">
                       {session.questions.map((q, idx) => {
                         const answerObj = session.answers.find(a => a.questionId === q.id);
                         const isUserCorrect = answerObj?.isCorrect || false;
+                        const localizedQ = getLocalizedQuestion(q, language);
 
                         return (
                           <div key={q.id} className="p-4 rounded-xl bg-slate-950/30 border border-slate-850 space-y-2.5">
@@ -1203,7 +1224,7 @@ export default function App() {
                                 q.categorie === 'Akhlaq' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
                                 'bg-teal-500/10 text-teal-300 border border-teal-500/20'
                               } border`}>
-                                {q.categorie}
+                                {t(q.categorie, q.categorie)}
                               </span>
                               
                               <span className={`text-[8px] tracking-wider uppercase font-extrabold px-1.5 py-0.5 rounded flex items-center gap-1 ${
@@ -1215,42 +1236,58 @@ export default function App() {
                                   q.niveau === 'Débutant' ? 'bg-emerald-450' :
                                   q.niveau === 'Intermédiaire' ? 'bg-amber-400' : 'bg-rose-400'
                                 }`} />
-                                {q.niveau}
+                                {t(q.niveau, q.niveau)}
                               </span>
                             </div>
 
                             <div className="flex items-start justify-between gap-3">
                               <h4 className="text-xs font-bold text-slate-100 flex items-start gap-1.5 leading-relaxed">
                                 <span className="text-slate-500">{idx + 1}.</span>
-                                {q.question}
+                                {localizedQ.question}
                               </h4>
                               <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full border shrink-0 ${
                                 isUserCorrect 
                                   ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
                                   : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
                               }`}>
-                                {isUserCorrect ? "Correct" : "Incorrect"}
+                                {isUserCorrect ? t('correct', 'Correct !') : t('incorrect', 'Incorrect')}
                               </span>
                             </div>
 
                             <div className="grid sm:grid-cols-2 gap-2 text-[11px] pt-1">
                               <div className="text-slate-400">
-                                <span className="font-semibold text-slate-500">Votre réponse :</span>{' '}
+                                <span className="font-semibold text-slate-500">
+                                  {language === 'ar' ? 'إجابتك :' :
+                                   language === 'wo' ? 'Sa toontu :' :
+                                   'Votre réponse :'}
+                                </span>{' '}
                                 <span className={isUserCorrect ? 'text-emerald-400 font-medium' : 'text-rose-400 font-medium line-through'}>
-                                  {answerObj?.selectedAnswer || "Chronometre Épuisé (vide)"}
+                                  {answerObj?.selectedAnswer || (
+                                    language === 'ar' ? 'انتهى الوقت (فارغ)' :
+                                    language === 'wo' ? 'Waxtu bi jeexna (kessé)' :
+                                    'Chronomètre Épuisé (vide)'
+                                  )}
                                 </span>
                               </div>
                               <div className="text-slate-400">
-                                <span className="font-semibold text-slate-500">Réponse correcte :</span>{' '}
+                                <span className="font-semibold text-slate-500">
+                                  {language === 'ar' ? 'الإجابة الصحيحة :' :
+                                   language === 'wo' ? 'Toontu bu woor bi :' :
+                                   'Réponse correcte :'}
+                                </span>{' '}
                                 <span className="text-emerald-400 font-extrabold">
-                                  {q.reponse_correcte}
+                                  {localizedQ.reponse_correcte}
                                 </span>
                               </div>
                             </div>
 
                             <p className="text-[10px] text-slate-400 leading-normal bg-slate-950/50 p-2.5 rounded border border-slate-900 italic">
-                              <span className="font-semibold text-amber-500/90 not-italic block uppercase text-[8px] tracking-wider mb-0.5">Note explicative :</span>
-                              &ldquo;{q.explication}&rdquo;
+                              <span className="font-semibold text-amber-500/90 not-italic block uppercase text-[8px] tracking-wider mb-0.5">
+                                {language === 'ar' ? 'الشرح والملاحظة :' :
+                                 language === 'wo' ? 'Firi bi :' :
+                                 'Note explicative :'}
+                              </span>
+                              &ldquo;{localizedQ.explication}&rdquo;
                             </p>
                           </div>
                         );
@@ -1263,7 +1300,7 @@ export default function App() {
                       onClick={handleQuitQuizSession}
                       className="px-6 py-3 bg-emerald-600 hover:bg-emerald-505 text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-lg shadow-emerald-950/40 transition-all hover:-translate-y-0.5 cursor-pointer"
                     >
-                      Retourner à l'accueil
+                      {t('back_home', 'Retourner à l\'accueil')}
                     </button>
                   </div>
                 </motion.div>
@@ -1427,33 +1464,37 @@ export default function App() {
               )}
 
               {activeTab === 'quiz' && (
-                <div className="grid md:grid-cols-3 gap-6">
-                  
-                  {/* Left panel: Launch settings options */}
-                  <div className="md:col-span-2 space-y-6">
-                    
-                    {/* Welcome Banner */}
-                    <div className={`p-5 rounded-2xl border space-y-2 transition-all duration-300 ${
+                <>
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div className="lg:col-span-2 space-y-6">
+                      {/* Welcome Banner */}
+                  <div className={`p-5 rounded-2xl border space-y-2 transition-all duration-300 ${
                       theme === 'dark'
                         ? 'bg-gradient-to-br from-[#0c2340]/40 via-[#0f172a]/70 to-[#0f172a]/70 border-[#D0A21C]/20 backdrop-blur-md text-slate-200 shadow-md shadow-black/20'
-                        : 'bg-gradient-to-br from-emerald-50/60 via-white to-white border-emerald-950/10 text-stone-800 shadow-md shadow-emerald-950/5'
+                        : 'bg-gradient-to-br from-emerald-50/60 via-white to-white border-emerald-950/10 text-stone-850 shadow-md shadow-emerald-950/5'
                     }`}>
                       <span className={`text-[9px] font-black px-2.5 py-1 rounded-full border uppercase tracking-widest font-mono inline-block transition-colors duration-300 ${
                         theme === 'dark' 
                           ? 'text-amber-400 bg-amber-500/10 border-amber-500/20' 
                           : 'text-emerald-700 bg-emerald-50 border-emerald-250/20'
                       }`}>
-                        Plateforme Éducative
+                        {t('educational_platform', 'Plateforme Éducative')}
                       </span>
                       <h2 className={`text-xl font-black tracking-tight transition-colors duration-300 ${
                         theme === 'dark' ? 'text-white' : 'text-stone-900'
                       }`}>
-                        Apprenez les Sciences Islamiques !
+                        {t('learn_islamic_sciences', 'Apprenez les Sciences Islamiques !')}
                       </h2>
                       <p className={`text-xs leading-relaxed transition-colors duration-300 ${
                         theme === 'dark' ? 'text-slate-350' : 'text-stone-600'
                       }`}>
-                        Entraînez-vous, améliorez vos connaissances sur le <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Fiqh</strong>, la <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Aqidah</strong>, la <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Sirah</strong>, le <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Coran</strong>, l&apos;<strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Akhlaq</strong> et découvrez la noble histoire de l&apos;<strong className={theme === 'dark' ? 'text-amber-450 font-bold' : 'text-emerald-800 font-bold'}>Institut Coranique Al-Mouyassar</strong>.
+                        {language === 'ar' ? (
+                          <>تدرب وحسّن معرفتك في <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>الفقه</strong>، و<strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>العقيدة</strong>، و<strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>السيرة</strong>، و<strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>القرآن</strong>، و<strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>الأخلاق</strong> واكتشف التاريخ النبيل لـ<strong className={theme === 'dark' ? 'text-amber-450 font-bold' : 'text-emerald-800 font-bold'}>معهد الميسر للقرآن الكريم</strong>.</>
+                        ) : language === 'wo' ? (
+                          <>Mën nga fi jàng, yok sa xam-xam ci <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Fiqh</strong>, <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Aqidah</strong>, <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Sirah</strong>, <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Alquran</strong>, <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Akhlaq</strong> ak dundug daara <strong className={theme === 'dark' ? 'text-amber-450 font-bold' : 'text-emerald-800 font-bold'}>Al-Mouyassar</strong>.</>
+                        ) : (
+                          <>Entraînez-vous, améliorez vos connaissances sur le <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Fiqh</strong>, la <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Aqidah</strong>, la <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Sirah</strong>, le <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Coran</strong>, l&apos;<strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Akhlaq</strong> et découvrez la noble histoire de l&apos;<strong className={theme === 'dark' ? 'text-amber-450 font-bold' : 'text-emerald-800 font-bold'}>Institut Coranique Al-Mouyassar</strong>.</>
+                        )}
                       </p>
                     </div>
 
@@ -1475,7 +1516,7 @@ export default function App() {
                           ? 'text-slate-300 border-slate-800/80' 
                           : 'text-stone-700 border-stone-200'
                       }`}>
-                        Configuration de l&apos;exercice :
+                        {t('exercise_config', "Configuration de l'exercice :")}
                       </h3>
 
                       {/* Search Bar filter */}
@@ -1483,12 +1524,12 @@ export default function App() {
                         <label className={`text-xs font-bold uppercase tracking-wider block transition-colors duration-300 ${
                           theme === 'dark' ? 'text-slate-400' : 'text-stone-500'
                         }`}>
-                          Rechercher par mot-clé :
+                          {t('search_keyword', 'Rechercher par mot-clé :')}
                         </label>
                         <div className="relative">
                           <input
                             type="text"
-                            placeholder="Hadith, ablution, prière, pureté, intention, etc."
+                            placeholder={t('quiz_search_placeholder', 'Hadith, ablution, prière, pureté, intention, etc.')}
                             value={quizSearchQuery}
                             onChange={(e) => setQuizSearchQuery(e.target.value)}
                             className={`w-full pl-10 pr-10 py-3 rounded-xl text-xs transition-all duration-300 font-medium ${
@@ -1522,13 +1563,13 @@ export default function App() {
                           <label className={`text-xs font-bold uppercase tracking-wider transition-colors duration-300 ${
                             theme === 'dark' ? 'text-slate-400' : 'text-stone-500'
                           }`}>
-                            Sujets d&apos;étude (Sélection multiple) :
+                            {t('study_themes', "Sujets d'étude (Sélection multiple) :")}
                           </label>
                           <button
                             onClick={handleSelectAllCategories}
                             className="text-[10px] font-black text-emerald-500 hover:text-emerald-600 transition-colors uppercase cursor-pointer"
                           >
-                            {selectedCategories.length === allCategories.length ? 'Tout décocher' : 'Tout cocher'}
+                            {selectedCategories.length === allCategories.length ? t('deselect_all', 'Tout décocher') : t('select_all', 'Tout cocher')}
                           </button>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pb-1">
@@ -1550,7 +1591,7 @@ export default function App() {
                                   isSelected ? activeClass : inactiveClass
                                 }`}
                               >
-                                <span className="truncate">{cat}</span>
+                                <span className="truncate">{t(cat, cat)}</span>
                                 <div className={`w-4 h-4 rounded-md border flex items-center justify-center shrink-0 transition-all ${
                                   isSelected 
                                     ? 'bg-emerald-500 border-emerald-500 text-slate-950' 
@@ -1570,13 +1611,13 @@ export default function App() {
                           <label className={`text-xs font-bold uppercase tracking-wider transition-colors duration-300 ${
                             theme === 'dark' ? 'text-slate-400' : 'text-stone-500'
                           }`}>
-                            Niveaux de difficulté (Sélection multiple) :
+                            {t('difficulty_levels', "Niveaux de difficulté (Sélection multiple) :")}
                           </label>
                           <button
                             onClick={handleSelectAllLevels}
                             className="text-[10px] font-black text-emerald-500 hover:text-emerald-600 transition-colors uppercase cursor-pointer"
                           >
-                            {selectedLevels.length === allLevels.length ? 'Tout décocher' : 'Tout cocher'}
+                            {selectedLevels.length === allLevels.length ? t('deselect_all', 'Tout décocher') : t('select_all', 'Tout cocher')}
                           </button>
                         </div>
                         <div className="grid grid-cols-3 gap-2.5 pb-1">
@@ -1585,7 +1626,7 @@ export default function App() {
                             
                             const activeClass = theme === 'dark'
                               ? 'btn-3d-emerald bg-emerald-500/10 text-emerald-400 border-emerald-500/45 font-bold shadow-xs'
-                              : 'btn-3d-emerald bg-emerald-50 text-emerald-800 border-emerald-500/50 font-bold shadow-sm';
+                              : 'btn-3d-emerald bg-emerald-55 text-emerald-800 border-emerald-500/50 font-bold shadow-sm';
                             const inactiveClass = theme === 'dark'
                               ? 'btn-3d-slate bg-slate-955 text-slate-400 border-slate-850 hover:border-slate-800'
                               : 'btn-3d-slate bg-stone-50 text-stone-500 border-stone-200 hover:border-stone-300';
@@ -1598,7 +1639,7 @@ export default function App() {
                                   isSelected ? activeClass : inactiveClass
                                 }`}
                               >
-                                <span>{lvl}</span>
+                                <span>{t(lvl, lvl)}</span>
                                 <div className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center shrink-0 transition-all ${
                                   isSelected 
                                     ? 'bg-emerald-500 border-emerald-500 text-slate-950' 
@@ -1616,19 +1657,19 @@ export default function App() {
                       <div className="space-y-3 pt-2">
                         <div className={`flex items-center justify-between p-3.5 rounded-xl border transition-all duration-300 ${
                           theme === 'dark'
-                            ? 'bg-slate-950 border-slate-855'
+                            ? 'bg-slate-955 border-slate-855'
                             : 'bg-stone-50 border-stone-200'
                         }`}>
                           <div className="space-y-0.5">
                             <label className={`text-xs font-bold flex items-center gap-1.5 font-sans transition-colors duration-300 ${
                               theme === 'dark' ? 'text-white' : 'text-stone-850'
                             }`}>
-                              <span>Activer le Chronomètre</span>
+                              <span>{t('activate_timer', 'Activer le Chronomètre')}</span>
                             </label>
                             <p className={`text-[10px] leading-tight transition-colors duration-300 ${
                               theme === 'dark' ? 'text-slate-450' : 'text-stone-450'
                             }`}>
-                              Limite le temps de réflexion pour pimenter le défi
+                              {t('timer_desc', 'Limite le temps de réflexion pour pimenter le défi')}
                             </p>
                           </div>
                           
@@ -1652,7 +1693,7 @@ export default function App() {
                           }`}>
                             <span className={`text-xs font-semibold transition-colors duration-300 ${
                               theme === 'dark' ? 'text-slate-450' : 'text-stone-500'
-                            }`}>Durée par question :</span>
+                            }`}>{language === 'ar' ? 'الوقت المحدد لكل سؤال :' : language === 'wo' ? 'Waxtu bu laaj bu ci nek :' : 'Durée par question :'}</span>
                             <div className="flex items-center gap-2 pb-1">
                               {[15, 25, 45].map((sec) => {
                                 const active = timerMinutes === sec;
@@ -1696,8 +1737,16 @@ export default function App() {
                       <Play className="w-4 h-4 text-white fill-white" />
                       <span>
                         {matchedQuestionsCount > 0 
-                          ? `Commencer le Quiz ! (${matchedQuestionsCount} questions)` 
-                          : 'Aucune question disponible'
+                          ? (
+                            language === 'ar' ? `ابدأ المسابقة ! (${matchedQuestionsCount} سؤال)` :
+                            language === 'wo' ? `Tambali laaj ak toontu bi ! (${matchedQuestionsCount} laaj)` :
+                            `Commencer le Quiz ! (${matchedQuestionsCount} questions)`
+                          )
+                          : (
+                            language === 'ar' ? 'لا توجد أسئلة متاحة' :
+                            language === 'wo' ? 'Amul laaj bu fi nekk' :
+                            'Aucune question disponible'
+                          )
                         }
                       </span>
                     </button>
@@ -1886,6 +1935,7 @@ export default function App() {
                     </div>
                   </div>
                 </div>
+                </>
               )}
 
                     {activeTab === 'stats' && (

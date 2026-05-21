@@ -3,6 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export interface QuestionTranslation {
+  question: string;
+  options: string[];
+  reponse_correcte: string;
+  explication: string;
+}
+
 export interface Question {
   id: number;
   categorie: 'Fiqh' | 'Aqidah' | 'Institut Al-Mouyassar' | string;
@@ -11,6 +18,32 @@ export interface Question {
   options: string[];
   reponse_correcte: string;
   explication: string;
+  translations?: {
+    ar?: QuestionTranslation;
+    wo?: QuestionTranslation;
+  };
+}
+
+export function getLocalizedQuestion(q: Question, lang: string): {
+  id: number;
+  categorie: string;
+  niveau: string;
+  question: string;
+  options: string[];
+  reponse_correcte: string;
+  explication: string;
+} {
+  if (lang !== 'fr' && q.translations && q.translations[lang as 'ar' | 'wo']) {
+    const tr = q.translations[lang as 'ar' | 'wo']!;
+    return {
+      ...q,
+      question: tr.question || q.question,
+      options: tr.options && tr.options.length === q.options.length ? tr.options : q.options,
+      reponse_correcte: tr.reponse_correcte || q.reponse_correcte,
+      explication: tr.explication || q.explication
+    };
+  }
+  return q;
 }
 
 export interface UserStats {

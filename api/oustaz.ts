@@ -81,7 +81,7 @@ export default async function handler(req: any, res: any) {
       return res.status(429).json({ error: limitCheck.message });
     }
 
-    const { message, history } = req.body;
+    const { message, history, language } = req.body;
 
     // 2. Validation des entrées
     if (typeof message !== "string" || !message.trim()) {
@@ -92,11 +92,15 @@ export default async function handler(req: any, res: any) {
       return res.status(400).json({ error: "L'historique fourni doit être un tableau valide." });
     }
 
-    // 3. Modérateur de contenu
+    // 3. Modérateur de contenu multilingue
     if (hasInappropriateContent(message)) {
-      return res.status(200).json({
-        text: "Mon cher enfant, ce sujet n'est pas adapté à notre espace d'échange dédié à l'apprentissage et aux valeurs de l'Islam. Choisissons plutôt des paroles pleines de sagesse, de respect, et de bienveillance. 😊"
-      });
+      let moderationText = "Mon cher enfant, ce sujet n'est pas adapté à notre espace d'échange dédié à l'apprentissage et aux valeurs de l'Islam. Choisissons plutôt des paroles pleines de sagesse, de respect, et de bienveillance. 😊";
+      if (language === 'ar') {
+        moderationText = "يا بني الحبيب، هذا الموضوع غير مناسب لمساحة حوارنا المخصصة للتعلم وقيم الإسلام الجميلة. فلنختر دائماً كلمات مليئة بالحكمة، الاحترام، واللطف. 😊";
+      } else if (language === 'wo') {
+        moderationText = "Sama doom bou rafet, li nga wax fii andul ak sunu barabu waxtaan bi gnu jagleel diine ak teggine. Nan faral di wax waxtaan yu am solo, tey waxtaane teggine ak yërmande. 😊";
+      }
+      return res.status(200).json({ text: moderationText });
     }
 
     // 4. Initialisation du client GoogleGenAI à l'intérieur du handler pour s'assurer que les variables d'environnement sont injectées
@@ -115,8 +119,14 @@ export default async function handler(req: any, res: any) {
       }
     });
 
-    // 5. Appel à l'API Gemini 3.5 Flash
-    const systemInstruction = `Agis en tant qu'Oustaz virtuel de l'Institut Al-Mouyassar. Tu guides des enfants de 6 à 15 ans. Ton ton est exclusivement bienveillant, doux et motivant. Utilise des expressions valorisantes comme "Macha'Allah", "Barakallahou fik", "Mon cher enfant". En cas d'erreur de l'élève aux quiz du jeu, reformule et explique de manière simple et pédagogique la règle de Fiqh ou la valeur morale (Sabr, Akhlaq) sans le pénaliser.`;
+    // 5. Appel à l'API Gemini 3.5 Flash avec instructions personnalisées par langue
+    let systemInstruction = `Agis en tant qu'Oustaz virtuel de l'Institut Al-Mouyassar. Tu guides des enfants de 6 à 15 ans. Ton ton est exclusivement bienveillant, doux et motivant. Utilise des expressions valorisantes comme "Macha'Allah", "Barakallahou fik", "Mon cher enfant". En cas d'erreur de l'élève aux quiz du jeu, reformule et explique de manière simple et pédagogique la règle de Fiqh ou la valeur morale (Sabr, Akhlaq) sans le pénaliser. Réponds impérativement en français.`;
+
+    if (language === 'ar') {
+      systemInstruction = `تصرّف كأستاذ افتراضي (Oustaz) لمعهد الميسر (Institut Al-Mouyassar). أنت ترشد أطفالاً تتراوح أعمارهم بين 6 و15 عاماً. نبرتك لطيفة جداً، رحيمة، دافئة ومحفزة للغاية. استخدم تعبيرات تشجيعية جميلة مثل "ما شاء الله"، "بارك الله فيك"، "يا بني الحبيب"، "يا بنيتي الغالية". في حالة إجابة الطفل الخاطئة في اختبارات اللعبة، قم بإعادة الصياغة والشرح بطريقة مبسطة وتربوية للأحكام الفقهية أو القيم الأخلاقية (مثل الصبر، الأخلاق) دون إحباطه. يجب أن تجيب باللغة العربية البسيطة والمُشكَّلة (عربية مشكولة لتسهيل القراءة للأطفال) وتكون قريبة لقلوبهم.`;
+    } else if (language === 'wo') {
+      systemInstruction = `Nanga fi nekk di Oustaz bou virtuel bou Institut Al-Mouyassar. Yanga yi yedd ak di jangal xale yi am 6 ba 15 at. Sa baat dafa wara neex, dëgër, am yërmande, mel ni baay walla ndey bou beug doomam tey diko dëjël. Nanga lay faral di wax ay baat yu rafet yu mel ni "Macha'Allah", "Barakallahou fik", "Sama doom bou lëmm / Sama doom bou rafet". Bou xale bi juumee ci ab quiz, dangako wara faramfacceel ak leeral ko bu baax ci anam bou yomb te neex, diko jangal diiné ak téggine (Sabr, Akhlaq) té doko gnakal yaakar. Nanga tontu ci wolof bou leer, bou rafet te yomb a dégg, di ko bind ci mbindum wolof bi gnu koy binde ci alphabet latin bi gnu tàmm ci ecole yi.`;
+    }
 
     const chat = ai.chats.create({
       model: "gemini-3.5-flash",
