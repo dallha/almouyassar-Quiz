@@ -6,7 +6,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
-  Check, X, HelpCircle, ArrowRight, Clock, Award, BookOpen, Volume2, ShieldQuestion 
+  Check, X, HelpCircle, ArrowRight, Clock, Award, BookOpen, Volume2, ShieldQuestion, Sparkles 
 } from 'lucide-react';
 import { Question, getLocalizedQuestion } from '../types';
 import { useLanguage } from '../LanguageContext';
@@ -20,6 +20,7 @@ interface QuizCardProps {
   timerActive: boolean;
   timerLimit: number;
   isTranslating?: boolean;
+  onTriggerAiTranslation?: () => void;
 }
 
 export default function QuizCard({
@@ -29,7 +30,8 @@ export default function QuizCard({
   onAnswerValidated,
   timerActive,
   timerLimit,
-  isTranslating = false
+  isTranslating = false,
+  onTriggerAiTranslation
 }: QuizCardProps) {
   const { language, t } = useLanguage();
   const q = getLocalizedQuestion(question, language);
@@ -304,10 +306,33 @@ export default function QuizCard({
         ) : (
           <>
             {/* Beautiful Interactive Question Display */}
-            <div className="space-y-2">
+            <div className="space-y-4">
               <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight leading-relaxed">
                 {q.question}
               </h3>
+
+              {/* Bouton de traduction manuelle par l'IA (si pas encore traduit en ar/wo) */}
+              {language !== 'fr' && !question.translations?.[language] && onTriggerAiTranslation && (
+                <motion.button 
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    playSelectSound();
+                    onTriggerAiTranslation();
+                  }}
+                  className="btn-3d-amber px-4 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 border border-[#D0A21C] bg-[#D0A21C]/10 text-amber-300 hover:bg-[#D0A21C]/25 transition-all cursor-pointer shadow-md select-none mt-2 active:translate-y-[2px]"
+                >
+                  <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
+                  <span>
+                    {language === 'ar' 
+                      ? 'تَرْجَمَةٌ آلِيَّةٌ 🤖' 
+                      : language === 'wo' 
+                        ? 'Traduction Automatique 🤖' 
+                        : 'Traduction Automatique 🤖'}
+                  </span>
+                </motion.button>
+              )}
             </div>
 
             {/* Options List */}

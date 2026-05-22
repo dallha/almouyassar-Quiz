@@ -534,67 +534,72 @@ export default function App() {
           questions: updatedQuestions
         };
       });
-      return;
     }
+  }, [language, session?.currentIndex, session?.questions[session?.currentIndex]?.id, aiTranslationsCache]);
 
-    // Sinon, on doit lancer la traduction via l'API !
-    const performAiTranslation = async () => {
-      setIsTranslatingQuestion(true);
-      try {
-        const response = await fetch('/api/translate', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            questionText: currentQuestion.question,
-            options: currentQuestion.options,
-            reponseCorrecte: currentQuestion.reponse_correcte,
-            explication: currentQuestion.explication,
-            language: language
-          })
-        });
+  const handleTriggerAiTranslation = async () => {
+    if (!session) return;
+    const { currentIndex, questions } = session;
+    if (currentIndex >= questions.length) return;
 
-        if (!response.ok) {
-          throw new Error("Erreur HTTP " + response.status);
-        }
+    const currentQuestion = questions[currentIndex];
+    if (language === 'fr') return;
 
-        const data = await response.json();
+    const cacheKey = `${currentQuestion.id}_${language}`;
+    setIsTranslatingQuestion(true);
 
-        // Mettre à jour le cache local
-        setAiTranslationsCache(prev => {
-          const updated = {
-            ...prev,
-            [cacheKey]: data
-          };
-          localStorage.setItem('mouyassar_ai_translations_cache', JSON.stringify(updated));
-          return updated;
-        });
+    try {
+      const response = await fetch('/api/translate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          questionText: currentQuestion.question,
+          options: currentQuestion.options,
+          reponseCorrecte: currentQuestion.reponse_correcte,
+          explication: currentQuestion.explication,
+          language: language
+        })
+      });
 
-        // Injecter la traduction dans la session
-        setSession(prev => {
-          if (!prev) return null;
-          const updatedQuestions = [...prev.questions];
-          const qToUpdate = { ...updatedQuestions[currentIndex] };
-          qToUpdate.translations = {
-            ...qToUpdate.translations,
-            [language]: data
-          };
-          updatedQuestions[currentIndex] = qToUpdate;
-          return {
-            ...prev,
-            questions: updatedQuestions
-          };
-        });
-      } catch (error) {
-        console.error("AI Translation failure, falling back to French:", error);
-      } finally {
-        setIsTranslatingQuestion(false);
+      if (!response.ok) {
+        throw new Error("Erreur HTTP " + response.status);
       }
-    };
 
-    performAiTranslation();
-  }, [language, session?.currentIndex, session?.questions[session?.currentIndex]?.id]);
+      const data = await response.json();
+
+      // Mettre à jour le cache local
+      setAiTranslationsCache(prev => {
+        const updated = {
+          ...prev,
+          [cacheKey]: data
+        };
+        localStorage.setItem('mouyassar_ai_translations_cache', JSON.stringify(updated));
+        return updated;
+      });
+
+      // Injecter la traduction dans la session
+      setSession(prev => {
+        if (!prev) return null;
+        const updatedQuestions = [...prev.questions];
+        const qToUpdate = { ...updatedQuestions[currentIndex] };
+        qToUpdate.translations = {
+          ...qToUpdate.translations,
+          [language]: data
+        };
+        updatedQuestions[currentIndex] = qToUpdate;
+        return {
+          ...prev,
+          questions: updatedQuestions
+        };
+      });
+    } catch (error) {
+      console.error("AI Translation failure, falling back to French:", error);
+    } finally {
+      setIsTranslatingQuestion(false);
+    }
+  };
 
   const handleToggleCategory = (cat: string) => {
     playSelectSound();
@@ -1210,6 +1215,7 @@ export default function App() {
                   timerActive={timerEnabled}
                   timerLimit={timerMinutes}
                   isTranslating={isTranslatingQuestion}
+                  onTriggerAiTranslation={handleTriggerAiTranslation}
                   onAnswerValidated={handleAnswerValidatedCallback}
                 />
               ) : (
