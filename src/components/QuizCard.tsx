@@ -311,8 +311,8 @@ export default function QuizCard({
                 {q.question}
               </h3>
 
-              {/* Bouton de traduction manuelle par l'IA (si pas encore traduit en ar/wo) */}
-              {language !== 'fr' && !question.translations?.[language] && onTriggerAiTranslation && (
+              {/* Bouton de traduction manuelle par l'IA visible dès que la langue n'est pas le français */}
+              {language !== 'fr' && onTriggerAiTranslation && (
                 <motion.button 
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
@@ -326,9 +326,9 @@ export default function QuizCard({
                   <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
                   <span>
                     {language === 'ar' 
-                      ? 'تَرْجَمَةٌ آلِيَّةٌ 🤖' 
+                      ? (question.translations?.[language] ? 'إِعَادَةُ التَّرْجَمَةِ آلِيًّا 🤖' : 'تَرْجَمَةٌ آلِيَّةٌ 🤖')
                       : language === 'wo' 
-                        ? 'Traduction Automatique 🤖' 
+                        ? (question.translations?.[language] ? 'Firi waat ak IA 🤖' : 'Traduction Automatique 🤖')
                         : 'Traduction Automatique 🤖'}
                   </span>
                 </motion.button>

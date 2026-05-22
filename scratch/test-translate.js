@@ -33,9 +33,9 @@ Tu devez impérativement renvoyer EXCLUSIVEMENT un objet JSON valide contenant c
 }
 `;
 
-    console.log("Envoi de la requête à Gemini 3.5 Flash...");
+    console.log("Envoi de la requête à Gemini 2.5 Flash...");
     const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       contents: prompt,
       config: {
         responseMimeType: "application/json",

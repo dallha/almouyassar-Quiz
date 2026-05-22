@@ -127,7 +127,7 @@ Règles impératives :
 4. N'invente pas d'autres détails, traduis fidèlement le sens théologique de la question d'origine en adaptant le ton.`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       contents: prompt,
       config: {
         responseMimeType: "application/json",
