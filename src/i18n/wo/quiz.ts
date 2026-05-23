@@ -22,7 +22,7 @@ export default {
   select_all: "Tann yépp",
   activate_timer: "Tal chronomètre bi",
   timer_desc: "Tek waxtu ngir yok liggeey bi",
-  
+
   // Categories names
   cat_fiqh: "Fiqh (Xam-xamu diine)",
   cat_aqidah: "Aqidah (Ngëm)",
@@ -30,9 +30,23 @@ export default {
   cat_coran: "Alquranul Karim",
   cat_akhlaq: "Akhlaq (Téguine)",
   cat_mouyassar: "Daara Al-Mouyassar",
-  
+
   // Levels
   lvl_beginner: "Ku tambali (Bourgeon)",
   lvl_intermediate: "Diggey (Talibé)",
-  lvl_advanced: "Ku xam bu bax (Hafiz)"
+  lvl_advanced: "Ku xam bu bax (Hafiz)",
+
+  // Results screen
+  result_perfect: "Baax na lool !",
+  result_perfect_msg: "Danga xam xamal, baax na lool !",
+  result_excellent: "Baax na !",
+  result_excellent_msg: "Béggal, mungiy dem baax !",
+  result_good: "Baax na tuuti !",
+  result_good_msg: "Benn tuuti laaj, nga xam sa xam !",
+  result_keep_trying: "Demal...",
+  result_keep_trying_msg: "Njuumte bu nekk, mungi may sa xam-xam. Esseyal ci kaw !",
+  result_xp_earned: "XP Yòbbu",
+  result_streak: "Streak",
+  result_continue_adventure: "Demal ci adventure bi",
+  result_retry: "Esseyal ci kaw"
 };

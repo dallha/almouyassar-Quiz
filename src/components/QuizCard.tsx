@@ -319,7 +319,7 @@ export default function QuizCard({
           {/* ── CATÉGORIE + XP (discret) ── */}
           <div className="px-5 pt-1 flex items-center justify-between">
             <span className="text-[9px] font-medium text-[var(--color-deep-green)]/30 uppercase tracking-widest font-mono">
-              {question.categorie} · {question.niveau}
+              {t(`quiz.cat_${question.categorie.toLowerCase().replace(/[^a-z]/g, '_')}`, question.categorie)} · {t(`quiz.lvl_${question.niveau.toLowerCase().replace(/[^a-z]/g, '_')}`, question.niveau)}
             </span>
             <div className="flex items-center gap-1 text-[10px] font-bold text-[var(--color-gold)]/60">
               <Star className="w-3 h-3" />
@@ -530,6 +530,7 @@ export function ResultsScreen({
   onRetry,
   onContinue,
 }: ResultsScreenProps) {
+  const { t } = useLanguage();
   const percentage = Math.round((score / totalQuestions) * 100);
   const isPerfect = score === totalQuestions;
   const isGood = percentage >= 70;
@@ -537,31 +538,31 @@ export function ResultsScreen({
   let grade: { label: string; emoji: string; color: string; message: string };
   if (isPerfect) {
     grade = {
-      label: 'Parfait !',
+      label: t('quiz.result_perfect', 'Parfait !'),
       emoji: '🏆',
       color: 'from-amber-400 to-yellow-500',
-      message: 'Tu es un véritable expert ! Une maîtrise totale impressionnante.',
+      message: t('quiz.result_perfect_msg', "Tu es un véritable expert ! Une maîtrise totale impressionnante."),
     };
   } else if (isGood) {
     grade = {
-      label: 'Excellent !',
+      label: t('quiz.result_excellent', 'Excellent !'),
       emoji: '🌟',
       color: 'from-emerald-400 to-teal-500',
-      message: 'Continue comme ça, tu progresses à grands pas !',
+      message: t('quiz.result_excellent_msg', "Continue comme ça, tu progresses à grands pas !"),
     };
   } else if (percentage >= 50) {
     grade = {
-      label: 'Pas mal !',
+      label: t('quiz.result_good', 'Pas mal !'),
       emoji: '💪',
       color: 'from-blue-400 to-indigo-500',
-      message: "Encore un peu d'effort et tu seras au top !",
+      message: t('quiz.result_good_msg', "Encore un peu d'effort et tu seras au top !"),
     };
   } else {
     grade = {
-      label: 'Continue...',
+      label: t('quiz.result_keep_trying', 'Continue...'),
       emoji: '📚',
       color: 'from-gray-400 to-slate-500',
-      message: "Chaque erreur est une chance d'apprendre. Réessaie !",
+      message: t('quiz.result_keep_trying_msg', "Chaque erreur est une chance d'apprendre. Réessaie !"),
     };
   }
 
@@ -637,7 +638,7 @@ export function ResultsScreen({
         {/* Stats */}
         <div className="grid grid-cols-2 gap-3 mb-6">
           <div className="bg-gray-50 rounded-xl p-3 text-center">
-            <p className="text-xs text-gray-400 mb-0.5">XP Gagné</p>
+            <p className="text-xs text-gray-400 mb-0.5">{t('quiz.result_xp_earned', 'XP Gagné')}</p>
             <motion.p
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -648,7 +649,7 @@ export function ResultsScreen({
             </motion.p>
           </div>
           <div className="bg-gray-50 rounded-xl p-3 text-center">
-            <p className="text-xs text-gray-400 mb-0.5">Streak</p>
+            <p className="text-xs text-gray-400 mb-0.5">{t('quiz.result_streak', 'Streak')}</p>
             <p className="text-lg font-bold text-emerald-600">{streak} 🔥</p>
           </div>
         </div>
@@ -662,7 +663,7 @@ export function ResultsScreen({
             className="w-full py-3.5 rounded-xl font-bold text-white bg-gradient-to-r from-emerald-500 to-emerald-600 shadow-lg shadow-emerald-200/50 hover:shadow-emerald-300/50 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
           >
             <Trophy className="w-5 h-5" />
-            Continuer l'aventure
+            {t('quiz.result_continue_adventure', "Continuer l'aventure")}
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.02 }}
@@ -671,7 +672,7 @@ export function ResultsScreen({
             className="w-full py-3 rounded-xl font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
           >
             <RotateCcw className="w-4 h-4" />
-            Recommencer
+            {t('quiz.result_retry', 'Recommencer')}
           </motion.button>
         </div>
       </div>

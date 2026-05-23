@@ -22,7 +22,7 @@ export default {
   select_all: "Tout cocher",
   activate_timer: "Activer le Chronomètre",
   timer_desc: "Limite le temps de réflexion pour pimenter le défi",
-  
+
   // Categories names
   cat_fiqh: "Fiqh (Jurisprudence)",
   cat_aqidah: "Aqidah (Croyance)",
@@ -30,9 +30,23 @@ export default {
   cat_coran: "Saint Coran",
   cat_akhlaq: "Akhlaq (Comportement)",
   cat_mouyassar: "Institut Al-Mouyassar",
-  
+
   // Levels
   lvl_beginner: "Débutant",
   lvl_intermediate: "Intermédiaire",
-  lvl_advanced: "Avancé"
+  lvl_advanced: "Avancé",
+
+  // Results screen
+  result_perfect: "Parfait !",
+  result_perfect_msg: "Tu es un véritable expert ! Une maîtrise totale impressionnante.",
+  result_excellent: "Excellent !",
+  result_excellent_msg: "Continue comme ça, tu progresses à grands pas !",
+  result_good: "Pas mal !",
+  result_good_msg: "Encore un peu d'effort et tu seras au top !",
+  result_keep_trying: "Continue...",
+  result_keep_trying_msg: "Chaque erreur est une chance d'apprendre. Réessaie !",
+  result_xp_earned: "XP Gagné",
+  result_streak: "Streak",
+  result_continue_adventure: "Continuer l'aventure",
+  result_retry: "Recommencer"
 };

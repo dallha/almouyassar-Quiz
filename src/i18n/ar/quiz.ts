@@ -22,7 +22,7 @@ export default {
   select_all: "تحديد الكل",
   activate_timer: "تفعيل الميقاتي",
   timer_desc: "تحديد وقت التفكير لإضافة الحماس للتحدي",
-  
+
   // Categories names
   cat_fiqh: "الفقه (علم الأحكام)",
   cat_aqidah: "العقيدة (أصول الدين)",
@@ -30,9 +30,23 @@ export default {
   cat_coran: "القرآن الكريم",
   cat_akhlaq: "الأخلاق (الآداب الإسلامية)",
   cat_mouyassar: "معهد الميسر للقرآن الكريم",
-  
+
   // Levels
   lvl_beginner: "مبتدئ (براعم)",
   lvl_intermediate: "متوسط (مخلص)",
-  lvl_advanced: "متقدم (حافظ)"
+  lvl_advanced: "متقدم (حافظ)",
+
+  // Results screen
+  result_perfect: "ممتاز !",
+  result_perfect_msg: "أنت خبير حقيقي ! إتقان تام مذهل.",
+  result_excellent: "رائع !",
+  result_excellent_msg: "واصل هكذا، أنت تتقدم بخطوات واسعة !",
+  result_good: "ليس سيئاً !",
+  result_good_msg: "القليل من الجهد وستكون في القمة !",
+  result_keep_trying: "تابع...",
+  result_keep_trying_msg: "كل خطأ هو فرصة للتعلم. حاول مرة أخرى !",
+  result_xp_earned: "النقاط المكتسبة",
+  result_streak: "السلسلة",
+  result_continue_adventure: "واصل المغامرة",
+  result_retry: "أعد المحاولة"
 };
