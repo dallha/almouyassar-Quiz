@@ -10,7 +10,7 @@ import {
   ChevronRight, AlertTriangle, Users, BookOpenCheck, Flame, Medal, Check, X, Sparkles, Search, LogOut
 } from 'lucide-react';
 
-import { Question, UserStats, QuizSession, Badge, DailyQuest, getLocalizedQuestion } from './types';
+import { Question, UserStats, QuizSession, Badge, DailyQuest, getLocalizedQuestion, AdventureState } from './types';
 import { QUESTIONS, BADGES } from './data';
 import Header from './components/Header';
 import QuizCard from './components/QuizCard';
@@ -38,6 +38,7 @@ import LevelUpCelebration from './components/ui/LevelUpCelebration';
 const LOCAL_STORAGE_STATS_KEY = 'mouyassar_quiz_stats_v1';
 const LOCAL_STORAGE_CAT_KEY = 'mouyassar_quiz_cat_v1';
 const LOCAL_STORAGE_MUTE_KEY = 'mouyassar_quiz_mute';
+const LOCAL_STORAGE_ADVENTURE_KEY = 'mouyassar_adventure_state_v1';
 
 function SparkleConfetti() {
   const particles = Array.from({ length: 32 });
@@ -171,6 +172,31 @@ export default function App() {
   const [isOustazBlocked, setIsOustazBlocked] = useState(() => {
     return localStorage.getItem('mouyassar_oustaz_blocked') === 'true';
   });
+
+  const [adventureState, setAdventureState] = useState<AdventureState>(() => {
+    const saved = localStorage.getItem(LOCAL_STORAGE_ADVENTURE_KEY);
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        // Fallback
+      }
+    }
+    return {
+      unlockedZones: ['zone-1'],
+      completedNodes: [],
+      currentNodeId: 'node-1-1',
+      starsEarned: 0,
+      collectedCards: [],
+      unlockedTitles: [],
+      stamina: 100,
+      lastStaminaUpdate: new Date().toISOString()
+    };
+  });
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_ADVENTURE_KEY, JSON.stringify(adventureState));
+  }, [adventureState]);
 
   // --- Supabase Auth and Sync States ---
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -1219,6 +1245,17 @@ export default function App() {
         dailyRewardAvailable={dailyRewardsState.some(r => !r.claimed && r.day === dailyRewardDay)}
         onDailyRewardClick={() => setShowDailyReward(true)}
         onBadgeGalleryClick={() => setShowBadgeGallery(true)}
+        onNavigate={(action) => {
+          if (action === 'adventure') setActiveTab('adventure');
+          else if (action === 'quiz') setActiveTab('quiz');
+          else if (action === 'revisions') setActiveTab('stats');
+          else if (action === 'trophies') setShowBadgeGallery(true);
+          else if (action === 'parental') setActiveTab('parental');
+          else if (action === 'settings') setActiveTab('stats');
+          else if (action === 'about') setShowSchoolModal(true);
+          else if (action === 'support') window.location.href = 'mailto:support@almouyassar.com';
+          else if (action === 'install') alert("Utilisez l'option d'installation de votre navigateur pour installer l'application.");
+        }}
       />
 
       {/* Smart Install Prompt — contextuel, badge flottant après 3 interactions */}
@@ -1574,17 +1611,20 @@ export default function App() {
 
                     {activeTab === 'adventure' && (
                       <AdventureMode
-                        stats={stats}
-                        onUpdateStats={setStats}
-                        onBadgeUnlocked={(badge) => {
-                          const id = badge.id;
-                          if (!stats.unlockedBadgeIds.includes(id)) {
+                        adventureState={adventureState}
+                        onUpdateState={setAdventureState}
+                        onRewardUnlocked={(xp, title) => {
+                          if (xp > 0) {
                             setStats(prev => ({
                               ...prev,
-                              unlockedBadgeIds: [...prev.unlockedBadgeIds, id]
+                              xp: prev.xp + xp,
                             }));
-                            setLatestSessionBadges([badge]);
-                            setShowSessionBadgeBanner(true);
+                          }
+                          if (title && !adventureState.unlockedTitles.includes(title)) {
+                            setAdventureState(prev => ({
+                              ...prev,
+                              unlockedTitles: [...prev.unlockedTitles, title]
+                            }));
                           }
                         }}
                       />

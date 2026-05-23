@@ -400,3 +400,30 @@
 .stagger-children>*:nth-child(8) {
     animation-delay: 560ms;
 }
+
+/* ── Custom Premium Adventure Animations ── */
+
+@keyframes pulse-slow {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.85;
+        transform: scale(0.96);
+    }
+}
+
+.animate-pulse-slow {
+    animation: pulse-slow 3s ease-in-out infinite;
+}
+
+@keyframes shake-micro {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-2px); }
+    40%, 80% { transform: translateX(2px); }
+}
+
+.animate-shake-micro {
+    animation: shake-micro 0.35s cubic-bezier(.36,.07,.19,.97) both;
+}

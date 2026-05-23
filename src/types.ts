@@ -125,38 +125,66 @@ export interface DailyQuest {
   type: 'quiz_questions' | 'oustaz_chat' | 'karaoke_vocal' | 'adventure_node' | 'quiz_session_accuracy' | 'perfect_session' | 'streak_maintain';
 }
 
-/* ── Système d'Aventure ── */
+/* ── Système d'Aventure (Refonte Journey) ── */
 
-export type ChapterStatus = 'locked' | 'available' | 'in_progress' | 'completed' | 'mastered';
+export type AdventureNodeStatus = 'locked' | 'available' | 'completed';
 
-export interface Chapter {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-  category: string;
-  order: number;
-  requiredXp: number;
-  requiredChapters: string[]; // IDs des chapitres requis
-  status: ChapterStatus;
-  nodes: ChapterNode[];
-  totalNodes: number;
-  completedNodes: number;
-  xpReward: number;
-  badgeReward?: string; // Badge ID
-  isBoss?: boolean;
+export interface StoryDialogue {
+  character: 'oustaz' | 'guide' | 'narrator';
+  text: string;
+  expression?: 'neutral' | 'smile' | 'thoughtful' | 'happy';
 }
 
-export interface ChapterNode {
-  id: string;
-  title: string;
+export interface EmotionalReward {
+  type: 'title' | 'badge' | 'card' | 'animation' | 'zone_unlock';
+  name: string;
   description: string;
-  type: 'lesson' | 'quiz' | 'challenge' | 'boss' | 'reward';
-  status: ChapterStatus;
+  icon: string;
+  color?: string;
+}
+
+export interface AdventureNode {
+  id: string;
+  zoneId: string;
+  title: string;
+  type: 'quiz' | 'boss' | 'story' | 'checkpoint';
+  status: AdventureNodeStatus;
+  description?: string;
+  
+  // Gameplay
+  questionIds?: number[]; // IDs des questions associées
+  categoryFilter?: string; // S'il faut piocher au hasard dans une catégorie
+  requiredAccuracy?: number; // 0-100%
+  timeLimit?: number; // en secondes
+  
+  // Narration
+  preDialogue?: StoryDialogue[];
+  postDialogue?: StoryDialogue[];
+  
+  // Rewards
   xpReward: number;
-  questions?: Question[];
-  requiredAccuracy?: number; // Pour débloquer (ex: 80%)
-  isOptional?: boolean;
+  emotionalReward?: EmotionalReward;
+}
+
+export interface AdventureZone {
+  id: string;
+  title: string;          // ex: "Vallée de la Pureté"
+  description: string;
+  theme: 'mecca' | 'medina' | 'desert' | 'andalus' | 'aqsa';
+  order: number;
+  nodes: AdventureNode[];
+  isLocked: boolean;
+}
+
+export interface AdventureState {
+  unlockedZones: string[];
+  completedNodes: string[];
+  currentNodeId: string | null;
+  starsEarned: number;
+  collectedCards: string[];
+  unlockedTitles: string[];
+  stamina: number;        // Énergie douce (bonus)
+  lastStaminaUpdate: string | null;
 }
 
 /* ── Système de Révision Intelligente ── */
