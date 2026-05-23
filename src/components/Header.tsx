@@ -1,13 +1,22 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, ChevronRight, Flame, Sparkles, User } from 'lucide-react';
+import { Menu, X, ChevronRight, Flame, Sparkles, User, Gift, Award } from 'lucide-react';
+import StreakDisplay from './ui/StreakDisplay';
+import { DailyRewardBadge } from './ui/DailyReward';
+import { BadgeCollectionBadge } from './ui/BadgeGallery';
 
 interface HeaderProps {
   level?: number;
   xp?: number;
   xpToNextLevel?: number;
   streak?: number;
+  highestStreak?: number;
   username?: string;
+  unlockedBadgeCount?: number;
+  totalBadgeCount?: number;
+  dailyRewardAvailable?: boolean;
+  onDailyRewardClick?: () => void;
+  onBadgeGalleryClick?: () => void;
   onMenuToggle?: (isOpen: boolean) => void;
 }
 
@@ -16,7 +25,13 @@ export default function Header({
   xp = 0,
   xpToNextLevel = 100,
   streak = 0,
+  highestStreak = 0,
   username = 'Explorateur',
+  unlockedBadgeCount = 0,
+  totalBadgeCount = 18,
+  dailyRewardAvailable = false,
+  onDailyRewardClick,
+  onBadgeGalleryClick,
   onMenuToggle,
 }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -49,8 +64,8 @@ export default function Header({
         {/* Barre du header */}
         <div
           className={`relative h-full flex items-center justify-between transition-all duration-300 ${isScrolled
-              ? 'bg-[var(--color-ivory)]/90 shadow-[var(--shadow-soft)]'
-              : 'bg-transparent'
+            ? 'bg-[var(--color-ivory)]/90 shadow-[var(--shadow-soft)]'
+            : 'bg-transparent'
             }`}
           style={{
             backdropFilter: isScrolled ? 'blur(16px)' : 'none',
@@ -123,14 +138,26 @@ export default function Header({
           </div>
 
           {/* Actions droite */}
-          <div className="flex items-center gap-2">
-            {/* XP badge (mobile) */}
-            <div className="sm:hidden flex items-center gap-1 px-2 py-1 rounded-full bg-[var(--color-deep-green)]/5">
-              <Sparkles size={12} className="text-[var(--color-gold)]" />
-              <span className="text-[11px] font-semibold text-[var(--color-deep-green)]/70">
-                {xp}/{xpToNextLevel}
-              </span>
-            </div>
+          <div className="flex items-center gap-1.5">
+            {/* Streak Display (compact) */}
+            <StreakDisplay
+              streak={streak}
+              highestStreak={highestStreak}
+              size="sm"
+            />
+
+            {/* Daily Reward Badge */}
+            <DailyRewardBadge
+              canClaim={dailyRewardAvailable}
+              onClick={() => onDailyRewardClick?.()}
+            />
+
+            {/* Badge Collection */}
+            <BadgeCollectionBadge
+              unlockedCount={unlockedBadgeCount}
+              totalCount={totalBadgeCount}
+              onClick={() => onBadgeGalleryClick?.()}
+            />
 
             {/* Avatar */}
             <button

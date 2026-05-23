@@ -30,6 +30,9 @@ import ParentalDashboard from './components/ParentalDashboard';
 import MobileInstallPrompt from './components/MobileInstallPrompt';
 import GlobalSearch from './components/GlobalSearch';
 import QuizRecommender from './components/QuizRecommender';
+import DailyReward, { DAILY_REWARDS, DailyRewardData } from './components/ui/DailyReward';
+import BadgeGallery, { PREDEFINED_BADGES, BadgeData } from './components/ui/BadgeGallery';
+import LevelUpCelebration from './components/ui/LevelUpCelebration';
 
 const LOCAL_STORAGE_STATS_KEY = 'mouyassar_quiz_stats_v1';
 const LOCAL_STORAGE_CAT_KEY = 'mouyassar_quiz_cat_v1';
@@ -444,6 +447,60 @@ export default function App() {
   const [showSchoolModal, setShowSchoolModal] = useState(false);
   const [isQuizActive, setIsQuizActive] = useState(false);
   const [quitConfirmModal, setQuitConfirmModal] = useState(false);
+
+  // --- Premium UI States ---
+  const [showDailyReward, setShowDailyReward] = useState(false);
+  const [showBadgeGallery, setShowBadgeGallery] = useState(false);
+  const [showLevelUp, setShowLevelUp] = useState(false);
+  const [pendingLevelUp, setPendingLevelUp] = useState<{ level: number; xpEarned: number } | null>(null);
+  const [dailyRewardsState, setDailyRewardsState] = useState<DailyRewardData[]>(() => {
+    const saved = localStorage.getItem('mouyassar_daily_rewards');
+    if (saved) {
+      try { return JSON.parse(saved); } catch { }
+    }
+    return DAILY_REWARDS.map(r => ({ ...r }));
+  });
+  const [badgesState, setBadgesState] = useState<BadgeData[]>(() => {
+    const saved = localStorage.getItem('mouyassar_badges_state');
+    if (saved) {
+      try { return JSON.parse(saved); } catch { }
+    }
+    return PREDEFINED_BADGES.map(b => ({ ...b }));
+  });
+  const [dailyRewardDay, setDailyRewardDay] = useState(() => {
+    const saved = localStorage.getItem('mouyassar_daily_reward_day');
+    const savedDate = localStorage.getItem('mouyassar_daily_reward_date');
+    const today = new Date().toISOString().split('T')[0];
+    if (savedDate === today && saved) return parseInt(saved);
+    return 1;
+  });
+
+  // Persist daily rewards & badges
+  useEffect(() => {
+    localStorage.setItem('mouyassar_daily_rewards', JSON.stringify(dailyRewardsState));
+  }, [dailyRewardsState]);
+  useEffect(() => {
+    localStorage.setItem('mouyassar_badges_state', JSON.stringify(badgesState));
+  }, [badgesState]);
+  useEffect(() => {
+    localStorage.setItem('mouyassar_daily_reward_day', String(dailyRewardDay));
+    localStorage.setItem('mouyassar_daily_reward_date', new Date().toISOString().split('T')[0]);
+  }, [dailyRewardDay]);
+
+  const handleClaimDailyReward = (day: number) => {
+    setDailyRewardsState(prev =>
+      prev.map(r => r.day === day ? { ...r, claimed: true } : r)
+    );
+    const reward = dailyRewardsState.find(r => r.day === day);
+    if (reward?.reward.type === 'xp') {
+      setStats(prev => ({ ...prev, xp: prev.xp + (reward.reward.value as number) }));
+    }
+    setDailyRewardDay(prev => Math.min(prev + 1, 7));
+  };
+
+  const handleBadgeClick = (badge: BadgeData) => {
+    // Could trigger level-up or special animation
+  };
 
   // --- Loading & Animation States ---
   const [isInitializing, setIsInitializing] = useState(true);
@@ -1154,7 +1211,13 @@ export default function App() {
         xp={stats.xp}
         xpToNextLevel={200}
         streak={stats.streak}
+        highestStreak={stats.highestStreak}
         username="Explorateur"
+        unlockedBadgeCount={badgesState.filter(b => b.unlocked).length}
+        totalBadgeCount={badgesState.length}
+        dailyRewardAvailable={dailyRewardsState.some(r => !r.claimed && r.day === dailyRewardDay)}
+        onDailyRewardClick={() => setShowDailyReward(true)}
+        onBadgeGalleryClick={() => setShowBadgeGallery(true)}
       />
 
       {/* Mobile Progressive Web App Native Installer Prompt */}
@@ -2083,6 +2146,36 @@ export default function App() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* PREMIUM MODALS */}
+
+      {/* Daily Reward Modal */}
+      <DailyReward
+        rewards={dailyRewardsState}
+        currentDay={dailyRewardDay}
+        onClaim={handleClaimDailyReward}
+        isOpen={showDailyReward}
+        onClose={() => setShowDailyReward(false)}
+      />
+
+      {/* Badge Gallery Modal */}
+      <BadgeGallery
+        badges={badgesState}
+        isOpen={showBadgeGallery}
+        onClose={() => setShowBadgeGallery(false)}
+        onBadgeClick={handleBadgeClick}
+      />
+
+      {/* Level Up Celebration Modal */}
+      <LevelUpCelebration
+        isOpen={showLevelUp}
+        level={pendingLevelUp?.level ?? 1}
+        xpEarned={pendingLevelUp?.xpEarned ?? 0}
+        onClose={() => {
+          setShowLevelUp(false);
+          setPendingLevelUp(null);
+        }}
+      />
 
       {/* AUTH MODAL SYSTEM (SUPABASE) */}
       <AnimatePresence>
