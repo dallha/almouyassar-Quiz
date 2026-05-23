@@ -112,6 +112,8 @@ export default function AdventureMode({ adventureState, onUpdateState, onRewardU
             dialogues={selectedNode.preDialogue} 
             onComplete={handlePreDialogueComplete} 
             isCheckpoint={selectedNode.type === 'checkpoint'}
+            nodeId={selectedNode.id}
+            type="pre"
           />
         )}
 
@@ -128,6 +130,8 @@ export default function AdventureMode({ adventureState, onUpdateState, onRewardU
             dialogues={selectedNode.postDialogue} 
             onComplete={handlePostDialogueComplete} 
             isCheckpoint={selectedNode.type === 'checkpoint'}
+            nodeId={selectedNode.id}
+            type="post"
           />
         )}
       </AnimatePresence>

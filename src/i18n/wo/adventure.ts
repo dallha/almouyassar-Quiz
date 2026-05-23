@@ -97,5 +97,24 @@ export default {
       title: "Turi Yalla yi (Partie 1)",
       desc: "Wone sa xam-xam ci turi Yalla yu rafet yi."
     }
+  },
+
+  // Dialogue lines matching character role and indexes
+  dialogues: {
+    node_1_1: {
+      pre_0: "Dalal jamm, yow tukkat bu ndaw. Yoonu xam-xam dafa xawa sori, waaye jeego bu nekk dafa am barke.",
+      pre_1: "Paré nga ngir xam piliers yi nga xamni gno di yok sa ngëm ?"
+    },
+    node_1_3: {
+      pre_0: "Naanal ci ndoxum baraka bi. Dafa lay sellal sa yaram ak sa xel.",
+      pre_1: "Sa muñ ak sa coono di na la may ndam bu mag ci kanam touti."
+    },
+    node_1_5: {
+      pre_0: "MashaAllah, yok nga sa xam-xam. Waaye Aqidah dafa laaj woor bu wër ak dëg-dëg.",
+      pre_1: "Wone ma ne sa ngëm dëgër na te amul woor !"
+    },
+    node_2_1: {
+      pre_0: "Ndax yangi sentu xet u rafet u jardin bi ? Fleur bu nekk mungi wone baat bu rafet wala zikar."
+    }
   }
 };

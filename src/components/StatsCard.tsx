@@ -11,6 +11,8 @@ import {
 import { UserStats, Badge } from '../types';
 import { BADGES } from '../data';
 
+import { useLanguage } from '../LanguageContext';
+
 interface StatsCardProps {
   stats: UserStats;
 }
@@ -42,6 +44,7 @@ const getBadgeIcon = (iconName: string, className: string) => {
 };
 
 export default function StatsCard({ stats }: StatsCardProps) {
+  const { t, dir } = useLanguage();
   const accuracy = stats.totalAnswered > 0 
     ? Math.round((stats.correctAnswersCount / stats.totalAnswered) * 100) 
     : 0;
@@ -53,50 +56,50 @@ export default function StatsCard({ stats }: StatsCardProps) {
         {/* Metric Card: XP */}
         <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 text-slate-100 flex flex-col justify-between shadow-md">
           <div className="flex items-center justify-between text-slate-500 mb-2">
-            <span className="text-xs font-semibold tracking-wide uppercase">Points d'XP</span>
+            <span className="text-xs font-semibold tracking-wide uppercase">{t('badges.xp_points')}</span>
             <Trophy className="w-4 h-4 text-amber-500" />
           </div>
           <div>
             <p className="text-2xl font-black font-mono tracking-tight text-white mb-0.5">{stats.xp}</p>
-            <p className="text-[10px] text-slate-400 font-medium">Accumulés avec savoir</p>
+            <p className="text-[10px] text-slate-400 font-medium">{t('badges.xp_desc')}</p>
           </div>
         </div>
 
         {/* Metric Card: Accuracy */}
         <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 text-slate-100 flex flex-col justify-between shadow-md">
           <div className="flex items-center justify-between text-slate-500 mb-2">
-            <span className="text-xs font-semibold tracking-wide uppercase font-sans">Précision</span>
+            <span className="text-xs font-semibold tracking-wide uppercase font-sans">{t('badges.accuracy')}</span>
             <Percent className="w-4 h-4 text-emerald-400" />
           </div>
           <div>
             <p className="text-2xl font-black font-mono tracking-tight text-white mb-0.5">{accuracy}%</p>
-            <p className="text-[10px] text-slate-400 font-medium">De bonnes réponses</p>
+            <p className="text-[10px] text-slate-400 font-medium">{t('badges.accuracy_desc')}</p>
           </div>
         </div>
 
         {/* Metric Card: Total Answered */}
         <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 text-slate-100 flex flex-col justify-between shadow-md">
           <div className="flex items-center justify-between text-slate-500 mb-2">
-            <span className="text-xs font-semibold tracking-wide uppercase">Questions</span>
+            <span className="text-xs font-semibold tracking-wide uppercase">{t('badges.questions')}</span>
             <CheckCircle2 className="w-4 h-4 text-blue-400" />
           </div>
           <div>
             <p className="text-2xl font-black font-mono tracking-tight text-white mb-0.5">
               {stats.correctAnswersCount} <span className="text-sm font-normal text-slate-500">/ {stats.totalAnswered}</span>
             </p>
-            <p className="text-[10px] text-slate-400 font-medium font-sans">Résolues avec succès</p>
+            <p className="text-[10px] text-slate-400 font-medium font-sans">{t('badges.questions_desc')}</p>
           </div>
         </div>
 
         {/* Metric Card: Highest Streak */}
         <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 text-slate-100 flex flex-col justify-between shadow-md">
           <div className="flex items-center justify-between text-slate-500 mb-2">
-            <span className="text-xs font-semibold tracking-wide uppercase">Série Maximale</span>
+            <span className="text-xs font-semibold tracking-wide uppercase">{t('badges.max_streak')}</span>
             <Flame className="w-4 h-4 text-rose-500" />
           </div>
           <div>
             <p className="text-2xl font-black font-mono tracking-tight text-white mb-0.5">{stats.highestStreak}</p>
-            <p className="text-[10px] text-slate-400 font-medium">Bonnes réponses d'affilée</p>
+            <p className="text-[10px] text-slate-400 font-medium">{t('badges.streak_desc')}</p>
           </div>
         </div>
       </div>
@@ -105,17 +108,18 @@ export default function StatsCard({ stats }: StatsCardProps) {
       <div className="p-5 rounded-xl bg-slate-900 border border-slate-850">
         <div className="flex items-center justify-between mb-4 border-b border-slate-800 pb-3">
           <div>
-            <h3 className="text-base font-bold text-white tracking-tight">Vos Badges Interactifs</h3>
-            <p className="text-[11px] text-slate-400 leading-tight">Relevez les défis pour débloquer de nouveaux titres honorétiques</p>
+            <h3 className="text-base font-bold text-white tracking-tight">{t('badges.interactive_badges')}</h3>
+            <p className="text-[11px] text-slate-400 leading-tight">{t('badges.interactive_badges_desc')}</p>
           </div>
           <span className="text-xs font-bold font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full">
-            {stats.unlockedBadgeIds.length} / {BADGES.length} Débloqués
+            {t('badges.badge_gallery_unlocked').replace('{unlocked}', stats.unlockedBadgeIds.length.toString()).replace('{total}', BADGES.length.toString())}
           </span>
         </div>
 
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3.5">
           {BADGES.map((badge) => {
             const isUnlocked = stats.unlockedBadgeIds.includes(badge.id);
+            const badgeKey = badge.id.replace(/-/g, '_');
 
             return (
               <motion.div
@@ -144,20 +148,20 @@ export default function StatsCard({ stats }: StatsCardProps) {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5">
                     <p className={`text-xs font-bold truncate ${isUnlocked ? 'text-slate-100' : 'text-slate-500'}`}>
-                      {badge.title}
+                      {t(`badges.badges_list.${badgeKey}_title`, badge.title)}
                     </p>
                   </div>
                   <p className="text-[10px] text-slate-450 mt-1 leading-normal">
-                    {badge.description}
+                    {t(`badges.badges_list.${badgeKey}_desc`, badge.description)}
                   </p>
                   
                   {/* Lock progress representation helper */}
                   {!isUnlocked && (
                     <div className="text-[9px] text-slate-500 font-semibold font-mono mt-1.5 uppercase tracking-wide">
-                      {badge.requirementType === 'xp' && `Nécessite: ${badge.requirementValue} XP`}
-                      {badge.requirementType === 'streak' && `Nécessite série: ${badge.requirementValue}`}
-                      {badge.requirementType === 'category' && `${badge.requirementValue} bonnes rép. de ${badge.requirementDetail}`}
-                      {badge.requirementType === 'completed_quizzes' && `Nécessite: ${badge.requirementValue} quiz complétés (Actuel: ${stats.completedQuizzesCount || 0})`}
+                      {badge.requirementType === 'xp' && t('badges.req_xp').replace('{value}', badge.requirementValue.toString())}
+                      {badge.requirementType === 'streak' && t('badges.req_streak').replace('{value}', badge.requirementValue.toString())}
+                      {badge.requirementType === 'category' && t('badges.req_category').replace('{value}', badge.requirementValue.toString()).replace('{category}', badge.requirementDetail || '')}
+                      {badge.requirementType === 'completed_quizzes' && t('badges.req_completed_quizzes').replace('{value}', badge.requirementValue.toString()).replace('{current}', (stats.completedQuizzesCount || 0).toString())}
                     </div>
                   )}
                 </div>

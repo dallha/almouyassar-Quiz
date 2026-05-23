@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Lock, Sparkles, Shield, Award, Star, Trophy, BookOpen, Heart, Moon, Sun, Feather, Compass } from 'lucide-react';
+import { X, Lock, Award, Star } from 'lucide-react';
+import { useLanguage } from '../../LanguageContext';
 
 /* ── TYPES ── */
 export type BadgeRarity = 'common' | 'rare' | 'epic' | 'legendary';
@@ -26,7 +27,8 @@ interface BadgeGalleryProps {
 
 /* ── RARETÉ ── */
 const RARITY_CONFIG: Record<BadgeRarity, {
-    label: string;
+    labelKey: string;
+    fallbackLabel: string;
     color: string;
     bg: string;
     border: string;
@@ -34,7 +36,8 @@ const RARITY_CONFIG: Record<BadgeRarity, {
     textColor: string;
 }> = {
     common: {
-        label: 'Commun',
+        labelKey: 'badges.rarity_common',
+        fallbackLabel: 'Commun',
         color: 'text-gray-500',
         bg: 'bg-gray-50',
         border: 'border-gray-200',
@@ -42,7 +45,8 @@ const RARITY_CONFIG: Record<BadgeRarity, {
         textColor: 'text-gray-600',
     },
     rare: {
-        label: 'Rare',
+        labelKey: 'badges.rarity_rare',
+        fallbackLabel: 'Rare',
         color: 'text-emerald-500',
         bg: 'bg-emerald-50',
         border: 'border-emerald-200',
@@ -50,7 +54,8 @@ const RARITY_CONFIG: Record<BadgeRarity, {
         textColor: 'text-emerald-700',
     },
     epic: {
-        label: 'Épique',
+        labelKey: 'badges.rarity_epic',
+        fallbackLabel: 'Épique',
         color: 'text-purple-500',
         bg: 'bg-purple-50',
         border: 'border-purple-200',
@@ -58,7 +63,8 @@ const RARITY_CONFIG: Record<BadgeRarity, {
         textColor: 'text-purple-700',
     },
     legendary: {
-        label: 'Légendaire',
+        labelKey: 'badges.rarity_legendary',
+        fallbackLabel: 'Légendaire',
         color: 'text-[#C8A44D]',
         bg: 'bg-amber-50',
         border: 'border-[#C8A44D]/30',
@@ -67,34 +73,6 @@ const RARITY_CONFIG: Record<BadgeRarity, {
     },
 };
 
-/* ── BADGES PRÉDÉFINIS ── */
-export const PREDEFINED_BADGES: BadgeData[] = [
-    // ── Common ──
-    { id: 'first-quiz', name: 'Premier Pas', description: 'Tu as complété ton premier quiz', icon: '🌱', rarity: 'common', unlocked: false, category: 'Découverte', requirement: 'Complète 1 quiz' },
-    { id: 'streak-3', name: 'Étincelle', description: '3 jours d\'apprentissage consécutifs', icon: '🔥', rarity: 'common', unlocked: false, category: 'Régularité', requirement: '3 jours de streak' },
-    { id: 'streak-7', name: 'Gardien de la Semaine', description: 'Une semaine complète d\'apprentissage', icon: '⚡', rarity: 'common', unlocked: false, category: 'Régularité', requirement: '7 jours de streak' },
-    { id: 'five-quizzes', name: 'Apprenti', description: '5 quiz complétés', icon: '📚', rarity: 'common', unlocked: false, category: 'Découverte', requirement: '5 quiz complétés' },
-
-    // ── Rare ──
-    { id: 'streak-14', name: 'Détermination', description: '14 jours d\'apprentissage sans interruption', icon: '💫', rarity: 'rare', unlocked: false, category: 'Régularité', requirement: '14 jours de streak' },
-    { id: 'perfect-score', name: 'Perfection', description: 'Un quiz avec 100% de bonnes réponses', icon: '🎯', rarity: 'rare', unlocked: false, category: 'Excellence', requirement: 'Score parfait à un quiz' },
-    { id: 'category-master', name: 'Explorateur', description: 'Maîtrise une catégorie au niveau Avancé', icon: '🗺️', rarity: 'rare', unlocked: false, category: 'Maîtrise', requirement: 'Niveau Avancé dans une catégorie' },
-    { id: 'twenty-quizzes', name: 'Savant en Herbe', description: '20 quiz complétés', icon: '🎓', rarity: 'rare', unlocked: false, category: 'Découverte', requirement: '20 quiz complétés' },
-    { id: 'oustaz-chat', name: 'Compagnon de Oustaz', description: 'Tu as échangé avec Oustaz AI', icon: '🤖', rarity: 'rare', unlocked: false, category: 'Interaction', requirement: 'Parle avec Oustaz AI' },
-
-    // ── Epic ──
-    { id: 'streak-30', name: 'Légende Vivante', description: '30 jours d\'apprentissage sans interruption', icon: '👑', rarity: 'epic', unlocked: false, category: 'Régularité', requirement: '30 jours de streak' },
-    { id: 'all-categories', name: 'Encyclopédie Vivante', description: 'Atteins le niveau Intermédiaire dans toutes les catégories', icon: '📖', rarity: 'epic', unlocked: false, category: 'Maîtrise', requirement: 'Intermédiaire partout' },
-    { id: 'fifty-quizzes', name: 'Chercheur de Vérité', description: '50 quiz complétés', icon: '🔍', rarity: 'epic', unlocked: false, category: 'Découverte', requirement: '50 quiz complétés' },
-    { id: 'speed-demon', name: 'Éclair de Sagesse', description: 'Réponds correctement en moins de 5 secondes', icon: '⚡', rarity: 'epic', unlocked: false, category: 'Excellence', requirement: 'Réponse rapide correcte' },
-
-    // ── Legendary ──
-    { id: 'streak-100', name: 'Héritier de la Science', description: '100 jours d\'apprentissage sans interruption', icon: '🏆', rarity: 'legendary', unlocked: false, category: 'Régularité', requirement: '100 jours de streak' },
-    { id: 'master-all', name: 'Hafiz de la Connaissance', description: 'Atteins le niveau Hafiz dans toutes les catégories', icon: '🌟', rarity: 'legendary', unlocked: false, category: 'Maîtrise', requirement: 'Hafiz partout' },
-    { id: 'hundred-quizzes', name: 'Puits de Science', description: '100 quiz complétés', icon: '💎', rarity: 'legendary', unlocked: false, category: 'Découverte', requirement: '100 quiz complétés' },
-    { id: 'perfect-week', name: 'Semaine Parfaite', description: '7 jours avec un score parfait chaque jour', icon: '🌙', rarity: 'legendary', unlocked: false, category: 'Excellence', requirement: '7 jours parfaits' },
-];
-
 /* ── COMPOSANT ── */
 export default function BadgeGallery({
     badges,
@@ -102,6 +80,7 @@ export default function BadgeGallery({
     onClose,
     onBadgeClick,
 }: BadgeGalleryProps) {
+    const { t, dir } = useLanguage();
     const [selectedRarity, setSelectedRarity] = useState<BadgeRarity | 'all'>('all');
     const [selectedBadge, setSelectedBadge] = useState<BadgeData | null>(null);
 
@@ -131,15 +110,16 @@ export default function BadgeGallery({
                         transition={{ type: 'spring', stiffness: 200, damping: 25 }}
                         onClick={e => e.stopPropagation()}
                         className="relative w-full max-w-lg max-h-[85vh] bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/40 overflow-hidden flex flex-col"
+                        dir={dir}
                     >
                         {/* Glow */}
-                        <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#C8A44D]/10 rounded-full blur-3xl pointer-events-none" />
-                        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+                        <div className={`absolute -top-40 ${dir === 'rtl' ? '-left-40' : '-right-40'} w-80 h-80 bg-[#C8A44D]/10 rounded-full blur-3xl pointer-events-none`} />
+                        <div className={`absolute -bottom-40 ${dir === 'rtl' ? '-right-40' : '-left-40'} w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none`} />
 
                         {/* Close */}
                         <button
                             onClick={onClose}
-                            className="absolute top-3 right-3 p-1.5 rounded-full bg-gray-100 text-gray-400 hover:bg-gray-200 transition-colors z-10"
+                            className={`absolute top-3 ${dir === 'rtl' ? 'left-3' : 'right-3'} p-1.5 rounded-full bg-gray-100 text-gray-400 hover:bg-gray-200 transition-colors z-10 cursor-pointer`}
                         >
                             <X className="w-4 h-4" />
                         </button>
@@ -151,9 +131,9 @@ export default function BadgeGallery({
                                     <Award className="w-5 h-5 text-white" />
                                 </div>
                                 <div>
-                                    <h2 className="text-lg font-bold text-[#0D4D43]">Collection de Badges</h2>
+                                    <h2 className="text-lg font-bold text-[#0D4D43]">{t('badges.badge_gallery_title')}</h2>
                                     <p className="text-xs text-gray-500">
-                                        {unlockedCount}/{totalCount} débloqués
+                                        {t('badges.badge_gallery_unlocked').replace('{unlocked}', String(unlockedCount)).replace('{total}', String(totalCount))}
                                     </p>
                                 </div>
                             </div>
@@ -171,23 +151,28 @@ export default function BadgeGallery({
 
                         {/* Rarity filter */}
                         <div className="px-6 pb-3 flex gap-1.5 overflow-x-auto scrollbar-none">
-                            {rarities.map(rarity => (
-                                <button
-                                    key={rarity}
-                                    onClick={() => setSelectedRarity(rarity)}
-                                    className={`
-                    px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all
-                    ${selectedRarity === rarity
-                                            ? rarity === 'all'
-                                                ? 'bg-[#0D4D43] text-white'
-                                                : `${RARITY_CONFIG[rarity as BadgeRarity].bg} ${RARITY_CONFIG[rarity as BadgeRarity].textColor} border ${RARITY_CONFIG[rarity as BadgeRarity].border}`
-                                            : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
-                                        }
-                  `}
-                                >
-                                    {rarity === 'all' ? 'Tous' : RARITY_CONFIG[rarity as BadgeRarity].label}
-                                </button>
-                            ))}
+                            {rarities.map(rarity => {
+                                const active = selectedRarity === rarity;
+                                const config = rarity !== 'all' ? RARITY_CONFIG[rarity] : null;
+
+                                return (
+                                    <button
+                                        key={rarity}
+                                        onClick={() => setSelectedRarity(rarity)}
+                                        className={`
+                                            px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all cursor-pointer
+                                            ${active
+                                                ? rarity === 'all'
+                                                    ? 'bg-[#0D4D43] text-white'
+                                                    : `${config?.bg} ${config?.textColor} border ${config?.border}`
+                                                : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
+                                            }
+                                        `}
+                                    >
+                                        {rarity === 'all' ? t('badges.badge_gallery_all') : t(RARITY_CONFIG[rarity as BadgeRarity].labelKey, RARITY_CONFIG[rarity as BadgeRarity].fallbackLabel)}
+                                    </button>
+                                );
+                            })}
                         </div>
 
                         {/* Badge Grid */}
@@ -195,6 +180,8 @@ export default function BadgeGallery({
                             <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
                                 {filtered.map((badge, index) => {
                                     const config = RARITY_CONFIG[badge.rarity];
+                                    const badgeKey = badge.id.replace(/-/g, '_');
+                                    const localizedName = t('badges.badges_list.' + badgeKey + '_title', badge.name);
 
                                     return (
                                         <motion.button
@@ -209,16 +196,16 @@ export default function BadgeGallery({
                                                 onBadgeClick?.(badge);
                                             }}
                                             className={`
-                        relative flex flex-col items-center justify-center p-3 rounded-xl
-                        transition-all duration-200
-                        ${badge.unlocked
+                                                relative flex flex-col items-center justify-center p-3 rounded-xl
+                                                transition-all duration-200 cursor-pointer
+                                                ${badge.unlocked
                                                     ? `${config.bg} border ${config.border} ${config.glow}`
                                                     : 'bg-gray-50 border border-gray-100'
                                                 }
-                      `}
+                                            `}
                                         >
                                             {/* Rarity indicator */}
-                                            <div className={`absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full ${badge.rarity === 'common' ? 'bg-gray-400' :
+                                            <div className={`absolute top-1.5 ${dir === 'rtl' ? 'left-1.5' : 'right-1.5'} w-1.5 h-1.5 rounded-full ${badge.rarity === 'common' ? 'bg-gray-400' :
                                                     badge.rarity === 'rare' ? 'bg-emerald-400' :
                                                         badge.rarity === 'epic' ? 'bg-purple-400' :
                                                             'bg-[#C8A44D]'
@@ -232,7 +219,7 @@ export default function BadgeGallery({
                                             {/* Name */}
                                             <span className={`text-[10px] font-semibold text-center leading-tight ${badge.unlocked ? 'text-[#0D4D43]' : 'text-gray-400'
                                                 }`}>
-                                                {badge.name}
+                                                {localizedName}
                                             </span>
                                         </motion.button>
                                     );
@@ -242,67 +229,75 @@ export default function BadgeGallery({
 
                         {/* Badge Detail Modal */}
                         <AnimatePresence>
-                            {selectedBadge && (
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    className="absolute inset-0 bg-white/98 backdrop-blur-md flex items-center justify-center p-6"
-                                >
+                            {selectedBadge && (() => {
+                                const detailBadgeKey = selectedBadge.id.replace(/-/g, '_');
+                                const detailName = t('badges.badges_list.' + detailBadgeKey + '_title', selectedBadge.name);
+                                const detailDesc = t('badges.badges_list.' + detailBadgeKey + '_desc', selectedBadge.description);
+                                const detailCategory = t('badges.categories.' + selectedBadge.category.toLowerCase(), selectedBadge.category);
+                                const detailRequirement = t('badges.badges_list.' + detailBadgeKey + '_requirement', selectedBadge.requirement);
+
+                                return (
                                     <motion.div
-                                        initial={{ scale: 0.8, opacity: 0 }}
-                                        animate={{ scale: 1, opacity: 1 }}
-                                        exit={{ scale: 0.8, opacity: 0 }}
-                                        className="text-center max-w-xs"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        className="absolute inset-0 bg-white/98 backdrop-blur-md flex items-center justify-center p-6"
                                     >
-                                        {/* Close detail */}
-                                        <button
-                                            onClick={() => setSelectedBadge(null)}
-                                            className="absolute top-3 right-3 p-1.5 rounded-full bg-gray-100 text-gray-400 hover:bg-gray-200 transition-colors"
-                                        >
-                                            <X className="w-4 h-4" />
-                                        </button>
-
-                                        {/* Icon */}
                                         <motion.div
-                                            animate={selectedBadge.unlocked ? {
-                                                rotate: [0, 5, -5, 0],
-                                                scale: [1, 1.1, 1],
-                                            } : {}}
-                                            transition={{ duration: 0.5 }}
-                                            className={`text-6xl mb-4 ${!selectedBadge.unlocked ? 'grayscale opacity-40' : ''}`}
+                                            initial={{ scale: 0.8, opacity: 0 }}
+                                            animate={{ scale: 1, opacity: 1 }}
+                                            exit={{ scale: 0.8, opacity: 0 }}
+                                            className="text-center max-w-xs"
                                         >
-                                            {selectedBadge.unlocked ? selectedBadge.icon : <Lock className="w-12 h-12 text-gray-300 mx-auto" />}
+                                            {/* Close detail */}
+                                            <button
+                                                onClick={() => setSelectedBadge(null)}
+                                                className={`absolute top-3 ${dir === 'rtl' ? 'left-3' : 'right-3'} p-1.5 rounded-full bg-gray-100 text-gray-400 hover:bg-gray-200 transition-colors cursor-pointer`}
+                                            >
+                                                <X className="w-4 h-4" />
+                                            </button>
+
+                                            {/* Icon */}
+                                            <motion.div
+                                                animate={selectedBadge.unlocked ? {
+                                                    rotate: [0, 5, -5, 0],
+                                                    scale: [1, 1.1, 1],
+                                                } : {}}
+                                                transition={{ duration: 0.5 }}
+                                                className={`text-6xl mb-4 ${!selectedBadge.unlocked ? 'grayscale opacity-40' : ''}`}
+                                            >
+                                                {selectedBadge.unlocked ? selectedBadge.icon : <Lock className="w-12 h-12 text-gray-300 mx-auto" />}
+                                            </motion.div>
+
+                                            {/* Rarity */}
+                                            <span className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider mb-2 ${RARITY_CONFIG[selectedBadge.rarity].bg
+                                                } ${RARITY_CONFIG[selectedBadge.rarity].textColor}`}>
+                                                {t(RARITY_CONFIG[selectedBadge.rarity].labelKey, RARITY_CONFIG[selectedBadge.rarity].fallbackLabel)}
+                                            </span>
+
+                                            <h3 className="text-lg font-bold text-[#0D4D43] mb-1">{detailName}</h3>
+                                            <p className="text-sm text-gray-500 mb-3">{detailDesc}</p>
+
+                                            <div className="flex items-center justify-center gap-2 text-xs text-gray-400 mb-4">
+                                                <span className="px-2 py-0.5 bg-gray-100 rounded-md">{detailCategory}</span>
+                                                <span className="px-2 py-0.5 bg-gray-100 rounded-md">{detailRequirement}</span>
+                                            </div>
+
+                                            {selectedBadge.unlocked && selectedBadge.unlockedAt && (
+                                                <p className="text-xs text-emerald-600 font-medium">
+                                                    {t('badges.badge_gallery_unlocked_date').replace('{date}', new Date(selectedBadge.unlockedAt).toLocaleDateString())}
+                                                </p>
+                                            )}
+
+                                            {!selectedBadge.unlocked && (
+                                                <p className="text-xs text-amber-600 font-medium">
+                                                    {t('badges.badge_gallery_locked_desc')}
+                                                </p>
+                                            )}
                                         </motion.div>
-
-                                        {/* Rarity */}
-                                        <span className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider mb-2 ${RARITY_CONFIG[selectedBadge.rarity].bg
-                                            } ${RARITY_CONFIG[selectedBadge.rarity].textColor}`}>
-                                            {RARITY_CONFIG[selectedBadge.rarity].label}
-                                        </span>
-
-                                        <h3 className="text-lg font-bold text-[#0D4D43] mb-1">{selectedBadge.name}</h3>
-                                        <p className="text-sm text-gray-500 mb-3">{selectedBadge.description}</p>
-
-                                        <div className="flex items-center justify-center gap-2 text-xs text-gray-400 mb-4">
-                                            <span className="px-2 py-0.5 bg-gray-100 rounded-md">{selectedBadge.category}</span>
-                                            <span className="px-2 py-0.5 bg-gray-100 rounded-md">{selectedBadge.requirement}</span>
-                                        </div>
-
-                                        {selectedBadge.unlocked && selectedBadge.unlockedAt && (
-                                            <p className="text-xs text-emerald-600 font-medium">
-                                                ✅ Débloqué le {new Date(selectedBadge.unlockedAt).toLocaleDateString('fr-FR')}
-                                            </p>
-                                        )}
-
-                                        {!selectedBadge.unlocked && (
-                                            <p className="text-xs text-amber-600 font-medium">
-                                                🔒 Continue ton apprentissage pour débloquer ce badge
-                                            </p>
-                                        )}
                                     </motion.div>
-                                </motion.div>
-                            )}
+                                );
+                            })()}
                         </AnimatePresence>
                     </motion.div>
                 </motion.div>
@@ -324,7 +319,7 @@ export function BadgeCollectionBadge({ unlockedCount, totalCount, onClick }: Bad
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={onClick}
-            className="relative p-2 rounded-xl bg-gray-50 border border-gray-200 text-gray-500 hover:bg-gray-100 transition-all"
+            className="relative p-2 rounded-xl bg-gray-50 border border-gray-200 text-gray-500 hover:bg-gray-100 transition-all cursor-pointer"
         >
             <Award className="w-4 h-4" />
             {unlockedCount > 0 && (

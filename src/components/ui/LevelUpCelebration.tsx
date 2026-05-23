@@ -1,21 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Star, Trophy, ArrowUp, X } from 'lucide-react';
-
-/* ── PALIERS DE TITRES ── */
-const LEVEL_TITLES = [
-    { min: 1, title: 'Apprenti Ansar', subtitle: 'Le savoir commence par un premier pas' },
-    { min: 5, title: 'Chercheur de Lumière', subtitle: 'Ta soif de connaissance t\'honore' },
-    { min: 10, title: 'Gardien du Savoir', subtitle: 'Tu protèges et transmets la science' },
-    { min: 20, title: 'Compagnon de la Science', subtitle: 'La connaissance est ta compagne' },
-    { min: 35, title: 'Héritier des Prophètes', subtitle: 'Tu marches sur leurs traces' },
-    { min: 50, title: 'Maître de la Connaissance', subtitle: 'Ton savoir éclaire les autres' },
-    { min: 75, title: 'Sage de la Communauté', subtitle: 'Ta sagesse inspire' },
-    { min: 100, title: 'Hafiz Accompli', subtitle: 'La science est devenue ta nature' },
-];
-
-function getLevelTitle(level: number) {
-    return [...LEVEL_TITLES].reverse().find(t => level >= t.min) || LEVEL_TITLES[0];
-}
+import { useLanguage } from '../../LanguageContext';
 
 /* ── PROPS ── */
 interface LevelUpCelebrationProps {
@@ -100,7 +85,16 @@ export default function LevelUpCelebration({
     xpEarned = 0,
     onClose,
 }: LevelUpCelebrationProps) {
-    const title = getLevelTitle(level);
+    const { t, dir } = useLanguage();
+
+    const getLocalizedTitle = (lvl: number) => {
+        if (lvl < 5) return { title: t('badges.level_1', 'Débutant (Bourgeon)'), subtitle: t('badges.level_1_sub', 'Le savoir commence par un premier pas') };
+        if (lvl < 10) return { title: t('badges.level_2', 'Apprenti (Fidèle)'), subtitle: t('badges.level_2_sub', 'Ta soif de connaissance t\'honore') };
+        if (lvl < 20) return { title: t('badges.level_3', 'Initié (Gardien)'), subtitle: t('badges.level_3_sub', 'Tu protèges et transmets la science') };
+        return { title: t('badges.level_4', 'Érudit (Savant)'), subtitle: t('badges.level_4_sub', 'Ton savoir éclaire les autres') };
+    };
+
+    const titleInfo = getLocalizedTitle(level);
 
     return (
         <AnimatePresence>
@@ -132,16 +126,16 @@ export default function LevelUpCelebration({
                         <Particles />
 
                         {/* Card */}
-                        <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-[#C8A44D]/30 overflow-hidden">
+                        <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-[#C8A44D]/30 overflow-hidden" dir={dir}>
                             {/* Glow */}
-                            <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#C8A44D]/15 rounded-full blur-3xl pointer-events-none" />
-                            <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+                            <div className={`absolute -top-40 ${dir === 'rtl' ? '-left-40' : '-right-40'} w-80 h-80 bg-[#C8A44D]/15 rounded-full blur-3xl pointer-events-none`} />
+                            <div className={`absolute -bottom-40 ${dir === 'rtl' ? '-right-40' : '-left-40'} w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none`} />
 
                             <div className="relative p-8 text-center">
                                 {/* Close */}
                                 <button
                                     onClick={onClose}
-                                    className="absolute top-3 right-3 p-1.5 rounded-full bg-gray-100 text-gray-400 hover:bg-gray-200 transition-colors"
+                                    className={`absolute top-3 ${dir === 'rtl' ? 'left-3' : 'right-3'} p-1.5 rounded-full bg-gray-100 text-gray-400 hover:bg-gray-200 transition-colors cursor-pointer`}
                                 >
                                     <X className="w-4 h-4" />
                                 </button>
@@ -165,17 +159,17 @@ export default function LevelUpCelebration({
                                     <div className="flex items-center justify-center gap-2 mb-2">
                                         <ArrowUp className="w-5 h-5 text-emerald-500" />
                                         <span className="text-sm font-bold text-emerald-600 uppercase tracking-wider">
-                                            Niveau Supérieur
+                                            {t('common.lvl_up_badge')}
                                         </span>
                                     </div>
                                     <h2 className="text-4xl font-bold text-[#0D4D43] mb-1">
-                                        Niveau {level}
+                                        {t('common.lvl_up_level').replace('{level}', String(level))}
                                     </h2>
                                     <p className="text-lg font-semibold text-[#C8A44D] mb-1">
-                                        {title.title}
+                                        {titleInfo.title}
                                     </p>
-                                    <p className="text-sm text-gray-500 italic">
-                                        {title.subtitle}
+                                    <p className="text-sm text-gray-500 italic leading-relaxed">
+                                        {titleInfo.subtitle}
                                     </p>
                                 </motion.div>
 
@@ -188,7 +182,9 @@ export default function LevelUpCelebration({
                                         className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-amber-50 rounded-xl border border-amber-200"
                                     >
                                         <Sparkles className="w-4 h-4 text-amber-500" />
-                                        <span className="text-sm font-bold text-amber-700">+{xpEarned} XP bonus</span>
+                                        <span className="text-sm font-bold text-amber-700">
+                                            {t('common.lvl_up_bonus').replace('{xp}', String(xpEarned))}
+                                        </span>
                                     </motion.div>
                                 )}
 
@@ -200,9 +196,9 @@ export default function LevelUpCelebration({
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
                                     onClick={onClose}
-                                    className="mt-6 w-full py-3 rounded-xl font-bold text-white bg-gradient-to-r from-[#0D4D43] to-emerald-700 shadow-lg shadow-[#0D4D43]/30 hover:shadow-[#0D4D43]/50 transition-all duration-200"
+                                    className="mt-6 w-full py-3 rounded-xl font-bold text-white bg-gradient-to-r from-[#0D4D43] to-emerald-700 shadow-lg shadow-[#0D4D43]/30 hover:shadow-[#0D4D43]/50 transition-all duration-200 cursor-pointer"
                                 >
-                                    Continuer mon apprentissage
+                                    {t('common.lvl_up_continue')}
                                 </motion.button>
                             </div>
                         </div>

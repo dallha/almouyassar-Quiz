@@ -190,6 +190,28 @@ export default function Header({
 
           {/* Actions droite */}
           <div className="flex items-center gap-1.5">
+            {/* Compact Language Switcher */}
+            <div className="flex items-center gap-0.5 p-0.5 bg-[var(--color-deep-green)]/8 border border-[var(--color-deep-green)]/10 rounded-lg">
+              {(['fr', 'ar', 'wo'] as const).map((lang) => {
+                const isActive = language === lang;
+                const labels = { fr: 'FR', ar: 'ع', wo: 'WO' };
+                return (
+                  <button
+                    key={lang}
+                    onClick={() => setLanguage(lang)}
+                    title={t('common.select_language', 'Changer de langue')}
+                    className={`px-1.5 py-0.5 rounded-md text-[10px] font-bold transition-all duration-200 ${
+                      isActive
+                        ? 'bg-gradient-to-br from-[var(--color-deep-green)] to-[var(--color-emerald)] text-white shadow-sm'
+                        : 'text-[var(--color-deep-green)]/50 hover:text-[var(--color-deep-green)] hover:bg-white/50'
+                    }`}
+                  >
+                    {labels[lang]}
+                  </button>
+                );
+              })}
+            </div>
+
             {/* Streak Display (compact) */}
             <StreakDisplay
               streak={streak}

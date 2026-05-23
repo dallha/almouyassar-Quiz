@@ -7,10 +7,11 @@
  * Fermeture définitive possible.
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Smartphone, Download, X, Share, AppWindow, Sparkles, Check } from 'lucide-react';
+import { Smartphone, Download, X, Share, AppWindow } from 'lucide-react';
 import { playSelectSound } from './SoundEngine';
+import { useLanguage } from '../LanguageContext';
 
 interface BeforeInstallPromptEvent extends Event {
     readonly platforms: string[];
@@ -26,6 +27,7 @@ const STORAGE_KEY = 'mouyassar_install_prompt';
 const INTERACTION_THRESHOLD = 3;
 
 export default function SmartInstallPrompt() {
+    const { t, dir } = useLanguage();
     const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
     const [isIOS, setIsIOS] = useState(false);
     const [isAndroid, setIsAndroid] = useState(false);
@@ -157,11 +159,11 @@ export default function SmartInstallPrompt() {
                         exit={{ opacity: 0, scale: 0.8, y: 20 }}
                         transition={{ type: 'spring', damping: 20, stiffness: 300 }}
                         onClick={handleBadgeClick}
-                        className="fixed bottom-24 right-4 z-50 flex items-center gap-2 px-3 py-2.5 rounded-full
+                        className={`fixed bottom-24 ${dir === 'rtl' ? 'left-4' : 'right-4'} z-50 flex items-center gap-2 px-3 py-2.5 rounded-full
                        bg-white/90 backdrop-blur-lg border border-[var(--color-gold)]/20
                        shadow-lg shadow-[var(--color-deep-green)]/10
                        hover:bg-white hover:border-[var(--color-gold)]/40
-                       transition-all duration-300 cursor-pointer group"
+                       transition-all duration-300 cursor-pointer group`}
                         style={{
                             boxShadow: '0 4px 20px rgba(13, 77, 67, 0.08)',
                         }}
@@ -175,7 +177,7 @@ export default function SmartInstallPrompt() {
                             <Smartphone size={14} className="text-white" />
                         </motion.div>
                         <span className="text-[11px] font-semibold text-[var(--color-deep-green)]/80 group-hover:text-[var(--color-deep-green)]">
-                            Installer
+                            {t('common.install_pwa_badge', 'Installer')}
                         </span>
                         {/* Glow subtil */}
                         <div
@@ -208,8 +210,8 @@ export default function SmartInstallPrompt() {
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.92, y: 20 }}
                             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                            className="relative w-full max-w-sm bg-white/95 backdrop-blur-2xl rounded-3xl p-6
-                         border border-[var(--color-gold)]/20 shadow-2xl overflow-hidden"
+                            className={`relative w-full max-w-sm bg-white/95 backdrop-blur-2xl rounded-3xl p-6
+                         border border-[var(--color-gold)]/20 shadow-2xl overflow-hidden`}
                             style={{
                                 boxShadow: '0 20px 60px rgba(13, 77, 67, 0.15)',
                             }}
@@ -225,9 +227,9 @@ export default function SmartInstallPrompt() {
                             {/* Bouton fermer */}
                             <button
                                 onClick={handleCloseModal}
-                                className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-[var(--color-deep-green)]/5
+                                className={`absolute top-4 ${dir === 'rtl' ? 'left-4' : 'right-4'} z-10 w-8 h-8 rounded-full bg-[var(--color-deep-green)]/5
                            hover:bg-[var(--color-deep-green)]/10 flex items-center justify-center
-                           transition-colors cursor-pointer"
+                           transition-colors cursor-pointer`}
                             >
                                 <X size={14} className="text-[var(--color-deep-green)]/50" />
                             </button>
@@ -237,22 +239,22 @@ export default function SmartInstallPrompt() {
                                 {/* En-tête */}
                                 <div className="text-center space-y-2">
                                     <div className="w-14 h-14 mx-auto rounded-2xl bg-[var(--color-deep-green)]/5
-                                  border border-[var(--color-gold)]/20 flex items-center justify-center">
+                                   border border-[var(--color-gold)]/20 flex items-center justify-center">
                                         <Smartphone size={24} className="text-[var(--color-deep-green)]" />
                                     </div>
                                     <h2 className="text-lg font-bold text-[var(--color-deep-green)] font-display">
-                                        Installer Al-Mouyassar
+                                        {t('common.install_pwa_title', 'Installer Al-Mouyassar')}
                                     </h2>
                                     <p className="text-xs text-[var(--color-deep-green)]/60 leading-relaxed max-w-xs mx-auto">
-                                        Accède rapidement à ton aventure éducative depuis ton téléphone.
+                                        {t('common.install_pwa_desc', 'Accède rapidement à ton aventure éducative depuis ton téléphone.')}
                                     </p>
                                 </div>
 
                                 {/* Mockup téléphone stylisé */}
                                 <div className="flex justify-center">
                                     <div className="relative w-32 h-48 rounded-2xl border-2 border-[var(--color-deep-green)]/10
-                                  bg-gradient-to-b from-[var(--color-deep-green)]/5 to-transparent
-                                  overflow-hidden shadow-inner">
+                                   bg-gradient-to-b from-[var(--color-deep-green)]/5 to-transparent
+                                   overflow-hidden shadow-inner">
                                         {/* Écran du mockup */}
                                         <div className="absolute inset-1 rounded-xl bg-white/80 backdrop-blur-sm
                                     border border-[var(--color-gold)]/10 overflow-hidden">
@@ -283,17 +285,17 @@ export default function SmartInstallPrompt() {
                                 {/* 3 étapes visuelles */}
                                 <div className="space-y-2.5">
                                     {[
-                                        { icon: Share, label: 'Ouvre le menu du navigateur' },
-                                        { icon: AppWindow, label: 'Clique "Ajouter à l\'écran d\'accueil"' },
-                                        { icon: Smartphone, label: 'Lance l\'application' },
+                                        { icon: Share, label: t('common.install_step_1', 'Ouvre le menu du navigateur') },
+                                        { icon: AppWindow, label: t('common.install_step_2', 'Clique "Ajouter à l\'écran d\'accueil"') },
+                                        { icon: Smartphone, label: t('common.install_step_3', 'Lance l\'application') },
                                     ].map((step, i) => (
                                         <div
                                             key={i}
                                             className="flex items-center gap-3 px-3 py-2.5 rounded-xl
-                                 bg-[var(--color-deep-green)]/[0.02] border border-[var(--color-deep-green)]/5"
+                                  bg-[var(--color-deep-green)]/[0.02] border border-[var(--color-deep-green)]/5"
                                         >
                                             <div className="w-6 h-6 rounded-full bg-[var(--color-deep-green)]/5
-                                      flex items-center justify-center shrink-0">
+                                       flex items-center justify-center shrink-0">
                                                 <step.icon size={12} className="text-[var(--color-deep-green)]/50" />
                                             </div>
                                             <span className="text-xs text-[var(--color-deep-green)]/70 font-medium">
@@ -316,19 +318,19 @@ export default function SmartInstallPrompt() {
                                  flex items-center justify-center gap-2"
                                         >
                                             <Download size={14} />
-                                            Installer l'application
+                                            {t('common.install_pwa_btn', 'Installer l\'application')}
                                         </button>
                                     ) : isIOS ? (
                                         <div className="w-full py-3 rounded-xl bg-[var(--color-deep-green)]/5
                                     text-[var(--color-deep-green)] text-xs font-bold
-                                    text-center border border-[var(--color-deep-green)]/10">
-                                            iOS : Partager → Sur l'écran d'accueil
+                                    text-center border border-[var(--color-deep-green)]/10 animate-pulse">
+                                            {t('common.install_pwa_ios', 'iOS : Partager → Sur l\'écran d\'accueil')}
                                         </div>
                                     ) : (
                                         <div className="w-full py-3 rounded-xl bg-[var(--color-deep-green)]/5
                                     text-[var(--color-deep-green)] text-xs font-bold
                                     text-center border border-[var(--color-deep-green)]/10">
-                                            Menu navigateur → Installer
+                                            {t('common.install_pwa_other', 'Menu navigateur → Installer')}
                                         </div>
                                     )}
 
@@ -343,8 +345,8 @@ export default function SmartInstallPrompt() {
                                                 referrerPolicy="no-referrer"
                                             />
                                         </div>
-                                        <span className="text-[10px] text-[var(--color-deep-green)]/40 font-medium">
-                                            Scanne pour installer
+                                        <span className="text-[10px] text-[var(--color-deep-green)]/40 font-medium animate-pulse">
+                                            {t('common.install_qr_label', 'Scanne pour installer')}
                                         </span>
                                     </div>
                                 </div>
@@ -354,9 +356,9 @@ export default function SmartInstallPrompt() {
                                     <button
                                         onClick={handleDismissForever}
                                         className="text-[10px] text-[var(--color-deep-green)]/30 hover:text-[var(--color-deep-green)]/50
-                               transition-colors cursor-pointer underline underline-offset-2"
+                                transition-colors cursor-pointer underline underline-offset-2"
                                     >
-                                        Non merci, ne plus me proposer
+                                        {t('common.install_no_thanks', 'Non merci, ne plus me proposer')}
                                     </button>
                                 </div>
                             </div>

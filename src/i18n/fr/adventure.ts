@@ -97,5 +97,24 @@ export default {
       title: "Les 99 Noms (Partie 1)",
       desc: "Démontre tes connaissances sur les attributs divins."
     }
+  },
+
+  // Dialogue lines matching character role and indexes
+  dialogues: {
+    node_1_1: {
+      pre_0: "Bienvenue, jeune voyageur. La route du savoir est longue, mais chaque pas est béni.",
+      pre_1: "Es-tu prêt à découvrir les piliers qui soutiendront ta foi ?"
+    },
+    node_1_3: {
+      pre_0: "Bois de cette eau bénie. Elle purifie le corps et l'esprit.",
+      pre_1: "Ta persévérance portera ses fruits très bientôt."
+    },
+    node_1_5: {
+      pre_0: "Tu as bien progressé. Mais l'Aqidah demande une précision absolue.",
+      pre_1: "Montre-moi que ta croyance est inébranlable !"
+    },
+    node_2_1: {
+      pre_0: "Sens-tu le parfum de ce jardin ? Chaque fleur représente une belle parole."
+    }
   }
 };

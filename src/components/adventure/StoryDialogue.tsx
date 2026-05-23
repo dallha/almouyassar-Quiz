@@ -9,15 +9,21 @@ interface StoryDialogueProps {
   dialogues: StoryDialogueType[];
   onComplete: () => void;
   isCheckpoint?: boolean;
+  nodeId?: string;
+  type?: 'pre' | 'post';
 }
 
-export default function StoryDialogue({ dialogues, onComplete, isCheckpoint = false }: StoryDialogueProps) {
+export default function StoryDialogue({ dialogues, onComplete, isCheckpoint = false, nodeId, type = 'pre' }: StoryDialogueProps) {
   const { t, dir } = useLanguage();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(true);
 
   const currentDialogue = dialogues[currentIndex];
+  
+  // Resolve translated narrative text
+  const dialogueKey = nodeId ? `adventure.dialogues.${nodeId.replace(/-/g, '_')}.${type}_${currentIndex}` : '';
+  const currentText = dialogueKey ? t(dialogueKey, currentDialogue?.text) : currentDialogue?.text || '';
 
   // Trigger checkpoint chime
   useEffect(() => {
@@ -28,15 +34,15 @@ export default function StoryDialogue({ dialogues, onComplete, isCheckpoint = fa
 
   // Standard typewriter effect for non-checkpoint story dialogs
   useEffect(() => {
-    if (!currentDialogue || isCheckpoint) return;
+    if (!currentText || isCheckpoint) return;
 
     setIsTyping(true);
     setDisplayedText('');
     let i = 0;
     
     const interval = setInterval(() => {
-      if (i < currentDialogue.text.length) {
-        setDisplayedText((prev) => prev + currentDialogue.text.charAt(i));
+      if (i < currentText.length) {
+        setDisplayedText((prev) => prev + currentText.charAt(i));
         i++;
       } else {
         setIsTyping(false);
@@ -45,7 +51,7 @@ export default function StoryDialogue({ dialogues, onComplete, isCheckpoint = fa
     }, 28); // Snappier typewriter speed
 
     return () => clearInterval(interval);
-  }, [currentDialogue, isCheckpoint]);
+  }, [currentText, isCheckpoint]);
 
   const handleNext = () => {
     if (isCheckpoint) {
@@ -54,7 +60,7 @@ export default function StoryDialogue({ dialogues, onComplete, isCheckpoint = fa
     }
     
     if (isTyping) {
-      setDisplayedText(currentDialogue.text);
+      setDisplayedText(currentText);
       setIsTyping(false);
     } else {
       if (currentIndex < dialogues.length - 1) {

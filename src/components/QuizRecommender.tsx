@@ -1,6 +1,6 @@
 /**
  * @license
- * SPDX-License-Identifier: Apache-2.5
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 import { useState, useMemo } from 'react';
@@ -10,6 +10,7 @@ import { Question } from '../types';
 import { QUESTIONS } from '../data';
 import { EXTRA_QUESTIONS } from '../questions_extra';
 import { playSelectSound } from './SoundEngine';
+import { useLanguage } from '../LanguageContext';
 
 interface QuizRecommenderProps {
   onStartCustomQuizList: (title: string, questions: Question[]) => void;
@@ -17,17 +18,19 @@ interface QuizRecommenderProps {
   theme?: 'light' | 'dark';
 }
 
-// Interest configuration options
-const INTEREST_OPTIONS = [
-  { id: 'prière', label: '🕌 Prière & Purification', desc: 'Règles de la Salat, ablutions et propreté', color: 'border-emerald-500/30 text-emerald-400 bg-emerald-500/5' },
-  { id: 'prophètes', label: '📖 Histoires des Prophètes', desc: 'Récits sacrés d\'Ibrahim, Moussa, Adam...', color: 'border-sky-500/30 text-sky-400 bg-sky-500/5' },
-  { id: 'sirah', label: '✨ Sirah Nabawiyyah', desc: 'Vie du Prophète Muhammad (PSL) et récits des Prophètes', color: 'border-teal-500/30 text-teal-400 bg-teal-500/5' },
-  { id: 'hadith', label: '📜 Hadith & Sunnah', desc: 'Paroles et nobles manières du Messager (PSL)', color: 'border-amber-500/30 text-amber-400 bg-amber-500/5' },
-  { id: 'coran', label: '💎 Trésors du Coran', desc: 'Sourates mères, mérites de la mémorisation', color: 'border-rose-500/30 text-rose-400 bg-rose-500/5' },
-  { id: 'ecole', label: '🎒 Institut Al-Mouyassar', desc: 'Double cursus, histoire et notre complexe', color: 'border-violet-500/30 text-violet-400 bg-violet-500/5' }
-];
-
 export default function QuizRecommender({ onStartCustomQuizList, userStatsXp, theme = 'dark' }: QuizRecommenderProps) {
+  const { t, dir } = useLanguage();
+
+  // Interest configuration options (fully localizable)
+  const INTEREST_OPTIONS = useMemo(() => [
+    { id: 'prière', label: t('common.recommender_int_priere_label', '🕌 Prière & Purification'), desc: t('common.recommender_int_priere_desc', 'Règles de la Salat, ablutions et propreté'), color: 'border-emerald-500/30 text-emerald-400 bg-emerald-500/5' },
+    { id: 'prophètes', label: t('common.recommender_int_prophetes_label', '📖 Histoires des Prophètes'), desc: t('common.recommender_int_prophetes_desc', "Récits sacrés d'Ibrahim, Moussa, Adam..."), color: 'border-sky-500/30 text-sky-400 bg-sky-500/5' },
+    { id: 'sirah', label: t('common.recommender_int_sirah_label', '✨ Sirah Nabawiyyah'), desc: t('common.recommender_int_sirah_desc', "Vie du Prophète Muhammad (PSL) et récits des Prophètes"), color: 'border-teal-500/30 text-teal-400 bg-teal-500/5' },
+    { id: 'hadith', label: t('common.recommender_int_hadith_label', '📜 Hadith & Sunnah'), desc: t('common.recommender_int_hadith_desc', "Paroles et nobles manières du Messager (PSL)"), color: 'border-amber-500/30 text-amber-400 bg-amber-500/5' },
+    { id: 'coran', label: t('common.recommender_int_coran_label', '💎 Trésors du Coran'), desc: t('common.recommender_int_coran_desc', "Sourates mères, mérites de la mémorisation"), color: 'border-rose-500/30 text-rose-400 bg-rose-500/5' },
+    { id: 'ecole', label: t('common.recommender_int_ecole_label', '🎒 Institut Al-Mouyassar'), desc: t('common.recommender_int_ecole_desc', "Double cursus, histoire et notre complexe"), color: 'border-violet-500/30 text-violet-400 bg-violet-500/5' }
+  ], [t]);
+
   // 1. Level local selection state (Defaults to the student's relative level calculated from XP, but fully adjustable)
   const defaultLevel = useMemo(() => {
     if (userStatsXp < 300) return 'Débutant';
@@ -69,6 +72,11 @@ export default function QuizRecommender({ onStartCustomQuizList, userStatsXp, th
 
     // Setup filter queries
     const lvlFiltered = allAvailableQuestions.filter(q => q.niveau === selectedLevel);
+    const localizedLevelName = selectedLevel === 'Débutant' 
+      ? t('common.level_beginner', 'Débutant') 
+      : selectedLevel === 'Intermédiaire' 
+      ? t('common.level_intermediate', 'Intermédiaire') 
+      : t('common.level_advanced', 'Avancé');
 
     // --- Suggestion 1: Les fondements de la prière ---
     if (activeInterests.includes('prière')) {
@@ -89,8 +97,8 @@ export default function QuizRecommender({ onStartCustomQuizList, userStatsXp, th
       if (priereQuestions.length > 0) {
         list.push({
           id: 'fondements_priere',
-          title: 'Les fondements de la prière',
-          desc: `Règles clés de la purification spirituelle, ablutions (Woudou), prosternation (Sujud) et piliers de l'école de jurisprudence Fiqh à un niveau ${selectedLevel.toLowerCase()}.`,
+          title: t('common.recommender_rec_priere_title', 'Les fondements de la prière'),
+          desc: t('common.recommender_rec_priere_desc', "Règles clés de la purification spirituelle, ablutions (Woudou), prosternation (Sujud) et piliers de l'école de jurisprudence Fiqh à un niveau {level}.").replace('{level}', localizedLevelName.toLowerCase()),
           icon: Compass,
           iconColor: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
           questions: priereQuestions,
@@ -119,8 +127,8 @@ export default function QuizRecommender({ onStartCustomQuizList, userStatsXp, th
       if (prophetesQuestions.length > 0) {
         list.push({
           id: 'histoires_prophetes',
-          title: 'Les histoires des prophètes',
-          desc: `Plongez dans les récits inspirants des nobles messagers d'Allah (Ibrahim, Moussa, Adam, etc.) pour en tirer d'immenses sagesses à l'évaluation ${selectedLevel.toLowerCase()}.`,
+          title: t('common.recommender_rec_prophetes_title', 'Les histoires des prophètes'),
+          desc: t('common.recommender_rec_prophetes_desc', "Plongez dans les récits inspirants des nobles messagers d'Allah (Ibrahim, Moussa, Adam, etc.) pour en tirer d'immenses sagesses à l'évaluation {level}.").replace('{level}', localizedLevelName.toLowerCase()),
           icon: BookOpen,
           iconColor: 'text-sky-400 bg-sky-500/10 border-sky-500/20',
           questions: prophetesQuestions,
@@ -136,8 +144,8 @@ export default function QuizRecommender({ onStartCustomQuizList, userStatsXp, th
       if (sirahQuestions.length > 0) {
         list.push({
           id: 'sirah_nabawiyyah',
-          title: 'Sirah Nabawiyyah',
-          desc: `Découvrez la vie et l'époque noble du Sceau des Prophètes Muhammad (PSL) (sa naissance, la Révélation, la Hijra, ses compagnons) et des prophètes précédents à l'évaluation ${selectedLevel.toLowerCase()}.`,
+          title: t('common.recommender_rec_sirah_title', 'Sirah Nabawiyyah'),
+          desc: t('common.recommender_rec_sirah_desc', "Découvrez la vie et l'époque noble du Sceau des Prophètes Muhammad (PSL) (sa naissance, la Révélation, la Hijra, ses compagnons) et des prophètes précédents à l'évaluation {level}.").replace('{level}', localizedLevelName.toLowerCase()),
           icon: Scroll,
           iconColor: 'text-teal-400 bg-teal-500/10 border-teal-500/20',
           questions: sirahQuestions,
@@ -158,8 +166,8 @@ export default function QuizRecommender({ onStartCustomQuizList, userStatsXp, th
       if (hadithQuestions.length > 0) {
         list.push({
           id: 'hadith_sunnah',
-          title: 'Hadith & Sunnah du Messager',
-          desc: `Apprenez les paroles sacrées, actes et comportements prophétiques rapportés par la Sunnah pour enrichir votre comportement quotidien.`,
+          title: t('common.recommender_rec_hadith_title', 'Hadith & Sunnah du Messager'),
+          desc: t('common.recommender_rec_hadith_desc', "Apprenez les paroles sacrées, actes et comportements prophétiques rapportés par la Sunnah pour enrichir votre comportement quotidien."),
           icon: Scroll,
           iconColor: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
           questions: hadithQuestions,
@@ -175,8 +183,8 @@ export default function QuizRecommender({ onStartCustomQuizList, userStatsXp, th
       if (coranQuestions.length > 0) {
         list.push({
           id: 'secrets_coran',
-          title: 'Trésors & Secrets du Coran',
-          desc: `Révisez le compte des sourates, les mérites de la récitation et l'histoire des révélations à l'âge d'or à travers le Coran Sacré.`,
+          title: t('common.recommender_rec_coran_title', 'Trésors & Secrets du Coran'),
+          desc: t('common.recommender_rec_coran_desc', "Révisez le compte des sourates, les mérites de la récitation et l'histoire des révélations à l'âge d'or à travers le Coran Sacré."),
           icon: Library,
           iconColor: 'text-rose-400 bg-rose-500/10 border-rose-500/20',
           questions: coranQuestions,
@@ -192,8 +200,8 @@ export default function QuizRecommender({ onStartCustomQuizList, userStatsXp, th
       if (ecoleQuestions.length > 0) {
         list.push({
           id: 'mouyassar_elite',
-          title: 'L\'Élite de l\'Institut Al-Mouyassar',
-          desc: `Découvrez et testez vos connaissances sur l'histoire de notre prestigieuse école, de son Fondateur, son Directeur Abdallah Niass, et l'AMDMEC.`,
+          title: t('common.recommender_rec_ecole_title', "L'Élite de l'Institut Al-Mouyassar"),
+          desc: t('common.recommender_rec_ecole_desc', "Découvrez et testez vos connaissances sur l'histoire de notre prestigieuse école, de son Fondateur, son Directeur Abdallah Niass, et l'AMDMEC."),
           icon: Award,
           iconColor: 'text-violet-400 bg-violet-500/10 border-violet-500/20',
           questions: ecoleQuestions,
@@ -203,7 +211,7 @@ export default function QuizRecommender({ onStartCustomQuizList, userStatsXp, th
     }
 
     return list;
-  }, [allAvailableQuestions, selectedLevel, activeInterests]);
+  }, [allAvailableQuestions, selectedLevel, activeInterests, t]);
 
   const handleStartPromptQuiz = (title: string, questions: Question[]) => {
     playSelectSound();
@@ -215,10 +223,10 @@ export default function QuizRecommender({ onStartCustomQuizList, userStatsXp, th
       theme === 'dark'
         ? "bg-gradient-to-b from-slate-900 to-slate-950 border-slate-800 text-slate-200"
         : "bg-white border-emerald-950/10 text-stone-850 shadow-md shadow-emerald-950/5"
-    }`}>
+    }`} dir={dir}>
       
       {/* Absolute decorative glow */}
-      <div className={`absolute -top-10 -right-10 w-24 h-24 rounded-full blur-2xl pointer-events-none transition-opacity duration-300 ${
+      <div className={`absolute -top-10 ${dir === 'rtl' ? '-left-10' : '-right-10'} w-24 h-24 rounded-full blur-2xl pointer-events-none transition-opacity duration-300 ${
         theme === 'dark' ? 'bg-amber-500/10' : 'bg-emerald-500/10'
       }`} />
 
@@ -232,17 +240,17 @@ export default function QuizRecommender({ onStartCustomQuizList, userStatsXp, th
           <Sparkles className={`w-3.5 h-3.5 animate-pulse animate-duration-1000 ${
             theme === 'dark' ? 'text-amber-500' : 'text-emerald-600'
           }`} />
-          <span>Nouveau : Recommandations d&apos;Apprentissage</span>
+          <span>{t('common.recommender_badge')}</span>
         </span>
         <h3 className={`text-base font-black tracking-tight leading-snug transition-colors duration-300 ${
           theme === 'dark' ? 'text-white' : 'text-stone-900'
         }`}>
-          Votre Parcours de Quiz Personnalisé
+          {t('common.recommender_title')}
         </h3>
         <p className={`text-xs transition-colors duration-300 ${
           theme === 'dark' ? 'text-slate-400' : 'text-stone-600'
         }`}>
-          Nous vous suggérons des questionnaires sur-mesure ajustés à vos préférences thématiques et à votre niveau scolaire.
+          {t('common.recommender_desc')}
         </p>
       </div>
 
@@ -254,13 +262,17 @@ export default function QuizRecommender({ onStartCustomQuizList, userStatsXp, th
       }`}>
         
         {/* 1. Level selector */}
-        <div className={`space-y-2 md:col-span-1 border-r pr-0 md:pr-4 transition-colors duration-300 ${
+        <div className={`space-y-2 md:col-span-1 pr-0 md:pr-4 transition-colors duration-300 ${
+          dir === 'rtl' 
+            ? 'md:border-l border-r-0 pl-0 md:pl-4' 
+            : 'md:border-r border-l-0 pr-0 md:pr-4'
+        } ${
           theme === 'dark' ? 'border-slate-800/40' : 'border-emerald-900/10'
         }`}>
           <span className={`text-[10px] font-black uppercase tracking-wider block transition-colors duration-300 ${
             theme === 'dark' ? 'text-slate-400' : 'text-stone-500'
           }`}>
-            Niveau ciblé :
+            {t('common.recommender_target_level')}
           </span>
           <div className="flex md:flex-col gap-2 pb-1">
             {(['Débutant', 'Intermédiaire', 'Avancé'] as const).map((lvl) => {
@@ -272,6 +284,12 @@ export default function QuizRecommender({ onStartCustomQuizList, userStatsXp, th
                 ? 'btn-3d-slate bg-slate-900/60 text-slate-400 border-slate-850 hover:border-slate-800'
                 : 'btn-3d-slate bg-stone-50 text-stone-500 border-stone-200 hover:border-stone-300';
               
+              const localizedLvl = lvl === 'Débutant' 
+                ? t('common.level_beginner', 'Débutant') 
+                : lvl === 'Intermédiaire' 
+                ? t('common.level_intermediate', 'Intermédiaire') 
+                : t('common.level_advanced', 'Avancé');
+
               return (
                 <button
                   key={lvl}
@@ -285,7 +303,7 @@ export default function QuizRecommender({ onStartCustomQuizList, userStatsXp, th
                     <span className={`w-2 h-2 rounded-full ${
                       lvl === 'Débutant' ? 'bg-emerald-500' : lvl === 'Intermédiaire' ? 'bg-amber-500' : 'bg-rose-500'
                     }`} />
-                    {lvl}
+                    {localizedLvl}
                   </span>
                   {active && <Check className="w-3.5 h-3.5" />}
                 </button>
@@ -295,11 +313,11 @@ export default function QuizRecommender({ onStartCustomQuizList, userStatsXp, th
         </div>
 
         {/* 2. Interests Multi-selector */}
-        <div className="space-y-2 md:col-span-2 pl-0 md:pl-2">
+        <div className={`space-y-2 md:col-span-2 ${dir === 'rtl' ? 'pr-0 md:pr-2' : 'pl-0 md:pl-2'}`}>
           <span className={`text-[10px] font-black uppercase tracking-wider block transition-colors duration-300 ${
             theme === 'dark' ? 'text-slate-400' : 'text-stone-500'
           }`}>
-            Foyers d&apos;intérêts :
+            {t('common.recommender_interests')}
           </span>
           <div className="flex flex-wrap gap-1.5">
             {INTEREST_OPTIONS.map((interest) => {
@@ -335,13 +353,17 @@ export default function QuizRecommender({ onStartCustomQuizList, userStatsXp, th
       {/* Suggested matches section lists */}
       <div className="space-y-3">
         <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider px-1">
-          <span className={theme === 'dark' ? 'text-slate-400' : 'text-stone-500'}>Quiz suggérés à lancer en 1 clic :</span>
+          <span className={theme === 'dark' ? 'text-slate-400' : 'text-stone-500'}>
+            {t('common.recommender_suggestions_label')}
+          </span>
           <span className={`font-mono px-2 py-0.5 rounded-md border transition-colors duration-300 ${
             theme === 'dark' 
               ? 'text-amber-400 bg-amber-500/10 border-amber-500/15' 
               : 'text-amber-800 bg-amber-50 border-amber-200/50'
           }`}>
-            {suggestions.length} recommandation{suggestions.length > 1 && 's'}
+            {t('common.recommender_suggestions_count', '{count} recommandation{plural}')
+              .replace('{count}', String(suggestions.length))
+              .replace('{plural}', suggestions.length > 1 ? 's' : '')}
           </span>
         </div>
 
@@ -389,7 +411,7 @@ export default function QuizRecommender({ onStartCustomQuizList, userStatsXp, th
                               ? 'text-emerald-400 bg-[#004D40]/30 border-[#004D40]/35'
                               : 'text-emerald-700 bg-emerald-50 border-emerald-100'
                           }`}>
-                            {quiz.questions.length} questions
+                            {quiz.questions.length} {t('common.ansar_verses').replace('{count}', '')} questions
                           </span>
                           <span>•</span>
                           <span className={theme === 'dark' ? 'text-amber-400 font-mono' : 'text-amber-700 font-mono'}>+{quiz.xpReward} XP</span>
@@ -412,7 +434,7 @@ export default function QuizRecommender({ onStartCustomQuizList, userStatsXp, th
                     className="w-full py-2 bg-emerald-600 hover:bg-[#D0A21C] text-white rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-md btn-3d-emerald"
                   >
                     <PlayCircle className="w-4.5 h-4.5" />
-                    <span>Relever le défi !</span>
+                    <span>{t('common.recommender_play_btn')}</span>
                   </button>
 
                 </motion.div>
@@ -436,11 +458,13 @@ export default function QuizRecommender({ onStartCustomQuizList, userStatsXp, th
             </div>
             <h4 className={`text-xs font-black uppercase transition-colors duration-300 ${
               theme === 'dark' ? 'text-slate-350' : 'text-stone-605'
-            }`}>Aucun Quiz d&apos;intérêt sélectionné</h4>
+            }`}>
+              {t('common.recommender_empty_title')}
+            </h4>
             <p className={`text-[10px] max-w-sm mx-auto transition-colors duration-300 ${
               theme === 'dark' ? 'text-slate-500' : 'text-stone-450'
             }`}>
-              Veuillez sélectionner au moins un foyer d&apos;intérêt ci-dessus pour que notre Oustaz virtuel puisse dresser des recommandations conformes à vos désirs.
+              {t('common.recommender_empty_desc')}
             </p>
           </div>
         )}

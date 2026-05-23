@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Shield, Check, Lock, Unlock, RefreshCw, BarChart2, Eye, EyeOff, VolumeX, Volume2, Timer, AlertTriangle, Delete, Key, HelpCircle } from 'lucide-react';
 import { playSelectSound } from './SoundEngine';
 import { UserStats } from '../types';
+import { useLanguage } from '../LanguageContext';
 
 interface ParentalDashboardProps {
   stats: UserStats;
@@ -32,6 +33,7 @@ export default function ParentalDashboard({
   onResetProgress,
   theme = 'light'
 }: ParentalDashboardProps) {
+  const { t, dir } = useLanguage();
   // PIN and Protection States
   const [pinCode, setPinCode] = useState<string | null>(null);
   const [enteredPin, setEnteredPin] = useState('');
@@ -284,13 +286,13 @@ export default function ParentalDashboard({
 
             <div className="space-y-1">
               <span className={`text-[9px] font-mono font-bold tracking-widest uppercase ${theme === 'dark' ? 'text-amber-400' : 'text-[#D0A21C]'}`}>
-                Déblocage de Secours
+                {t('parental.math_sec')}
               </span>
               <h3 className={`text-sm font-black uppercase tracking-wide ${theme === 'dark' ? 'text-white' : 'text-[#004D40]'}`}>
-                Validation Mathématique
+                {t('parental.math_val')}
               </h3>
               <p className={`text-[11px] leading-relaxed ${theme === 'dark' ? 'text-slate-400' : 'text-stone-500'}`}>
-                Résolvez cette multiplication complexe pour réinitialiser votre code PIN d&apos;accès :
+                {t('parental.math_desc')}
               </p>
             </div>
 
@@ -303,12 +305,12 @@ export default function ParentalDashboard({
                 }`}
               >
                 <span className={`text-sm font-mono font-extrabold block mb-2 ${theme === 'dark' ? 'text-slate-200' : 'text-[#004D40]'}`}>
-                  Combien font : {recoveryChallenge.first} × {recoveryChallenge.second} = ?
+                  {t('parental.math_q').replace('{first}', String(recoveryChallenge.first)).replace('{second}', String(recoveryChallenge.second))}
                 </span>
                 
                 <input
                   type="number"
-                  placeholder="Réponse..."
+                  placeholder={t('parental.math_placeholder')}
                   value={recoveryInput}
                   onChange={(e) => setRecoveryInput(e.target.value)}
                   className={`w-full text-center px-3 py-2 border rounded-lg text-sm font-bold focus:outline-none ${
@@ -322,7 +324,7 @@ export default function ParentalDashboard({
 
               {recoveryError && (
                 <p className="text-[10px] font-bold text-rose-500">
-                  ❌ Calcul erroné. Réessayez calmement sans calculatrice.
+                  {t('parental.math_error')}
                 </p>
               )}
 
@@ -336,7 +338,7 @@ export default function ParentalDashboard({
                       : 'border-stone-200 text-stone-600 hover:bg-stone-50'
                   }`}
                 >
-                  Retour
+                  {t('common.back')}
                 </button>
                 <button
                   type="submit"
@@ -346,7 +348,7 @@ export default function ParentalDashboard({
                       : 'bg-[#004D40] hover:bg-[#004D40]/90 text-[#FCF8F2] btn-3d-emerald'
                   }`}
                 >
-                  Valider
+                  {t('parental.math_submit')}
                 </button>
               </div>
             </form>
@@ -384,22 +386,22 @@ export default function ParentalDashboard({
                     : 'text-[#D0A21C]'
               }`}>
                 {setupStep === 'enter' 
-                  ? 'Créer Code PIN' 
+                  ? t('parental.setup_enter') 
                   : setupStep === 'confirm' 
-                    ? 'Confirmer le PIN' 
-                    : 'Espace Parental Sécurisé'}
+                    ? t('parental.setup_confirm') 
+                    : t('parental.lock_sec')}
               </span>
               <h3 className={`text-sm font-black uppercase tracking-wide ${theme === 'dark' ? 'text-white' : 'text-[#004D40]'}`}>
-                {setupStep !== null ? 'Configuration Initiale' : 'Contrôle Parental'}
+                {setupStep !== null ? t('parental.setup_init') : t('parental.dashboard_title')}
               </h3>
               <p className={`text-[11px] leading-relaxed px-2 ${theme === 'dark' ? 'text-slate-400' : 'text-stone-500'}`}>
                 {lockoutUntil 
-                  ? 'Trop de tentatives échouées. Par sécurité, l\'accès est verrouillé.'
+                  ? t('parental.lockout_warning')
                   : setupStep === 'enter'
-                    ? 'Définissez un code PIN secret à 4 chiffres pour protéger l\'accès parents.'
+                    ? t('parental.setup_enter_desc')
                     : setupStep === 'confirm'
-                      ? 'Veuillez saisir à nouveau le code PIN pour confirmer.'
-                      : 'Entrez votre code secret pour accéder au tableau de bord.'}
+                      ? t('parental.setup_confirm_desc')
+                      : t('parental.lock_desc')}
               </p>
             </div>
 
@@ -428,14 +430,14 @@ export default function ParentalDashboard({
             {/* Brute-force Lockout Alert / Virtual Keypad */}
             {lockoutUntil ? (
               <div className={`p-4 rounded-xl border text-center space-y-2 ${
-                theme === 'dark' ? 'bg-rose-950/20 border-rose-900/30 text-rose-350' : 'bg-rose-50 border-rose-150 text-rose-800'
+                theme === 'dark' ? 'bg-rose-955/20 border-rose-900/30 text-rose-350' : 'bg-rose-50 border-rose-150 text-rose-800'
               }`}>
                 <AlertTriangle className="w-5 h-5 text-rose-500 mx-auto animate-pulse" />
                 <span className="text-xs font-mono font-black block">
-                  Verrouillé pendant : {cooldownSeconds}s
+                  {t('parental.lockout_locked').replace('{seconds}', String(cooldownSeconds))}
                 </span>
                 <p className="text-[10px] leading-relaxed">
-                  Veuillez patienter avant d&apos;essayer à nouveau.
+                  {t('parental.lockout_wait')}
                 </p>
               </div>
             ) : (
@@ -509,7 +511,7 @@ export default function ParentalDashboard({
                   theme === 'dark' ? 'text-slate-500 hover:text-slate-400' : 'text-stone-500 hover:text-stone-700'
                 }`}
               >
-                Annuler la modification
+                {t('parental.cancel_change')}
               </button>
             )}
           </motion.div>
@@ -533,7 +535,7 @@ export default function ParentalDashboard({
               <div className="flex items-center gap-2">
                 <Shield className={`w-5 h-5 ${theme === 'dark' ? 'text-amber-400' : 'text-[#D0A21C]'}`} />
                 <h3 className={`text-sm font-black uppercase tracking-wide ${theme === 'dark' ? 'text-white' : 'text-[#004D40]'}`}>
-                  Contrôle Parental
+                  {t('parental.dashboard_title')}
                 </h3>
               </div>
               <div className="flex gap-2">
@@ -546,7 +548,7 @@ export default function ParentalDashboard({
                   }`}
                 >
                   <Key className="w-2.5 h-2.5" />
-                  <span>Modifier PIN</span>
+                  <span>{t('parental.change_pin')}</span>
                 </button>
                 <button
                   onClick={() => { playSelectSound(); setIsUnlocked(false); }}
@@ -557,7 +559,7 @@ export default function ParentalDashboard({
                   }`}
                 >
                   <Unlock className="w-2.5 h-2.5 text-emerald-500" />
-                  <span>Verrouiller</span>
+                  <span>{t('parental.lock')}</span>
                 </button>
               </div>
             </div>
@@ -567,7 +569,7 @@ export default function ParentalDashboard({
               <div className="flex items-center gap-1 text-xs font-bold">
                 <BarChart2 className={`w-4 h-4 ${theme === 'dark' ? 'text-amber-400' : 'text-[#D0A21C]'}`} />
                 <span className={`uppercase tracking-tight ${theme === 'dark' ? 'text-slate-350' : 'text-[#004D40]'}`}>
-                  Performances globales de l&apos;enfant
+                  {t('parental.perf_section')}
                 </span>
               </div>
 
@@ -575,16 +577,16 @@ export default function ParentalDashboard({
                 <div className={`p-3 rounded-xl border text-center space-y-0.5 shadow-sm ${
                   theme === 'dark' ? 'bg-slate-900/50 border-slate-850' : 'bg-white border-stone-150'
                 }`}>
-                  <span className={`text-[9px] uppercase font-bold ${theme === 'dark' ? 'text-slate-500' : 'text-gray-400'}`}>Taux de réussite</span>
+                  <span className={`text-[9px] uppercase font-bold ${theme === 'dark' ? 'text-slate-500' : 'text-gray-400'}`}>{t('parental.success_rate')}</span>
                   <p className={`text-lg font-black ${theme === 'dark' ? 'text-amber-400' : 'text-[#004D40]'}`}>{successPercentage}%</p>
-                  <p className={`text-[9px] ${theme === 'dark' ? 'text-slate-500' : 'text-stone-500'} leading-none`}>de bonnes réponses</p>
+                  <p className={`text-[9px] ${theme === 'dark' ? 'text-slate-500' : 'text-stone-500'} leading-none`}>{t('parental.success_rate_desc')}</p>
                 </div>
                 <div className={`p-3 rounded-xl border text-center space-y-0.5 shadow-sm ${
                   theme === 'dark' ? 'bg-slate-900/50 border-slate-850' : 'bg-white border-stone-150'
                 }`}>
-                  <span className={`text-[9px] uppercase font-bold ${theme === 'dark' ? 'text-slate-500' : 'text-gray-400'}`}>Questions traitées</span>
+                  <span className={`text-[9px] uppercase font-bold ${theme === 'dark' ? 'text-slate-500' : 'text-gray-400'}`}>{t('parental.total_answered')}</span>
                   <p className={`text-lg font-black ${theme === 'dark' ? 'text-amber-400' : 'text-[#004D40]'}`}>{stats.totalAnswered}</p>
-                  <p className={`text-[9px] ${theme === 'dark' ? 'text-slate-500' : 'text-stone-500'} leading-none`}>toutes matières confondues</p>
+                  <p className={`text-[9px] ${theme === 'dark' ? 'text-slate-500' : 'text-stone-500'} leading-none`}>{t('parental.total_answered_desc')}</p>
                 </div>
               </div>
             </div>
@@ -593,8 +595,8 @@ export default function ParentalDashboard({
             <div className={`space-y-3 border-t pt-4 ${theme === 'dark' ? 'border-slate-800/80' : 'border-stone-200/60'}`}>
               <div className="flex items-center gap-1 text-xs font-bold">
                 <Shield className={`w-4 h-4 ${theme === 'dark' ? 'text-amber-400' : 'text-[#D0A21C]'}`} />
-                <span className={`uppercase tracking-tight ${theme === 'dark' ? 'text-slate-350' : 'text-[#004D40]'}`}>
-                  Permissions &amp; Configuration
+                <span className={`uppercase tracking-tight ${theme === 'dark' ? 'text-slate-355' : 'text-[#004D40]'}`}>
+                  {t('parental.permissions_sec')}
                 </span>
               </div>
 
@@ -607,8 +609,8 @@ export default function ParentalDashboard({
                   <div className="flex gap-2 items-center">
                     <Timer className={`w-4 h-4 ${theme === 'dark' ? 'text-slate-400' : 'text-[#004D40]'}`} />
                     <div>
-                      <span className={`text-xs font-bold block leading-none ${theme === 'dark' ? 'text-white' : 'text-stone-850'}`}>Chronomètre</span>
-                      <span className={`text-[9px] ${theme === 'dark' ? 'text-slate-500' : 'text-stone-400'}`}>Limiter le temps de réponse aux quiz</span>
+                      <span className={`text-xs font-bold block leading-none ${theme === 'dark' ? 'text-white' : 'text-stone-850'}`}>{t('parental.timer_title')}</span>
+                      <span className={`text-[9px] ${theme === 'dark' ? 'text-slate-500' : 'text-stone-400'}`}>{t('parental.timer_desc')}</span>
                     </div>
                   </div>
                   <button
@@ -621,7 +623,7 @@ export default function ParentalDashboard({
                           : 'bg-stone-100 text-stone-400 border-stone-200'
                     }`}
                   >
-                    {timerEnabled ? 'Activé' : 'Désactivé'}
+                    {timerEnabled ? t('parental.enabled') : t('parental.disabled')}
                   </button>
                 </div>
 
@@ -634,8 +636,8 @@ export default function ParentalDashboard({
                       ? <EyeOff className="w-4 h-4 text-rose-500" /> 
                       : <Eye className={`w-4 h-4 ${theme === 'dark' ? 'text-emerald-400' : 'text-emerald-500'}`} />}
                     <div>
-                      <span className={`text-xs font-bold block leading-none ${theme === 'dark' ? 'text-white' : 'text-stone-850'}`}>Accès Oustaz Virtuel</span>
-                      <span className={`text-[9px] ${theme === 'dark' ? 'text-slate-500' : 'text-stone-400'}`}>Activer/désactiver l&apos;assistant IA</span>
+                      <span className={`text-xs font-bold block leading-none ${theme === 'dark' ? 'text-white' : 'text-stone-850'}`}>{t('parental.oustaz_access')}</span>
+                      <span className={`text-[9px] ${theme === 'dark' ? 'text-slate-500' : 'text-stone-400'}`}>{t('parental.oustaz_desc')}</span>
                     </div>
                   </div>
                   <button
@@ -646,7 +648,7 @@ export default function ParentalDashboard({
                         : 'bg-rose-500/10 text-rose-400 border-rose-500/20 btn-3d-slate'
                     }`}
                   >
-                    {!isOustazBlocked ? 'Autorisé' : 'Bloqué'}
+                    {!isOustazBlocked ? t('parental.allowed') : t('parental.blocked')}
                   </button>
                 </div>
 
@@ -659,8 +661,8 @@ export default function ParentalDashboard({
                       ? <VolumeX className="w-4 h-4 text-rose-500" /> 
                       : <Volume2 className={`w-4 h-4 ${theme === 'dark' ? 'text-emerald-400' : 'text-emerald-500'}`} />}
                     <div>
-                      <span className={`text-xs font-bold block leading-none ${theme === 'dark' ? 'text-white' : 'text-stone-850'}`}>Effets Sonores</span>
-                      <span className={`text-[9px] ${theme === 'dark' ? 'text-slate-500' : 'text-stone-400'}`}>Activer les sons d&apos;accompagnement</span>
+                      <span className={`text-xs font-bold block leading-none ${theme === 'dark' ? 'text-white' : 'text-stone-850'}`}>{t('parental.sound_effects')}</span>
+                      <span className={`text-[9px] ${theme === 'dark' ? 'text-slate-500' : 'text-stone-400'}`}>{t('parental.sound_effects_desc')}</span>
                     </div>
                   </div>
                   <button
@@ -673,7 +675,7 @@ export default function ParentalDashboard({
                           : 'bg-stone-100 text-stone-400 border-stone-200'
                     }`}
                   >
-                    {!isMuted ? 'Activé' : 'Désactivé'}
+                    {!isMuted ? t('parental.enabled') : t('parental.disabled')}
                   </button>
                 </div>
 
@@ -685,17 +687,17 @@ export default function ParentalDashboard({
               theme === 'dark' ? 'border-slate-800/80' : 'border-stone-200/60'
             }`}>
               <span className="text-[9px] font-bold text-rose-500 uppercase tracking-widest block font-mono">
-                Zone de Danger
+                {t('parental.danger_zone')}
               </span>
 
               {showConfirmReset ? (
                 <div className={`p-4 border rounded-xl space-y-3 ${
-                  theme === 'dark' ? 'bg-rose-950/20 border-rose-900/30' : 'bg-rose-50 border-rose-150'
+                  theme === 'dark' ? 'bg-rose-955/20 border-rose-900/30' : 'bg-rose-50 border-rose-150'
                 }`}>
                   <div className={`flex gap-2 items-start text-xs ${theme === 'dark' ? 'text-rose-350' : 'text-rose-850'}`}>
                     <AlertTriangle className="w-5 h-5 text-rose-500 shrink-0" />
                     <div>
-                      <strong>Êtes-vous absolument sûr ?</strong> Cette action est irréversible et détruira l&apos;ensemble de l&apos;historique scolaire (XP, badges, niveaux) de l&apos;enfant.
+                      <strong>{t('parental.reset_confirm')}</strong>
                     </div>
                   </div>
                   <div className="flex gap-2 justify-end">
@@ -707,13 +709,13 @@ export default function ParentalDashboard({
                           : 'bg-white border-stone-255 text-stone-600 hover:bg-stone-50'
                       }`}
                     >
-                      Annuler
+                      {t('parental.reset_cancel')}
                     </button>
                     <button
                       onClick={handleConfirmReset}
                       className="px-3 py-1.5 bg-rose-600 text-white rounded-lg text-[10px] font-bold uppercase shadow-sm active:scale-95"
                     >
-                      Oui, réinitialiser !
+                      {t('parental.reset_yes')}
                     </button>
                   </div>
                 </div>
@@ -722,12 +724,12 @@ export default function ParentalDashboard({
                   onClick={handleTriggerReset}
                   className={`w-full py-3 font-extrabold uppercase text-[9px] tracking-widest rounded-xl border transition-colors flex items-center justify-center gap-2 cursor-pointer ${
                     theme === 'dark'
-                      ? 'bg-rose-950/10 hover:bg-rose-950/20 text-rose-400 border-rose-900/30'
+                      ? 'bg-rose-955/10 hover:bg-rose-955/20 text-rose-400 border-rose-900/30'
                       : 'bg-rose-50 hover:bg-rose-100 text-rose-700 border-rose-200'
                   }`}
                 >
                   <RefreshCw className="w-4 h-4" />
-                  <span>Réinitialiser la progression</span>
+                  <span>{t('parental.reset_progress')}</span>
                 </button>
               )}
             </div>

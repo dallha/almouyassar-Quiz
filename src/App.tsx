@@ -31,8 +31,39 @@ import SmartInstallPrompt from './components/SmartInstallPrompt';
 import AboutCreator from './components/AboutCreator';
 import GlobalSearch from './components/GlobalSearch';
 import QuizRecommender from './components/QuizRecommender';
-import DailyReward, { DAILY_REWARDS, DailyRewardData } from './components/ui/DailyReward';
-import BadgeGallery, { PREDEFINED_BADGES, BadgeData } from './components/ui/BadgeGallery';
+import DailyReward, { DailyRewardData } from './components/ui/DailyReward';
+import BadgeGallery, { BadgeData } from './components/ui/BadgeGallery';
+
+/* ── STATIC DATA ── */
+const DAILY_REWARDS: DailyRewardData[] = [
+  { day: 1, claimed: false, reward: { type: 'xp', value: 20, label: '+20 XP', icon: '⭐' } },
+  { day: 2, claimed: false, reward: { type: 'quote', value: "La science est une lumière qu'Allah dépose dans le cœur de qui Il veut.", label: 'Citation du jour', icon: '📖' } },
+  { day: 3, claimed: false, reward: { type: 'xp', value: 30, label: '+30 XP', icon: '✨' } },
+  { day: 4, claimed: false, reward: { type: 'invocation', value: 'Rabbi zidni ilma (Seigneur, augmente ma science)', label: 'Invocation du jour', icon: '🤲' } },
+  { day: 5, claimed: false, reward: { type: 'xp', value: 50, label: '+50 XP', icon: '🏅' } },
+  { day: 6, claimed: false, reward: { type: 'streak_freeze', value: 1, label: 'Gel de série', icon: '❄️' } },
+  { day: 7, claimed: false, reward: { type: 'badge', value: 'Gardien de la Semaine', label: 'Badge spécial', icon: '🏆' } },
+];
+
+const PREDEFINED_BADGES: BadgeData[] = [
+  { id: 'first_quiz', name: 'Premier Pas', description: 'Tu as complété ton premier quiz.', icon: '🌱', rarity: 'common', unlocked: false, category: 'Découverte', requirement: 'Compléter 1 quiz' },
+  { id: 'streak_3', name: 'Étincelle', description: '3 jours consécutifs.', icon: '🔥', rarity: 'common', unlocked: false, category: 'Régularité', requirement: 'Série de 3 jours' },
+  { id: 'streak_7', name: 'Gardien de la Semaine', description: 'Une semaine complète.', icon: '🛡️', rarity: 'rare', unlocked: false, category: 'Régularité', requirement: 'Série de 7 jours' },
+  { id: 'five_quizzes', name: 'Apprenti', description: '5 quiz complétés.', icon: '📚', rarity: 'common', unlocked: false, category: 'Découverte', requirement: '5 quiz complétés' },
+  { id: 'streak_14', name: 'Détermination', description: '14 jours consécutifs.', icon: '⚡', rarity: 'rare', unlocked: false, category: 'Régularité', requirement: 'Série de 14 jours' },
+  { id: 'perfect_score', name: 'Perfection', description: 'Un quiz avec 100%.', icon: '💎', rarity: 'epic', unlocked: false, category: 'Excellence', requirement: 'Score parfait' },
+  { id: 'category_master', name: 'Explorateur', description: 'Maîtrise une catégorie.', icon: '🗺️', rarity: 'rare', unlocked: false, category: 'Maîtrise', requirement: 'Niveau Avancé dans une catégorie' },
+  { id: 'twenty_quizzes', name: 'Savant en Herbe', description: '20 quiz complétés.', icon: '🎓', rarity: 'rare', unlocked: false, category: 'Découverte', requirement: '20 quiz complétés' },
+  { id: 'oustaz_chat', name: 'Compagnon de Oustaz', description: 'Tu as échangé avec Oustaz AI.', icon: '🤖', rarity: 'common', unlocked: false, category: 'Interaction', requirement: 'Utiliser Oustaz AI' },
+  { id: 'streak_30', name: 'Légende Vivante', description: '30 jours consécutifs.', icon: '👑', rarity: 'epic', unlocked: false, category: 'Régularité', requirement: 'Série de 30 jours' },
+  { id: 'all_categories', name: 'Encyclopédie Vivante', description: 'Niveau Intermédiaire dans toutes les catégories.', icon: '🌟', rarity: 'epic', unlocked: false, category: 'Maîtrise', requirement: 'Intermédiaire partout' },
+  { id: 'fifty_quizzes', name: 'Chercheur de Vérité', description: '50 quiz complétés.', icon: '🔍', rarity: 'epic', unlocked: false, category: 'Découverte', requirement: '50 quiz complétés' },
+  { id: 'speed_demon', name: 'Éclair de Sagesse', description: 'Réponse correcte en moins de 5s.', icon: '⚡', rarity: 'rare', unlocked: false, category: 'Excellence', requirement: 'Répondre en < 5 secondes' },
+  { id: 'streak_100', name: 'Héritier de la Science', description: '100 jours consécutifs.', icon: '🌙', rarity: 'legendary', unlocked: false, category: 'Régularité', requirement: 'Série de 100 jours' },
+  { id: 'master_all', name: 'Hafiz de la Connaissance', description: 'Niveau Hafiz dans toutes les catégories.', icon: '📿', rarity: 'legendary', unlocked: false, category: 'Maîtrise', requirement: 'Hafiz partout' },
+  { id: 'hundred_quizzes', name: 'Puits de Science', description: '100 quiz complétés.', icon: '💡', rarity: 'legendary', unlocked: false, category: 'Découverte', requirement: '100 quiz complétés' },
+  { id: 'perfect_week', name: 'Semaine Parfaite', description: '7 jours avec score parfait.', icon: '🏆', rarity: 'legendary', unlocked: false, category: 'Excellence', requirement: '7 jours parfaits consécutifs' },
+];
 import LevelUpCelebration from './components/ui/LevelUpCelebration';
 
 const LOCAL_STORAGE_STATS_KEY = 'mouyassar_quiz_stats_v1';
@@ -123,6 +154,19 @@ function StarryBackground() {
 
 export default function App() {
   const { t, language, dir } = useLanguage();
+  
+  const getCategoryKey = (c: string) => {
+    if (c === 'Institut Al-Mouyassar') return 'quiz.cat_mouyassar';
+    return `quiz.cat_${c.toLowerCase().replace('saint ', '')}`;
+  };
+
+  const getLevelKey = (l: string) => {
+    if (l === 'Débutant') return 'quiz.lvl_beginner';
+    if (l === 'Intermédiaire') return 'quiz.lvl_intermediate';
+    if (l === 'Avancé') return 'quiz.lvl_advanced';
+    return l;
+  };
+
   // --- Persistent States ---
   const [stats, setStats] = useState<UserStats>(() => {
     const saved = localStorage.getItem(LOCAL_STORAGE_STATS_KEY);
@@ -1170,7 +1214,7 @@ export default function App() {
                     />
                   </div>
                   <div className="flex items-center justify-between text-[11px] font-bold text-[#004D40] font-mono">
-                    <span>Double Cursus Officiel</span>
+                    <span>{t('common.loading_cursus', 'Double Cursus Officiel')}</span>
                     <span>{initProgress}%</span>
                   </div>
                 </div>
@@ -1179,7 +1223,7 @@ export default function App() {
 
               {/* Subtle visual quote/comfort indicator */}
               <p className="text-[10px] text-stone-400 leading-normal max-w-[280px] mx-auto font-medium italic">
-                &ldquo;Celui qui emprunte un chemin à la recherche de la science, Allah lui facilite un chemin vers le Paradis.&rdquo;
+                {t('common.loading_quote')}
               </p>
 
             </div>
@@ -1211,7 +1255,7 @@ export default function App() {
 
               {/* Message block */}
               <div className="space-y-1 text-center">
-                <h4 className="text-[10px] font-black text-[#D0A21C] uppercase tracking-widest font-mono text-center mx-auto">Assemblage en cours...</h4>
+                <h4 className="text-[10px] font-black text-[#D0A21C] uppercase tracking-widest font-mono text-center mx-auto">{t('common.loading_assembling', 'Assemblage en cours...')}</h4>
                 <p className="text-xs font-extrabold text-[#004D40] leading-snug px-2 text-center mx-auto">
                   {transitionMsg}
                 </p>
@@ -1226,7 +1270,7 @@ export default function App() {
                   />
                 </div>
                 <div className="flex items-center justify-between text-[9px] text-[#004D40]/65 font-bold font-mono">
-                  <span>Compilation scholastique</span>
+                  <span>{t('common.loading_compilation', 'Compilation scholastique')}</span>
                   <span>{transitionProgress}%</span>
                 </div>
               </div>
@@ -1331,7 +1375,7 @@ export default function App() {
 
                   <div className="space-y-2">
                     <h2 className="text-2xl font-black tracking-tight text-white">
-                      {t('congratulations_session', 'Félicitations, Session Terminée !')}
+                      {t('quiz.congratulations_session', 'Félicitations, Session Terminée !')}
                     </h2>
                     <p className="text-sm text-slate-400 max-w-md mx-auto">
                       {language === 'ar' ? 'لقد أجبت على أسئلة التمرين بعناية. خذ الوقت الكافي لتحليل نتائجك وقراءة التفسيرات أدناه.' :
@@ -1429,17 +1473,17 @@ export default function App() {
                                       q.categorie === 'Akhlaq' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
                                         'bg-teal-500/10 text-teal-300 border border-teal-500/20'
                                 } border`}>
-                                {t(q.categorie, q.categorie)}
+                                {t(getCategoryKey(q.categorie), q.categorie)}
                               </span>
 
-                              <span className={`text-[8px] tracking-wider uppercase font-extrabold px-1.5 py-0.5 rounded flex items-center gap-1 ${q.niveau === 'Débutant' ? 'bg-emerald-500/10 text-emerald-450 border-emerald-500/15' :
+                              <span className={`text-[8px] tracking-wider uppercase font-extrabold px-1.5 py-0.5 rounded flex items-center gap-1 ${q.niveau === 'Débutant' ? 'bg-emerald-500/10 text-emerald-455 border-emerald-500/15' :
                                 q.niveau === 'Intermédiaire' ? 'bg-amber-500/10 text-amber-400 border-amber-500/15' :
                                   'bg-rose-500/10 text-rose-400 border-rose-500/15'
                                 } border`}>
                                 <span className={`w-1 h-1 rounded-full ${q.niveau === 'Débutant' ? 'bg-emerald-450' :
                                   q.niveau === 'Intermédiaire' ? 'bg-amber-400' : 'bg-rose-400'
                                   }`} />
-                                {t(q.niveau, q.niveau)}
+                                {t(getLevelKey(q.niveau), q.niveau)}
                               </span>
                             </div>
 
@@ -1452,7 +1496,7 @@ export default function App() {
                                 ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
                                 : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
                                 }`}>
-                                {isUserCorrect ? t('correct', 'Correct !') : t('incorrect', 'Incorrect')}
+                                {isUserCorrect ? t('quiz.correct', 'Correct !') : t('quiz.incorrect', 'Incorrect')}
                               </span>
                             </div>
 
@@ -1502,7 +1546,7 @@ export default function App() {
                       onClick={handleQuitQuizSession}
                       className="px-6 py-3 bg-emerald-600 hover:bg-emerald-505 text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-lg shadow-emerald-950/40 transition-all hover:-translate-y-0.5 cursor-pointer"
                     >
-                      {t('back_home', 'Retourner à l\'accueil')}
+                      {t('common.back_home', 'Retourner à l\'accueil')}
                     </button>
                   </div>
                 </motion.div>
@@ -1536,7 +1580,7 @@ export default function App() {
                     }`}
                 >
                   <Compass className="w-4 h-4 shrink-0" />
-                  <span>{t('presentation', 'Présentation')}</span>
+                  <span>{t('common.nav_presentation', 'Présentation')}</span>
                 </button>
                 <button
                   onClick={() => { playSelectSound(); setActiveTab('adventure'); }}
@@ -1546,7 +1590,7 @@ export default function App() {
                     }`}
                 >
                   <BookOpen className="w-4 h-4 shrink-0" />
-                  <span>{t('adventure', 'Aventure')}</span>
+                  <span>{t('common.nav_adventure', 'Aventure')}</span>
                 </button>
                 <button
                   onClick={() => { playSelectSound(); setActiveTab('quiz'); }}
@@ -1556,7 +1600,7 @@ export default function App() {
                     }`}
                 >
                   <Play className="w-4 h-4 shrink-0" />
-                  <span>{t('quiz', 'Quiz Libre')}</span>
+                  <span>{t('common.nav_quiz_free', 'Quiz Libre')}</span>
                 </button>
                 <button
                   onClick={() => { if (!isOustazBlocked) { playSelectSound(); setActiveTab('oustaz'); } }}
@@ -1569,7 +1613,7 @@ export default function App() {
                     }`}
                 >
                   <Users className="w-4 h-4 shrink-0" />
-                  <span>{t('oustaz', 'Oustaz AI')}</span>
+                  <span>{t('common.nav_oustaz', 'Oustaz AI')}</span>
                 </button>
                 <button
                   onClick={() => { playSelectSound(); setActiveTab('ansar'); }}
@@ -1579,7 +1623,7 @@ export default function App() {
                     }`}
                 >
                   <Sparkles className="w-4 h-4 shrink-0" />
-                  <span>{t('karaoke', 'Karaoké')}</span>
+                  <span>{t('common.nav_karaoke', 'Karaoké')}</span>
                 </button>
                 <button
                   onClick={() => { playSelectSound(); setActiveTab('stats'); }}
@@ -1589,7 +1633,7 @@ export default function App() {
                     }`}
                 >
                   <Award className="w-4 h-4 shrink-0" />
-                  <span>{t('trophies', 'Trophées')}</span>
+                  <span>{t('common.nav_trophies', 'Trophées')}</span>
                 </button>
                 <button
                   onClick={() => { playSelectSound(); setActiveTab('parental'); }}
@@ -1599,7 +1643,7 @@ export default function App() {
                     }`}
                 >
                   <Settings className="w-4 h-4 shrink-0" />
-                  <span>{t('parents', 'Parents')}</span>
+                  <span>{t('common.nav_parents', 'Parents')}</span>
                 </button>
               </div>
 
@@ -1674,11 +1718,11 @@ export default function App() {
                                 ? 'text-amber-400 bg-amber-500/10 border-amber-500/20'
                                 : 'text-emerald-700 bg-emerald-50 border-emerald-250/20'
                                 }`}>
-                                {t('educational_platform', 'Plateforme Éducative')}
+                                {t('common.educational_platform', 'Plateforme Éducative')}
                               </span>
                               <h2 className={`text-xl font-black tracking-tight transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-stone-900'
                                 }`}>
-                                {t('learn_islamic_sciences', 'Apprenez les Sciences Islamiques !')}
+                                {t('common.learn_islamic_sciences', 'Apprenez les Sciences Islamiques !')}
                               </h2>
                               <p className={`text-xs leading-relaxed transition-colors duration-300 ${theme === 'dark' ? 'text-slate-350' : 'text-stone-600'
                                 }`}>
@@ -1708,14 +1752,14 @@ export default function App() {
                                 ? 'text-slate-300 border-slate-800/80'
                                 : 'text-stone-700 border-stone-200'
                                 }`}>
-                                {t('exercise_config', "Configuration de l'exercice :")}
+                                {t('quiz.exercise_config', "Configuration de l'exercice :")}
                               </h3>
 
                               {/* Search Bar filter */}
                               <div className="space-y-2">
                                 <label className={`text-xs font-bold uppercase tracking-wider block transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-stone-500'
                                   }`}>
-                                  {t('search_keyword', 'Rechercher par mot-clé :')}
+                                  {t('quiz.search_keyword', 'Rechercher par mot-clé :')}
                                 </label>
                                 <div className="relative">
                                   <input
@@ -1750,13 +1794,13 @@ export default function App() {
                                 <div className="flex items-center justify-between">
                                   <label className={`text-xs font-bold uppercase tracking-wider transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-stone-500'
                                     }`}>
-                                    {t('study_themes', "Sujets d'étude (Sélection multiple) :")}
+                                    {t('quiz.categories', "Sujets d'étude (Sélection multiple) :")}
                                   </label>
                                   <button
                                     onClick={handleSelectAllCategories}
                                     className="text-[10px] font-black text-emerald-500 hover:text-emerald-600 transition-colors uppercase cursor-pointer"
                                   >
-                                    {selectedCategories.length === allCategories.length ? t('deselect_all', 'Tout décocher') : t('select_all', 'Tout cocher')}
+                                    {selectedCategories.length === allCategories.length ? t('quiz.deselect_all', 'Tout décocher') : t('quiz.select_all', 'Tout cocher')}
                                   </button>
                                 </div>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pb-1">
@@ -1777,7 +1821,7 @@ export default function App() {
                                         className={`p-3 rounded-xl text-xs font-semibold text-left border transition-all cursor-pointer flex items-center justify-between gap-2 ${isSelected ? activeClass : inactiveClass
                                           }`}
                                       >
-                                        <span className="truncate">{t(cat, cat)}</span>
+                                        <span className="truncate">{t(getCategoryKey(cat), cat)}</span>
                                         <div className={`w-4 h-4 rounded-md border flex items-center justify-center shrink-0 transition-all ${isSelected
                                           ? 'bg-emerald-500 border-emerald-500 text-slate-950'
                                           : (theme === 'dark' ? 'border-slate-800 bg-slate-950' : 'border-stone-300 bg-stone-100')
@@ -1795,13 +1839,13 @@ export default function App() {
                                 <div className="flex items-center justify-between">
                                   <label className={`text-xs font-bold uppercase tracking-wider transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-stone-500'
                                     }`}>
-                                    {t('difficulty_levels', "Niveaux de difficulté (Sélection multiple) :")}
+                                    {t('quiz.difficulty', "Niveaux de difficulté (Sélection multiple) :")}
                                   </label>
                                   <button
                                     onClick={handleSelectAllLevels}
                                     className="text-[10px] font-black text-emerald-500 hover:text-emerald-600 transition-colors uppercase cursor-pointer"
                                   >
-                                    {selectedLevels.length === allLevels.length ? t('deselect_all', 'Tout décocher') : t('select_all', 'Tout cocher')}
+                                    {selectedLevels.length === allLevels.length ? t('quiz.deselect_all', 'Tout décocher') : t('quiz.select_all', 'Tout cocher')}
                                   </button>
                                 </div>
                                 <div className="grid grid-cols-3 gap-2.5 pb-1">
@@ -1822,7 +1866,7 @@ export default function App() {
                                         className={`p-3 rounded-xl text-xs font-semibold text-center border transition-all cursor-pointer flex items-center justify-center gap-1.5 ${isSelected ? activeClass : inactiveClass
                                           }`}
                                       >
-                                        <span>{t(lvl, lvl)}</span>
+                                        <span>{t(getLevelKey(lvl), lvl)}</span>
                                         <div className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center shrink-0 transition-all ${isSelected
                                           ? 'bg-emerald-500 border-emerald-500 text-slate-950'
                                           : (theme === 'dark' ? 'border-slate-800 bg-slate-950' : 'border-stone-300 bg-stone-100')
@@ -1844,11 +1888,11 @@ export default function App() {
                                   <div className="space-y-0.5">
                                     <label className={`text-xs font-bold flex items-center gap-1.5 font-sans transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-stone-850'
                                       }`}>
-                                      <span>{t('activate_timer', 'Activer le Chronomètre')}</span>
+                                      <span>{t('quiz.activate_timer', 'Activer le Chronomètre')}</span>
                                     </label>
                                     <p className={`text-[10px] leading-tight transition-colors duration-300 ${theme === 'dark' ? 'text-slate-450' : 'text-stone-450'
                                       }`}>
-                                      {t('timer_desc', 'Limite le temps de réflexion pour pimenter le défi')}
+                                      {t('quiz.timer_desc', 'Limite le temps de réflexion pour pimenter le défi')}
                                     </p>
                                   </div>
 
@@ -2017,7 +2061,7 @@ export default function App() {
 
                               <div>
                                 <h4 className={`text-xs font-black uppercase tracking-wider transition-colors duration-300 ${theme === 'dark' ? 'text-slate-450' : 'text-stone-500'
-                                  }`}>Vos Statistiques</h4>
+                                  }`}>{t('common.home_stats_title', 'Vos Statistiques')}</h4>
                                 <p className={`text-lg font-black font-mono mt-1 transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-stone-900'
                                   }`}>{stats.xp} <span className={`text-xs font-normal ${theme === 'dark' ? 'text-slate-450' : 'text-stone-400'}`}>XP</span></p>
                               </div>
@@ -2026,12 +2070,12 @@ export default function App() {
                                 }`}>
                                 <div className="text-center">
                                   <p className={`text-[9px] uppercase font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-slate-450' : 'text-stone-500'
-                                    }`}>Réussies</p>
+                                    }`}>{t('common.home_stats_correct', 'Réussies')}</p>
                                   <p className={`text-sm font-bold font-mono ${theme === 'dark' ? 'text-emerald-400' : 'text-emerald-600'}`}>{stats.correctAnswersCount}</p>
                                 </div>
                                 <div className="text-center">
                                   <p className={`text-[9px] uppercase font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-slate-455' : 'text-stone-500'
-                                    }`}>Quizz Finis</p>
+                                    }`}>{t('common.home_stats_quizzes', 'Quiz Finis')}</p>
                                   <p className={`text-sm font-bold font-mono ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`}>{stats.completedQuizzesCount}</p>
                                 </div>
                               </div>
@@ -2044,7 +2088,7 @@ export default function App() {
                                     : 'bg-stone-50 border-stone-200 hover:bg-stone-100 text-stone-600 hover:text-stone-850 btn-3d-slate'
                                     }`}
                                 >
-                                  Détails des badges →
+                                  {t('common.home_stats_details', 'Détails des badges →')}
                                 </button>
                               </div>
                             </div>
@@ -2057,18 +2101,18 @@ export default function App() {
                               <h4 className={`text-[10px] font-black uppercase tracking-widest font-mono flex items-center gap-1.5 transition-colors duration-300 ${theme === 'dark' ? 'text-emerald-400' : 'text-emerald-700'
                                 }`}>
                                 <Compass className="w-3.5 h-3.5" />
-                                L&apos;Institut Al-Mouyassar
+                                {t('common.home_school_title', "L'Institut Al-Mouyassar")}
                               </h4>
                               <p className={`text-[11px] leading-relaxed transition-colors duration-305 ${theme === 'dark' ? 'text-slate-400' : 'text-stone-600'
                                 }`}>
-                                L&apos;école a été fondée en <strong>2007</strong> par le vénérable <strong>Cheikh El Hadji Abdallah Niasse</strong> pour instruire les porteurs de la parole sacrée d&apos;Allah.
+                                {t('common.home_school_desc')}
                               </p>
                               <button
                                 onClick={() => { playSelectSound(); setShowSchoolModal(true); }}
                                 className={`text-[10px] font-black flex items-center gap-0.5 tracking-tight cursor-pointer transition-colors duration-300 ${theme === 'dark' ? 'text-amber-400 hover:text-amber-300' : 'text-emerald-600 hover:text-emerald-700'
                                   }`}
                               >
-                                Consulter l&apos;histoire complète d&apos;Al-Mouyassar →
+                                {t('common.home_school_history_btn', "Consulter l'histoire complète d'Al-Mouyassar →")}
                               </button>
                             </div>
 

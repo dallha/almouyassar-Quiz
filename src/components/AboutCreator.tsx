@@ -1,4 +1,9 @@
 /**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/**
  * AboutCreator — Page "À propos du créateur"
  *
  * Accessible depuis le menu Profil ou À propos.
@@ -6,7 +11,8 @@
  */
 
 import { motion } from 'motion/react';
-import { Sparkles, ArrowLeft, ExternalLink } from 'lucide-react';
+import { ArrowLeft, ExternalLink } from 'lucide-react';
+import { useLanguage } from '../LanguageContext';
 
 const socialLinks = [
     {
@@ -43,6 +49,8 @@ interface AboutCreatorProps {
 }
 
 export default function AboutCreator({ onClose }: AboutCreatorProps) {
+    const { t, dir, language } = useLanguage();
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -50,7 +58,7 @@ export default function AboutCreator({ onClose }: AboutCreatorProps) {
             exit={{ opacity: 0, y: -20 }}
             className="w-full max-w-lg mx-auto"
         >
-            <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-[var(--color-gold)]/20 overflow-hidden">
+            <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-[var(--color-gold)]/20 overflow-hidden" dir={dir}>
                 {/* Motif islamique subtil */}
                 <div
                     className="absolute inset-0 opacity-[0.02] pointer-events-none"
@@ -60,16 +68,17 @@ export default function AboutCreator({ onClose }: AboutCreatorProps) {
                 />
 
                 {/* Glow */}
-                <div className="absolute -top-40 -right-40 w-80 h-80 bg-[var(--color-gold)]/5 rounded-full blur-3xl pointer-events-none" />
+                <div className={`absolute -top-40 ${dir === 'rtl' ? '-left-40' : '-right-40'} w-80 h-80 bg-[var(--color-gold)]/5 rounded-full blur-3xl pointer-events-none`} />
 
                 {/* Bouton retour */}
                 <button
                     onClick={onClose}
-                    className="absolute top-4 left-4 z-10 w-8 h-8 rounded-full bg-[var(--color-deep-green)]/5
+                    className={`absolute top-4 ${dir === 'rtl' ? 'right-4' : 'left-4'} z-10 w-8 h-8 rounded-full bg-[var(--color-deep-green)]/5
                      hover:bg-[var(--color-deep-green)]/10 flex items-center justify-center
-                     transition-colors cursor-pointer"
+                     transition-all cursor-pointer`}
+                    aria-label={t('common.back')}
                 >
-                    <ArrowLeft size={14} className="text-[var(--color-deep-green)]/50" />
+                    <ArrowLeft size={14} className={`text-[var(--color-deep-green)]/50 ${dir === 'rtl' ? 'rotate-180' : ''}`} />
                 </button>
 
                 <div className="relative z-10 px-6 py-10 text-center space-y-6">
@@ -83,7 +92,9 @@ export default function AboutCreator({ onClose }: AboutCreatorProps) {
                         <div className="w-20 h-20 rounded-full flex items-center justify-center
                             bg-gradient-to-br from-[var(--color-deep-green)] to-[var(--color-deep-green)]/80
                             border-2 border-[var(--color-gold)]/20">
-                            <span className="text-white text-2xl font-bold font-display tracking-wide">MN</span>
+                            <span className="text-white text-2xl font-bold font-display tracking-wide">
+                                {t('creator.avatar_initials')}
+                            </span>
                         </div>
                         <div
                             className="absolute -inset-3 rounded-full opacity-20"
@@ -102,12 +113,10 @@ export default function AboutCreator({ onClose }: AboutCreatorProps) {
                         className="space-y-2"
                     >
                         <h2 className="text-lg font-bold text-[var(--color-deep-green)] font-display">
-                            Graphiste de la Hadara
+                            {t('creator.creator_name')}
                         </h2>
-                        <p className="text-xs text-[var(--color-deep-green)]/50 leading-relaxed max-w-sm mx-auto font-medium italic">
-                            "Design inspiré par la tradition.
-                            <br />
-                            Pensé pour les nouvelles générations."
+                        <p className={`text-xs text-[var(--color-deep-green)]/50 leading-relaxed max-w-sm mx-auto font-medium italic ${language === 'ar' ? 'text-sm font-sans' : ''}`}>
+                            "{t('creator.tagline')}"
                         </p>
                     </motion.div>
 
@@ -116,16 +125,14 @@ export default function AboutCreator({ onClose }: AboutCreatorProps) {
                         initial={{ y: 10, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ duration: 0.5, delay: 0.3 }}
-                        className="space-y-3 text-left"
+                        className="space-y-3 text-start"
                     >
                         <div className="p-4 rounded-xl bg-[var(--color-deep-green)]/[0.02] border border-[var(--color-deep-green)]/5">
                             <h3 className="text-[10px] font-black uppercase tracking-widest text-[var(--color-gold)]/70 mb-2 font-mono">
-                                Vision
+                                {t('creator.vision_title')}
                             </h3>
-                            <p className="text-xs text-[var(--color-deep-green)]/60 leading-relaxed">
-                                Créer des expériences numériques qui honorent la tradition islamique
-                                tout en embrassant la modernité. Chaque pixel est pensé pour
-                                transmettre la noblesse du savoir et la beauté de la foi.
+                            <p className={`text-xs text-[var(--color-deep-green)]/60 leading-relaxed ${language === 'ar' ? 'text-sm leading-loose' : ''}`}>
+                                {t('creator.vision_desc')}
                             </p>
                         </div>
                     </motion.div>
@@ -171,8 +178,8 @@ export default function AboutCreator({ onClose }: AboutCreatorProps) {
                             className="inline-flex items-center gap-1.5 text-[10px] font-bold text-[var(--color-deep-green)]/40
                          hover:text-[var(--color-deep-green)]/60 transition-colors"
                         >
-                            Voir le portfolio
-                            <ExternalLink size={10} />
+                            {t('creator.portfolio_link')}
+                            <ExternalLink size={10} className={`${dir === 'rtl' ? 'rotate-180' : ''}`} />
                         </a>
                     </motion.div>
                 </div>

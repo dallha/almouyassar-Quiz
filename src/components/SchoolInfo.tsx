@@ -5,16 +5,43 @@
 
 import { motion } from 'motion/react';
 import { 
-  X, MapPin, Calendar, Award, BookOpen, GraduationCap, Users, Heart, CheckCircle2,
+  X, MapPin, Calendar, Award, BookOpen, GraduationCap, Users, CheckCircle2,
   Phone, Mail, Facebook, Youtube, Flame, Info
 } from 'lucide-react';
 import { SCHOOL_INFO } from '../data';
+import { useLanguage } from '../LanguageContext';
 
 interface SchoolInfoProps {
   onClose: () => void;
 }
 
 export default function SchoolInfo({ onClose }: SchoolInfoProps) {
+  const { t, dir } = useLanguage();
+
+  const chiffresCles = [
+    { label: t('school.stat_students'), value: t('school.val_students') },
+    { label: t('school.stat_graduates'), value: t('school.val_graduates') },
+    { label: t('school.stat_success'), value: t('school.val_success') },
+    { label: t('school.stat_licence'), value: t('school.val_licence') },
+  ];
+
+  const programmes = [
+    { title: t('school.prog_double_title'), description: t('school.prog_double_desc') },
+    { title: t('school.prog_bridge_title'), description: t('school.prog_bridge_desc') },
+    { title: t('school.prog_vac_title'), description: t('school.prog_vac_desc') },
+  ];
+
+  const values = [
+    { title: t('school.val_tahji_title'), description: t('school.val_tahji_desc') },
+    { title: t('school.val_khatm_title'), description: t('school.val_khatm_desc') },
+    { title: t('school.val_akhlaq_title'), description: t('school.val_akhlaq_desc') },
+  ];
+
+  const structures = [
+    { name: "AMDMEC", description: t('school.struct_amdmec_desc') },
+    { name: "Ansar Al-Mouyassar", description: t('school.struct_ansar_desc') },
+  ];
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
       <motion.div
@@ -28,20 +55,20 @@ export default function SchoolInfo({ onClose }: SchoolInfoProps) {
           <div className="absolute inset-0 bg-radial-gradient from-emerald-800/20 to-transparent pointer-events-none" />
           <div>
             <span className="text-xs font-semibold uppercase tracking-wider text-amber-400 bg-emerald-950 px-2.5 py-1 rounded-full border border-emerald-800/30">
-              Histoire &amp; Valeurs Officielles
+              {t('school.guide_title')}
             </span>
             <h2 className="text-2xl font-bold font-sans mt-2 tracking-tight">
-              {SCHOOL_INFO.name}
+              {t('school.name')}
             </h2>
             <p className="text-emerald-100 text-sm mt-1 flex items-center gap-1.5 font-mono">
               <MapPin className="w-3.5 h-3.5 text-amber-400" />
-              {SCHOOL_INFO.location}
+              {t('school.location')}
             </p>
           </div>
           <button
             onClick={onClose}
             className="p-1 rounded-lg bg-emerald-800/50 hover:bg-emerald-800 text-emerald-100 hover:text-white transition-all cursor-pointer"
-            aria-label="Fermer"
+            aria-label={t('school.close_guide')}
           >
             <X className="w-5 h-5" />
           </button>
@@ -51,13 +78,13 @@ export default function SchoolInfo({ onClose }: SchoolInfoProps) {
         <div className="relative h-44 sm:h-52 w-full overflow-hidden shrink-0 border-b border-slate-100">
           <img
             src="/images/school_courtyard.png"
-            alt="Cour de l'Institut Al-Mouyassar"
+            alt={t('school.illust_label')}
             className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
-          <div className="absolute bottom-3 left-4 text-white text-xs font-semibold flex items-center gap-1 drop-shadow-md">
+          <div className={`absolute bottom-3 ${dir === 'rtl' ? 'right-4' : 'left-4'} text-white text-xs font-semibold flex items-center gap-1 drop-shadow-md`}>
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            Illustration officielle de l&apos;Institut
+            {t('school.illust_label')}
           </div>
         </div>
 
@@ -70,8 +97,8 @@ export default function SchoolInfo({ onClose }: SchoolInfoProps) {
                 <Calendar className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Création de l'Institut</p>
-                <p className="text-sm font-bold text-slate-800">Fondé en {SCHOOL_INFO.founded}</p>
+                <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">{t('school.founded_label')}</p>
+                <p className="text-sm font-bold text-slate-800">{t('school.founded_val')}</p>
               </div>
             </div>
 
@@ -80,23 +107,23 @@ export default function SchoolInfo({ onClose }: SchoolInfoProps) {
                 <Award className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Fondateur éminent</p>
-                <p className="text-sm font-bold text-slate-800">{SCHOOL_INFO.founder}</p>
+                <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">{t('school.founder_label')}</p>
+                <p className="text-sm font-bold text-slate-800">{t('school.founder')}</p>
               </div>
             </div>
           </div>
 
           {/* Noble Mission Statement */}
           <div className="p-4 rounded-xl bg-emerald-50/15 border border-emerald-500/10 space-y-1.5 relative overflow-hidden">
-            <div className="absolute right-2 bottom-2 text-emerald-500/5 pointer-events-none">
+            <div className={`absolute ${dir === 'rtl' ? 'left-2' : 'right-2'} bottom-2 text-emerald-500/5 pointer-events-none`}>
               <BookOpen className="w-24 h-24" />
             </div>
             <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
               <GraduationCap className="w-4 h-4 text-emerald-600" />
-              Une noble mission : Le Coran au cœur
+              {t('school.mission_title')}
             </h3>
             <p className="text-slate-650 leading-relaxed text-xs italic">
-              &ldquo;{SCHOOL_INFO.mission}&rdquo;
+              &ldquo;{t('school.mission_desc')}&rdquo;
             </p>
           </div>
 
@@ -104,10 +131,10 @@ export default function SchoolInfo({ onClose }: SchoolInfoProps) {
           <div className="space-y-3">
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
               <Flame className="w-4 h-4 text-amber-500" />
-              Chiffres clés de l'excellence
+              {t('school.stats_title')}
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {SCHOOL_INFO.chiffresCles.map((stat, idx) => (
+              {chiffresCles.map((stat, idx) => (
                 <div key={idx} className="p-3 rounded-lg bg-neutral-50 border border-neutral-100/80 text-center space-y-0.5">
                   <p className="text-lg font-extrabold text-emerald-700 font-mono tracking-tight">{stat.value}</p>
                   <p className="text-[9px] text-slate-500 font-medium leading-tight">{stat.label}</p>
@@ -120,10 +147,10 @@ export default function SchoolInfo({ onClose }: SchoolInfoProps) {
           <div className="space-y-3">
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
               <Info className="w-4 h-4 text-emerald-600" />
-              Nos Programmes d'Excellence
+              {t('school.progs_title')}
             </h3>
             <div className="grid gap-2.5">
-              {SCHOOL_INFO.programmes.map((prog, idx) => (
+              {programmes.map((prog, idx) => (
                 <div key={idx} className="p-3.5 rounded-xl border border-slate-150 bg-slate-50/40 hover:bg-emerald-50/5 transition-colors">
                   <h4 className="font-bold text-slate-800 text-xs flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
@@ -141,12 +168,12 @@ export default function SchoolInfo({ onClose }: SchoolInfoProps) {
           <div className="space-y-3">
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
               <BookOpen className="w-4 h-4 text-emerald-600" />
-              Notre Cursus Traditionnel &amp; Spirituel
+              {t('school.curriculum_title')}
             </h3>
             <div className="grid gap-3">
-              {SCHOOL_INFO.values.map((val) => (
+              {values.map((val) => (
                 <div key={val.title} className="p-4 rounded-xl border border-slate-150 hover:border-emerald-100 hover:bg-emerald-50/10 transition-colors flex gap-3">
-                  <div className="mt-0.5 mt-shrink-0">
+                  <div className="mt-0.5 shrink-0">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                   </div>
                   <div>
@@ -162,17 +189,17 @@ export default function SchoolInfo({ onClose }: SchoolInfoProps) {
           <div className="space-y-3">
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
               <Users className="w-4 h-4 text-emerald-600" />
-              La Communauté &amp; les Piliers Humains
+              {t('school.community_title')}
             </h3>
             <div className="grid md:grid-cols-2 gap-3">
-              {SCHOOL_INFO.structures.map((struct) => (
+              {structures.map((struct) => (
                 <div key={struct.name} className="p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-2 flex flex-col justify-between">
                   <div>
                     <div className="flex items-center gap-1.5">
                       <span className="font-mono font-bold text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded">
                         {struct.name}
                       </span>
-                      <span className="text-[10px] text-slate-450 font-medium">Acteur de soutien</span>
+                      <span className="text-[10px] text-slate-450 font-medium">{t('school.struct_support')}</span>
                     </div>
                     <p className="text-xs text-slate-600 mt-2 leading-relaxed">
                       {struct.description}
@@ -186,20 +213,20 @@ export default function SchoolInfo({ onClose }: SchoolInfoProps) {
           {/* Contacts & Admissions section */}
           <div className="p-4 rounded-xl bg-slate-900 text-slate-200 border border-slate-800 space-y-3">
             <h3 className="text-xs font-bold uppercase tracking-wider text-amber-400">
-              Contacts &amp; Admissions
+              {t('school.contacts_title')}
             </h3>
             <div className="space-y-2 text-xs">
               <p className="flex items-start gap-2 text-slate-300">
                 <MapPin className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
-                <span><strong>Adresse :</strong> {SCHOOL_INFO.contacts.adresse}</span>
+                <span><strong>{t('school.address_label')}</strong> {t('school.contacts_address')}</span>
               </p>
               <p className="flex items-center gap-2 text-slate-300">
                 <Phone className="w-4 h-4 text-slate-400 shrink-0" />
-                <span><strong>Téléphones :</strong> {SCHOOL_INFO.contacts.telephones.join(" / ")}</span>
+                <span><strong>{t('school.phones_label')}</strong> {SCHOOL_INFO.contacts.telephones.join(" / ")}</span>
               </p>
               <p className="flex items-center gap-2 text-slate-300">
                 <Mail className="w-4 h-4 text-slate-400 shrink-0" />
-                <span><strong>Email :</strong> {SCHOOL_INFO.contacts.email}</span>
+                <span><strong>{t('school.email_label')}</strong> {SCHOOL_INFO.contacts.email}</span>
               </p>
               <div className="flex items-center gap-4.5 pt-1.5 text-slate-400">
                 <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 hover:text-white transition-colors">
@@ -221,7 +248,7 @@ export default function SchoolInfo({ onClose }: SchoolInfoProps) {
             onClick={onClose}
             className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold rounded-lg shadow transition-all cursor-pointer"
           >
-            Fermer le guide
+            {t('school.close_guide')}
           </button>
         </div>
       </motion.div>

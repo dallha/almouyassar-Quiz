@@ -8,19 +8,21 @@ import { motion } from 'motion/react';
 import { Play, Pause, Sparkles, Volume2 } from 'lucide-react';
 import { playSelectSound } from './SoundEngine';
 import SchoolLogo from './SchoolLogo';
+import { useLanguage } from '../LanguageContext';
 
 interface VisionPitchProps {
   onStartAdventure: () => void;
 }
 
 export default function VisionPitch({ onStartAdventure }: VisionPitchProps) {
+  const { t, dir, language } = useLanguage();
   const [isPlaying, setIsPlaying] = useState(false);
   const [synth, setSynth] = useState<SpeechSynthesis | null>(
     typeof window !== 'undefined' ? window.speechSynthesis : null
   );
-  const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(null);
+  const [, setUtterance] = useState<SpeechSynthesisUtterance | null>(null);
 
-  const pitchText = `Aujourd’hui, beaucoup d’enfants utilisent les écrans pour se divertir. Notre objectif est de transformer ce temps en une expérience éducative utile et bénéfique. Nous développons un jeu éducatif islamique conçu spécialement pour les enfants. Ce jeu permettra d’apprendre les bases de l’islam à travers des quiz, des activités interactives et des histoires adaptées à chaque âge. Le contenu sera organisé par niveaux afin de faciliter la progression de l’enfant. Chaque thème abordera un aspect important de l’éducation islamique : la prière, les ablutions, les piliers de l’islam, les histoires des prophètes, les comportements et valeurs islamiques. Notre ambition est de créer une plateforme éducative moderne qui transmet les valeurs islamiques de manière claire, accessible et adaptée aux nouvelles générations.`;
+  const pitchText = t('common.pitch_text');
 
   const handleToggleSpeak = () => {
     playSelectSound();
@@ -32,8 +34,8 @@ export default function VisionPitch({ onStartAdventure }: VisionPitchProps) {
     } else {
       synth.cancel(); // Stop anything else running
       const newUtterance = new SpeechSynthesisUtterance(pitchText);
-      newUtterance.lang = 'fr-FR';
-      newUtterance.rate = 0.95; // Slightly slower, gentle voice
+      newUtterance.lang = language === 'ar' ? 'ar-SA' : 'fr-FR';
+      newUtterance.rate = language === 'ar' ? 0.88 : 0.95; // Slightly slower, gentle voice
       newUtterance.onend = () => {
         setIsPlaying(false);
       };
@@ -59,7 +61,7 @@ export default function VisionPitch({ onStartAdventure }: VisionPitchProps) {
         <div className="absolute inset-0 z-0">
           <img
             src="/images/school_courtyard.png"
-            alt="Cour de l'Institut"
+            alt={t('school.illust_label')}
             className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#004D40]/90 via-[#00382E]/93 to-[#00241E]/96" />
@@ -71,24 +73,24 @@ export default function VisionPitch({ onStartAdventure }: VisionPitchProps) {
             <SchoolLogo size={76} className="drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)] hover:scale-105 transition-transform duration-300" />
           </div>
 
-          <h2 className="text-xl sm:text-2xl font-black tracking-tight text-[#FCF8F2] drop-shadow-sm font-sans uppercase">
-            Almouyassar Play &amp; Learn
+          <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[#FCF8F2] drop-shadow-sm font-sans uppercase">
+            {t('school.name')}
           </h2>
           <p className="text-xs text-[#FCF8F2]/90 max-w-sm mx-auto leading-relaxed font-medium">
-            Transformer le temps d&apos;écran de nos enfants en une expérience éducative vertueuse, interactive et amusante pour cultiver les Bourgeons de la Foi !
+            {t('common.footer_desc')}
           </p>
         </div>
       </motion.div>
 
       {/* Script Pitch Presentation Card */}
-      <div className="p-5 rounded-2xl bg-white border border-[#004D40]/10 shadow transition-all space-y-5">
+      <div className="p-5 rounded-2xl bg-white border border-[#004D40]/10 shadow transition-all space-y-5" dir={dir}>
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-stone-100 pb-3">
           <div>
             <span className="text-[10px] font-bold text-[#D0A21C] tracking-widest uppercase block font-mono">
-              Présentation du Projet
+              {t('common.pitch_badge')}
             </span>
             <h3 className="text-sm font-extrabold text-[#004D40] uppercase tracking-wide">
-              Le Pitch de l&apos;Oustaz
+              {t('common.pitch_title')}
             </h3>
           </div>
 
@@ -103,12 +105,12 @@ export default function VisionPitch({ onStartAdventure }: VisionPitchProps) {
             {isPlaying ? (
               <>
                 <Pause className="w-4 h-4" />
-                <span>Arrêter l&apos;écoute</span>
+                <span>{t('common.pitch_stop_speak')}</span>
               </>
             ) : (
               <>
                 <Volume2 className="w-4 h-4 text-[#D0A21C]" />
-                <span>Écouter le script</span>
+                <span>{t('common.pitch_start_speak')}</span>
               </>
             )}
           </button>
@@ -117,8 +119,8 @@ export default function VisionPitch({ onStartAdventure }: VisionPitchProps) {
         {/* Audio feedback waves when playing */}
         {isPlaying && (
           <div className="flex items-center justify-center gap-1 py-1 bg-amber-500/5 rounded-lg border border-amber-500/10">
-            <span className="text-[9px] font-bold text-[#D0A21C] font-mono mr-2">Lecture en cours...</span>
-            <div className="flex items-end gap-0.5 h-3">
+            <span className="text-[9px] font-bold text-[#D0A21C] font-mono mr-2">{t('common.pitch_reading_active')}</span>
+            <div className="flex items-end gap-0.5 h-3" dir="ltr">
               {[1, 2, 3, 4, 3, 2, 1, 3, 4, 2, 3, 1, 4, 2].map((h, i) => (
                 <motion.div
                   key={i}
@@ -132,12 +134,12 @@ export default function VisionPitch({ onStartAdventure }: VisionPitchProps) {
         )}
 
         {/* Script text box styled with typography quote */}
-        <blockquote className="relative p-4 rounded-xl bg-amber-50/20 border-l-4 border-[#D0A21C] text-slate-700 italic">
-          <p className="text-xs leading-relaxed font-serif text-[#004D40]">
+        <blockquote className={`relative p-4 rounded-xl bg-amber-50/20 text-slate-700 italic border-l-4 ${dir === 'rtl' ? 'border-r-4 border-l-0 border-[#D0A21C]' : 'border-l-4 border-[#D0A21C]'}`}>
+          <p className={`text-xs leading-relaxed font-serif text-[#004D40] ${language === 'ar' ? 'text-sm font-sans' : ''}`}>
             &ldquo;{pitchText}&rdquo;
           </p>
-          <cite className="block text-right text-[10px] font-bold text-[#004D40] tracking-wide mt-2.5 not-italic font-sans">
-            — Direction de l&apos;Institut Al-Mouyassar
+          <cite className={`block text-[10px] font-bold text-[#004D40] tracking-wide mt-2.5 not-italic font-sans ${dir === 'rtl' ? 'text-left' : 'text-right'}`}>
+            {t('common.pitch_author')}
           </cite>
         </blockquote>
 
@@ -145,13 +147,13 @@ export default function VisionPitch({ onStartAdventure }: VisionPitchProps) {
         <div className="grid grid-cols-2 gap-3 text-center">
           <div className="p-3 bg-neutral-50 rounded-xl border border-stone-100 space-y-1">
             <span className="text-base">🕋</span>
-            <p className="text-[10px] font-bold text-[#004D40]">Prière &amp; Ablutions</p>
-            <p className="text-[9px] text-gray-500 leading-none">Règles fondamentales</p>
+            <p className="text-[10px] font-bold text-[#004D40]">{t('common.pitch_theme_prayer_title')}</p>
+            <p className="text-[9px] text-gray-500 leading-none">{t('common.pitch_theme_prayer_desc')}</p>
           </div>
           <div className="p-3 bg-neutral-50 rounded-xl border border-stone-100 space-y-1">
             <span className="text-base">📖</span>
-            <p className="text-[10px] font-bold text-[#004D40]">Histoires Inspirantes</p>
-            <p className="text-[9px] text-gray-500 leading-none">Prophètes &amp; Fondateurs</p>
+            <p className="text-[10px] font-bold text-[#004D40]">{t('common.pitch_theme_stories_title')}</p>
+            <p className="text-[9px] text-gray-500 leading-none">{t('common.pitch_theme_stories_desc')}</p>
           </div>
         </div>
 
@@ -161,8 +163,8 @@ export default function VisionPitch({ onStartAdventure }: VisionPitchProps) {
             onClick={onStartAdventure}
             className="w-full py-3.5 bg-[#D0A21C] hover:bg-[#D0A21C]/90 text-[#FCF8F2] text-xs font-bold uppercase tracking-widest rounded-xl shadow-md transition-all hover:-translate-y-0.5 cursor-pointer flex items-center justify-center gap-2"
           >
-            <Sparkles className="w-4 h-4 fill-[#FCF8F2]" />
-            <span>Accéder au Mode Aventure !</span>
+            <Play className={`w-4 h-4 fill-[#FCF8F2] ${dir === 'rtl' ? 'rotate-180' : ''}`} />
+            <span>{t('common.pitch_adventure_cta')}</span>
           </button>
         </div>
       </div>
