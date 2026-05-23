@@ -41,11 +41,11 @@ export default function AdventureMap({ zones, adventureState, onNodeClick }: Adv
       
       {/* ── LUMINOUS BREATHING ROOMS (Ambient Glowing Orbs) ── */}
       {/* Orb 1: Sacred Gold near active nodes */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-80 h-80 rounded-full bg-amber-500/[0.03] blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-80 h-80 rounded-full bg-amber-500/[0.015] blur-[100px] pointer-events-none" />
       {/* Orb 2: Emerald Calm at the start */}
-      <div className="absolute top-10 left-1/3 w-96 h-96 rounded-full bg-emerald-500/[0.02] blur-[120px] pointer-events-none" />
+      <div className="absolute top-10 left-1/3 w-96 h-96 rounded-full bg-emerald-500/[0.01] blur-[120px] pointer-events-none" />
       {/* Orb 3: Noble Crimson near the Boss guardian */}
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-orange-600/[0.03] blur-[110px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-orange-600/[0.015] blur-[110px] pointer-events-none" />
 
       {/* Floating Progression Dashboard */}
       <div className="sticky top-4 z-40 w-full px-4 mb-6">
@@ -104,11 +104,11 @@ export default function AdventureMap({ zones, adventureState, onNodeClick }: Adv
                 
                 {/* ── DUAL GLOWING CONNECTING TRACK ── */}
                 {/* Background track (Locked/Inactive) */}
-                <div className="absolute top-0 bottom-0 w-[4px] bg-[#122e23] rounded-full -z-10" />
+                <div className="absolute top-0 bottom-0 w-[2px] bg-[#10291f] rounded-full -z-10" />
                 
                 {/* Foreground glowing track (Completed) */}
                 <div 
-                  className="absolute top-0 w-[4px] bg-gradient-to-b from-emerald-500 via-teal-400 to-emerald-600 rounded-full -z-10 shadow-[0_0_12px_rgba(52,211,153,0.3)] transition-all duration-700" 
+                  className="absolute top-0 w-[2px] bg-gradient-to-b from-emerald-500 via-teal-400 to-emerald-600 rounded-full -z-10 shadow-[0_0_10px_rgba(52,211,153,0.25)] transition-all duration-700" 
                   style={{
                     height: `${Math.max(10, progressionPercent)}%`,
                     maxHeight: '100%'

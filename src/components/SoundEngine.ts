@@ -42,10 +42,10 @@ export function playSuccessSound() {
     osc.frequency.setValueAtTime(frequency, now + delay);
 
     gainNode.gain.setValueAtTime(0, now + delay);
-    // Smooth attack
-    gainNode.gain.linearRampToValueAtTime(0.12, now + delay + 0.05);
-    // Smooth decay
-    gainNode.gain.exponentialRampToValueAtTime(0.001, now + delay + duration);
+    // Snappy soft attack (C5 -> E5 -> G5 chime arpeggio)
+    gainNode.gain.linearRampToValueAtTime(0.05, now + delay + 0.02);
+    // Rapid soft decay to avoid ringing
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, now + delay + duration);
 
     osc.connect(gainNode);
     gainNode.connect(ctx.destination);
@@ -54,10 +54,10 @@ export function playSuccessSound() {
     osc.stop(now + delay + duration);
   };
 
-  // Play a beautiful ascending major triad chime (C major: C5 -> E5 -> G5)
-  playTone(523.25, 0, 0.4);      // C5
-  playTone(659.25, 0.08, 0.4);   // E5
-  playTone(783.99, 0.16, 0.5);   // G5
+  // Play a very soft, fast ascending major triad chime (C major arpeggio, very brief)
+  playTone(523.25, 0, 0.22);      // C5
+  playTone(659.25, 0.05, 0.22);   // E5
+  playTone(783.99, 0.10, 0.25);   // G5
 }
 
 export function playErrorSound() {
@@ -66,7 +66,7 @@ export function playErrorSound() {
 
   const now = ctx.currentTime;
   
-  // Play a soft, deep dual harmonic tone (neutral and non-jarring)
+  // Play an extremely soft, feutré dual harmonic tone (low volume, fast decay)
   const playTone = (frequency: number, type: OscillatorType, volume: number) => {
     const osc = ctx.createOscillator();
     const gainNode = ctx.createGain();
@@ -75,19 +75,50 @@ export function playErrorSound() {
     osc.frequency.setValueAtTime(frequency, now);
 
     gainNode.gain.setValueAtTime(0, now);
-    gainNode.gain.linearRampToValueAtTime(volume, now + 0.02);
-    gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+    gainNode.gain.linearRampToValueAtTime(volume, now + 0.015);
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.25);
 
     osc.connect(gainNode);
     gainNode.connect(ctx.destination);
 
     osc.start(now);
-    osc.stop(now + 0.4);
+    osc.stop(now + 0.25);
   };
 
-  playTone(220.00, 'triangle', 0.15); // A3
-  playTone(185.00, 'sine', 0.15);     // F#3
+  playTone(196.00, 'triangle', 0.04); // G3 (Deep and feutré)
+  playTone(164.81, 'sine', 0.04);     // E3 (Calm neutral fifth)
 }
+
+export function playCheckpointSound() {
+  const ctx = getAudioContext();
+  if (!ctx) return;
+
+  const now = ctx.currentTime;
+  const playTone = (frequency: number, delay: number, volume: number, duration: number) => {
+    const osc = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(frequency, now + delay);
+
+    gainNode.gain.setValueAtTime(0, now + delay);
+    gainNode.gain.linearRampToValueAtTime(volume, now + delay + 0.02);
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, now + delay + duration);
+
+    osc.connect(gainNode);
+    gainNode.connect(ctx.destination);
+
+    osc.start(now + delay);
+    osc.stop(now + delay + duration);
+  };
+
+  // Play an ultra-soft, high-pitch water-ripple chime arpeggio (Sol majeur pentatonic)
+  // Low volume (0.02) and rapid duration (0.24s) to sound extremely subtle and Apple-like.
+  playTone(783.99, 0, 0.025, 0.24);     // G5
+  playTone(987.77, 0.04, 0.025, 0.24);   // B5
+  playTone(1174.66, 0.08, 0.03, 0.3);   // D6
+}
+
 
 export function playBadgeSound() {
   const ctx = getAudioContext();

@@ -4,6 +4,7 @@ import { AdventureNode, Question } from '../../types';
 import QuizCard from '../QuizCard';
 import { Trophy, ArrowRight, Sparkles, AlertCircle, Heart, Shield } from 'lucide-react';
 import { QUESTIONS } from '../../data';
+import { playSuccessSound, playErrorSound } from '../SoundEngine';
 
 interface AdventureSessionProps {
   node: AdventureNode;
@@ -41,7 +42,9 @@ export default function AdventureSession({ node, onComplete, onClose }: Adventur
 
     if (isCorrect) {
       setScore(prev => prev + 1);
+      playSuccessSound();
     } else {
+      playErrorSound();
       if (isBoss) {
         setPlayerHearts(prev => {
           const next = Math.max(0, prev - 1);
@@ -49,13 +52,13 @@ export default function AdventureSession({ node, onComplete, onClose }: Adventur
             // Out of hearts, trigger immediate duel finish next tick
             setTimeout(() => {
               setIsFinished(true);
-            }, 1000);
+            }, 800);
           }
           return next;
         });
         // Subtle micro-shake
         setShakeScreen(true);
-        setTimeout(() => setShakeScreen(false), 400);
+        setTimeout(() => setShakeScreen(false), 350);
       }
     }
 
@@ -65,8 +68,9 @@ export default function AdventureSession({ node, onComplete, onClose }: Adventur
       } else if (playerHearts > 0) {
         setIsFinished(true);
       }
-    }, 1600); // Allow time for QuizCard feedback animations
+    }, 1200); // exactly 1200ms respiration timing (perfectly balanced)
   };
+
 
   const handleFinish = () => {
     const accuracy = (score / sessionQuestions.length) * 100;
