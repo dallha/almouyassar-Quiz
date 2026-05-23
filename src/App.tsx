@@ -28,7 +28,7 @@ import OustazVirtual from './components/OustazVirtual';
 import VoixDesAnsar from './components/VoixDesAnsar';
 import ParentalDashboard from './components/ParentalDashboard';
 import SmartInstallPrompt from './components/SmartInstallPrompt';
-import CreatorSignature from './components/CreatorSignature';
+import AboutCreator from './components/AboutCreator';
 import GlobalSearch from './components/GlobalSearch';
 import QuizRecommender from './components/QuizRecommender';
 import DailyReward, { DAILY_REWARDS, DailyRewardData } from './components/ui/DailyReward';
@@ -1862,9 +1862,9 @@ export default function App() {
                               <span>
                                 {matchedQuestionsCount > 0
                                   ? (
-                                    language === 'ar' ? `ابدأ المسابقة ! (${matchedQuestionsCount} سؤال)` :
-                                      language === 'wo' ? `Tambali laaj ak toontu bi ! (${matchedQuestionsCount} laaj)` :
-                                        `Commencer le Quiz ! (${matchedQuestionsCount} questions)`
+                                    language === 'ar' ? 'ابدأ المسابقة !' :
+                                      language === 'wo' ? 'Tambali laaj ak toontu bi !' :
+                                        'Commencer le Quiz'
                                   )
                                   : (
                                     language === 'ar' ? 'لا توجد أسئلة متاحة' :
@@ -2050,8 +2050,8 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      {/* Creator Signature — section premium */}
-      <CreatorSignature />
+      {/* About Creator — accessible depuis le footer */}
+      <AboutCreator onClose={() => { }} />
 
       {/* Footer minimal */}
       <footer className="py-4 text-center">
