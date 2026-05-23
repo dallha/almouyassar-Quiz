@@ -1549,88 +1549,80 @@ export default function App() {
               className="space-y-6"
             >
 
-              {/* Global Search Subsystem */}
-              <GlobalSearch
-                activeTab={activeTab}
-                onNavigateTab={(tab) => setActiveTab(tab)}
-                onStartCustomQuiz={handleStartQuizWithCategory}
-              />
+              {/* HERO MOBILE COMPACT — progression + CTA */}
+              <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#004D40] to-[#00695C] p-6 md:p-8 mb-4">
+                {/* Glow ambiant */}
+                <div className="absolute -top-20 -right-20 w-60 h-60 bg-[#D0A21C]/10 rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-white/5 rounded-full blur-3xl pointer-events-none" />
 
-              {/* Navigation Dashboard Tabs grid */}
-              <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-1.5 p-1.5 bg-[#004D40]/10 border border-[#004D40]/25 rounded-2xl">
-                <button
-                  onClick={() => { playSelectSound(); setActiveTab('pitch'); }}
-                  className={`py-3 text-center text-[10px] font-bold tracking-tight uppercase rounded-xl transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${activeTab === 'pitch'
-                    ? 'bg-[#004D40] text-[#FCF8F2] shadow-md shadow-emerald-950/20'
-                    : 'text-[#004D40] hover:bg-[#004D40]/5 bg-white/45'
-                    }`}
-                >
-                  <Compass className="w-4 h-4 shrink-0" />
-                  <span>{t('common.nav_presentation', 'Présentation')}</span>
-                </button>
-                <button
-                  onClick={() => { playSelectSound(); setActiveTab('adventure'); }}
-                  className={`py-3 text-center text-[10px] font-bold tracking-tight uppercase rounded-xl transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${activeTab === 'adventure'
-                    ? 'bg-[#004D40] text-[#FCF8F2] shadow-md shadow-emerald-950/20'
-                    : 'text-[#004D40] hover:bg-[#004D40]/5 bg-white/45'
-                    }`}
-                >
-                  <BookOpen className="w-4 h-4 shrink-0" />
-                  <span>{t('common.nav_adventure', 'Aventure')}</span>
-                </button>
-                <button
-                  onClick={() => { playSelectSound(); setActiveTab('quiz'); }}
-                  className={`py-3 text-center text-[10px] font-bold tracking-tight uppercase rounded-xl transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${activeTab === 'quiz'
-                    ? 'bg-[#004D40] text-[#FCF8F2] shadow-md shadow-emerald-950/20'
-                    : 'text-[#004D40] hover:bg-[#004D40]/5 bg-white/45'
-                    }`}
-                >
-                  <Play className="w-4 h-4 shrink-0" />
-                  <span>{t('common.nav_quiz_free', 'Quiz Libre')}</span>
-                </button>
-                <button
-                  onClick={() => { if (!isOustazBlocked) { playSelectSound(); setActiveTab('oustaz'); } }}
-                  disabled={isOustazBlocked}
-                  className={`py-3 text-center text-[10px] font-bold tracking-tight uppercase rounded-xl transition-all flex flex-col items-center justify-center gap-1.5 ${isOustazBlocked
-                    ? 'opacity-40 cursor-not-allowed text-stone-400 bg-stone-100/50'
-                    : activeTab === 'oustaz'
-                      ? 'bg-[#004D40] text-[#FCF8F2] shadow-md shadow-emerald-950/20'
-                      : 'text-[#004D40] hover:bg-[#004D40]/5 bg-white/45 cursor-pointer'
-                    }`}
-                >
-                  <Users className="w-4 h-4 shrink-0" />
-                  <span>{t('common.nav_oustaz', 'Oustaz AI')}</span>
-                </button>
-                <button
-                  onClick={() => { playSelectSound(); setActiveTab('ansar'); }}
-                  className={`py-3 text-center text-[10px] font-bold tracking-tight uppercase rounded-xl transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${activeTab === 'ansar'
-                    ? 'bg-[#004D40] text-[#FCF8F2] shadow-md shadow-emerald-950/20'
-                    : 'text-[#004D40] hover:bg-[#004D40]/5 bg-white/45'
-                    }`}
-                >
-                  <Sparkles className="w-4 h-4 shrink-0" />
-                  <span>{t('common.nav_karaoke', 'Karaoké')}</span>
-                </button>
-                <button
-                  onClick={() => { playSelectSound(); setActiveTab('stats'); }}
-                  className={`py-3 text-center text-[10px] font-bold tracking-tight uppercase rounded-xl transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${activeTab === 'stats'
-                    ? 'bg-[#004D40] text-[#FCF8F2] shadow-md shadow-emerald-950/20'
-                    : 'text-[#004D40] hover:bg-[#004D40]/5 bg-white/45'
-                    }`}
-                >
-                  <Award className="w-4 h-4 shrink-0" />
-                  <span>{t('common.nav_trophies', 'Trophées')}</span>
-                </button>
-                <button
-                  onClick={() => { playSelectSound(); setActiveTab('parental'); }}
-                  className={`py-3 text-center text-[10px] font-bold tracking-tight uppercase rounded-xl transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${activeTab === 'parental'
-                    ? 'bg-[#004D40] text-[#FCF8F2] shadow-md'
-                    : 'text-[#004D40] hover:bg-[#004D40]/5 bg-white/45'
-                    }`}
-                >
-                  <Settings className="w-4 h-4 shrink-0" />
-                  <span>{t('common.nav_parents', 'Parents')}</span>
-                </button>
+                <div className="relative z-10 space-y-4">
+                  {/* Titre + sous-titre */}
+                  <div>
+                    <h1 className="text-xl md:text-2xl font-black text-white tracking-tight">
+                      {t('common.app_title', 'Al-Mouyassar')}
+                    </h1>
+                    <p className="text-[11px] text-emerald-200/70 font-medium mt-0.5">
+                      {t('common.app_subtitle', 'Apprends l\'Islam en jouant')}
+                    </p>
+                  </div>
+
+                  {/* Progression utilisateur compacte */}
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-[#D0A21C]/20 border border-[#D0A21C]/30 flex items-center justify-center">
+                        <span className="text-xs font-black text-[#D0A21C]">{Math.floor(stats.xp / 200) + 1}</span>
+                      </div>
+                      <div className="text-[10px] text-emerald-100/60">
+                        <span className="font-bold text-white">{stats.xp}</span> XP
+                      </div>
+                    </div>
+                    {stats.streak > 0 && (
+                      <div className="flex items-center gap-1 text-[10px] text-amber-300/80">
+                        <Flame className="w-3 h-3" />
+                        <span className="font-bold">{stats.streak}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* CTA principal */}
+                  <button
+                    onClick={() => { playSelectSound(); setActiveTab('adventure'); }}
+                    className="w-full py-3 bg-[#D0A21C] hover:bg-[#C4961A] text-[#004D40] text-xs font-black uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#D0A21C]/20 cursor-pointer"
+                  >
+                    <Play className="w-4 h-4 fill-current" />
+                    {t('common.hero_cta', 'Reprendre l\'aventure')}
+                  </button>
+                </div>
+              </div>
+
+              {/* NAVIGATION MODES — pills horizontales */}
+              <div className="overflow-x-auto scrollbar-none -mx-4 px-4 mb-4">
+                <div className="flex gap-1.5 min-w-max pb-1">
+                  {[
+                    { key: 'pitch', icon: Compass, label: t('common.nav_presentation', 'Présentation') },
+                    { key: 'adventure', icon: BookOpen, label: t('common.nav_adventure', 'Aventure') },
+                    { key: 'quiz', icon: Play, label: t('common.nav_quiz_free', 'Quiz Libre') },
+                    { key: 'oustaz', icon: Users, label: t('common.nav_oustaz', 'Oustaz AI'), disabled: isOustazBlocked },
+                    { key: 'ansar', icon: Sparkles, label: t('common.nav_karaoke', 'Karaoké') },
+                    { key: 'stats', icon: Award, label: t('common.nav_trophies', 'Trophées') },
+                    { key: 'parental', icon: Settings, label: t('common.nav_parents', 'Parents') },
+                  ].map(({ key, icon: Icon, label, disabled }) => (
+                    <button
+                      key={key}
+                      onClick={() => { if (!disabled) { playSelectSound(); setActiveTab(key as any); } }}
+                      disabled={disabled}
+                      className={`shrink-0 px-3.5 py-2 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${disabled
+                          ? 'opacity-30 cursor-not-allowed bg-stone-100/50 text-stone-400'
+                          : activeTab === key
+                            ? 'bg-[#004D40] text-white shadow-md shadow-emerald-950/20'
+                            : 'bg-white/70 text-[#004D40]/70 hover:bg-white hover:text-[#004D40] border border-[#004D40]/10'
+                        }`}
+                    >
+                      <Icon className="w-3.5 h-3.5 shrink-0" />
+                      <span>{label}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
 
               {/* RENDER ACTIVE TAB WITH CAROUSEL TRANSITION */}
@@ -2130,7 +2122,7 @@ export default function App() {
       </main>
 
       {/* About Creator — accessible depuis le footer */}
-{!isQuizActive && <AboutCreator onClose={() => {}} />}
+      {!isQuizActive && <AboutCreator onClose={() => { }} />}
 
       {/* Footer minimal */}
       <footer className="py-4 text-center">

@@ -255,6 +255,11 @@ export default {
   auth_error_generic: "Une erreur s'est produite lors de l'authentification.",
   auth_success_signup: "Macha'Allah ! Ton compte d'aventurier a bien été créé. Amuse-toi bien et progresse sur le chemin du savoir ! ✨",
 
+  // Hero mobile keys
+  app_title: "Al-Mouyassar",
+  app_subtitle: "Apprends l'Islam en jouant",
+  hero_cta: "Reprendre l'aventure",
+
   // Session end text
   session_end_desc: "Vous avez répondu aux questions de l'exercice avec attention. Prenez le temps d'analyser vos résultats et de lire les explications ci-dessous.",
 };

@@ -28,7 +28,13 @@
   letter-spacing: normal !important;
 }
 
-[dir="rtl"] p, [dir="rtl"] span, [dir="rtl"] button, [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4 {
+[dir="rtl"] p,
+[dir="rtl"] span,
+[dir="rtl"] button,
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4 {
   line-height: 1.65;
 }
 
@@ -210,4 +216,14 @@ body {
   transform: translateY(3px);
   border-bottom-width: 1px;
   margin-bottom: 3px;
+}
+
+/* Masquer la scrollbar tout en gardant le scroll */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }
