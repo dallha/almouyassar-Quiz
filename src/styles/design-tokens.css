@@ -101,7 +101,7 @@
     --space-20: clamp(56px, 10vw, 80px);
 
     /* ── Layout ── */
-    --header-height: 56px;
+    --header-height: 48px;
     --header-height-desktop: 64px;
     --bottom-nav-height: 64px;
     --safe-area-top: env(safe-area-inset-top, 0px);

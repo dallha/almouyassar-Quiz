@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, ChevronRight, ChevronLeft, Flame, User, Info, LifeBuoy, Download, Settings, Map, Shield, Trophy } from 'lucide-react';
-import StreakDisplay from './ui/StreakDisplay';
-import { DailyRewardBadge } from './ui/DailyReward';
-import { BadgeCollectionBadge } from './ui/BadgeGallery';
 import { useLanguage } from '../LanguageContext';
 
 interface HeaderProps {
@@ -17,11 +14,13 @@ interface HeaderProps {
   totalBadgeCount?: number;
   dailyRewardAvailable?: boolean;
   isLoggedIn?: boolean;
+  isQuizActive?: boolean;
   onDailyRewardClick?: () => void;
   onBadgeGalleryClick?: () => void;
   onMenuToggle?: (isOpen: boolean) => void;
   onNavigate?: (action: string) => void;
   onAvatarClick?: () => void;
+  onQuitQuiz?: () => void;
 }
 
 export default function Header({
@@ -35,11 +34,13 @@ export default function Header({
   totalBadgeCount = 18,
   dailyRewardAvailable = false,
   isLoggedIn = false,
+  isQuizActive = false,
   onDailyRewardClick,
   onBadgeGalleryClick,
   onMenuToggle,
   onNavigate,
   onAvatarClick,
+  onQuitQuiz,
 }: HeaderProps) {
   const { dir, t, language, setLanguage } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -134,8 +135,17 @@ export default function Header({
             />
           )}
 
-          {/* Logo + Niveau */}
+          {/* Gauche — Logo ou bouton quitter ghost pendant le quiz */}
           <div className="flex items-center gap-3">
+            {isQuizActive && (
+              <button
+                onClick={() => onQuitQuiz?.()}
+                className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium text-[var(--color-deep-green)]/60 hover:text-[var(--color-deep-green)]/90 hover:bg-[var(--color-deep-green)]/5 transition-all opacity-70"
+              >
+                <ChevronLeft size={14} strokeWidth={2} />
+                <span>Quitter</span>
+              </button>
+            )}
             {/* Icône du logo */}
             <div className="relative">
               <div
@@ -188,54 +198,20 @@ export default function Header({
             </div>
           </div>
 
-          {/* Actions droite */}
-          <div className="flex items-center gap-1.5">
-            {/* Compact Language Switcher */}
-            <div className="flex items-center gap-0.5 p-0.5 bg-[var(--color-deep-green)]/8 border border-[var(--color-deep-green)]/10 rounded-lg">
-              {(['fr', 'ar', 'wo'] as const).map((lang) => {
-                const isActive = language === lang;
-                const labels = { fr: 'FR', ar: 'ع', wo: 'WO' };
-                return (
-                  <button
-                    key={lang}
-                    onClick={() => setLanguage(lang)}
-                    title={t('common.select_language', 'Changer de langue')}
-                    className={`px-1.5 py-0.5 rounded-md text-[10px] font-bold transition-all duration-200 ${
-                      isActive
-                        ? 'bg-gradient-to-br from-[var(--color-deep-green)] to-[var(--color-emerald)] text-white shadow-sm'
-                        : 'text-[var(--color-deep-green)]/50 hover:text-[var(--color-deep-green)] hover:bg-white/50'
-                    }`}
-                  >
-                    {labels[lang]}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Streak Display (compact) */}
-            <StreakDisplay
-              streak={streak}
-              highestStreak={highestStreak}
-              size="sm"
-            />
-
-            {/* Daily Reward Badge */}
-            <DailyRewardBadge
-              canClaim={dailyRewardAvailable}
-              onClick={() => onDailyRewardClick?.()}
-            />
-
-            {/* Badge Collection */}
-            <BadgeCollectionBadge
-              unlockedCount={unlockedBadgeCount}
-              totalCount={totalBadgeCount}
-              onClick={() => onBadgeGalleryClick?.()}
-            />
+          {/* Actions droite — simplifié */}
+          <div className="flex items-center gap-1">
+            {/* Streak très discret */}
+            {streak > 0 && (
+              <div className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-full opacity-60">
+                <Flame size={10} className="text-amber-500/70" />
+                <span className="text-[9px] font-semibold text-amber-600/70">{streak}</span>
+              </div>
+            )}
 
             {/* Avatar / Connexion */}
             <button
               onClick={() => onAvatarClick?.()}
-              className="relative w-8 h-8 rounded-full overflow-hidden border border-transparent hover:border-[var(--color-gold)]/30 active:scale-95 transition-all duration-200"
+              className="relative w-7 h-7 rounded-full overflow-hidden border border-transparent hover:border-[var(--color-gold)]/30 active:scale-95 transition-all duration-200"
               style={{
                 background:
                   'linear-gradient(135deg, var(--color-deep-green), var(--color-emerald))',
@@ -243,48 +219,49 @@ export default function Header({
               aria-label={isLoggedIn ? t('common.user_profile', 'Profil utilisateur') : t('common.log_in', 'Se connecter')}
             >
               <div className="w-full h-full flex items-center justify-center">
-                <User size={14} className="text-white" />
+                <User size={12} className="text-white" />
               </div>
-              {/* Green online sync dot if logged in */}
               {isLoggedIn && (
-                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-white animate-pulse" />
+                <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-emerald-400 border-2 border-white animate-pulse" />
               )}
             </button>
 
-            {/* Menu hamburger */}
-            <button
-              onClick={toggleMenu}
-              className="relative flex items-center justify-center rounded-lg transition-colors duration-200 hover:bg-[var(--color-deep-green)]/5"
-              style={{
-                width: 'var(--touch-min)',
-                height: 'var(--touch-min)',
-              }}
-              aria-label="Menu"
-            >
-              <AnimatePresence mode="wait">
-                {isMenuOpen ? (
-                  <motion.div
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <X size={20} className="text-[var(--color-deep-green)]" />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="menu"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Menu size={20} className="text-[var(--color-deep-green)]" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </button>
+            {/* Menu hamburger — caché pendant le quiz */}
+            {!isQuizActive && (
+              <button
+                onClick={toggleMenu}
+                className="relative flex items-center justify-center rounded-lg transition-colors duration-200 hover:bg-[var(--color-deep-green)]/5"
+                style={{
+                  width: 'var(--touch-min)',
+                  height: 'var(--touch-min)',
+                }}
+                aria-label="Menu"
+              >
+                <AnimatePresence mode="wait">
+                  {isMenuOpen ? (
+                    <motion.div
+                      key="close"
+                      initial={{ rotate: -90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: 90, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <X size={20} className="text-[var(--color-deep-green)]" />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="menu"
+                      initial={{ rotate: 90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: -90, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Menu size={20} className="text-[var(--color-deep-green)]" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </button>
+            )}
           </div>
         </div>
       </header>
@@ -303,14 +280,14 @@ export default function Header({
               onClick={toggleMenu}
             />
 
-             {/* Drawer */}
+            {/* Drawer */}
             <motion.div
               drag="x"
               dragConstraints={dir === 'rtl' ? { left: -100, right: 0 } : { left: 0, right: 100 }}
               dragElastic={0.5}
               onDragEnd={(e, { offset, velocity }) => {
-                const dismiss = dir === 'rtl' 
-                  ? offset.x < -60 || velocity.x < -300 
+                const dismiss = dir === 'rtl'
+                  ? offset.x < -60 || velocity.x < -300
                   : offset.x > 60 || velocity.x > 300;
                 if (dismiss) {
                   toggleMenu();
@@ -320,11 +297,10 @@ export default function Header({
               animate={{ x: 0 }}
               exit={{ x: dir === 'rtl' ? '-100%' : '100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 350, mass: 0.5 }}
-              className={`fixed top-0 bottom-0 z-50 w-[320px] max-w-[82vw] flex flex-col transition-all ${
-                dir === 'rtl' 
-                  ? 'left-0 shadow-[10px_0_40px_rgba(0,0,0,0.3)]' 
-                  : 'right-0 shadow-[-10px_0_40px_rgba(0,0,0,0.3)]'
-              }`}
+              className={`fixed top-0 bottom-0 z-50 w-[320px] max-w-[82vw] flex flex-col transition-all ${dir === 'rtl'
+                ? 'left-0 shadow-[10px_0_40px_rgba(0,0,0,0.3)]'
+                : 'right-0 shadow-[-10px_0_40px_rgba(0,0,0,0.3)]'
+                }`}
               style={{
                 paddingTop: 'env(safe-area-inset-top, 0px)',
                 paddingBottom: 'env(safe-area-inset-bottom, 0px)',
@@ -339,7 +315,7 @@ export default function Header({
               aria-label={t('common.menu', 'Menu principal')}
             >
               {/* Glow subtil en haut à gauche */}
-              <div 
+              <div
                 className="absolute top-0 left-0 w-64 h-64 rounded-full opacity-10 pointer-events-none"
                 style={{
                   background: 'radial-gradient(circle, var(--color-gold) 0%, transparent 60%)',
@@ -350,7 +326,7 @@ export default function Header({
 
               <div className="flex flex-col h-full pt-16 px-6 overflow-y-auto z-10 custom-scrollbar">
                 {/* Profil et CTA */}
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 }}
@@ -395,11 +371,10 @@ export default function Header({
                         <button
                           key={lang}
                           onClick={() => setLanguage(lang)}
-                          className={`flex-1 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
-                            isActive
-                              ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-black shadow-md'
-                              : 'text-white/60 hover:text-white hover:bg-white/5'
-                          }`}
+                          className={`flex-1 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${isActive
+                            ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-black shadow-md'
+                            : 'text-white/60 hover:text-white hover:bg-white/5'
+                            }`}
                         >
                           {labels[lang]}
                         </button>
@@ -410,7 +385,7 @@ export default function Header({
                   {/* Header text and Principal Action CTA */}
                   <div className="mt-2">
                     <p className="text-white/50 text-xs font-medium mb-3 uppercase tracking-wider">{t('common.continue_journey', 'Continue ton voyage')}</p>
-                    <button 
+                    <button
                       onClick={() => handleNavClick('adventure')}
                       className="w-full bg-gradient-to-r from-[var(--color-gold)] to-amber-500 text-[var(--color-deep-green)] font-bold py-3.5 rounded-2xl shadow-[0_4px_15px_rgba(208,162,28,0.25)] active:scale-[0.98] transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-white/50"
                       aria-label={t('adventure.resume_btn', "Reprendre l'Aventure")}

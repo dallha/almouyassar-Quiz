@@ -1291,9 +1291,11 @@ export default function App() {
         totalBadgeCount={badgesState.length}
         dailyRewardAvailable={dailyRewardsState.some(r => !r.claimed && r.day === dailyRewardDay)}
         isLoggedIn={currentUser !== null}
+        isQuizActive={isQuizActive}
         onDailyRewardClick={() => setShowDailyReward(true)}
         onBadgeGalleryClick={() => setShowBadgeGallery(true)}
         onAvatarClick={() => setShowAuthModal(true)}
+        onQuitQuiz={() => setQuitConfirmModal(true)}
         onNavigate={(action) => {
           if (action === 'adventure') setActiveTab('adventure');
           else if (action === 'quiz') setActiveTab('quiz');
@@ -1326,20 +1328,7 @@ export default function App() {
               exit={{ opacity: 0, y: -15 }}
               className="space-y-6"
             >
-              {/* Back out options */}
-              <div className="flex items-center justify-between">
-                <button
-                  onClick={() => setQuitConfirmModal(true)}
-                  className="px-3.5 py-2 text-xs font-semibold rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800 transition-all cursor-pointer"
-                >
-                  ← Terminer la session
-                </button>
-                <div className="text-[11px] text-slate-400 font-medium">
-                  {getSubTitleText()}
-                </div>
-              </div>
-
-              {/* Progress visual bar */}
+              <div className="h-1" />
               <div className="w-full h-1 bg-slate-850 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-emerald-505 to-teal-400 transition-all duration-350"
@@ -2141,7 +2130,7 @@ export default function App() {
       </main>
 
       {/* About Creator — accessible depuis le footer */}
-      <AboutCreator onClose={() => { }} />
+{!isQuizActive && <AboutCreator onClose={() => {}} />}
 
       {/* Footer minimal */}
       <footer className="py-4 text-center">

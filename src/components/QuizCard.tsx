@@ -96,27 +96,27 @@ function MiniConfetti() {
 
 /* ── TIMER CERCLE ── */
 function CircularTimer({ timeLeft, timeLimit }: { timeLeft: number; timeLimit: number }) {
-  const radius = 22;
+  const radius = 16;
   const circumference = 2 * Math.PI * radius;
   const progress = timeLeft / timeLimit;
   const isUrgent = timeLeft <= 5;
 
   return (
-    <div className="relative w-12 h-12 flex items-center justify-center">
-      <svg className="w-12 h-12 -rotate-90" viewBox="0 0 52 52">
+    <div className="relative w-9 h-9 flex items-center justify-center">
+      <svg className="w-9 h-9 -rotate-90" viewBox="0 0 40 40">
         {/* Cercle de fond */}
         <circle
-          cx="26" cy="26" r={radius}
+          cx="20" cy="20" r={radius}
           fill="none"
-          stroke="rgba(13,77,67,0.08)"
-          strokeWidth="3.5"
+          stroke="rgba(13,77,67,0.06)"
+          strokeWidth="3"
         />
         {/* Cercle progressif */}
         <motion.circle
-          cx="26" cy="26" r={radius}
+          cx="20" cy="20" r={radius}
           fill="none"
           stroke={isUrgent ? '#ef4444' : '#C8A44D'}
-          strokeWidth="3.5"
+          strokeWidth="3"
           strokeLinecap="round"
           strokeDasharray={circumference}
           animate={{
@@ -129,7 +129,7 @@ function CircularTimer({ timeLeft, timeLimit }: { timeLeft: number; timeLimit: n
       <motion.span
         animate={isUrgent ? { scale: [1, 1.15, 1] } : {}}
         transition={{ repeat: isUrgent ? Infinity : 0, duration: 0.6 }}
-        className={`absolute text-xs font-bold font-mono ${isUrgent ? 'text-red-500' : 'text-[var(--color-deep-green)]/60'
+        className={`absolute text-[10px] font-bold font-mono ${isUrgent ? 'text-red-500' : 'text-[var(--color-deep-green)]/50'
           }`}
       >
         {timeLeft}
@@ -137,9 +137,9 @@ function CircularTimer({ timeLeft, timeLimit }: { timeLeft: number; timeLimit: n
       {/* Glow urgence */}
       {isUrgent && (
         <motion.div
-          animate={{ opacity: [0, 0.3, 0] }}
+          animate={{ opacity: [0, 0.2, 0] }}
           transition={{ repeat: Infinity, duration: 1 }}
-          className="absolute inset-0 rounded-full bg-red-500/20 blur-md"
+          className="absolute inset-0 rounded-full bg-red-500/15 blur-sm"
         />
       )}
     </div>
@@ -373,7 +373,7 @@ export default function QuizCard({
                   whileTap={!hasAnswered ? 'tap' : undefined}
                   onClick={() => !hasAnswered && handleAnswer(option)}
                   disabled={hasAnswered}
-                  className={`relative w-full text-start ${dir === 'rtl' ? 'p-5 md:p-6' : 'p-4 md:p-5'} rounded-2xl border-2 transition-all duration-300 ${cardStyle} ${hasAnswered ? 'cursor-default' : 'cursor-pointer'
+                  className={`relative w-full text-start ${dir === 'rtl' ? 'p-5 md:p-6' : 'p-4 md:p-5'} rounded-2xl border transition-all duration-300 ${cardStyle} ${hasAnswered ? 'cursor-default' : 'cursor-pointer'
                     }`}
                 >
                   <div className="flex items-center gap-4">
