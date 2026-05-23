@@ -1248,12 +1248,12 @@ export default function App() {
         onNavigate={(action) => {
           if (action === 'adventure') setActiveTab('adventure');
           else if (action === 'quiz') setActiveTab('quiz');
-          else if (action === 'revisions') setActiveTab('stats');
+          else if (action === 'revisions') setShowBadgeGallery(true);
           else if (action === 'trophies') setShowBadgeGallery(true);
           else if (action === 'parental') setActiveTab('parental');
-          else if (action === 'settings') setActiveTab('stats');
+          else if (action === 'settings') setShowBadgeGallery(true);
           else if (action === 'about') setShowSchoolModal(true);
-          else if (action === 'support') window.location.href = 'mailto:support@almouyassar.com';
+          else if (action === 'support') window.location.href = 'mailto:mrniass@gmail.com';
           else if (action === 'install') alert("Utilisez l'option d'installation de votre navigateur pour installer l'application.");
         }}
       />
