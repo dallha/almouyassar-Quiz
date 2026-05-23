@@ -577,7 +577,7 @@ export default function App() {
   // --- Loading & Animation States ---
   const [isInitializing, setIsInitializing] = useState(true);
   const [initProgress, setInitProgress] = useState(0);
-  const [initStatusMsg, setInitStatusMsg] = useState("Démarrage du système...");
+  const [initStatusMsg, setInitStatusMsg] = useState(t('common.system_starting'));
   const [isSessionTransitioning, setIsSessionTransitioning] = useState(false);
   const [transitionProgress, setTransitionProgress] = useState(0);
   const [transitionMsg, setTransitionMsg] = useState("");
@@ -852,7 +852,7 @@ export default function App() {
 
   const handleLaunchQuiz = () => {
     if (selectedCategories.length === 0 || selectedLevels.length === 0) {
-      alert("Veuillez sélectionner au moins une catégorie et un niveau.");
+      alert(t('common.alert_select_category_level'));
       return;
     }
 
@@ -876,13 +876,13 @@ export default function App() {
     const finalSelection = filtered.slice(0, 7);
 
     if (finalSelection.length === 0) {
-      alert("Aucune question ne correspond à ces critères d'apprentissage. Veuillez changer de catégorie ou de niveau.");
+      alert(t('common.alert_no_question_match_filters'));
       return;
     }
 
     launchSessionWithTransition(
       finalSelection,
-      "Vérification des critères d'apprentissage & compilation du Quiz...",
+      t('common.transition_compile_quiz'),
     );
   };
 
@@ -902,13 +902,13 @@ export default function App() {
     const finalSelection = shuffled.slice(0, 7);
 
     if (finalSelection.length === 0) {
-      alert("Aucune question ne correspond à cette matière avec les filtres de niveau sélectionnés.");
+      alert(t('common.alert_no_question_for_subject_levels'));
       return;
     }
 
     launchSessionWithTransition(
       finalSelection,
-      `Recherche de questions approuvées pour le thème "${category}"...`,
+      t('common.transition_search_theme').replace('{category}', category),
       () => setActiveTab('quiz')
     );
   };
@@ -917,7 +917,7 @@ export default function App() {
     playSelectSound();
 
     if (questionsList.length === 0) {
-      alert("Aucune question ne correspond à ce thème ou ce niveau pour l'instant.");
+      alert(t('common.alert_no_question_for_theme_level'));
       return;
     }
 
@@ -929,7 +929,7 @@ export default function App() {
 
     launchSessionWithTransition(
       finalSelection,
-      `Calcul de vos intérêts théologiques pour : "${title}"...`,
+      t('common.transition_calculating_interests').replace('{title}', title),
       () => setActiveTab('quiz')
     );
   };
@@ -1382,9 +1382,7 @@ export default function App() {
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-lg mx-auto bg-slate-950/45 p-4 rounded-xl border border-slate-850">
                     <div className="text-center p-2 border-r border-slate-850/60 md:border-r">
                       <p className="text-[10px] text-slate-450 uppercase font-bold tracking-wider mb-1">
-                        {language === 'ar' ? 'النتيجة المحققة' :
-                          language === 'wo' ? 'Ndam li' :
-                            'Score acquis'}
+                        {t('common.session_score_label')}
                       </p>
                       <p className="text-xl font-bold font-mono text-white">
                         {session.score} <span className="text-slate-500 text-sm">/ {session.questions.length}</span>
@@ -1393,9 +1391,7 @@ export default function App() {
 
                     <div className="text-center p-2 md:border-r border-slate-850/60">
                       <p className="text-[10px] text-slate-450 uppercase font-bold tracking-wider mb-1">
-                        {language === 'ar' ? 'الدقة' :
-                          language === 'wo' ? 'Woor teguine' :
-                            'Précision'}
+                        {t('common.session_accuracy_label')}
                       </p>
                       <p className="text-xl font-bold font-mono text-emerald-400">
                         {Math.round((session.score / session.questions.length) * 100)}%
@@ -1404,18 +1400,14 @@ export default function App() {
 
                     <div className="text-center p-2 col-span-2 md:col-span-1 border-t md:border-t-0 border-slate-850/60 pt-3 md:pt-2">
                       <p className="text-[10px] text-slate-450 uppercase font-bold tracking-wider mb-1">
-                        {language === 'ar' ? 'الخبرة المكتسبة' :
-                          language === 'wo' ? 'XP yi am' :
-                            'XP obtenus'}
+                        {t('common.session_xp_label')}
                       </p>
                       <p className="text-xl font-bold font-mono text-amber-400">
                         +{session.score * 15 + (session.score === session.questions.length ? 50 : 0)} XP
                       </p>
                       {session.score === session.questions.length && (
                         <span className="text-[8px] font-bold text-amber-500 bg-amber-500/10 px-1 py-0.5 rounded border border-amber-500/20 animate-pulse">
-                          {language === 'ar' ? '+50 ممتاز !' :
-                            language === 'wo' ? '+50 MashaAllah !' :
-                              '+50 Perfection !'}
+                          {t('common.session_perfect_bonus')}
                         </span>
                       )}
                     </div>
@@ -1426,9 +1418,7 @@ export default function App() {
                     <div className="p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/10 max-w-lg mx-auto space-y-2 text-left">
                       <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-widest flex items-center gap-1.5 font-mono">
                         <Sparkles className="w-3.5 h-3.5 fill-emerald-500" />
-                        {language === 'ar' ? 'تم إلغاء قفل الأوسمة !' :
-                          language === 'wo' ? 'Néer yi ubbiku na !' :
-                            'Badge(s) Débloqué(s) !'}
+                        {t('common.session_badges_unlocked')}
                       </h4>
                       <div className="space-y-2">
                         {latestSessionBadges.map(b => (
@@ -1445,9 +1435,7 @@ export default function App() {
                   <div className="text-left space-y-4 max-w-xl mx-auto pt-4 border-t border-slate-850">
                     <h3 className="text-sm font-extrabold text-slate-400 flex items-center gap-2">
                       <Eye className="w-4 h-4 text-emerald-500" />
-                      {language === 'ar' ? 'مراجعة الأسئلة :' :
-                        language === 'wo' ? 'Saytu laaj yi :' :
-                          'Revue des questions :'}
+                      {t('common.session_review_title')}
                     </h3>
 
                     <div className="space-y-3.5">
@@ -1497,23 +1485,17 @@ export default function App() {
                             <div className="grid sm:grid-cols-2 gap-2 text-[11px] pt-1">
                               <div className="text-slate-400">
                                 <span className="font-semibold text-slate-500">
-                                  {language === 'ar' ? 'إجابتك :' :
-                                    language === 'wo' ? 'Sa toontu :' :
-                                      'Votre réponse :'}
+                                  {t('common.session_your_answer')}
                                 </span>{' '}
                                 <span className={isUserCorrect ? 'text-emerald-400 font-medium' : 'text-rose-400 font-medium line-through'}>
                                   {answerObj?.selectedAnswer || (
-                                    language === 'ar' ? 'انتهى الوقت (فارغ)' :
-                                      language === 'wo' ? 'Waxtu bi jeexna (kessé)' :
-                                        'Chronomètre Épuisé (vide)'
+                                    t('common.session_timeout_empty')
                                   )}
                                 </span>
                               </div>
                               <div className="text-slate-400">
                                 <span className="font-semibold text-slate-500">
-                                  {language === 'ar' ? 'الإجابة الصحيحة :' :
-                                    language === 'wo' ? 'Toontu bu woor bi :' :
-                                      'Réponse correcte :'}
+                                  {t('common.session_correct_answer')}
                                 </span>{' '}
                                 <span className="text-emerald-400 font-extrabold">
                                   {localizedQ.reponse_correcte}
@@ -1523,9 +1505,7 @@ export default function App() {
 
                             <p className="text-[10px] text-slate-400 leading-normal bg-slate-950/50 p-2.5 rounded border border-slate-900 italic">
                               <span className="font-semibold text-amber-500/90 not-italic block uppercase text-[8px] tracking-wider mb-0.5">
-                                {language === 'ar' ? 'الشرح والملاحظة :' :
-                                  language === 'wo' ? 'Firi bi :' :
-                                    'Note explicative :'}
+                                {t('common.session_explanation')}
                               </span>
                               &ldquo;{localizedQ.explication}&rdquo;
                             </p>
@@ -2429,7 +2409,7 @@ export default function App() {
                           password: authPassword,
                         });
                         if (error) throw error;
-                        alert("Macha'Allah ! Ton compte d'aventurier a bien été créé. Amuse-toi bien et progresse sur le chemin du savoir ! ✨");
+                        alert(t('common.auth_success_signup'));
                       }
                       setShowAuthModal(false);
                     } catch (err: any) {

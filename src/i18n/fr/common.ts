@@ -292,4 +292,22 @@ export default {
 
   // Session end text
   session_end_desc: "Vous avez répondu aux questions de l'exercice avec attention. Prenez le temps d'analyser vos résultats et de lire les explications ci-dessous.",
+  session_score_label: "Score acquis",
+  session_accuracy_label: "Précision",
+  session_xp_label: "XP obtenus",
+  session_perfect_bonus: "+50 Perfection !",
+  session_badges_unlocked: "Badge(s) Débloqué(s) !",
+  session_review_title: "Revue des questions :",
+  session_your_answer: "Votre réponse :",
+  session_timeout_empty: "Chronomètre Épuisé (vide)",
+  session_correct_answer: "Réponse correcte :",
+  session_explanation: "Note explicative :",
+  system_starting: "Démarrage du système...",
+  alert_select_category_level: "Veuillez sélectionner au moins une catégorie et un niveau.",
+  alert_no_question_match_filters: "Aucune question ne correspond à ces critères d'apprentissage. Veuillez changer de catégorie ou de niveau.",
+  alert_no_question_for_subject_levels: "Aucune question ne correspond à cette matière avec les filtres de niveau sélectionnés.",
+  alert_no_question_for_theme_level: "Aucune question ne correspond à ce thème ou ce niveau pour l'instant.",
+  transition_compile_quiz: "Vérification des critères d'apprentissage & compilation du Quiz...",
+  transition_search_theme: "Recherche de questions approuvées pour le thème \"{category}\"...",
+  transition_calculating_interests: "Calcul de vos intérêts théologiques pour : \"{title}\"...",
 };
