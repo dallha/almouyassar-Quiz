@@ -1550,50 +1550,55 @@ export default function App() {
             >
 
               {/* HERO MOBILE COMPACT — progression + CTA */}
-              <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#004D40] to-[#00695C] p-6 md:p-8 mb-4">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: 'easeOut' }}
+                className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#004D40] to-[#00695C] p-5 md:p-6 mb-3"
+              >
                 {/* Glow ambiant */}
                 <div className="absolute -top-20 -right-20 w-60 h-60 bg-[#D0A21C]/10 rounded-full blur-3xl pointer-events-none" />
                 <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-white/5 rounded-full blur-3xl pointer-events-none" />
 
-                <div className="relative z-10 space-y-4">
+                <div className="relative z-10 space-y-3">
                   {/* Titre + sous-titre */}
                   <div>
-                    <h1 className="text-xl md:text-2xl font-black text-white tracking-tight">
+                    <h1 className="text-lg md:text-xl font-black text-white tracking-tight">
                       {t('common.app_title', 'Al-Mouyassar')}
                     </h1>
-                    <p className="text-[11px] text-emerald-200/70 font-medium mt-0.5">
+                    <p className="text-[10px] text-emerald-200/60 font-medium mt-0.5">
                       {t('common.app_subtitle', 'Apprends l\'Islam en jouant')}
                     </p>
                   </div>
 
                   {/* Progression utilisateur compacte */}
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full bg-[#D0A21C]/20 border border-[#D0A21C]/30 flex items-center justify-center">
-                        <span className="text-xs font-black text-[#D0A21C]">{Math.floor(stats.xp / 200) + 1}</span>
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-7 h-7 rounded-full bg-[#D0A21C]/20 border border-[#D0A21C]/30 flex items-center justify-center">
+                        <span className="text-[11px] font-black text-[#D0A21C]">{Math.floor(stats.xp / 200) + 1}</span>
                       </div>
-                      <div className="text-[10px] text-emerald-100/60">
-                        <span className="font-bold text-white">{stats.xp}</span> XP
-                      </div>
+                      <span className="text-[9px] text-emerald-100/50 font-medium">{stats.xp} XP</span>
                     </div>
                     {stats.streak > 0 && (
-                      <div className="flex items-center gap-1 text-[10px] text-amber-300/80">
-                        <Flame className="w-3 h-3" />
+                      <div className="flex items-center gap-1 text-[9px] text-amber-300/70">
+                        <Flame className="w-2.5 h-2.5" />
                         <span className="font-bold">{stats.streak}</span>
                       </div>
                     )}
                   </div>
 
-                  {/* CTA principal */}
-                  <button
+                  {/* CTA principal — micro-animation premium */}
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.97 }}
                     onClick={() => { playSelectSound(); setActiveTab('adventure'); }}
-                    className="w-full py-3 bg-[#D0A21C] hover:bg-[#C4961A] text-[#004D40] text-xs font-black uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#D0A21C]/20 cursor-pointer"
+                    className="w-full py-2.5 bg-[#D0A21C] hover:bg-[#C4961A] text-[#004D40] text-[11px] font-black uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#D0A21C]/20 cursor-pointer"
                   >
-                    <Play className="w-4 h-4 fill-current" />
+                    <Play className="w-3.5 h-3.5 fill-current" />
                     {t('common.hero_cta', 'Reprendre l\'aventure')}
-                  </button>
+                  </motion.button>
                 </div>
-              </div>
+              </motion.div>
 
               {/* NAVIGATION MODES — pills horizontales */}
               <div className="overflow-x-auto scrollbar-none -mx-4 px-4 mb-4">
@@ -1612,10 +1617,10 @@ export default function App() {
                       onClick={() => { if (!disabled) { playSelectSound(); setActiveTab(key as any); } }}
                       disabled={disabled}
                       className={`shrink-0 px-3.5 py-2 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${disabled
-                          ? 'opacity-30 cursor-not-allowed bg-stone-100/50 text-stone-400'
-                          : activeTab === key
-                            ? 'bg-[#004D40] text-white shadow-md shadow-emerald-950/20'
-                            : 'bg-white/70 text-[#004D40]/70 hover:bg-white hover:text-[#004D40] border border-[#004D40]/10'
+                        ? 'opacity-30 cursor-not-allowed bg-stone-100/50 text-stone-400'
+                        : activeTab === key
+                          ? 'bg-[#004D40] text-white shadow-md shadow-emerald-950/20'
+                          : 'bg-white/70 text-[#004D40]/70 hover:bg-white hover:text-[#004D40] border border-[#004D40]/10'
                         }`}
                     >
                       <Icon className="w-3.5 h-3.5 shrink-0" />
