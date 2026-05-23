@@ -1,7 +1,22 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+/**
+ * QuizCard — Refonte Premium V3
+ *
+ * Design : gaming éducatif islamique
+ * Inspiré de : Duolingo, Riot Games, Linear
+ *
+ * Points clés :
+ * - Randomisation stable des réponses (par session)
+ * - Question dominante, centrale, respirante
+ * - Timer cercle progressif avec glow urgence
+ * - Feedback émotionnel (check, shake, confettis)
+ * - Mode focus immersif
+ * - Mobile-first (grand spacing, zones tactiles 44px+)
+ */
+
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Question } from '../types';
-import { Sparkles, Clock, Check, X, ChevronRight, Star, Zap, Trophy, RotateCcw } from 'lucide-react';
+import { Sparkles, Clock, Check, X, ChevronRight, Star, Zap, Trophy, RotateCcw, Flame } from 'lucide-react';
 
 /* ── PROPS ── */
 interface QuizCardProps {
@@ -16,21 +31,118 @@ interface QuizCardProps {
 
 /* ── ANIMATIONS ── */
 const cardVariants = {
-  initial: { opacity: 0, y: 40, scale: 0.96 },
-  animate: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring', stiffness: 120, damping: 20 } },
-  exit: { opacity: 0, y: -30, scale: 0.96, transition: { duration: 0.2 } },
+  initial: { opacity: 0, y: 60, scale: 0.94, filter: 'blur(4px)' },
+  animate: {
+    opacity: 1, y: 0, scale: 1, filter: 'blur(0px)',
+    transition: { type: 'spring', stiffness: 100, damping: 22, mass: 0.8 },
+  },
+  exit: {
+    opacity: 0, y: -40, scale: 0.94, filter: 'blur(4px)',
+    transition: { duration: 0.25, ease: 'easeInOut' },
+  },
 };
 
 const optionVariants = {
-  initial: { opacity: 0, x: -20 },
+  initial: { opacity: 0, x: -30, scale: 0.95 },
   animate: (i: number) => ({
-    opacity: 1,
-    x: 0,
-    transition: { delay: 0.1 + i * 0.06, type: 'spring', stiffness: 100, damping: 15 },
+    opacity: 1, x: 0, scale: 1,
+    transition: { delay: 0.08 + i * 0.05, type: 'spring', stiffness: 120, damping: 18 },
   }),
-  hover: { scale: 1.02, transition: { type: 'spring', stiffness: 300 } },
-  tap: { scale: 0.98 },
+  hover: { scale: 1.015, transition: { type: 'spring', stiffness: 400 } },
+  tap: { scale: 0.985 },
 };
+
+/* ── CONFETTIS LÉGERS ── */
+function MiniConfetti() {
+  const particles = Array.from({ length: 16 });
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden z-30">
+      {particles.map((_, i) => {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 80 + 40;
+        const xDir = Math.cos(angle) * speed;
+        const yDir = Math.sin(angle) * speed;
+        const scale = Math.random() * 0.8 + 0.4;
+        const duration = Math.random() * 1.2 + 0.8;
+        const colors = ['#C8A44D', '#0D4D43', '#F6F4EE', '#FFD700', '#4CAF50'];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const shapes = ['✦', '✧', '●', '◆'];
+        const shape = shapes[Math.floor(Math.random() * shapes.length)];
+
+        return (
+          <motion.div
+            key={i}
+            initial={{ opacity: 1, scale: 0, x: '50%', y: '50%' }}
+            animate={{
+              opacity: [1, 1, 0],
+              scale: [0, scale, scale * 1.2, 0],
+              x: `calc(50% + ${xDir}px)`,
+              y: `calc(50% + ${yDir}px)`,
+              rotate: Math.random() * 360,
+            }}
+            transition={{ duration, ease: 'easeOut' }}
+            className="absolute text-sm font-bold select-none"
+            style={{ color }}
+          >
+            {shape}
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ── TIMER CERCLE ── */
+function CircularTimer({ timeLeft, timeLimit }: { timeLeft: number; timeLimit: number }) {
+  const radius = 22;
+  const circumference = 2 * Math.PI * radius;
+  const progress = timeLeft / timeLimit;
+  const isUrgent = timeLeft <= 5;
+
+  return (
+    <div className="relative w-12 h-12 flex items-center justify-center">
+      <svg className="w-12 h-12 -rotate-90" viewBox="0 0 52 52">
+        {/* Cercle de fond */}
+        <circle
+          cx="26" cy="26" r={radius}
+          fill="none"
+          stroke="rgba(13,77,67,0.08)"
+          strokeWidth="3.5"
+        />
+        {/* Cercle progressif */}
+        <motion.circle
+          cx="26" cy="26" r={radius}
+          fill="none"
+          stroke={isUrgent ? '#ef4444' : '#C8A44D'}
+          strokeWidth="3.5"
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          animate={{
+            strokeDashoffset: circumference * (1 - progress),
+            stroke: isUrgent ? '#ef4444' : '#C8A44D',
+          }}
+          transition={{ duration: 0.3, ease: 'easeInOut' }}
+        />
+      </svg>
+      <motion.span
+        animate={isUrgent ? { scale: [1, 1.15, 1] } : {}}
+        transition={{ repeat: isUrgent ? Infinity : 0, duration: 0.6 }}
+        className={`absolute text-xs font-bold font-mono ${isUrgent ? 'text-red-500' : 'text-[var(--color-deep-green)]/60'
+          }`}
+      >
+        {timeLeft}
+      </motion.span>
+      {/* Glow urgence */}
+      {isUrgent && (
+        <motion.div
+          animate={{ opacity: [0, 0.3, 0] }}
+          transition={{ repeat: Infinity, duration: 1 }}
+          className="absolute inset-0 rounded-full bg-red-500/20 blur-md"
+        />
+      )}
+    </div>
+  );
+}
 
 /* ── COMPOSANT PRINCIPAL ── */
 export default function QuizCard({
@@ -47,8 +159,24 @@ export default function QuizCard({
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
   const [hasAnswered, setHasAnswered] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startTime = useRef(Date.now());
+
+  /* ── RANDOMISATION STABLE DES RÉPONSES ── */
+  const shuffledOptions = useMemo(() => {
+    // Seed simple basé sur l'ID de la question pour stabilité pendant la session
+    const seed = String(question.id).split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+    const options = [...question.options];
+    // Fisher-Yates avec seed
+    let s = seed;
+    for (let i = options.length - 1; i > 0; i--) {
+      s = (s * 9301 + 49297) % 233280;
+      const j = s % (i + 1);
+      [options[i], options[j]] = [options[j], options[i]];
+    }
+    return options;
+  }, [question.id]);
 
   /* ── TIMER ── */
   useEffect(() => {
@@ -57,6 +185,7 @@ export default function QuizCard({
     setIsCorrect(null);
     setShowFeedback(false);
     setHasAnswered(false);
+    setShowConfetti(false);
     startTime.current = Date.now();
 
     timerRef.current = setInterval(() => {
@@ -92,21 +221,25 @@ export default function QuizCard({
     setSelected(answer);
     setShowFeedback(true);
 
+    if (correct) {
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 1500);
+    }
+
     const timeSpent = Math.round((Date.now() - startTime.current) / 1000);
 
     setTimeout(() => {
       onAnswer(answer, timeSpent);
-    }, correct ? 1200 : 2000);
+    }, correct ? 1000 : 1800);
   }, [hasAnswered, question.reponse_correcte, onAnswer]);
-
-  /* ── PROGRESS BAR ── */
-  const progressPercent = ((questionNumber) / totalQuestions) * 100;
-  const timePercent = (timeLeft / timeLimit) * 100;
 
   /* ── XP ESTIMÉ ── */
   const baseXp = 15;
   const streakBonus = Math.min(streak * 5, 30);
   const totalXp = Math.round((baseXp + streakBonus) * xpMultiplier);
+
+  /* ── PROGRESS BAR ── */
+  const progressPercent = ((questionNumber) / totalQuestions) * 100;
 
   return (
     <AnimatePresence mode="wait">
@@ -118,107 +251,98 @@ export default function QuizCard({
         exit="exit"
         className="relative w-full max-w-2xl mx-auto"
       >
-        {/* ── CARTE PRINCIPALE ── */}
         <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/40 overflow-hidden">
-          {/* Effet de glow */}
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+          {/* Effet de glow ambiant */}
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-emerald-500/8 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-amber-500/8 rounded-full blur-3xl pointer-events-none" />
 
-          {/* ── HEADER ── */}
-          <div className="relative px-5 pt-5 pb-3">
-            {/* Progress + Timer */}
-            <div className="flex items-center justify-between mb-3">
+          {/* Confettis */}
+          {showConfetti && <MiniConfetti />}
+
+          {/* ── HEADER COMPACT ── */}
+          <div className="relative px-5 pt-4 pb-2">
+            <div className="flex items-center justify-between mb-2">
+              {/* Question number + Streak */}
               <div className="flex items-center gap-2">
-                <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">
-                  Question {questionNumber}/{totalQuestions}
+                <span className="text-[10px] font-bold text-[var(--color-deep-green)]/40 bg-[var(--color-deep-green)]/5 px-2.5 py-1 rounded-full font-mono">
+                  {questionNumber}/{totalQuestions}
                 </span>
                 {streak > 0 && (
                   <motion.span
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className="flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full"
+                    className="flex items-center gap-1 text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full"
                   >
-                    <Zap className="w-3 h-3" />
+                    <Flame className="w-3 h-3" />
                     x{streak}
                   </motion.span>
                 )}
               </div>
 
-              {/* Timer */}
-              <motion.div
-                animate={{ scale: timeLeft <= 5 ? [1, 1.1, 1] : 1 }}
-                transition={{ repeat: timeLeft <= 5 ? Infinity : 0, duration: 0.5 }}
-                className={`flex items-center gap-1.5 text-sm font-bold ${timeLeft <= 5 ? 'text-red-500' : 'text-emerald-600'
-                  }`}
-              >
-                <Clock className="w-4 h-4" />
-                {timeLeft}s
-              </motion.div>
+              {/* Timer circulaire */}
+              <CircularTimer timeLeft={timeLeft} timeLimit={timeLimit} />
             </div>
 
-            {/* Barre de progression */}
-            <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+            {/* Barre de progression fine */}
+            <div className="h-1 bg-[var(--color-deep-green)]/8 rounded-full overflow-hidden">
               <motion.div
-                className="h-full bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-full"
+                className="h-full bg-gradient-to-r from-[var(--color-gold)] to-[var(--color-deep-green)] rounded-full"
                 initial={{ width: 0 }}
                 animate={{ width: `${progressPercent}%` }}
-                transition={{ duration: 0.5 }}
-              />
-            </div>
-
-            {/* Timer bar */}
-            <div className="h-0.5 bg-gray-100 rounded-full mt-1 overflow-hidden">
-              <motion.div
-                className={`h-full rounded-full transition-colors duration-300 ${timeLeft <= 5 ? 'bg-red-400' : 'bg-amber-400'
-                  }`}
-                initial={{ width: '100%' }}
-                animate={{ width: `${timePercent}%` }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.5, ease: 'easeOut' }}
               />
             </div>
           </div>
 
-          {/* ── CATÉGORIE + XP ── */}
-          <div className="px-5 flex items-center justify-between">
-            <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">
+          {/* ── CATÉGORIE + XP (discret) ── */}
+          <div className="px-5 pt-1 flex items-center justify-between">
+            <span className="text-[9px] font-medium text-[var(--color-deep-green)]/30 uppercase tracking-widest font-mono">
               {question.categorie} · {question.niveau}
             </span>
-            <div className="flex items-center gap-1 text-xs font-semibold text-amber-600">
+            <div className="flex items-center gap-1 text-[10px] font-bold text-[var(--color-gold)]/60">
               <Star className="w-3 h-3" />
               +{totalXp} XP
             </div>
           </div>
 
-          {/* ── QUESTION ── */}
-          <div className="px-5 py-4">
-            <h3 className="text-lg md:text-xl font-bold text-gray-900 leading-relaxed">
+          {/* ── QUESTION — DOMINANTE, CENTRALE ── */}
+          <div className="px-5 py-5 md:py-6">
+            <motion.h3
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.4 }}
+              className="text-xl md:text-2xl font-bold text-[var(--color-deep-green)] leading-relaxed text-center"
+            >
               {question.question}
-            </h3>
+            </motion.h3>
           </div>
 
-          {/* ── OPTIONS ── */}
-          <div className="px-5 pb-5 space-y-2.5">
-            {question.options.map((option, index) => {
+          {/* ── OPTIONS — CARDS INTERACTIVES ── */}
+          <div className="px-5 pb-5 space-y-3">
+            {shuffledOptions.map((option, index) => {
               const isSelected = selected === option;
               const isCorrectOption = option === question.reponse_correcte;
               const showResult = showFeedback && (isSelected || isCorrectOption);
 
-              let optionStyle = 'border-gray-200 bg-white hover:border-emerald-300 hover:bg-emerald-50/50';
-              let textStyle = 'text-gray-700';
+              let cardStyle = 'border-[var(--color-deep-green)]/10 bg-white hover:border-[var(--color-gold)]/30 hover:bg-[var(--color-gold)]/[0.02] hover:shadow-lg hover:shadow-[var(--color-gold)]/5';
+              let textStyle = 'text-[var(--color-deep-green)]/70';
+              let letterStyle = 'bg-[var(--color-deep-green)]/5 text-[var(--color-deep-green)]/40 border border-[var(--color-deep-green)]/10';
 
               if (showResult) {
                 if (isCorrectOption) {
-                  optionStyle = 'border-emerald-400 bg-emerald-50 shadow-lg shadow-emerald-200/30';
-                  textStyle = 'text-emerald-700';
+                  cardStyle = 'border-emerald-400/60 bg-emerald-50/80 shadow-lg shadow-emerald-200/30';
+                  textStyle = 'text-emerald-700 font-semibold';
+                  letterStyle = 'bg-emerald-500 text-white border-emerald-500';
                 } else if (isSelected && !isCorrectOption) {
-                  optionStyle = 'border-red-300 bg-red-50 shadow-lg shadow-red-200/20';
+                  cardStyle = 'border-red-300/60 bg-red-50/80 shadow-lg shadow-red-200/20';
                   textStyle = 'text-red-600';
+                  letterStyle = 'bg-red-500 text-white border-red-500';
                 }
               }
 
               return (
                 <motion.button
-                  key={index}
+                  key={`${question.id}-${index}`}
                   custom={index}
                   variants={optionVariants}
                   initial="initial"
@@ -227,104 +351,135 @@ export default function QuizCard({
                   whileTap={!hasAnswered ? 'tap' : undefined}
                   onClick={() => !hasAnswered && handleAnswer(option)}
                   disabled={hasAnswered}
-                  className={`relative w-full text-left p-3.5 md:p-4 rounded-xl border-2 transition-all duration-200 ${optionStyle} ${hasAnswered ? 'cursor-default' : 'cursor-pointer'
+                  className={`relative w-full text-left p-4 md:p-5 rounded-2xl border-2 transition-all duration-300 ${cardStyle} ${hasAnswered ? 'cursor-default' : 'cursor-pointer'
                     }`}
                 >
-                  <div className="flex items-center gap-3">
-                    {/* Lettre */}
-                    <span className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${showResult && isCorrectOption
-                      ? 'bg-emerald-500 text-white'
-                      : showResult && isSelected && !isCorrectOption
-                        ? 'bg-red-500 text-white'
-                        : 'bg-gray-100 text-gray-500'
-                      }`}>
+                  <div className="flex items-center gap-4">
+                    {/* Lettre stylisée */}
+                    <span className={`flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-300 ${letterStyle}`}>
                       {String.fromCharCode(65 + index)}
                     </span>
 
-                    {/* Texte */}
-                    <span className={`text-sm md:text-base font-medium flex-1 ${textStyle}`}>
+                    {/* Texte de l'option */}
+                    <span className={`text-sm md:text-base font-medium flex-1 leading-snug transition-all duration-300 ${textStyle}`}>
                       {option}
                     </span>
 
-                    {/* Icône */}
+                    {/* Icône de feedback */}
                     {showResult && isCorrectOption && (
                       <motion.div
                         initial={{ scale: 0, rotate: -90 }}
                         animate={{ scale: 1, rotate: 0 }}
-                        transition={{ type: 'spring', stiffness: 300 }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 15 }}
                       >
-                        <Check className="w-5 h-5 text-emerald-500" />
+                        <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center">
+                          <Check className="w-4 h-4 text-white stroke-[3]" />
+                        </div>
                       </motion.div>
                     )}
                     {showResult && isSelected && !isCorrectOption && (
                       <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
+                        transition={{ type: 'spring', stiffness: 300 }}
                       >
-                        <X className="w-5 h-5 text-red-500" />
+                        <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center">
+                          <X className="w-4 h-4 text-white stroke-[3]" />
+                        </div>
                       </motion.div>
                     )}
                   </div>
+
+                  {/* Glow subtil au hover */}
+                  {!hasAnswered && (
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[var(--color-gold)]/[0.02] to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                  )}
                 </motion.button>
               );
             })}
           </div>
 
-          {/* ── FEEDBACK ── */}
+          {/* ── FEEDBACK ÉMOTIONNEL ── */}
           <AnimatePresence>
             {showFeedback && (
               <motion.div
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
                 className="overflow-hidden"
               >
-                <div className={`px-5 pb-5 ${isCorrect ? '' : ''}`}>
-                  <div className={`p-4 rounded-xl border ${isCorrect
-                    ? 'bg-emerald-50/80 border-emerald-200'
-                    : 'bg-red-50/80 border-red-200'
-                    }`}>
+                <div className="px-5 pb-5">
+                  <motion.div
+                    initial={{ y: 10, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.1 }}
+                    className={`p-4 md:p-5 rounded-2xl border ${isCorrect
+                      ? 'bg-emerald-50/90 border-emerald-200/60'
+                      : 'bg-red-50/90 border-red-200/60'
+                      }`}
+                  >
                     <div className="flex items-start gap-3">
-                      <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${isCorrect ? 'bg-emerald-500' : 'bg-red-500'
-                        }`}>
+                      {/* Icône émotionnelle */}
+                      <motion.div
+                        initial={isCorrect ? { scale: 0, rotate: -180 } : { x: -10 }}
+                        animate={isCorrect ? { scale: 1, rotate: 0 } : { x: 0 }}
+                        transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+                        className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${isCorrect ? 'bg-emerald-500' : 'bg-red-500'
+                          }`}
+                      >
                         {isCorrect ? (
-                          <Check className="w-4 h-4 text-white" />
+                          <Check className="w-5 h-5 text-white stroke-[3]" />
                         ) : (
-                          <X className="w-4 h-4 text-white" />
+                          <X className="w-5 h-5 text-white stroke-[3]" />
                         )}
-                      </div>
+                      </motion.div>
+
                       <div className="flex-1 min-w-0">
-                        <p className={`text-sm font-bold mb-1 ${isCorrect ? 'text-emerald-700' : 'text-red-700'
+                        {/* Titre encourageant */}
+                        <p className={`text-sm font-bold mb-1.5 ${isCorrect ? 'text-emerald-700' : 'text-red-700'
                           }`}>
                           {isCorrect ? '✅ Bravo !' : '❌ Pas tout à fait...'}
                         </p>
-                        <p className="text-sm text-gray-600 leading-relaxed">
+
+                        {/* Explication */}
+                        <p className="text-sm text-[var(--color-deep-green)]/60 leading-relaxed">
                           {question.explication}
                         </p>
+
+                        {/* Rappel de la bonne réponse si incorrect */}
                         {!isCorrect && (
-                          <p className="text-xs text-gray-400 mt-2">
-                            La bonne réponse était : <span className="font-semibold text-emerald-600">{question.reponse_correcte}</span>
-                          </p>
+                          <motion.p
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.3 }}
+                            className="text-xs text-[var(--color-deep-green)]/40 mt-2 font-medium"
+                          >
+                            La bonne réponse était :{' '}
+                            <span className="font-bold text-emerald-600">{question.reponse_correcte}</span>
+                          </motion.p>
                         )}
                       </div>
                     </div>
 
-                    {/* XP Gagné */}
+                    {/* XP Gagné + Streak */}
                     {isCorrect && (
                       <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
-                        className="mt-3 flex items-center gap-2 text-sm font-bold text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg w-fit"
+                        className="mt-3 flex items-center gap-2 text-sm font-bold text-amber-600 bg-amber-50/80 px-3 py-2 rounded-xl border border-amber-200/40 w-fit"
                       >
                         <Sparkles className="w-4 h-4" />
                         +{totalXp} XP
                         {streak > 0 && (
-                          <span className="text-xs text-amber-400">(x{streak + 1} streak)</span>
+                          <span className="text-xs text-amber-400 font-medium">
+                            (x{streak + 1} streak)
+                          </span>
                         )}
                       </motion.div>
                     )}
-                  </div>
+                  </motion.div>
                 </div>
               </motion.div>
             )}
@@ -377,14 +532,14 @@ export function ResultsScreen({
       label: 'Pas mal !',
       emoji: '💪',
       color: 'from-blue-400 to-indigo-500',
-      message: 'Encore un peu d\'effort et tu seras au top !',
+      message: "Encore un peu d'effort et tu seras au top !",
     };
   } else {
     grade = {
       label: 'Continue...',
       emoji: '📚',
       color: 'from-gray-400 to-slate-500',
-      message: 'Chaque erreur est une chance d\'apprendre. Réessaie !',
+      message: "Chaque erreur est une chance d'apprendre. Réessaie !",
     };
   }
 
@@ -482,7 +637,7 @@ export function ResultsScreen({
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={onContinue}
-            className="w-full py-3.5 rounded-xl font-bold text-white bg-gradient-to-r from-emerald-500 to-emerald-600 shadow-lg shadow-emerald-200/50 hover:shadow-emerald-300/50 transition-all duration-200 flex items-center justify-center gap-2"
+            className="w-full py-3.5 rounded-xl font-bold text-white bg-gradient-to-r from-emerald-500 to-emerald-600 shadow-lg shadow-emerald-200/50 hover:shadow-emerald-300/50 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
           >
             <Trophy className="w-5 h-5" />
             Continuer l'aventure
@@ -491,7 +646,7 @@ export function ResultsScreen({
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={onRetry}
-            className="w-full py-3 rounded-xl font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-all duration-200 flex items-center justify-center gap-2"
+            className="w-full py-3 rounded-xl font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
           >
             <RotateCcw className="w-4 h-4" />
             Recommencer
