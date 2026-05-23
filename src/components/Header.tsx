@@ -113,20 +113,18 @@ export default function Header({
           height: `calc(var(--header-height) + env(safe-area-inset-top, 0px))`,
         }}
       >
-        {/* Barre du header */}
+        {/* Barre système 48px */}
         <div
-          className={`relative h-full flex items-center justify-between transition-all duration-300 ${isScrolled
-            ? 'bg-[var(--color-ivory)]/90 shadow-[var(--shadow-soft)]'
-            : 'bg-transparent'
+          className={`relative h-full flex items-center justify-between transition-all duration-300 px-3 md:px-4 ${isScrolled
+              ? 'bg-[var(--color-ivory)]/90 shadow-[var(--shadow-soft)]'
+              : 'bg-transparent'
             }`}
           style={{
             backdropFilter: isScrolled ? 'blur(16px)' : 'none',
             WebkitBackdropFilter: isScrolled ? 'blur(16px)' : 'none',
-            paddingLeft: 'var(--content-padding)',
-            paddingRight: 'var(--content-padding)',
           }}
         >
-          {/* Ligne lumineuse en bas du header quand scrolled */}
+          {/* Ligne lumineuse */}
           {isScrolled && (
             <motion.div
               initial={{ opacity: 0 }}
@@ -135,106 +133,16 @@ export default function Header({
             />
           )}
 
-          {/* Gauche — Logo ou bouton quitter ghost pendant le quiz */}
-          <div className="flex items-center gap-3">
-            {isQuizActive && (
-              <button
-                onClick={() => onQuitQuiz?.()}
-                className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium text-[var(--color-deep-green)]/60 hover:text-[var(--color-deep-green)]/90 hover:bg-[var(--color-deep-green)]/5 transition-all opacity-70"
-              >
-                <ChevronLeft size={14} strokeWidth={2} />
-                <span>Quitter</span>
-              </button>
-            )}
-            {/* Icône du logo */}
-            <div className="relative">
-              <div
-                className="w-8 h-8 rounded-lg flex items-center justify-center"
-                style={{
-                  background: 'linear-gradient(135deg, var(--color-deep-green), var(--color-emerald))',
-                }}
-              >
-                <span className="text-white text-sm font-bold font-display">أ</span>
-              </div>
-              {/* Glow subtil */}
-              <div
-                className="absolute -inset-1 rounded-lg opacity-30"
-                style={{
-                  background:
-                    'radial-gradient(ellipse at center, var(--color-gold) 0%, transparent 70%)',
-                  filter: 'blur(4px)',
-                }}
-              />
-            </div>
+          {/* LTR: [☰] [Logo] [Niveau] … [Streak] [Avatar] */}
+          {/* RTL: [Avatar] [Streak] … [Niveau] [Logo] [☰] */}
 
-            {/* Niveau + XP (caché sur très petit écran) */}
-            <div className="hidden sm:block">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-semibold text-[var(--color-deep-green)]/60 uppercase tracking-wider">
-                  {t('common.level', 'Niveau {level}').replace('{level}', level.toString())}
-                </span>
-                {streak > 0 && (
-                  <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200/50">
-                    <Flame size={10} className="text-amber-500" />
-                    <span className="text-[10px] font-semibold text-amber-600">
-                      {streak}
-                    </span>
-                  </div>
-                )}
-              </div>
-              {/* Barre XP */}
-              <div className="mt-1 relative w-24 h-1.5 rounded-full overflow-hidden bg-[var(--color-deep-green)]/8">
-                <motion.div
-                  className={`absolute inset-y-0 ${dir === 'rtl' ? 'right-0' : 'left-0'} rounded-full`}
-                  style={{
-                    background:
-                      'linear-gradient(90deg, var(--color-emerald), var(--color-gold))',
-                  }}
-                  initial={{ width: 0 }}
-                  animate={{ width: `${xpProgress}%` }}
-                  transition={{ duration: 0.8, ease: 'easeOut' }}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Actions droite — simplifié */}
-          <div className="flex items-center gap-1">
-            {/* Streak très discret */}
-            {streak > 0 && (
-              <div className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-full opacity-60">
-                <Flame size={10} className="text-amber-500/70" />
-                <span className="text-[9px] font-semibold text-amber-600/70">{streak}</span>
-              </div>
-            )}
-
-            {/* Avatar / Connexion */}
-            <button
-              onClick={() => onAvatarClick?.()}
-              className="relative w-7 h-7 rounded-full overflow-hidden border border-transparent hover:border-[var(--color-gold)]/30 active:scale-95 transition-all duration-200"
-              style={{
-                background:
-                  'linear-gradient(135deg, var(--color-deep-green), var(--color-emerald))',
-              }}
-              aria-label={isLoggedIn ? t('common.user_profile', 'Profil utilisateur') : t('common.log_in', 'Se connecter')}
-            >
-              <div className="w-full h-full flex items-center justify-center">
-                <User size={12} className="text-white" />
-              </div>
-              {isLoggedIn && (
-                <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-emerald-400 border-2 border-white animate-pulse" />
-              )}
-            </button>
-
+          {/* Groupe gauche */}
+          <div className={`flex items-center gap-2 ${dir === 'rtl' ? 'order-2' : ''}`}>
             {/* Menu hamburger — caché pendant le quiz */}
             {!isQuizActive && (
               <button
                 onClick={toggleMenu}
-                className="relative flex items-center justify-center rounded-lg transition-colors duration-200 hover:bg-[var(--color-deep-green)]/5"
-                style={{
-                  width: 'var(--touch-min)',
-                  height: 'var(--touch-min)',
-                }}
+                className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors duration-200 hover:bg-[var(--color-deep-green)]/5 active:scale-95"
                 aria-label="Menu"
               >
                 <AnimatePresence mode="wait">
@@ -246,7 +154,7 @@ export default function Header({
                       exit={{ rotate: 90, opacity: 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <X size={20} className="text-[var(--color-deep-green)]" />
+                      <X size={18} className="text-[var(--color-deep-green)]" />
                     </motion.div>
                   ) : (
                     <motion.div
@@ -256,10 +164,67 @@ export default function Header({
                       exit={{ rotate: -90, opacity: 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <Menu size={20} className="text-[var(--color-deep-green)]" />
+                      <Menu size={18} className="text-[var(--color-deep-green)]" />
                     </motion.div>
                   )}
                 </AnimatePresence>
+              </button>
+            )}
+
+            {/* Logo compact */}
+            <div className="relative">
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center"
+                style={{ background: 'linear-gradient(135deg, var(--color-deep-green), var(--color-emerald))' }}
+              >
+                <span className="text-white text-[11px] font-bold font-display">أ</span>
+              </div>
+              <div className="absolute -inset-1 rounded-lg opacity-20"
+                style={{
+                  background: 'radial-gradient(ellipse at center, var(--color-gold) 0%, transparent 70%)',
+                  filter: 'blur(4px)',
+                }}
+              />
+            </div>
+
+            {/* Niveau (caché <360px) */}
+            <span className="hidden [@media(min-width:360px)]:inline text-[10px] font-semibold text-[var(--color-deep-green)]/50 uppercase tracking-wider">
+              {t('common.level', 'Niveau {level}').replace('{level}', level.toString())}
+            </span>
+          </div>
+
+          {/* Groupe droite */}
+          <div className={`flex items-center gap-1.5 ${dir === 'rtl' ? 'order-1' : ''}`}>
+            {/* Streak très discret */}
+            {streak > 0 && (
+              <div className="flex items-center gap-0.5 px-1 py-0.5 rounded-full opacity-50">
+                <Flame size={9} className="text-amber-500/60" />
+                <span className="text-[8px] font-semibold text-amber-600/60">{streak}</span>
+              </div>
+            )}
+
+            {/* Avatar */}
+            <button
+              onClick={() => onAvatarClick?.()}
+              className="relative w-7 h-7 rounded-full overflow-hidden border border-transparent hover:border-[var(--color-gold)]/30 active:scale-95 transition-all duration-200"
+              style={{ background: 'linear-gradient(135deg, var(--color-deep-green), var(--color-emerald))' }}
+              aria-label={isLoggedIn ? t('common.user_profile', 'Profil utilisateur') : t('common.log_in', 'Se connecter')}
+            >
+              <div className="w-full h-full flex items-center justify-center">
+                <User size={11} className="text-white" />
+              </div>
+              {isLoggedIn && (
+                <span className="absolute bottom-0 right-0 w-1.5 h-1.5 rounded-full bg-emerald-400 border border-white animate-pulse" />
+              )}
+            </button>
+
+            {/* Bouton quitter ghost pendant le quiz */}
+            {isQuizActive && (
+              <button
+                onClick={() => onQuitQuiz?.()}
+                className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-lg text-[9px] font-medium text-[var(--color-deep-green)]/50 hover:text-[var(--color-deep-green)]/80 hover:bg-[var(--color-deep-green)]/5 transition-all"
+              >
+                <ChevronLeft size={12} strokeWidth={2} />
+                <span>Quitter</span>
               </button>
             )}
           </div>
