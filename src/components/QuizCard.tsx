@@ -1,93 +1,70 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Question } from '../types';
+import { Sparkles, Clock, Check, X, ChevronRight, Star, Zap, Trophy, RotateCcw } from 'lucide-react';
 
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Check, X, HelpCircle, ArrowRight, Clock, Award, BookOpen, Volume2, ShieldQuestion, Sparkles 
-} from 'lucide-react';
-import { Question, getLocalizedQuestion } from '../types';
-import { useLanguage } from '../LanguageContext';
-import { playSuccessSound, playErrorSound, playTickSound, playSelectSound } from './SoundEngine';
-
+/* ── PROPS ── */
 interface QuizCardProps {
   question: Question;
-  currentIndex: number;
+  questionNumber: number;
   totalQuestions: number;
-  onAnswerValidated: (selectedAnswer: string, isCorrect: boolean, timeSpent: number) => void;
-  timerActive: boolean;
-  timerLimit: number;
-  isTranslating?: boolean;
-  onTriggerAiTranslation?: () => void;
+  timeLimit: number;
+  onAnswer: (selected: string, timeSpent: number) => void;
+  streak?: number;
+  xpMultiplier?: number;
 }
 
+/* ── ANIMATIONS ── */
+const cardVariants = {
+  initial: { opacity: 0, y: 40, scale: 0.96 },
+  animate: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring', stiffness: 120, damping: 20 } },
+  exit: { opacity: 0, y: -30, scale: 0.96, transition: { duration: 0.2 } },
+};
+
+const optionVariants = {
+  initial: { opacity: 0, x: -20 },
+  animate: (i: number) => ({
+    opacity: 1,
+    x: 0,
+    transition: { delay: 0.1 + i * 0.06, type: 'spring', stiffness: 100, damping: 15 },
+  }),
+  hover: { scale: 1.02, transition: { type: 'spring', stiffness: 300 } },
+  tap: { scale: 0.98 },
+};
+
+/* ── COMPOSANT PRINCIPAL ── */
 export default function QuizCard({
   question,
-  currentIndex,
+  questionNumber,
   totalQuestions,
-  onAnswerValidated,
-  timerActive,
-  timerLimit,
-  isTranslating = false,
-  onTriggerAiTranslation
+  timeLimit,
+  onAnswer,
+  streak = 0,
+  xpMultiplier = 1,
 }: QuizCardProps) {
-  const { language, t } = useLanguage();
-  const q = getLocalizedQuestion(question, language);
+  const [selected, setSelected] = useState<string | null>(null);
+  const [timeLeft, setTimeLeft] = useState(timeLimit);
+  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [hasAnswered, setHasAnswered] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const startTime = useRef(Date.now());
 
-  interface OptionParticle {
-    id: number;
-    x: number;
-    y: number;
-    color: string;
-    shape: string;
-    scale: number;
-    angle: number;
-    speed: number;
-  }
-
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [isValidated, setIsValidated] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(timerLimit);
-  const [timeSpent, setTimeSpent] = useState(0);
-  const [particles, setParticles] = useState<OptionParticle[]>([]);
-
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Reset states for every new question
+  /* ── TIMER ── */
   useEffect(() => {
-    setSelectedOption(null);
-    setIsValidated(false);
-    setTimeLeft(timerLimit);
-    setTimeSpent(0);
-    setParticles([]);
-  }, [question, timerLimit]);
-
-  // Handle Timer Countdown
-  useEffect(() => {
-    if (isValidated) {
-      if (timerRef.current) clearInterval(timerRef.current);
-      return;
-    }
-
-    if (!timerActive) {
-      return;
-    }
+    setTimeLeft(timeLimit);
+    setSelected(null);
+    setIsCorrect(null);
+    setShowFeedback(false);
+    setHasAnswered(false);
+    startTime.current = Date.now();
 
     timerRef.current = setInterval(() => {
-      setTimeLeft((prev) => {
+      setTimeLeft(prev => {
         if (prev <= 1) {
           clearInterval(timerRef.current!);
-          // Timer ran out! Automatically validate with blank/wrong answer
-          handleAutoValidation();
           return 0;
         }
-        // Play soft subtle tick sound on the last 5 seconds to prompt promptness
-        if (prev <= 6) {
-          playTickSound();
-        }
-        setTimeSpent((ts) => ts + 1);
         return prev - 1;
       });
     }, 1000);
@@ -95,373 +72,431 @@ export default function QuizCard({
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [question, isValidated, timerActive]);
+  }, [question.id, timeLimit]);
 
-  const handleAutoValidation = () => {
-    setSelectedOption(null);
-    setIsValidated(true);
-    playErrorSound();
-    onAnswerValidated("", false, timerLimit);
-  };
+  /* ── TEMPS ÉCOULÉ → AUTO-SUBMIT ── */
+  useEffect(() => {
+    if (timeLeft === 0 && !hasAnswered) {
+      handleAnswer('');
+    }
+  }, [timeLeft]);
 
-  const handleOptionSelect = (option: string) => {
-    if (isValidated) return;
-    playSelectSound();
-    setSelectedOption(option);
-  };
+  /* ── GESTION RÉPONSE ── */
+  const handleAnswer = useCallback((answer: string) => {
+    if (hasAnswered) return;
+    setHasAnswered(true);
+    if (timerRef.current) clearInterval(timerRef.current);
 
-  const triggerBurstEffect = () => {
-    const shapes = ['★', '✦', '✧', '●', '◆', '✨'];
-    const colors = ['#D0A21C', '#388E3C', '#2196F3', '#FFEB3B', '#4CAF50', '#00E676'];
-    const newParticles: OptionParticle[] = Array.from({ length: 16 }).map((_, i) => ({
-      id: Date.now() + i,
-      x: 0,
-      y: 0,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      shape: shapes[Math.floor(Math.random() * shapes.length)],
-      scale: Math.random() * 0.8 + 0.6,
-      angle: Math.random() * Math.PI * 2,
-      speed: Math.random() * 90 + 50,
-    }));
-    setParticles(newParticles);
+    const correct = answer === question.reponse_correcte;
+    setIsCorrect(correct);
+    setSelected(answer);
+    setShowFeedback(true);
+
+    const timeSpent = Math.round((Date.now() - startTime.current) / 1000);
+
     setTimeout(() => {
-      setParticles([]);
-    }, 950);
-  };
+      onAnswer(answer, timeSpent);
+    }, correct ? 1200 : 2000);
+  }, [hasAnswered, question.reponse_correcte, onAnswer]);
 
-  const handleValidate = () => {
-    if (isValidated || !selectedOption) return;
+  /* ── PROGRESS BAR ── */
+  const progressPercent = ((questionNumber) / totalQuestions) * 100;
+  const timePercent = (timeLeft / timeLimit) * 100;
 
-    const isCorrect = selectedOption === q.reponse_correcte;
-    setIsValidated(true);
-    
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-    }
+  /* ── XP ESTIMÉ ── */
+  const baseXp = 15;
+  const streakBonus = Math.min(streak * 5, 30);
+  const totalXp = Math.round((baseXp + streakBonus) * xpMultiplier);
 
-    if (isCorrect) {
-      playSuccessSound();
-      triggerBurstEffect();
-    } else {
-      playErrorSound();
-    }
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={question.id}
+        variants={cardVariants}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        className="relative w-full max-w-2xl mx-auto"
+      >
+        {/* ── CARTE PRINCIPALE ── */}
+        <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/40 overflow-hidden">
+          {/* Effet de glow */}
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
-    onAnswerValidated(selectedOption, isCorrect, timeSpent);
-  };
+          {/* ── HEADER ── */}
+          <div className="relative px-5 pt-5 pb-3">
+            {/* Progress + Timer */}
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">
+                  Question {questionNumber}/{totalQuestions}
+                </span>
+                {streak > 0 && (
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full"
+                  >
+                    <Zap className="w-3 h-3" />
+                    x{streak}
+                  </motion.span>
+                )}
+              </div>
 
-  // Assign distinct styles for options depending on validation state
-  const getOptionStyle = (option: string) => {
-    const isSelected = selectedOption === option;
-    const isAnswerCorrect = q.reponse_correcte === option;
+              {/* Timer */}
+              <motion.div
+                animate={{ scale: timeLeft <= 5 ? [1, 1.1, 1] : 1 }}
+                transition={{ repeat: timeLeft <= 5 ? Infinity : 0, duration: 0.5 }}
+                className={`flex items-center gap-1.5 text-sm font-bold ${timeLeft <= 5 ? 'text-red-500' : 'text-emerald-600'
+                  }`}
+              >
+                <Clock className="w-4 h-4" />
+                {timeLeft}s
+              </motion.div>
+            </div>
 
-    if (!isValidated) {
-      if (isSelected) {
-        return "btn-3d-amber border-[#D0A21C] bg-[#D0A21C]/15 text-amber-100 ring-2 ring-[#D0A21C]/25 shadow-[0_4px_12px_rgba(208,162,28,0.2)]";
-      }
-      return "btn-3d-slate border-slate-800 bg-slate-950 text-slate-300 hover:border-slate-700 hover:bg-slate-900/60 hover:text-white";
-    }
+            {/* Barre de progression */}
+            <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-full"
+                initial={{ width: 0 }}
+                animate={{ width: `${progressPercent}%` }}
+                transition={{ duration: 0.5 }}
+              />
+            </div>
 
-    // After validation:
-    if (isAnswerCorrect) {
-      return "btn-3d-emerald border-emerald-500 bg-emerald-500/25 text-emerald-100 font-extrabold ring-2 ring-emerald-500/30 shadow-[0_4px_12px_rgba(16,185,129,0.25)]";
-    }
-    if (isSelected && !isAnswerCorrect) {
-      return "btn-3d-rose border-rose-500 bg-rose-500/25 text-rose-100 ring-2 ring-rose-500/30 line-through";
-    }
-    return "border-slate-900 bg-slate-950/40 text-slate-500 opacity-60";
-  };
+            {/* Timer bar */}
+            <div className="h-0.5 bg-gray-100 rounded-full mt-1 overflow-hidden">
+              <motion.div
+                className={`h-full rounded-full transition-colors duration-300 ${timeLeft <= 5 ? 'bg-red-400' : 'bg-amber-400'
+                  }`}
+                initial={{ width: '100%' }}
+                animate={{ width: `${timePercent}%` }}
+                transition={{ duration: 0.3 }}
+              />
+            </div>
+          </div>
 
-  // Difficulty badge colors
-  const getLevelBadgeClass = (level: string) => {
-    switch (level) {
-      case 'Débutant':
-        return 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
-      case 'Intermédiaire':
-        return 'bg-amber-500/10 text-amber-400 border border-amber-500/20';
-      case 'Avancé':
-        return 'bg-rose-500/10 text-rose-400 border border-rose-500/20';
-      default:
-        return 'bg-slate-500/10 text-slate-400 border border-slate-500/20';
-    }
-  };
+          {/* ── CATÉGORIE + XP ── */}
+          <div className="px-5 flex items-center justify-between">
+            <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">
+              {question.categorie} · {question.niveau}
+            </span>
+            <div className="flex items-center gap-1 text-xs font-semibold text-amber-600">
+              <Star className="w-3 h-3" />
+              +{totalXp} XP
+            </div>
+          </div>
 
-  // Category badge colors
-  const getCategoryBadgeClass = (category: string) => {
-    switch (category) {
-      case 'Fiqh':
-        return 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20';
-      case 'Aqidah':
-        return 'bg-violet-500/10 text-violet-400 border border-violet-500/20';
-      case 'Sirah':
-        return 'bg-rose-500/10 text-rose-400 border border-rose-500/20';
-      case 'Coran':
-        return 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
-      case 'Akhlaq':
-        return 'bg-amber-500/10 text-amber-400 border border-amber-500/20';
-      case "Institut Al-Mouyassar":
-        return 'bg-teal-500/10 text-teal-300 border border-teal-500/20';
-      default:
-        return 'bg-slate-800 text-slate-350';
-    }
-  };
+          {/* ── QUESTION ── */}
+          <div className="px-5 py-4">
+            <h3 className="text-lg md:text-xl font-bold text-gray-900 leading-relaxed">
+              {question.question}
+            </h3>
+          </div>
+
+          {/* ── OPTIONS ── */}
+          <div className="px-5 pb-5 space-y-2.5">
+            {question.options.map((option, index) => {
+              const isSelected = selected === option;
+              const isCorrectOption = option === question.reponse_correcte;
+              const showResult = showFeedback && (isSelected || isCorrectOption);
+
+              let optionStyle = 'border-gray-200 bg-white hover:border-emerald-300 hover:bg-emerald-50/50';
+              let textStyle = 'text-gray-700';
+
+              if (showResult) {
+                if (isCorrectOption) {
+                  optionStyle = 'border-emerald-400 bg-emerald-50 shadow-lg shadow-emerald-200/30';
+                  textStyle = 'text-emerald-700';
+                } else if (isSelected && !isCorrectOption) {
+                  optionStyle = 'border-red-300 bg-red-50 shadow-lg shadow-red-200/20';
+                  textStyle = 'text-red-600';
+                }
+              }
+
+              return (
+                <motion.button
+                  key={index}
+                  custom={index}
+                  variants={optionVariants}
+                  initial="initial"
+                  animate="animate"
+                  whileHover={!hasAnswered ? 'hover' : undefined}
+                  whileTap={!hasAnswered ? 'tap' : undefined}
+                  onClick={() => !hasAnswered && handleAnswer(option)}
+                  disabled={hasAnswered}
+                  className={`relative w-full text-left p-3.5 md:p-4 rounded-xl border-2 transition-all duration-200 ${optionStyle} ${hasAnswered ? 'cursor-default' : 'cursor-pointer'
+                    }`}
+                >
+                  <div className="flex items-center gap-3">
+                    {/* Lettre */}
+                    <span className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${showResult && isCorrectOption
+                      ? 'bg-emerald-500 text-white'
+                      : showResult && isSelected && !isCorrectOption
+                        ? 'bg-red-500 text-white'
+                        : 'bg-gray-100 text-gray-500'
+                      }`}>
+                      {String.fromCharCode(65 + index)}
+                    </span>
+
+                    {/* Texte */}
+                    <span className={`text-sm md:text-base font-medium flex-1 ${textStyle}`}>
+                      {option}
+                    </span>
+
+                    {/* Icône */}
+                    {showResult && isCorrectOption && (
+                      <motion.div
+                        initial={{ scale: 0, rotate: -90 }}
+                        animate={{ scale: 1, rotate: 0 }}
+                        transition={{ type: 'spring', stiffness: 300 }}
+                      >
+                        <Check className="w-5 h-5 text-emerald-500" />
+                      </motion.div>
+                    )}
+                    {showResult && isSelected && !isCorrectOption && (
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                      >
+                        <X className="w-5 h-5 text-red-500" />
+                      </motion.div>
+                    )}
+                  </div>
+                </motion.button>
+              );
+            })}
+          </div>
+
+          {/* ── FEEDBACK ── */}
+          <AnimatePresence>
+            {showFeedback && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                className="overflow-hidden"
+              >
+                <div className={`px-5 pb-5 ${isCorrect ? '' : ''}`}>
+                  <div className={`p-4 rounded-xl border ${isCorrect
+                    ? 'bg-emerald-50/80 border-emerald-200'
+                    : 'bg-red-50/80 border-red-200'
+                    }`}>
+                    <div className="flex items-start gap-3">
+                      <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${isCorrect ? 'bg-emerald-500' : 'bg-red-500'
+                        }`}>
+                        {isCorrect ? (
+                          <Check className="w-4 h-4 text-white" />
+                        ) : (
+                          <X className="w-4 h-4 text-white" />
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className={`text-sm font-bold mb-1 ${isCorrect ? 'text-emerald-700' : 'text-red-700'
+                          }`}>
+                          {isCorrect ? '✅ Bravo !' : '❌ Pas tout à fait...'}
+                        </p>
+                        <p className="text-sm text-gray-600 leading-relaxed">
+                          {question.explication}
+                        </p>
+                        {!isCorrect && (
+                          <p className="text-xs text-gray-400 mt-2">
+                            La bonne réponse était : <span className="font-semibold text-emerald-600">{question.reponse_correcte}</span>
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* XP Gagné */}
+                    {isCorrect && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                        className="mt-3 flex items-center gap-2 text-sm font-bold text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg w-fit"
+                      >
+                        <Sparkles className="w-4 h-4" />
+                        +{totalXp} XP
+                        {streak > 0 && (
+                          <span className="text-xs text-amber-400">(x{streak + 1} streak)</span>
+                        )}
+                      </motion.div>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
+/* ── ÉCRAN DE RÉSULTATS ── */
+interface ResultsScreenProps {
+  score: number;
+  totalQuestions: number;
+  xpEarned: number;
+  streak: number;
+  onRetry: () => void;
+  onContinue: () => void;
+}
+
+export function ResultsScreen({
+  score,
+  totalQuestions,
+  xpEarned,
+  streak,
+  onRetry,
+  onContinue,
+}: ResultsScreenProps) {
+  const percentage = Math.round((score / totalQuestions) * 100);
+  const isPerfect = score === totalQuestions;
+  const isGood = percentage >= 70;
+
+  let grade: { label: string; emoji: string; color: string; message: string };
+  if (isPerfect) {
+    grade = {
+      label: 'Parfait !',
+      emoji: '🏆',
+      color: 'from-amber-400 to-yellow-500',
+      message: 'Tu es un véritable expert ! Une maîtrise totale impressionnante.',
+    };
+  } else if (isGood) {
+    grade = {
+      label: 'Excellent !',
+      emoji: '🌟',
+      color: 'from-emerald-400 to-teal-500',
+      message: 'Continue comme ça, tu progresses à grands pas !',
+    };
+  } else if (percentage >= 50) {
+    grade = {
+      label: 'Pas mal !',
+      emoji: '💪',
+      color: 'from-blue-400 to-indigo-500',
+      message: 'Encore un peu d\'effort et tu seras au top !',
+    };
+  } else {
+    grade = {
+      label: 'Continue...',
+      emoji: '📚',
+      color: 'from-gray-400 to-slate-500',
+      message: 'Chaque erreur est une chance d\'apprendre. Réessaie !',
+    };
+  }
 
   return (
     <motion.div
-      key={q.id}
-      initial={{ opacity: 0, scale: 0.98, y: 10 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.98, y: -10 }}
-      transition={{ duration: 0.3 }}
-      className="bg-slate-900 border border-slate-800 rounded-2xl shadow-xl relative"
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ type: 'spring', stiffness: 100, damping: 15 }}
+      className="w-full max-w-md mx-auto"
     >
-      {/* Micro-Explosion de Particules Étoilées */}
-      {particles.map((p) => {
-        const xDir = Math.cos(p.angle) * p.speed;
-        const yDir = Math.sin(p.angle) * p.speed;
-        return (
+      <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/40 overflow-hidden p-6 md:p-8">
+        {/* Glow */}
+        <div className={`absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br ${grade.color} opacity-10 rounded-full blur-3xl pointer-events-none`} />
+
+        {/* Header */}
+        <div className="text-center mb-6">
           <motion.div
-            key={p.id}
-            initial={{ opacity: 1, scale: 0, x: 0, y: 0 }}
-            animate={{ 
-              opacity: [1, 1, 0], 
-              scale: [0, p.scale, p.scale * 1.5, 0],
-              x: xDir,
-              y: yDir,
-              rotate: Math.random() * 360
-            }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="absolute text-base font-bold select-none pointer-events-none z-50 left-1/2 top-1/3"
-            style={{ color: p.color }}
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+            className="text-5xl mb-3"
           >
-            {p.shape}
+            {grade.emoji}
           </motion.div>
-        );
-      })}
-      {/* Upper header section showing category, difficulty and general progress metrics */}
-      <div className="p-4 sm:p-5 border-b border-slate-850 flex items-center justify-between gap-4 flex-wrap bg-slate-950/40">
-        <div className="flex items-center gap-2">
-          <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${getCategoryBadgeClass(q.categorie)}`}>
-            {t(q.categorie)}
-          </span>
-          <span className={`text-xs font-bold px-2.5 py-1.5 rounded-full ${getLevelBadgeClass(q.niveau)} flex items-center gap-1.5`}>
-            <span className={`w-1.5 h-1.5 rounded-full ${
-              q.niveau === 'Débutant' ? 'bg-emerald-450 animate-pulse' :
-              q.niveau === 'Intermédiaire' ? 'bg-amber-400' : 'bg-rose-400'
-            }`} />
-            {t(q.niveau)}
-          </span>
+          <h2 className="text-2xl font-bold text-gray-900 mb-1">{grade.label}</h2>
+          <p className="text-sm text-gray-500">{grade.message}</p>
         </div>
 
-        <div className="flex items-center gap-4">
-          {/* Progress Indicator */}
-          <span className="text-xs text-slate-400 font-bold font-mono">
-            {currentIndex + 1} <span className="text-slate-600">/</span> {totalQuestions}
-          </span>
-
-          {/* Timer Clock */}
-          {timerActive && (
-            <div className={`flex items-center gap-1.5 px-3 py-1 rounded-lg border font-mono text-xs font-black ${
-              timeLeft <= 5 
-                ? 'bg-rose-500/15 text-rose-400 border-rose-500/30 animate-pulse' 
-                : 'bg-slate-900 text-slate-300 border-slate-800'
-            }`}>
-              <Clock className={`w-3.5 h-3.5 ${timeLeft <= 5 ? 'text-rose-400 animate-bounce' : 'text-slate-400'}`} />
-              <span>{timeLeft}s</span>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Question Card Content Area */}
-      <div className="p-5 sm:p-6 space-y-6">
-        {isTranslating ? (
-          <div className="flex flex-col items-center justify-center py-10 text-center space-y-5 min-h-[220px]">
-            <div className="relative flex items-center justify-center">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 3.5, ease: "linear" }}
-                className="w-14 h-14 rounded-full border-4 border-dashed border-teal-500/20 border-t-teal-500"
+        {/* Score Circle */}
+        <div className="flex justify-center mb-6">
+          <div className="relative w-32 h-32">
+            <svg className="w-full h-full transform -rotate-90" viewBox="0 0 120 120">
+              <circle
+                cx="60" cy="60" r="54"
+                fill="none"
+                stroke="#f3f4f6"
+                strokeWidth="8"
               />
-              <motion.div
-                animate={{ y: [0, -5, 0] }}
-                transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
-                className="absolute text-teal-400"
-              >
-                <ShieldQuestion className="w-7 h-7" />
-              </motion.div>
-            </div>
-            <div className="space-y-2">
-              <h4 className="text-base font-extrabold text-teal-300 tracking-wide font-sans">
-                {language === 'ar' ? 'جَارِي تَرْجَمَةُ السُّؤَالِ بِلُطْفٍ...' : language === 'wo' ? 'Oustaz bi yàngi lay firi laaj bi...' : "L'Oustaz traduit la question..."}
-              </h4>
-              <p className="text-xs text-slate-400 max-w-xs mx-auto italic leading-relaxed">
-                {language === 'ar' 
-                  ? 'جاري تعريب السؤال وتشكيله بالكامل بلطف ليكون سهلاً لأحبائنا الأطفال.'
-                  : language === 'wo' 
-                    ? 'Oustaz bi yàngi firi laaj bi ak faramfacceel ko ci wolof bu yomb ngir yaw.'
-                    : "L'Oustaz traduit la question avec bienveillance pour faciliter ton apprentissage."}
-              </p>
+              <motion.circle
+                cx="60" cy="60" r="54"
+                fill="none"
+                stroke="url(#scoreGradient-results)"
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeDasharray={`${2 * Math.PI * 54}`}
+                initial={{ strokeDashoffset: 2 * Math.PI * 54 }}
+                animate={{ strokeDashoffset: 2 * Math.PI * 54 * (1 - percentage / 100) }}
+                transition={{ duration: 1.5, ease: 'easeOut' }}
+              />
+              <defs>
+                <linearGradient id="scoreGradient-results" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#10b981" />
+                  <stop offset="100%" stopColor="#059669" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="text-center">
+                <motion.span
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="text-3xl font-bold text-gray-900"
+                >
+                  {percentage}%
+                </motion.span>
+                <p className="text-xs text-gray-400">{score}/{totalQuestions}</p>
+              </div>
             </div>
           </div>
-        ) : (
-          <>
-            {/* Beautiful Interactive Question Display */}
-            <div className="space-y-4">
-              <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight leading-relaxed">
-                {q.question}
-              </h3>
+        </div>
 
-              {/* Bouton de traduction manuelle par l'IA visible dès que la langue n'est pas le français */}
-              {language !== 'fr' && onTriggerAiTranslation && (
-                <motion.button 
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    playSelectSound();
-                    onTriggerAiTranslation();
-                  }}
-                  className="btn-3d-amber px-4 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 border border-[#D0A21C] bg-[#D0A21C]/10 text-amber-300 hover:bg-[#D0A21C]/25 transition-all cursor-pointer shadow-md select-none mt-2 active:translate-y-[2px]"
-                >
-                  <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
-                  <span>
-                    {language === 'ar' 
-                      ? (question.translations?.[language] ? 'إِعَادَةُ التَّرْجَمَةِ آلِيًّا 🤖' : 'تَرْجَمَةٌ آلِيَّةٌ 🤖')
-                      : language === 'wo' 
-                        ? (question.translations?.[language] ? 'Firi waat ak IA 🤖' : 'Traduction Automatique 🤖')
-                        : 'Traduction Automatique 🤖'}
-                  </span>
-                </motion.button>
-              )}
-            </div>
+        {/* Stats */}
+        <div className="grid grid-cols-2 gap-3 mb-6">
+          <div className="bg-gray-50 rounded-xl p-3 text-center">
+            <p className="text-xs text-gray-400 mb-0.5">XP Gagné</p>
+            <motion.p
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.3, type: 'spring' }}
+              className="text-lg font-bold text-amber-600"
+            >
+              +{xpEarned}
+            </motion.p>
+          </div>
+          <div className="bg-gray-50 rounded-xl p-3 text-center">
+            <p className="text-xs text-gray-400 mb-0.5">Streak</p>
+            <p className="text-lg font-bold text-emerald-600">{streak} 🔥</p>
+          </div>
+        </div>
 
-            {/* Options List */}
-            <div className="grid gap-3">
-              {q.options.map((option, idx) => {
-                const isSelected = selectedOption === option;
-                const isCorrect = q.reponse_correcte === option;
-
-                // Determine rich dynamic animations
-                let animateObj = {};
-                if (isValidated) {
-                  if (isCorrect) {
-                    // Gentle positive bob/bounce
-                    animateObj = {
-                      scale: [1, 1.03, 0.98, 1.01, 1],
-                      y: [0, -4, 2, -1, 0],
-                      transition: { duration: 0.5, ease: "easeInOut" }
-                    };
-                  } else if (isSelected) {
-                    // Dynamic horizontal shake for errors
-                    animateObj = {
-                      x: [0, -6, 6, -6, 6, -3, 3, 0],
-                      transition: { duration: 0.5, ease: "easeInOut" }
-                    };
-                  }
-                } else if (isSelected) {
-                  animateObj = {
-                    scale: 1.01,
-                    transition: { duration: 0.15 }
-                  };
-                }
-
-                return (
-                  <motion.button
-                    key={option}
-                    onClick={() => handleOptionSelect(option)}
-                    disabled={isValidated}
-                    whileHover={!isValidated ? { 
-                      scale: 1.012, 
-                      x: 4,
-                      boxShadow: isSelected 
-                        ? "0 4px 20px rgba(208,162,28,0.18)" 
-                        : "0 4px 12px rgba(0,0,0,0.25)"
-                    } : {}}
-                    whileTap={!isValidated ? { scale: 0.992 } : {}}
-                    animate={animateObj}
-                    className={`relative w-full text-left p-4 rounded-xl border font-sans text-sm font-semibold transition-all duration-300 flex items-center justify-between cursor-pointer ${getOptionStyle(option)}`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className={`w-6 h-6 rounded-lg text-xs font-bold font-mono flex items-center justify-center border transition-all duration-300 ${
-                        isSelected && !isValidated
-                          ? "bg-[#D0A21C]/20 text-[#D0A21C] border-[#D0A21C]/40" 
-                          : isValidated && isCorrect
-                            ? "bg-emerald-500/25 text-emerald-450 border-emerald-500/45"
-                            : isSelected && isValidated && !isCorrect
-                              ? "bg-rose-500/25 text-rose-450 border-rose-500/45"
-                              : "bg-slate-930 text-slate-400 border-slate-800"
-                      }`}>
-                        {String.fromCharCode(65 + idx)}
-                      </span>
-                      <span>{option}</span>
-                    </div>
-
-                    {/* Status Indicator inside Option button */}
-                    {isValidated && (
-                      <div>
-                        {isCorrect && (
-                          <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                          >
-                            <Check className="w-5 h-5 text-emerald-400 shrink-0" />
-                          </motion.div>
-                        )}
-                        {isSelected && !isCorrect && (
-                          <motion.div
-                            initial={{ scale: 0, rotate: -45 }}
-                            animate={{ scale: 1, rotate: 0 }}
-                            transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                          >
-                            <X className="w-5 h-5 text-rose-400 shrink-0" />
-                          </motion.div>
-                        )}
-                      </div>
-                    )}
-                  </motion.button>
-                );
-              })}
-            </div>
-
-            {/* Action button bar or explanatory container */}
-            <div className="flex justify-end pt-4 border-t border-slate-850">
-              {!isValidated ? (
-                <button
-                  onClick={handleValidate}
-                  disabled={!selectedOption}
-                  className={`px-5 py-2.5 rounded-lg text-xs font-bold tracking-wide uppercase transition-all flex items-center gap-1.5 cursor-pointer shadow-md ${
-                    selectedOption 
-                      ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-950/30 hover:shadow-emerald-950/40 hover:-translate-y-0.5' 
-                      : 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-750'
-                  }`}
-                >
-                  <span>{t('validate_answer', 'Valider la réponse')}</span>
-                  <BookOpen className="w-4 h-4" />
-                </button>
-              ) : null}
-            </div>
-
-            {/* Detailed Explanation Panel which appears once answer is validated */}
-            <AnimatePresence>
-              {isValidated && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  className="mt-4 p-4 rounded-xl bg-amber-500/5 border border-amber-500/10 overflow-hidden space-y-2 text-slate-300"
-                >
-                  <div className="flex items-center gap-2 text-amber-400">
-                    <ShieldQuestion className="w-4 h-4 shrink-0" />
-                    <span className="text-xs font-extrabold uppercase tracking-wider font-mono">{t('islamic_explanation', 'Explication Islamique')}</span>
-                  </div>
-                  <p className="text-sm font-medium leading-relaxed italic border-l-2 border-amber-400/40 pl-3">
-                    &ldquo;{q.explication}&rdquo;
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </>
-        )}
+        {/* Actions */}
+        <div className="space-y-2.5">
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={onContinue}
+            className="w-full py-3.5 rounded-xl font-bold text-white bg-gradient-to-r from-emerald-500 to-emerald-600 shadow-lg shadow-emerald-200/50 hover:shadow-emerald-300/50 transition-all duration-200 flex items-center justify-center gap-2"
+          >
+            <Trophy className="w-5 h-5" />
+            Continuer l'aventure
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={onRetry}
+            className="w-full py-3 rounded-xl font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-all duration-200 flex items-center justify-center gap-2"
+          >
+            <RotateCcw className="w-4 h-4" />
+            Recommencer
+          </motion.button>
+        </div>
       </div>
     </motion.div>
   );

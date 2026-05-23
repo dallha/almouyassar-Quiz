@@ -5,8 +5,8 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Compass, Award, Trophy, Play, Settings, RefreshCw, Eye, BookOpen, 
+import {
+  Compass, Award, Trophy, Play, Settings, RefreshCw, Eye, BookOpen,
   ChevronRight, AlertTriangle, Users, BookOpenCheck, Flame, Medal, Check, X, Sparkles, Search, LogOut
 } from 'lucide-react';
 
@@ -58,22 +58,22 @@ function SparkleConfetti() {
         return (
           <motion.div
             key={i}
-            initial={{ 
-              opacity: 1, 
-              scale: 0, 
-              x: `calc(${startX}% - 10px)`, 
-              y: `calc(${startY}% - 10px)` 
+            initial={{
+              opacity: 1,
+              scale: 0,
+              x: `calc(${startX}% - 10px)`,
+              y: `calc(${startY}% - 10px)`
             }}
-            animate={{ 
-              opacity: [1, 1, 0], 
+            animate={{
+              opacity: [1, 1, 0],
               scale: [0, scale, scale * 1.4, 0],
               x: `calc(${startX}% - 10px + ${xDir}px)`,
               y: `calc(${startY}% - 10px + ${yDir}px)`,
               rotate: Math.random() * 360 + 180
             }}
-            transition={{ 
-              duration: duration, 
-              ease: "easeOut" 
+            transition={{
+              duration: duration,
+              ease: "easeOut"
             }}
             className="absolute text-sm font-bold select-none"
             style={{ color: randomColor }}
@@ -481,7 +481,7 @@ export default function App() {
 
     return () => clearInterval(interval);
   }, []);
-  
+
   // --- Quiz Session Setup ---
   const allCategories = Array.from(new Set(QUESTIONS.map(q => q.categorie)));
   const allLevels = ['Débutant', 'Intermédiaire', 'Avancé'];
@@ -509,7 +509,7 @@ export default function App() {
     if (currentIndex >= questions.length) return;
 
     const currentQuestion = questions[currentIndex];
-    
+
     // Si la langue est 'fr', pas besoin de traduire
     if (language === 'fr') return;
 
@@ -603,7 +603,7 @@ export default function App() {
 
   const handleToggleCategory = (cat: string) => {
     playSelectSound();
-    setSelectedCategories(prev => 
+    setSelectedCategories(prev =>
       prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
     );
   };
@@ -619,7 +619,7 @@ export default function App() {
 
   const handleToggleLevel = (lvl: string) => {
     playSelectSound();
-    setSelectedLevels(prev => 
+    setSelectedLevels(prev =>
       prev.includes(lvl) ? prev.filter(l => l !== lvl) : [...prev, lvl]
     );
   };
@@ -633,8 +633,8 @@ export default function App() {
     }
   };
 
-  const matchedQuestionsCount = QUESTIONS.filter(q => 
-    selectedCategories.includes(q.categorie) && 
+  const matchedQuestionsCount = QUESTIONS.filter(q =>
+    selectedCategories.includes(q.categorie) &&
     selectedLevels.includes(q.niveau) &&
     (
       quizSearchQuery === '' ||
@@ -685,7 +685,7 @@ export default function App() {
 
   // --- Game Mechanics ---
   const launchSessionWithTransition = (
-    finalSelection: Question[], 
+    finalSelection: Question[],
     transitionText: string,
     onCompletedCallback?: () => void
   ) => {
@@ -726,10 +726,10 @@ export default function App() {
     }
 
     playSelectSound();
-    
+
     // Filter questions based on configuration
-    const filtered = QUESTIONS.filter(q => 
-      selectedCategories.includes(q.categorie) && 
+    const filtered = QUESTIONS.filter(q =>
+      selectedCategories.includes(q.categorie) &&
       selectedLevels.includes(q.niveau) &&
       (
         quizSearchQuery === '' ||
@@ -750,17 +750,17 @@ export default function App() {
     }
 
     launchSessionWithTransition(
-      finalSelection, 
+      finalSelection,
       "Vérification des critères d'apprentissage & compilation du Quiz...",
     );
   };
 
   const handleStartQuizWithCategory = (category: string, levels?: string[]) => {
     playSelectSound();
-    
+
     // Filter questions belonging to this category and matching selected levels if any
-    const filtered = QUESTIONS.filter(q => 
-      q.categorie === category && 
+    const filtered = QUESTIONS.filter(q =>
+      q.categorie === category &&
       (!levels || levels.includes(q.niveau))
     );
 
@@ -804,8 +804,8 @@ export default function App() {
   };
 
   const handleAnswerValidatedCallback = (
-    selectedAnswer: string, 
-    isCorrect: boolean, 
+    selectedAnswer: string,
+    isCorrect: boolean,
     timeSpent: number
   ) => {
     if (!session) return;
@@ -816,13 +816,13 @@ export default function App() {
     setSession(prev => {
       if (!prev) return null;
       const updatedAnswers = [
-         ...prev.answers,
-         {
-           questionId: currentQuestion.id,
-           selectedAnswer,
-           isCorrect,
-           timeSpent
-         }
+        ...prev.answers,
+        {
+          questionId: currentQuestion.id,
+          selectedAnswer,
+          isCorrect,
+          timeSpent
+        }
       ];
 
       const newScore = isCorrect ? prev.score + 1 : prev.score;
@@ -911,7 +911,7 @@ export default function App() {
 
   const handleFinishSession = () => {
     if (!session) return;
-    
+
     // Give bonus XP on perfect complete
     const isPerfect = session.score === session.questions.length;
     const bonusXp = isPerfect ? 50 : 0;
@@ -921,40 +921,40 @@ export default function App() {
     if (accuracy >= 0.8) {
       handleProgressQuest('quiz_session_accuracy', 1);
     }
-    
+
     setStats(prev => {
       const updatedStats = {
         ...prev,
         xp: prev.xp + bonusXp,
         completedQuizzesCount: prev.completedQuizzesCount + 1
       };
-      
+
       // Calculate Badges that are newly unlocked
       const newUnlockedBadgeIds: string[] = [];
       BADGES.forEach(badge => {
         if (prev.unlockedBadgeIds.includes(badge.id)) return;
-        
+
         let unlocked = false;
         if (badge.requirementType === 'completed_quizzes' && updatedStats.completedQuizzesCount >= badge.requirementValue) {
           unlocked = true;
         } else if (badge.requirementType === 'xp' && updatedStats.xp >= badge.requirementValue) {
           unlocked = true;
         }
-        
+
         if (unlocked) {
           newUnlockedBadgeIds.push(badge.id);
         }
       });
-      
+
       if (newUnlockedBadgeIds.length > 0) {
         setTimeout(() => {
           playBadgeSound();
         }, 700);
-        
+
         const newlyAcquiredBadges = BADGES.filter(b => newUnlockedBadgeIds.includes(b.id));
         setLatestSessionBadges(pBadge => [...pBadge, ...newlyAcquiredBadges]);
         setShowSessionBadgeBanner(true);
-        
+
         return {
           ...updatedStats,
           unlockedBadgeIds: [...prev.unlockedBadgeIds, ...newUnlockedBadgeIds]
@@ -1007,13 +1007,12 @@ export default function App() {
   };
 
   return (
-    <div className={`min-h-screen transition-colors duration-500 flex flex-col font-sans antialiased selection:bg-[#004D40]/25 ${
-      theme === 'dark' 
-        ? 'bg-[#070b19] text-slate-100 dark' 
-        : 'bg-[#FCF8F2] text-stone-850'
-    }`}>
+    <div className={`min-h-screen transition-colors duration-500 flex flex-col font-sans antialiased selection:bg-[#004D40]/25 ${theme === 'dark'
+      ? 'bg-[#070b19] text-slate-100 dark'
+      : 'bg-[#FCF8F2] text-stone-850'
+      }`}>
       {theme === 'dark' && <StarryBackground />}
-      
+
       {/* 🚀 INITIALIZING SYSTEM LOADER MASK */}
       <AnimatePresence>
         {isInitializing && (
@@ -1027,7 +1026,7 @@ export default function App() {
             <div className="absolute inset-x-0 top-0 h-96 bg-gradient-to-b from-emerald-500/[0.04] to-transparent pointer-events-none" />
 
             <div className="max-w-md w-full space-y-8 relative z-10">
-              
+
               {/* Spinning Logo System */}
               <div className="relative w-24 h-24 mx-auto flex items-center justify-center">
                 {/* External spinning circle */}
@@ -1036,7 +1035,7 @@ export default function App() {
                   transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
                   className="absolute inset-0 rounded-full border-4 border-[#004D40]/10 border-t-[#D0A21C] border-r-[#D0A21C]/40"
                 />
-                
+
                 {/* Middle floating pulsing ring */}
                 <motion.div
                   animate={{ scale: [0.92, 1.08, 0.92] }}
@@ -1062,7 +1061,7 @@ export default function App() {
 
               {/* Dynamic Loading progress widgets */}
               <div className="p-5.5 rounded-2xl bg-white border border-[#004D40]/10 shadow-xs space-y-4">
-                
+
                 {/* Informative cycling text */}
                 <div className="space-y-1">
                   <div className="text-[11px] text-stone-400 font-extrabold uppercase font-sans tracking-wide">
@@ -1076,7 +1075,7 @@ export default function App() {
                 {/* Horizontal Progress Bar */}
                 <div className="space-y-1.5">
                   <div className="w-full h-2 bg-stone-100 rounded-full overflow-hidden border border-stone-200/50">
-                    <motion.div 
+                    <motion.div
                       className="h-full bg-gradient-to-r from-[#004D40] to-[#D0A21C]"
                       initial={{ width: '0%' }}
                       animate={{ width: `${initProgress}%` }}
@@ -1134,7 +1133,7 @@ export default function App() {
               {/* Incremental visual loader bar */}
               <div className="space-y-1">
                 <div className="w-full h-1.5 bg-stone-200 rounded-full overflow-hidden">
-                  <div 
+                  <div
                     className="h-full bg-gradient-to-r from-[#004D40] to-[#D0A21C]"
                     style={{ width: `${transitionProgress}%` }}
                   />
@@ -1148,25 +1147,14 @@ export default function App() {
           </motion.div>
         )}
       </AnimatePresence>
-      
-      {/* Universal Sticky Header */}
-      <Header 
+
+      {/* ── Premium Header ── */}
+      <Header
+        level={Math.floor(stats.xp / 200) + 1}
         xp={stats.xp}
+        xpToNextLevel={200}
         streak={stats.streak}
-        onOpenInfo={() => { playSelectSound(); setShowSchoolModal(true); }}
-        isMuted={isMuted}
-        onToggleMute={handleToggleMute}
-        onGoToHome={() => {
-          if (isQuizActive) {
-            setQuitConfirmModal(true);
-          } else {
-            setActiveTab('quiz');
-          }
-        }}
-        currentUser={currentUser}
-        onAuthClick={() => { playSelectSound(); setShowAuthModal(true); }}
-        theme={theme}
-        onToggleTheme={() => setTheme(prev => prev === 'light' ? 'dark' : 'light')}
+        username="Explorateur"
       />
 
       {/* Mobile Progressive Web App Native Installer Prompt */}
@@ -1175,7 +1163,7 @@ export default function App() {
       {/* Main Core View Area */}
       <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-6 md:py-10 flex flex-col justify-start">
         <AnimatePresence mode="wait">
-          
+
           {/* SCREEN 1: Active Gameplay Screen */}
           {isQuizActive && session ? (
             <motion.div
@@ -1200,7 +1188,7 @@ export default function App() {
 
               {/* Progress visual bar */}
               <div className="w-full h-1 bg-slate-850 rounded-full overflow-hidden">
-                <div 
+                <div
                   className="h-full bg-gradient-to-r from-emerald-505 to-teal-400 transition-all duration-350"
                   style={{ width: `${(session.currentIndex / session.questions.length) * 100}%` }}
                 />
@@ -1208,19 +1196,20 @@ export default function App() {
 
               {/* Quiz content conditional display */}
               {!session.isFinished && session.currentIndex < session.questions.length ? (
-                <QuizCard 
+                <QuizCard
                   question={session.questions[session.currentIndex]}
-                  currentIndex={session.currentIndex}
+                  questionNumber={session.currentIndex + 1}
                   totalQuestions={session.questions.length}
-                  timerActive={timerEnabled}
-                  timerLimit={timerMinutes}
-                  isTranslating={isTranslatingQuestion}
-                  onTriggerAiTranslation={handleTriggerAiTranslation}
-                  onAnswerValidated={handleAnswerValidatedCallback}
+                  timeLimit={timerEnabled ? timerMinutes * 60 : 30}
+                  onAnswer={(selected, timeSpent) => {
+                    const isCorrect = selected === session.questions[session.currentIndex].reponse_correcte;
+                    handleAnswerValidatedCallback(selected, isCorrect, timeSpent);
+                  }}
+                  streak={stats.streak}
                 />
               ) : (
                 /* Interactive Finished Overview card */
-                <motion.div 
+                <motion.div
                   initial={{ scale: 0.95 }}
                   animate={{ scale: 1 }}
                   className="p-6 md:p-8 rounded-2xl bg-slate-900 border border-slate-800 text-center space-y-6 shadow-xl relative overflow-hidden"
@@ -1236,8 +1225,8 @@ export default function App() {
                     </h2>
                     <p className="text-sm text-slate-400 max-w-md mx-auto">
                       {language === 'ar' ? 'لقد أجبت على أسئلة التمرين بعناية. خذ الوقت الكافي لتحليل نتائجك وقراءة التفسيرات أدناه.' :
-                       language === 'wo' ? 'Tontu nga laaj yi ci anam bu woor. Tannal waxtu ngir seet say ndam ak firi bi ci suuf.' :
-                       "Vous avez répondu aux questions de l'exercice avec attention. Prenez le temps d'analyser vos résultats et de lire les explications ci-dessous."}
+                        language === 'wo' ? 'Tontu nga laaj yi ci anam bu woor. Tannal waxtu ngir seet say ndam ak firi bi ci suuf.' :
+                          "Vous avez répondu aux questions de l'exercice avec attention. Prenez le temps d'analyser vos résultats et de lire les explications ci-dessous."}
                     </p>
                   </div>
 
@@ -1246,19 +1235,19 @@ export default function App() {
                     <div className="text-center p-2 border-r border-slate-850/60 md:border-r">
                       <p className="text-[10px] text-slate-450 uppercase font-bold tracking-wider mb-1">
                         {language === 'ar' ? 'النتيجة المحققة' :
-                         language === 'wo' ? 'Ndam li' :
-                         'Score acquis'}
+                          language === 'wo' ? 'Ndam li' :
+                            'Score acquis'}
                       </p>
                       <p className="text-xl font-bold font-mono text-white">
                         {session.score} <span className="text-slate-500 text-sm">/ {session.questions.length}</span>
                       </p>
                     </div>
-                    
+
                     <div className="text-center p-2 md:border-r border-slate-850/60">
                       <p className="text-[10px] text-slate-450 uppercase font-bold tracking-wider mb-1">
                         {language === 'ar' ? 'الدقة' :
-                         language === 'wo' ? 'Woor teguine' :
-                         'Précision'}
+                          language === 'wo' ? 'Woor teguine' :
+                            'Précision'}
                       </p>
                       <p className="text-xl font-bold font-mono text-emerald-400">
                         {Math.round((session.score / session.questions.length) * 100)}%
@@ -1268,8 +1257,8 @@ export default function App() {
                     <div className="text-center p-2 col-span-2 md:col-span-1 border-t md:border-t-0 border-slate-850/60 pt-3 md:pt-2">
                       <p className="text-[10px] text-slate-450 uppercase font-bold tracking-wider mb-1">
                         {language === 'ar' ? 'الخبرة المكتسبة' :
-                         language === 'wo' ? 'XP yi am' :
-                         'XP obtenus'}
+                          language === 'wo' ? 'XP yi am' :
+                            'XP obtenus'}
                       </p>
                       <p className="text-xl font-bold font-mono text-amber-400">
                         +{session.score * 15 + (session.score === session.questions.length ? 50 : 0)} XP
@@ -1277,8 +1266,8 @@ export default function App() {
                       {session.score === session.questions.length && (
                         <span className="text-[8px] font-bold text-amber-500 bg-amber-500/10 px-1 py-0.5 rounded border border-amber-500/20 animate-pulse">
                           {language === 'ar' ? '+50 ممتاز !' :
-                           language === 'wo' ? '+50 MashaAllah !' :
-                           '+50 Perfection !'}
+                            language === 'wo' ? '+50 MashaAllah !' :
+                              '+50 Perfection !'}
                         </span>
                       )}
                     </div>
@@ -1290,8 +1279,8 @@ export default function App() {
                       <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-widest flex items-center gap-1.5 font-mono">
                         <Sparkles className="w-3.5 h-3.5 fill-emerald-500" />
                         {language === 'ar' ? 'تم إلغاء قفل الأوسمة !' :
-                         language === 'wo' ? 'Néer yi ubbiku na !' :
-                         'Badge(s) Débloqué(s) !'}
+                          language === 'wo' ? 'Néer yi ubbiku na !' :
+                            'Badge(s) Débloqué(s) !'}
                       </h4>
                       <div className="space-y-2">
                         {latestSessionBadges.map(b => (
@@ -1309,10 +1298,10 @@ export default function App() {
                     <h3 className="text-sm font-extrabold text-slate-400 flex items-center gap-2">
                       <Eye className="w-4 h-4 text-emerald-500" />
                       {language === 'ar' ? 'مراجعة الأسئلة :' :
-                       language === 'wo' ? 'Saytu laaj yi :' :
-                       'Revue des questions :'}
+                        language === 'wo' ? 'Saytu laaj yi :' :
+                          'Revue des questions :'}
                     </h3>
-                    
+
                     <div className="space-y-3.5">
                       {session.questions.map((q, idx) => {
                         const answerObj = session.answers.find(a => a.questionId === q.id);
@@ -1323,26 +1312,23 @@ export default function App() {
                           <div key={q.id} className="p-4 rounded-xl bg-slate-950/30 border border-slate-850 space-y-2.5">
                             {/* Question meta category + difficulty badges */}
                             <div className="flex items-center gap-1.5 flex-wrap">
-                              <span className={`text-[8px] tracking-wider uppercase font-extrabold px-1.5 py-0.5 rounded ${
-                                q.categorie === 'Fiqh' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20' :
+                              <span className={`text-[8px] tracking-wider uppercase font-extrabold px-1.5 py-0.5 rounded ${q.categorie === 'Fiqh' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20' :
                                 q.categorie === 'Aqidah' ? 'bg-violet-500/10 text-violet-400 border border-violet-500/20' :
-                                q.categorie === 'Sirah' ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' :
-                                q.categorie === 'Coran' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
-                                q.categorie === 'Akhlaq' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
-                                'bg-teal-500/10 text-teal-300 border border-teal-500/20'
-                              } border`}>
+                                  q.categorie === 'Sirah' ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' :
+                                    q.categorie === 'Coran' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+                                      q.categorie === 'Akhlaq' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
+                                        'bg-teal-500/10 text-teal-300 border border-teal-500/20'
+                                } border`}>
                                 {t(q.categorie, q.categorie)}
                               </span>
-                              
-                              <span className={`text-[8px] tracking-wider uppercase font-extrabold px-1.5 py-0.5 rounded flex items-center gap-1 ${
-                                q.niveau === 'Débutant' ? 'bg-emerald-500/10 text-emerald-450 border-emerald-500/15' :
+
+                              <span className={`text-[8px] tracking-wider uppercase font-extrabold px-1.5 py-0.5 rounded flex items-center gap-1 ${q.niveau === 'Débutant' ? 'bg-emerald-500/10 text-emerald-450 border-emerald-500/15' :
                                 q.niveau === 'Intermédiaire' ? 'bg-amber-500/10 text-amber-400 border-amber-500/15' :
-                                'bg-rose-500/10 text-rose-400 border-rose-500/15'
-                              } border`}>
-                                <span className={`w-1 h-1 rounded-full ${
-                                  q.niveau === 'Débutant' ? 'bg-emerald-450' :
+                                  'bg-rose-500/10 text-rose-400 border-rose-500/15'
+                                } border`}>
+                                <span className={`w-1 h-1 rounded-full ${q.niveau === 'Débutant' ? 'bg-emerald-450' :
                                   q.niveau === 'Intermédiaire' ? 'bg-amber-400' : 'bg-rose-400'
-                                }`} />
+                                  }`} />
                                 {t(q.niveau, q.niveau)}
                               </span>
                             </div>
@@ -1352,11 +1338,10 @@ export default function App() {
                                 <span className="text-slate-500">{idx + 1}.</span>
                                 {localizedQ.question}
                               </h4>
-                              <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full border shrink-0 ${
-                                isUserCorrect 
-                                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
-                                  : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
-                              }`}>
+                              <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full border shrink-0 ${isUserCorrect
+                                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                                : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+                                }`}>
                                 {isUserCorrect ? t('correct', 'Correct !') : t('incorrect', 'Incorrect')}
                               </span>
                             </div>
@@ -1365,22 +1350,22 @@ export default function App() {
                               <div className="text-slate-400">
                                 <span className="font-semibold text-slate-500">
                                   {language === 'ar' ? 'إجابتك :' :
-                                   language === 'wo' ? 'Sa toontu :' :
-                                   'Votre réponse :'}
+                                    language === 'wo' ? 'Sa toontu :' :
+                                      'Votre réponse :'}
                                 </span>{' '}
                                 <span className={isUserCorrect ? 'text-emerald-400 font-medium' : 'text-rose-400 font-medium line-through'}>
                                   {answerObj?.selectedAnswer || (
                                     language === 'ar' ? 'انتهى الوقت (فارغ)' :
-                                    language === 'wo' ? 'Waxtu bi jeexna (kessé)' :
-                                    'Chronomètre Épuisé (vide)'
+                                      language === 'wo' ? 'Waxtu bi jeexna (kessé)' :
+                                        'Chronomètre Épuisé (vide)'
                                   )}
                                 </span>
                               </div>
                               <div className="text-slate-400">
                                 <span className="font-semibold text-slate-500">
                                   {language === 'ar' ? 'الإجابة الصحيحة :' :
-                                   language === 'wo' ? 'Toontu bu woor bi :' :
-                                   'Réponse correcte :'}
+                                    language === 'wo' ? 'Toontu bu woor bi :' :
+                                      'Réponse correcte :'}
                                 </span>{' '}
                                 <span className="text-emerald-400 font-extrabold">
                                   {localizedQ.reponse_correcte}
@@ -1391,8 +1376,8 @@ export default function App() {
                             <p className="text-[10px] text-slate-400 leading-normal bg-slate-950/50 p-2.5 rounded border border-slate-900 italic">
                               <span className="font-semibold text-amber-500/90 not-italic block uppercase text-[8px] tracking-wider mb-0.5">
                                 {language === 'ar' ? 'الشرح والملاحظة :' :
-                                 language === 'wo' ? 'Firi bi :' :
-                                 'Note explicative :'}
+                                  language === 'wo' ? 'Firi bi :' :
+                                    'Note explicative :'}
                               </span>
                               &ldquo;{localizedQ.explication}&rdquo;
                             </p>
@@ -1414,7 +1399,7 @@ export default function App() {
               )}
             </motion.div>
           ) : (
-            
+
             /* SCREEN 2: Main Home Dashboard with Tabs */
             <motion.div
               key="home-screen"
@@ -1423,45 +1408,42 @@ export default function App() {
               exit={{ opacity: 0, y: -15 }}
               className="space-y-6"
             >
-              
+
               {/* Global Search Subsystem */}
-              <GlobalSearch 
+              <GlobalSearch
                 activeTab={activeTab}
                 onNavigateTab={(tab) => setActiveTab(tab)}
                 onStartCustomQuiz={handleStartQuizWithCategory}
               />
-              
+
               {/* Navigation Dashboard Tabs grid */}
               <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-1.5 p-1.5 bg-[#004D40]/10 border border-[#004D40]/25 rounded-2xl">
                 <button
                   onClick={() => { playSelectSound(); setActiveTab('pitch'); }}
-                  className={`py-3 text-center text-[10px] font-bold tracking-tight uppercase rounded-xl transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${
-                    activeTab === 'pitch' 
-                      ? 'bg-[#004D40] text-[#FCF8F2] shadow-md shadow-emerald-950/20' 
-                      : 'text-[#004D40] hover:bg-[#004D40]/5 bg-white/45'
-                  }`}
+                  className={`py-3 text-center text-[10px] font-bold tracking-tight uppercase rounded-xl transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${activeTab === 'pitch'
+                    ? 'bg-[#004D40] text-[#FCF8F2] shadow-md shadow-emerald-950/20'
+                    : 'text-[#004D40] hover:bg-[#004D40]/5 bg-white/45'
+                    }`}
                 >
                   <Compass className="w-4 h-4 shrink-0" />
                   <span>{t('presentation', 'Présentation')}</span>
                 </button>
                 <button
                   onClick={() => { playSelectSound(); setActiveTab('adventure'); }}
-                  className={`py-3 text-center text-[10px] font-bold tracking-tight uppercase rounded-xl transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${
-                    activeTab === 'adventure' 
-                      ? 'bg-[#004D40] text-[#FCF8F2] shadow-md shadow-emerald-950/20' 
-                      : 'text-[#004D40] hover:bg-[#004D40]/5 bg-white/45'
-                  }`}
+                  className={`py-3 text-center text-[10px] font-bold tracking-tight uppercase rounded-xl transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${activeTab === 'adventure'
+                    ? 'bg-[#004D40] text-[#FCF8F2] shadow-md shadow-emerald-950/20'
+                    : 'text-[#004D40] hover:bg-[#004D40]/5 bg-white/45'
+                    }`}
                 >
                   <BookOpen className="w-4 h-4 shrink-0" />
                   <span>{t('adventure', 'Aventure')}</span>
                 </button>
                 <button
                   onClick={() => { playSelectSound(); setActiveTab('quiz'); }}
-                  className={`py-3 text-center text-[10px] font-bold tracking-tight uppercase rounded-xl transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${
-                    activeTab === 'quiz' 
-                      ? 'bg-[#004D40] text-[#FCF8F2] shadow-md shadow-emerald-950/20' 
-                      : 'text-[#004D40] hover:bg-[#004D40]/5 bg-white/45'
-                  }`}
+                  className={`py-3 text-center text-[10px] font-bold tracking-tight uppercase rounded-xl transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${activeTab === 'quiz'
+                    ? 'bg-[#004D40] text-[#FCF8F2] shadow-md shadow-emerald-950/20'
+                    : 'text-[#004D40] hover:bg-[#004D40]/5 bg-white/45'
+                    }`}
                 >
                   <Play className="w-4 h-4 shrink-0" />
                   <span>{t('quiz', 'Quiz Libre')}</span>
@@ -1469,46 +1451,42 @@ export default function App() {
                 <button
                   onClick={() => { if (!isOustazBlocked) { playSelectSound(); setActiveTab('oustaz'); } }}
                   disabled={isOustazBlocked}
-                  className={`py-3 text-center text-[10px] font-bold tracking-tight uppercase rounded-xl transition-all flex flex-col items-center justify-center gap-1.5 ${
-                    isOustazBlocked
-                      ? 'opacity-40 cursor-not-allowed text-stone-400 bg-stone-100/50'
-                      : activeTab === 'oustaz' 
-                      ? 'bg-[#004D40] text-[#FCF8F2] shadow-md shadow-emerald-950/20' 
+                  className={`py-3 text-center text-[10px] font-bold tracking-tight uppercase rounded-xl transition-all flex flex-col items-center justify-center gap-1.5 ${isOustazBlocked
+                    ? 'opacity-40 cursor-not-allowed text-stone-400 bg-stone-100/50'
+                    : activeTab === 'oustaz'
+                      ? 'bg-[#004D40] text-[#FCF8F2] shadow-md shadow-emerald-950/20'
                       : 'text-[#004D40] hover:bg-[#004D40]/5 bg-white/45 cursor-pointer'
-                  }`}
+                    }`}
                 >
                   <Users className="w-4 h-4 shrink-0" />
                   <span>{t('oustaz', 'Oustaz AI')}</span>
                 </button>
                 <button
                   onClick={() => { playSelectSound(); setActiveTab('ansar'); }}
-                  className={`py-3 text-center text-[10px] font-bold tracking-tight uppercase rounded-xl transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${
-                    activeTab === 'ansar' 
-                      ? 'bg-[#004D40] text-[#FCF8F2] shadow-md shadow-emerald-950/20' 
-                      : 'text-[#004D40] hover:bg-[#004D40]/5 bg-white/45'
-                  }`}
+                  className={`py-3 text-center text-[10px] font-bold tracking-tight uppercase rounded-xl transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${activeTab === 'ansar'
+                    ? 'bg-[#004D40] text-[#FCF8F2] shadow-md shadow-emerald-950/20'
+                    : 'text-[#004D40] hover:bg-[#004D40]/5 bg-white/45'
+                    }`}
                 >
                   <Sparkles className="w-4 h-4 shrink-0" />
                   <span>{t('karaoke', 'Karaoké')}</span>
                 </button>
                 <button
                   onClick={() => { playSelectSound(); setActiveTab('stats'); }}
-                  className={`py-3 text-center text-[10px] font-bold tracking-tight uppercase rounded-xl transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${
-                    activeTab === 'stats' 
-                      ? 'bg-[#004D40] text-[#FCF8F2] shadow-md shadow-emerald-950/20' 
-                      : 'text-[#004D40] hover:bg-[#004D40]/5 bg-white/45'
-                  }`}
+                  className={`py-3 text-center text-[10px] font-bold tracking-tight uppercase rounded-xl transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${activeTab === 'stats'
+                    ? 'bg-[#004D40] text-[#FCF8F2] shadow-md shadow-emerald-950/20'
+                    : 'text-[#004D40] hover:bg-[#004D40]/5 bg-white/45'
+                    }`}
                 >
                   <Award className="w-4 h-4 shrink-0" />
                   <span>{t('trophies', 'Trophées')}</span>
                 </button>
                 <button
                   onClick={() => { playSelectSound(); setActiveTab('parental'); }}
-                  className={`py-3 text-center text-[10px] font-bold tracking-tight uppercase rounded-xl transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${
-                    activeTab === 'parental' 
-                      ? 'bg-[#004D40] text-[#FCF8F2] shadow-md' 
-                      : 'text-[#004D40] hover:bg-[#004D40]/5 bg-white/45'
-                  }`}
+                  className={`py-3 text-center text-[10px] font-bold tracking-tight uppercase rounded-xl transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${activeTab === 'parental'
+                    ? 'bg-[#004D40] text-[#FCF8F2] shadow-md'
+                    : 'text-[#004D40] hover:bg-[#004D40]/5 bg-white/45'
+                    }`}
                 >
                   <Settings className="w-4 h-4 shrink-0" />
                   <span>{t('parents', 'Parents')}</span>
@@ -1530,520 +1508,471 @@ export default function App() {
                       <VisionPitch onStartAdventure={() => { playSelectSound(); setActiveTab('adventure'); }} />
                     )}
 
-              {activeTab === 'adventure' && (
-                <AdventureMode 
-                  stats={stats} 
-                  onUpdateStats={setStats} 
-                  onBadgeUnlocked={(badge) => {
-                    const id = badge.id;
-                    if (!stats.unlockedBadgeIds.includes(id)) {
-                      setStats(prev => ({
-                        ...prev,
-                        unlockedBadgeIds: [...prev.unlockedBadgeIds, id]
-                      }));
-                      setLatestSessionBadges([badge]);
-                      setShowSessionBadgeBanner(true);
-                    }
-                  }} 
-                />
-              )}
+                    {activeTab === 'adventure' && (
+                      <AdventureMode
+                        stats={stats}
+                        onUpdateStats={setStats}
+                        onBadgeUnlocked={(badge) => {
+                          const id = badge.id;
+                          if (!stats.unlockedBadgeIds.includes(id)) {
+                            setStats(prev => ({
+                              ...prev,
+                              unlockedBadgeIds: [...prev.unlockedBadgeIds, id]
+                            }));
+                            setLatestSessionBadges([badge]);
+                            setShowSessionBadgeBanner(true);
+                          }
+                        }}
+                      />
+                    )}
 
-              {activeTab === 'oustaz' && !isOustazBlocked && (
-                <OustazVirtual currentUser={currentUser} />
-              )}
+                    {activeTab === 'oustaz' && !isOustazBlocked && (
+                      <OustazVirtual currentUser={currentUser} />
+                    )}
 
-              {activeTab === 'ansar' && (
-                <VoixDesAnsar stats={stats} onUpdateStats={setStats} />
-              )}
+                    {activeTab === 'ansar' && (
+                      <VoixDesAnsar stats={stats} onUpdateStats={setStats} />
+                    )}
 
-              {activeTab === 'parental' && (
-                <ParentalDashboard 
-                  stats={stats}
-                  timerEnabled={timerEnabled}
-                  onToggleTimer={setTimerEnabled}
-                  isMuted={isMuted}
-                  onToggleMute={setIsMuted}
-                  isOustazBlocked={isOustazBlocked}
-                  onToggleOustazBlocked={setIsOustazBlocked}
-                  onResetProgress={handleResetProgress}
-                  theme={theme}
-                />
-              )}
+                    {activeTab === 'parental' && (
+                      <ParentalDashboard
+                        stats={stats}
+                        timerEnabled={timerEnabled}
+                        onToggleTimer={setTimerEnabled}
+                        isMuted={isMuted}
+                        onToggleMute={setIsMuted}
+                        isOustazBlocked={isOustazBlocked}
+                        onToggleOustazBlocked={setIsOustazBlocked}
+                        onResetProgress={handleResetProgress}
+                        theme={theme}
+                      />
+                    )}
 
-              {activeTab === 'quiz' && (
-                <>
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div className="lg:col-span-2 space-y-6">
-                      {/* Welcome Banner */}
-                  <div className={`p-5 rounded-2xl border space-y-2 transition-all duration-300 ${
-                      theme === 'dark'
-                        ? 'bg-gradient-to-br from-[#0c2340]/40 via-[#0f172a]/70 to-[#0f172a]/70 border-[#D0A21C]/20 backdrop-blur-md text-slate-200 shadow-md shadow-black/20'
-                        : 'bg-gradient-to-br from-emerald-50/60 via-white to-white border-emerald-950/10 text-stone-850 shadow-md shadow-emerald-950/5'
-                    }`}>
-                      <span className={`text-[9px] font-black px-2.5 py-1 rounded-full border uppercase tracking-widest font-mono inline-block transition-colors duration-300 ${
-                        theme === 'dark' 
-                          ? 'text-amber-400 bg-amber-500/10 border-amber-500/20' 
-                          : 'text-emerald-700 bg-emerald-50 border-emerald-250/20'
-                      }`}>
-                        {t('educational_platform', 'Plateforme Éducative')}
-                      </span>
-                      <h2 className={`text-xl font-black tracking-tight transition-colors duration-300 ${
-                        theme === 'dark' ? 'text-white' : 'text-stone-900'
-                      }`}>
-                        {t('learn_islamic_sciences', 'Apprenez les Sciences Islamiques !')}
-                      </h2>
-                      <p className={`text-xs leading-relaxed transition-colors duration-300 ${
-                        theme === 'dark' ? 'text-slate-350' : 'text-stone-600'
-                      }`}>
-                        {language === 'ar' ? (
-                          <>تدرب وحسّن معرفتك في <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>الفقه</strong>، و<strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>العقيدة</strong>، و<strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>السيرة</strong>، و<strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>القرآن</strong>، و<strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>الأخلاق</strong> واكتشف التاريخ النبيل لـ<strong className={theme === 'dark' ? 'text-amber-450 font-bold' : 'text-emerald-800 font-bold'}>معهد الميسر للقرآن الكريم</strong>.</>
-                        ) : language === 'wo' ? (
-                          <>Mën nga fi jàng, yok sa xam-xam ci <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Fiqh</strong>, <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Aqidah</strong>, <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Sirah</strong>, <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Alquran</strong>, <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Akhlaq</strong> ak dundug daara <strong className={theme === 'dark' ? 'text-amber-450 font-bold' : 'text-emerald-800 font-bold'}>Al-Mouyassar</strong>.</>
-                        ) : (
-                          <>Entraînez-vous, améliorez vos connaissances sur le <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Fiqh</strong>, la <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Aqidah</strong>, la <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Sirah</strong>, le <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Coran</strong>, l&apos;<strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Akhlaq</strong> et découvrez la noble histoire de l&apos;<strong className={theme === 'dark' ? 'text-amber-450 font-bold' : 'text-emerald-800 font-bold'}>Institut Coranique Al-Mouyassar</strong>.</>
-                        )}
-                      </p>
-                    </div>
-
-                    {/* Quiz Recommender Engine - suggestions based on levels and interests */}
-                    <QuizRecommender 
-                      onStartCustomQuizList={handleStartRecommendedQuizList} 
-                      userStatsXp={stats.xp} 
-                      theme={theme}
-                    />
-
-                    {/* Configuration Form wrapper */}
-                    <div className={`p-5 rounded-2xl border space-y-5 transition-all duration-300 ${
-                      theme === 'dark'
-                        ? 'bg-[#0f172a]/70 border-[#D0A21C]/15 backdrop-blur-md text-slate-200 shadow-lg shadow-black/25'
-                        : 'bg-white border-emerald-950/10 text-stone-850 shadow-md shadow-emerald-950/5'
-                    }`}>
-                      <h3 className={`text-sm font-extrabold uppercase tracking-wide border-b pb-2 transition-colors duration-300 ${
-                        theme === 'dark' 
-                          ? 'text-slate-300 border-slate-800/80' 
-                          : 'text-stone-700 border-stone-200'
-                      }`}>
-                        {t('exercise_config', "Configuration de l'exercice :")}
-                      </h3>
-
-                      {/* Search Bar filter */}
-                      <div className="space-y-2">
-                        <label className={`text-xs font-bold uppercase tracking-wider block transition-colors duration-300 ${
-                          theme === 'dark' ? 'text-slate-400' : 'text-stone-500'
-                        }`}>
-                          {t('search_keyword', 'Rechercher par mot-clé :')}
-                        </label>
-                        <div className="relative">
-                          <input
-                            type="text"
-                            placeholder={t('quiz_search_placeholder', 'Hadith, ablution, prière, pureté, intention, etc.')}
-                            value={quizSearchQuery}
-                            onChange={(e) => setQuizSearchQuery(e.target.value)}
-                            className={`w-full pl-10 pr-10 py-3 rounded-xl text-xs transition-all duration-300 font-medium ${
-                              theme === 'dark'
-                                ? 'bg-slate-950 text-slate-200 border-slate-850 placeholder:text-slate-600 focus:border-emerald-500/50 focus:outline-none'
-                                : 'bg-stone-50 text-stone-850 border-stone-250 placeholder:text-stone-400 focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-emerald-400/30'
-                            }`}
-                          />
-                          <div className={`absolute left-3.5 top-1/2 -translate-y-1/2 transition-colors duration-305 ${
-                            theme === 'dark' ? 'text-slate-500' : 'text-stone-400'
-                          }`}>
-                            <Search className="w-4 h-4" />
-                          </div>
-                          {quizSearchQuery && (
-                            <button
-                              onClick={() => { playSelectSound(); setQuizSearchQuery(''); }}
-                              className={`absolute right-3.5 top-1/2 -translate-y-1/2 transition-colors font-bold cursor-pointer ${
-                                theme === 'dark' ? 'text-slate-500 hover:text-slate-300' : 'text-stone-400 hover:text-stone-600'
-                              }`}
-                              title="Effacer"
-                            >
-                              <X className="w-4 h-4" />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Select Category */}
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <label className={`text-xs font-bold uppercase tracking-wider transition-colors duration-300 ${
-                            theme === 'dark' ? 'text-slate-400' : 'text-stone-500'
-                          }`}>
-                            {t('study_themes', "Sujets d'étude (Sélection multiple) :")}
-                          </label>
-                          <button
-                            onClick={handleSelectAllCategories}
-                            className="text-[10px] font-black text-emerald-500 hover:text-emerald-600 transition-colors uppercase cursor-pointer"
-                          >
-                            {selectedCategories.length === allCategories.length ? t('deselect_all', 'Tout décocher') : t('select_all', 'Tout cocher')}
-                          </button>
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pb-1">
-                          {allCategories.map(cat => {
-                            const isSelected = selectedCategories.includes(cat);
-                            
-                            const activeClass = theme === 'dark'
-                              ? 'btn-3d-emerald bg-emerald-500/10 text-emerald-400 border-emerald-500/45 font-bold shadow-xs'
-                              : 'btn-3d-emerald bg-emerald-50 text-emerald-800 border-emerald-500/50 font-bold shadow-sm';
-                            const inactiveClass = theme === 'dark'
-                              ? 'btn-3d-slate bg-slate-955 text-slate-400 border-slate-850 hover:border-slate-800'
-                              : 'btn-3d-slate bg-stone-50 text-stone-500 border-stone-200 hover:border-stone-300';
-                            
-                            return (
-                              <button
-                                key={cat}
-                                onClick={() => handleToggleCategory(cat)}
-                                className={`p-3 rounded-xl text-xs font-semibold text-left border transition-all cursor-pointer flex items-center justify-between gap-2 ${
-                                  isSelected ? activeClass : inactiveClass
-                                }`}
-                              >
-                                <span className="truncate">{t(cat, cat)}</span>
-                                <div className={`w-4 h-4 rounded-md border flex items-center justify-center shrink-0 transition-all ${
-                                  isSelected 
-                                    ? 'bg-emerald-500 border-emerald-500 text-slate-950' 
-                                    : (theme === 'dark' ? 'border-slate-800 bg-slate-950' : 'border-stone-300 bg-stone-100')
+                    {activeTab === 'quiz' && (
+                      <>
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                          <div className="lg:col-span-2 space-y-6">
+                            {/* Welcome Banner */}
+                            <div className={`p-5 rounded-2xl border space-y-2 transition-all duration-300 ${theme === 'dark'
+                              ? 'bg-gradient-to-br from-[#0c2340]/40 via-[#0f172a]/70 to-[#0f172a]/70 border-[#D0A21C]/20 backdrop-blur-md text-slate-200 shadow-md shadow-black/20'
+                              : 'bg-gradient-to-br from-emerald-50/60 via-white to-white border-emerald-950/10 text-stone-850 shadow-md shadow-emerald-950/5'
+                              }`}>
+                              <span className={`text-[9px] font-black px-2.5 py-1 rounded-full border uppercase tracking-widest font-mono inline-block transition-colors duration-300 ${theme === 'dark'
+                                ? 'text-amber-400 bg-amber-500/10 border-amber-500/20'
+                                : 'text-emerald-700 bg-emerald-50 border-emerald-250/20'
                                 }`}>
-                                  {isSelected && <Check className={`w-3 h-3 stroke-[3] ${theme === 'dark' ? 'text-slate-950' : 'text-white'}`} />}
-                                </div>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-
-                      {/* Select Difficulty Level */}
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <label className={`text-xs font-bold uppercase tracking-wider transition-colors duration-300 ${
-                            theme === 'dark' ? 'text-slate-400' : 'text-stone-500'
-                          }`}>
-                            {t('difficulty_levels', "Niveaux de difficulté (Sélection multiple) :")}
-                          </label>
-                          <button
-                            onClick={handleSelectAllLevels}
-                            className="text-[10px] font-black text-emerald-500 hover:text-emerald-600 transition-colors uppercase cursor-pointer"
-                          >
-                            {selectedLevels.length === allLevels.length ? t('deselect_all', 'Tout décocher') : t('select_all', 'Tout cocher')}
-                          </button>
-                        </div>
-                        <div className="grid grid-cols-3 gap-2.5 pb-1">
-                          {allLevels.map(lvl => {
-                            const isSelected = selectedLevels.includes(lvl);
-                            
-                            const activeClass = theme === 'dark'
-                              ? 'btn-3d-emerald bg-emerald-500/10 text-emerald-400 border-emerald-500/45 font-bold shadow-xs'
-                              : 'btn-3d-emerald bg-emerald-55 text-emerald-800 border-emerald-500/50 font-bold shadow-sm';
-                            const inactiveClass = theme === 'dark'
-                              ? 'btn-3d-slate bg-slate-955 text-slate-400 border-slate-850 hover:border-slate-800'
-                              : 'btn-3d-slate bg-stone-50 text-stone-500 border-stone-200 hover:border-stone-300';
-                            
-                            return (
-                              <button
-                                key={lvl}
-                                onClick={() => handleToggleLevel(lvl)}
-                                className={`p-3 rounded-xl text-xs font-semibold text-center border transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-                                  isSelected ? activeClass : inactiveClass
-                                }`}
-                              >
-                                <span>{t(lvl, lvl)}</span>
-                                <div className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center shrink-0 transition-all ${
-                                  isSelected 
-                                    ? 'bg-emerald-500 border-emerald-500 text-slate-950' 
-                                    : (theme === 'dark' ? 'border-slate-800 bg-slate-950' : 'border-stone-300 bg-stone-100')
+                                {t('educational_platform', 'Plateforme Éducative')}
+                              </span>
+                              <h2 className={`text-xl font-black tracking-tight transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-stone-900'
                                 }`}>
-                                  {isSelected && <Check className={`w-2.5 h-2.5 stroke-[3.5] ${theme === 'dark' ? 'text-slate-950' : 'text-white'}`} />}
-                                </div>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-
-                      {/* Timer Toggles */}
-                      <div className="space-y-3 pt-2">
-                        <div className={`flex items-center justify-between p-3.5 rounded-xl border transition-all duration-300 ${
-                          theme === 'dark'
-                            ? 'bg-slate-955 border-slate-855'
-                            : 'bg-stone-50 border-stone-200'
-                        }`}>
-                          <div className="space-y-0.5">
-                            <label className={`text-xs font-bold flex items-center gap-1.5 font-sans transition-colors duration-300 ${
-                              theme === 'dark' ? 'text-white' : 'text-stone-850'
-                            }`}>
-                              <span>{t('activate_timer', 'Activer le Chronomètre')}</span>
-                            </label>
-                            <p className={`text-[10px] leading-tight transition-colors duration-300 ${
-                              theme === 'dark' ? 'text-slate-450' : 'text-stone-450'
-                            }`}>
-                              {t('timer_desc', 'Limite le temps de réflexion pour pimenter le défi')}
-                            </p>
-                          </div>
-                          
-                          <button
-                            onClick={() => { playSelectSound(); setTimerEnabled(!timerEnabled); }}
-                            className={`w-11 h-6 rounded-full p-1 transition-all cursor-pointer ${
-                              timerEnabled ? 'bg-emerald-600' : (theme === 'dark' ? 'bg-slate-850' : 'bg-stone-250')
-                            }`}
-                          >
-                            <div className={`w-4 h-4 bg-white rounded-full transition-transform ${
-                              timerEnabled ? 'translate-x-5' : 'translate-x-0'
-                            }`} />
-                          </button>
-                        </div>
-
-                        {timerEnabled && (
-                          <div className={`flex items-center justify-between px-3.5 py-2.5 border rounded-xl transition-all duration-300 ${
-                            theme === 'dark'
-                              ? 'bg-slate-950 border-slate-850'
-                              : 'bg-stone-50 border-stone-200'
-                          }`}>
-                            <span className={`text-xs font-semibold transition-colors duration-300 ${
-                              theme === 'dark' ? 'text-slate-450' : 'text-stone-500'
-                            }`}>{language === 'ar' ? 'الوقت المحدد لكل سؤال :' : language === 'wo' ? 'Waxtu bu laaj bu ci nek :' : 'Durée par question :'}</span>
-                            <div className="flex items-center gap-2 pb-1">
-                              {[15, 25, 45].map((sec) => {
-                                const active = timerMinutes === sec;
-                                const activeClass = theme === 'dark'
-                                  ? 'btn-3d-emerald bg-emerald-600/10 text-emerald-400 border-emerald-500/35 font-bold'
-                                  : 'btn-3d-emerald bg-emerald-50 text-emerald-800 border-emerald-500/50 font-bold';
-                                const inactiveClass = theme === 'dark'
-                                  ? 'btn-3d-slate bg-slate-900 text-slate-500 border-slate-850'
-                                  : 'btn-3d-slate bg-stone-100 text-stone-500 border-stone-200';
-                                
-                                return (
-                                  <button
-                                    key={sec}
-                                    onClick={() => { playSelectSound(); setTimerMinutes(sec); }}
-                                    className={`px-3 py-1 text-xs font-bold font-mono rounded-lg border transition-all cursor-pointer ${
-                                      active ? activeClass : inactiveClass
-                                    }`}
-                                  >
-                                    {sec}s
-                                  </button>
-                                );
-                              })}
+                                {t('learn_islamic_sciences', 'Apprenez les Sciences Islamiques !')}
+                              </h2>
+                              <p className={`text-xs leading-relaxed transition-colors duration-300 ${theme === 'dark' ? 'text-slate-350' : 'text-stone-600'
+                                }`}>
+                                {language === 'ar' ? (
+                                  <>تدرب وحسّن معرفتك في <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>الفقه</strong>، و<strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>العقيدة</strong>، و<strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>السيرة</strong>، و<strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>القرآن</strong>، و<strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>الأخلاق</strong> واكتشف التاريخ النبيل لـ<strong className={theme === 'dark' ? 'text-amber-450 font-bold' : 'text-emerald-800 font-bold'}>معهد الميسر للقرآن الكريم</strong>.</>
+                                ) : language === 'wo' ? (
+                                  <>Mën nga fi jàng, yok sa xam-xam ci <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Fiqh</strong>, <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Aqidah</strong>, <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Sirah</strong>, <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Alquran</strong>, <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Akhlaq</strong> ak dundug daara <strong className={theme === 'dark' ? 'text-amber-450 font-bold' : 'text-emerald-800 font-bold'}>Al-Mouyassar</strong>.</>
+                                ) : (
+                                  <>Entraînez-vous, améliorez vos connaissances sur le <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Fiqh</strong>, la <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Aqidah</strong>, la <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Sirah</strong>, le <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Coran</strong>, l&apos;<strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Akhlaq</strong> et découvrez la noble histoire de l&apos;<strong className={theme === 'dark' ? 'text-amber-450 font-bold' : 'text-emerald-800 font-bold'}>Institut Coranique Al-Mouyassar</strong>.</>
+                                )}
+                              </p>
                             </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
 
-                    {/* Launch CTA Trigger */}
-                    <button
-                      onClick={handleLaunchQuiz}
-                      disabled={matchedQuestionsCount === 0}
-                      className={`w-full py-4 text-xs font-black uppercase tracking-widest rounded-2xl transition-all flex items-center justify-center gap-2 cursor-pointer ${
-                        matchedQuestionsCount > 0
-                          ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg btn-3d-emerald'
-                          : (theme === 'dark' 
-                              ? 'bg-slate-800 text-slate-500 border border-slate-700/50 cursor-not-allowed opacity-40 shadow-none'
-                              : 'bg-stone-200 text-stone-400 border border-stone-300 cursor-not-allowed opacity-50 shadow-none')
-                      }`}
-                    >
-                      <Play className="w-4 h-4 text-white fill-white" />
-                      <span>
-                        {matchedQuestionsCount > 0 
-                          ? (
-                            language === 'ar' ? `ابدأ المسابقة ! (${matchedQuestionsCount} سؤال)` :
-                            language === 'wo' ? `Tambali laaj ak toontu bi ! (${matchedQuestionsCount} laaj)` :
-                            `Commencer le Quiz ! (${matchedQuestionsCount} questions)`
-                          )
-                          : (
-                            language === 'ar' ? 'لا توجد أسئلة متاحة' :
-                            language === 'wo' ? 'Amul laaj bu fi nekk' :
-                            'Aucune question disponible'
-                          )
-                        }
-                      </span>
-                    </button>
-                  </div>
+                            {/* Quiz Recommender Engine - suggestions based on levels and interests */}
+                            <QuizRecommender
+                              onStartCustomQuizList={handleStartRecommendedQuizList}
+                              userStatsXp={stats.xp}
+                              theme={theme}
+                            />
 
-                  {/* Right panel: Sidebar quick summary stats */}
-                  <div className="space-y-6">
-                    
-                    {/* Daily Quests Card */}
-                    <div className={`p-4 rounded-2xl border space-y-3.5 shadow transition-all duration-300 ${
-                      theme === 'dark'
-                        ? 'bg-[#0f172a]/70 border-[#D0A21C]/15 text-slate-200 shadow-md shadow-black/20'
-                        : 'bg-white border-emerald-950/10 text-stone-850 shadow-md shadow-emerald-950/5'
-                    }`}>
-                      <div className={`flex items-center justify-between border-b pb-2 transition-colors duration-300 ${
-                        theme === 'dark' ? 'border-slate-800/80' : 'border-stone-150'
-                      }`}>
-                        <h4 className={`text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 font-mono transition-colors duration-305 ${
-                          theme === 'dark' ? 'text-amber-400' : 'text-emerald-700'
-                        }`}>
-                          <Flame className={`w-3.5 h-3.5 animate-pulse ${theme === 'dark' ? 'text-amber-500' : 'text-emerald-600'}`} />
-                          Quêtes Quotidiennes
-                        </h4>
-                        <span className={`text-[8px] border font-mono font-bold px-1.5 py-0.5 rounded uppercase transition-colors duration-305 ${
-                          theme === 'dark' 
-                            ? 'bg-slate-800 border-[#475569]/40 text-slate-400' 
-                            : 'bg-stone-50 border-stone-200 text-stone-500'
-                        }`}>
-                          Aujourd&apos;hui
-                        </span>
-                      </div>
+                            {/* Configuration Form wrapper */}
+                            <div className={`p-5 rounded-2xl border space-y-5 transition-all duration-300 ${theme === 'dark'
+                              ? 'bg-[#0f172a]/70 border-[#D0A21C]/15 backdrop-blur-md text-slate-200 shadow-lg shadow-black/25'
+                              : 'bg-white border-emerald-950/10 text-stone-850 shadow-md shadow-emerald-950/5'
+                              }`}>
+                              <h3 className={`text-sm font-extrabold uppercase tracking-wide border-b pb-2 transition-colors duration-300 ${theme === 'dark'
+                                ? 'text-slate-300 border-slate-800/80'
+                                : 'text-stone-700 border-stone-200'
+                                }`}>
+                                {t('exercise_config', "Configuration de l'exercice :")}
+                              </h3>
 
-                      <div className="space-y-3">
-                        {dailyQuests.map((quest) => {
-                          const progressPercent = Math.min(100, (quest.currentValue / quest.targetValue) * 100);
-                          
-                          return (
-                            <div key={quest.id} className={`p-2.5 rounded-xl border space-y-2 transition-all duration-300 ${
-                              theme === 'dark'
-                                ? 'bg-slate-955/70 border-slate-850'
-                                : 'bg-stone-50 border-stone-150/70'
-                            }`}>
-                              <div className="flex justify-between items-start gap-1">
-                                <div>
-                                  <h5 className={`text-[11px] font-black leading-tight flex items-center gap-1 transition-colors duration-300 ${
-                                    theme === 'dark' ? 'text-white' : 'text-stone-850'
+                              {/* Search Bar filter */}
+                              <div className="space-y-2">
+                                <label className={`text-xs font-bold uppercase tracking-wider block transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-stone-500'
                                   }`}>
-                                    {quest.title}
-                                    {quest.isCompleted && <Check className="w-3 h-3 text-emerald-500 stroke-[3]" />}
-                                  </h5>
-                                  <p className={`text-[10px] leading-snug transition-colors duration-300 ${
-                                    theme === 'dark' ? 'text-slate-400' : 'text-stone-500'
-                                  }`}>{quest.description}</p>
-                                </div>
-                                <div className="text-right shrink-0">
-                                  <span className={`text-[9px] font-black transition-colors duration-300 ${
-                                    theme === 'dark' ? 'text-amber-400' : 'text-emerald-700'
-                                  }`}>+{quest.xpReward} XP</span>
-                                </div>
-                              </div>
-
-                              {/* Progress bar */}
-                              <div className="space-y-1">
-                                <div className={`w-full h-1.5 rounded-full overflow-hidden transition-colors duration-300 ${
-                                  theme === 'dark' ? 'bg-slate-900' : 'bg-stone-200'
-                                }`}>
-                                  <div 
-                                    className={`h-full transition-all duration-300 ${quest.isCompleted ? 'bg-emerald-500' : 'bg-emerald-600'}`} 
-                                    style={{ width: `${progressPercent}%` }} 
-                                  />
-                                </div>
-                                <div className={`flex justify-between text-[9px] font-mono transition-colors duration-300 ${
-                                  theme === 'dark' ? 'text-slate-500' : 'text-stone-400'
-                                }`}>
-                                  <span>{quest.currentValue} / {quest.targetValue}</span>
-                                  {quest.isCompleted && !quest.isClaimed && (
-                                    <button
-                                      onClick={() => handleClaimQuestReward(quest.id)}
-                                      className={`font-black uppercase tracking-wider cursor-pointer font-sans transition-colors duration-300 ${
-                                        theme === 'dark' ? 'text-amber-400 hover:text-amber-300' : 'text-emerald-600 hover:text-emerald-700'
+                                  {t('search_keyword', 'Rechercher par mot-clé :')}
+                                </label>
+                                <div className="relative">
+                                  <input
+                                    type="text"
+                                    placeholder={t('quiz_search_placeholder', 'Hadith, ablution, prière, pureté, intention, etc.')}
+                                    value={quizSearchQuery}
+                                    onChange={(e) => setQuizSearchQuery(e.target.value)}
+                                    className={`w-full pl-10 pr-10 py-3 rounded-xl text-xs transition-all duration-300 font-medium ${theme === 'dark'
+                                      ? 'bg-slate-950 text-slate-200 border-slate-850 placeholder:text-slate-600 focus:border-emerald-500/50 focus:outline-none'
+                                      : 'bg-stone-50 text-stone-850 border-stone-250 placeholder:text-stone-400 focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-emerald-400/30'
                                       }`}
+                                  />
+                                  <div className={`absolute left-3.5 top-1/2 -translate-y-1/2 transition-colors duration-305 ${theme === 'dark' ? 'text-slate-500' : 'text-stone-400'
+                                    }`}>
+                                    <Search className="w-4 h-4" />
+                                  </div>
+                                  {quizSearchQuery && (
+                                    <button
+                                      onClick={() => { playSelectSound(); setQuizSearchQuery(''); }}
+                                      className={`absolute right-3.5 top-1/2 -translate-y-1/2 transition-colors font-bold cursor-pointer ${theme === 'dark' ? 'text-slate-500 hover:text-slate-300' : 'text-stone-400 hover:text-stone-600'
+                                        }`}
+                                      title="Effacer"
                                     >
-                                      Réclamer &rarr;
+                                      <X className="w-4 h-4" />
                                     </button>
                                   )}
-                                  {quest.isClaimed && (
-                                    <span className="text-stone-500 font-extrabold uppercase">Réclamé</span>
-                                  )}
                                 </div>
                               </div>
+
+                              {/* Select Category */}
+                              <div className="space-y-2">
+                                <div className="flex items-center justify-between">
+                                  <label className={`text-xs font-bold uppercase tracking-wider transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-stone-500'
+                                    }`}>
+                                    {t('study_themes', "Sujets d'étude (Sélection multiple) :")}
+                                  </label>
+                                  <button
+                                    onClick={handleSelectAllCategories}
+                                    className="text-[10px] font-black text-emerald-500 hover:text-emerald-600 transition-colors uppercase cursor-pointer"
+                                  >
+                                    {selectedCategories.length === allCategories.length ? t('deselect_all', 'Tout décocher') : t('select_all', 'Tout cocher')}
+                                  </button>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pb-1">
+                                  {allCategories.map(cat => {
+                                    const isSelected = selectedCategories.includes(cat);
+
+                                    const activeClass = theme === 'dark'
+                                      ? 'btn-3d-emerald bg-emerald-500/10 text-emerald-400 border-emerald-500/45 font-bold shadow-xs'
+                                      : 'btn-3d-emerald bg-emerald-50 text-emerald-800 border-emerald-500/50 font-bold shadow-sm';
+                                    const inactiveClass = theme === 'dark'
+                                      ? 'btn-3d-slate bg-slate-955 text-slate-400 border-slate-850 hover:border-slate-800'
+                                      : 'btn-3d-slate bg-stone-50 text-stone-500 border-stone-200 hover:border-stone-300';
+
+                                    return (
+                                      <button
+                                        key={cat}
+                                        onClick={() => handleToggleCategory(cat)}
+                                        className={`p-3 rounded-xl text-xs font-semibold text-left border transition-all cursor-pointer flex items-center justify-between gap-2 ${isSelected ? activeClass : inactiveClass
+                                          }`}
+                                      >
+                                        <span className="truncate">{t(cat, cat)}</span>
+                                        <div className={`w-4 h-4 rounded-md border flex items-center justify-center shrink-0 transition-all ${isSelected
+                                          ? 'bg-emerald-500 border-emerald-500 text-slate-950'
+                                          : (theme === 'dark' ? 'border-slate-800 bg-slate-950' : 'border-stone-300 bg-stone-100')
+                                          }`}>
+                                          {isSelected && <Check className={`w-3 h-3 stroke-[3] ${theme === 'dark' ? 'text-slate-950' : 'text-white'}`} />}
+                                        </div>
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+
+                              {/* Select Difficulty Level */}
+                              <div className="space-y-2">
+                                <div className="flex items-center justify-between">
+                                  <label className={`text-xs font-bold uppercase tracking-wider transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-stone-500'
+                                    }`}>
+                                    {t('difficulty_levels', "Niveaux de difficulté (Sélection multiple) :")}
+                                  </label>
+                                  <button
+                                    onClick={handleSelectAllLevels}
+                                    className="text-[10px] font-black text-emerald-500 hover:text-emerald-600 transition-colors uppercase cursor-pointer"
+                                  >
+                                    {selectedLevels.length === allLevels.length ? t('deselect_all', 'Tout décocher') : t('select_all', 'Tout cocher')}
+                                  </button>
+                                </div>
+                                <div className="grid grid-cols-3 gap-2.5 pb-1">
+                                  {allLevels.map(lvl => {
+                                    const isSelected = selectedLevels.includes(lvl);
+
+                                    const activeClass = theme === 'dark'
+                                      ? 'btn-3d-emerald bg-emerald-500/10 text-emerald-400 border-emerald-500/45 font-bold shadow-xs'
+                                      : 'btn-3d-emerald bg-emerald-55 text-emerald-800 border-emerald-500/50 font-bold shadow-sm';
+                                    const inactiveClass = theme === 'dark'
+                                      ? 'btn-3d-slate bg-slate-955 text-slate-400 border-slate-850 hover:border-slate-800'
+                                      : 'btn-3d-slate bg-stone-50 text-stone-500 border-stone-200 hover:border-stone-300';
+
+                                    return (
+                                      <button
+                                        key={lvl}
+                                        onClick={() => handleToggleLevel(lvl)}
+                                        className={`p-3 rounded-xl text-xs font-semibold text-center border transition-all cursor-pointer flex items-center justify-center gap-1.5 ${isSelected ? activeClass : inactiveClass
+                                          }`}
+                                      >
+                                        <span>{t(lvl, lvl)}</span>
+                                        <div className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center shrink-0 transition-all ${isSelected
+                                          ? 'bg-emerald-500 border-emerald-500 text-slate-950'
+                                          : (theme === 'dark' ? 'border-slate-800 bg-slate-950' : 'border-stone-300 bg-stone-100')
+                                          }`}>
+                                          {isSelected && <Check className={`w-2.5 h-2.5 stroke-[3.5] ${theme === 'dark' ? 'text-slate-950' : 'text-white'}`} />}
+                                        </div>
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+
+                              {/* Timer Toggles */}
+                              <div className="space-y-3 pt-2">
+                                <div className={`flex items-center justify-between p-3.5 rounded-xl border transition-all duration-300 ${theme === 'dark'
+                                  ? 'bg-slate-955 border-slate-855'
+                                  : 'bg-stone-50 border-stone-200'
+                                  }`}>
+                                  <div className="space-y-0.5">
+                                    <label className={`text-xs font-bold flex items-center gap-1.5 font-sans transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-stone-850'
+                                      }`}>
+                                      <span>{t('activate_timer', 'Activer le Chronomètre')}</span>
+                                    </label>
+                                    <p className={`text-[10px] leading-tight transition-colors duration-300 ${theme === 'dark' ? 'text-slate-450' : 'text-stone-450'
+                                      }`}>
+                                      {t('timer_desc', 'Limite le temps de réflexion pour pimenter le défi')}
+                                    </p>
+                                  </div>
+
+                                  <button
+                                    onClick={() => { playSelectSound(); setTimerEnabled(!timerEnabled); }}
+                                    className={`w-11 h-6 rounded-full p-1 transition-all cursor-pointer ${timerEnabled ? 'bg-emerald-600' : (theme === 'dark' ? 'bg-slate-850' : 'bg-stone-250')
+                                      }`}
+                                  >
+                                    <div className={`w-4 h-4 bg-white rounded-full transition-transform ${timerEnabled ? 'translate-x-5' : 'translate-x-0'
+                                      }`} />
+                                  </button>
+                                </div>
+
+                                {timerEnabled && (
+                                  <div className={`flex items-center justify-between px-3.5 py-2.5 border rounded-xl transition-all duration-300 ${theme === 'dark'
+                                    ? 'bg-slate-950 border-slate-850'
+                                    : 'bg-stone-50 border-stone-200'
+                                    }`}>
+                                    <span className={`text-xs font-semibold transition-colors duration-300 ${theme === 'dark' ? 'text-slate-450' : 'text-stone-500'
+                                      }`}>{language === 'ar' ? 'الوقت المحدد لكل سؤال :' : language === 'wo' ? 'Waxtu bu laaj bu ci nek :' : 'Durée par question :'}</span>
+                                    <div className="flex items-center gap-2 pb-1">
+                                      {[15, 25, 45].map((sec) => {
+                                        const active = timerMinutes === sec;
+                                        const activeClass = theme === 'dark'
+                                          ? 'btn-3d-emerald bg-emerald-600/10 text-emerald-400 border-emerald-500/35 font-bold'
+                                          : 'btn-3d-emerald bg-emerald-50 text-emerald-800 border-emerald-500/50 font-bold';
+                                        const inactiveClass = theme === 'dark'
+                                          ? 'btn-3d-slate bg-slate-900 text-slate-500 border-slate-850'
+                                          : 'btn-3d-slate bg-stone-100 text-stone-500 border-stone-200';
+
+                                        return (
+                                          <button
+                                            key={sec}
+                                            onClick={() => { playSelectSound(); setTimerMinutes(sec); }}
+                                            className={`px-3 py-1 text-xs font-bold font-mono rounded-lg border transition-all cursor-pointer ${active ? activeClass : inactiveClass
+                                              }`}
+                                          >
+                                            {sec}s
+                                          </button>
+                                        );
+                                      })}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
                             </div>
-                          );
-                        })}
-                      </div>
-                    </div>
 
-                    {/* Pupil card profile */}
-                    <div className={`p-4 rounded-2xl border text-center space-y-4 shadow transition-all duration-300 ${
-                      theme === 'dark'
-                        ? 'bg-[#0f172a]/70 border-[#D0A21C]/15 text-slate-200 shadow-md shadow-black/20'
-                        : 'bg-white border-emerald-950/10 text-stone-850 shadow-md shadow-emerald-950/5'
-                    }`}>
-                      <div className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto shadow-inner transition-all duration-300 ${
-                        theme === 'dark' ? 'bg-slate-950 border border-slate-850' : 'bg-emerald-50 border border-emerald-100 shadow-xs'
-                      }`}>
-                        <Medal className={`w-6 h-6 ${theme === 'dark' ? 'text-amber-400' : 'text-emerald-600'}`} />
-                      </div>
-                      
-                      <div>
-                        <h4 className={`text-xs font-black uppercase tracking-wider transition-colors duration-300 ${
-                          theme === 'dark' ? 'text-slate-450' : 'text-stone-500'
-                        }`}>Vos Statistiques</h4>
-                        <p className={`text-lg font-black font-mono mt-1 transition-colors duration-300 ${
-                          theme === 'dark' ? 'text-white' : 'text-stone-900'
-                        }`}>{stats.xp} <span className={`text-xs font-normal ${theme === 'dark' ? 'text-slate-450' : 'text-stone-400'}`}>XP</span></p>
-                      </div>
+                            {/* Launch CTA Trigger */}
+                            <button
+                              onClick={handleLaunchQuiz}
+                              disabled={matchedQuestionsCount === 0}
+                              className={`w-full py-4 text-xs font-black uppercase tracking-widest rounded-2xl transition-all flex items-center justify-center gap-2 cursor-pointer ${matchedQuestionsCount > 0
+                                ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg btn-3d-emerald'
+                                : (theme === 'dark'
+                                  ? 'bg-slate-800 text-slate-500 border border-slate-700/50 cursor-not-allowed opacity-40 shadow-none'
+                                  : 'bg-stone-200 text-stone-400 border border-stone-300 cursor-not-allowed opacity-50 shadow-none')
+                                }`}
+                            >
+                              <Play className="w-4 h-4 text-white fill-white" />
+                              <span>
+                                {matchedQuestionsCount > 0
+                                  ? (
+                                    language === 'ar' ? `ابدأ المسابقة ! (${matchedQuestionsCount} سؤال)` :
+                                      language === 'wo' ? `Tambali laaj ak toontu bi ! (${matchedQuestionsCount} laaj)` :
+                                        `Commencer le Quiz ! (${matchedQuestionsCount} questions)`
+                                  )
+                                  : (
+                                    language === 'ar' ? 'لا توجد أسئلة متاحة' :
+                                      language === 'wo' ? 'Amul laaj bu fi nekk' :
+                                        'Aucune question disponible'
+                                  )
+                                }
+                              </span>
+                            </button>
+                          </div>
 
-                      <div className={`grid grid-cols-2 gap-2 border-t pt-3 transition-colors duration-300 ${
-                        theme === 'dark' ? 'border-slate-800/60' : 'border-stone-150'
-                      }`}>
-                        <div className="text-center">
-                          <p className={`text-[9px] uppercase font-bold transition-colors duration-300 ${
-                            theme === 'dark' ? 'text-slate-450' : 'text-stone-500'
-                          }`}>Réussies</p>
-                          <p className={`text-sm font-bold font-mono ${theme === 'dark' ? 'text-emerald-400' : 'text-emerald-600'}`}>{stats.correctAnswersCount}</p>
+                          {/* Right panel: Sidebar quick summary stats */}
+                          <div className="space-y-6">
+
+                            {/* Daily Quests Card */}
+                            <div className={`p-4 rounded-2xl border space-y-3.5 shadow transition-all duration-300 ${theme === 'dark'
+                              ? 'bg-[#0f172a]/70 border-[#D0A21C]/15 text-slate-200 shadow-md shadow-black/20'
+                              : 'bg-white border-emerald-950/10 text-stone-850 shadow-md shadow-emerald-950/5'
+                              }`}>
+                              <div className={`flex items-center justify-between border-b pb-2 transition-colors duration-300 ${theme === 'dark' ? 'border-slate-800/80' : 'border-stone-150'
+                                }`}>
+                                <h4 className={`text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 font-mono transition-colors duration-305 ${theme === 'dark' ? 'text-amber-400' : 'text-emerald-700'
+                                  }`}>
+                                  <Flame className={`w-3.5 h-3.5 animate-pulse ${theme === 'dark' ? 'text-amber-500' : 'text-emerald-600'}`} />
+                                  Quêtes Quotidiennes
+                                </h4>
+                                <span className={`text-[8px] border font-mono font-bold px-1.5 py-0.5 rounded uppercase transition-colors duration-305 ${theme === 'dark'
+                                  ? 'bg-slate-800 border-[#475569]/40 text-slate-400'
+                                  : 'bg-stone-50 border-stone-200 text-stone-500'
+                                  }`}>
+                                  Aujourd&apos;hui
+                                </span>
+                              </div>
+
+                              <div className="space-y-3">
+                                {dailyQuests.map((quest) => {
+                                  const progressPercent = Math.min(100, (quest.currentValue / quest.targetValue) * 100);
+
+                                  return (
+                                    <div key={quest.id} className={`p-2.5 rounded-xl border space-y-2 transition-all duration-300 ${theme === 'dark'
+                                      ? 'bg-slate-955/70 border-slate-850'
+                                      : 'bg-stone-50 border-stone-150/70'
+                                      }`}>
+                                      <div className="flex justify-between items-start gap-1">
+                                        <div>
+                                          <h5 className={`text-[11px] font-black leading-tight flex items-center gap-1 transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-stone-850'
+                                            }`}>
+                                            {quest.title}
+                                            {quest.isCompleted && <Check className="w-3 h-3 text-emerald-500 stroke-[3]" />}
+                                          </h5>
+                                          <p className={`text-[10px] leading-snug transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-stone-500'
+                                            }`}>{quest.description}</p>
+                                        </div>
+                                        <div className="text-right shrink-0">
+                                          <span className={`text-[9px] font-black transition-colors duration-300 ${theme === 'dark' ? 'text-amber-400' : 'text-emerald-700'
+                                            }`}>+{quest.xpReward} XP</span>
+                                        </div>
+                                      </div>
+
+                                      {/* Progress bar */}
+                                      <div className="space-y-1">
+                                        <div className={`w-full h-1.5 rounded-full overflow-hidden transition-colors duration-300 ${theme === 'dark' ? 'bg-slate-900' : 'bg-stone-200'
+                                          }`}>
+                                          <div
+                                            className={`h-full transition-all duration-300 ${quest.isCompleted ? 'bg-emerald-500' : 'bg-emerald-600'}`}
+                                            style={{ width: `${progressPercent}%` }}
+                                          />
+                                        </div>
+                                        <div className={`flex justify-between text-[9px] font-mono transition-colors duration-300 ${theme === 'dark' ? 'text-slate-500' : 'text-stone-400'
+                                          }`}>
+                                          <span>{quest.currentValue} / {quest.targetValue}</span>
+                                          {quest.isCompleted && !quest.isClaimed && (
+                                            <button
+                                              onClick={() => handleClaimQuestReward(quest.id)}
+                                              className={`font-black uppercase tracking-wider cursor-pointer font-sans transition-colors duration-300 ${theme === 'dark' ? 'text-amber-400 hover:text-amber-300' : 'text-emerald-600 hover:text-emerald-700'
+                                                }`}
+                                            >
+                                              Réclamer &rarr;
+                                            </button>
+                                          )}
+                                          {quest.isClaimed && (
+                                            <span className="text-stone-500 font-extrabold uppercase">Réclamé</span>
+                                          )}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+
+                            {/* Pupil card profile */}
+                            <div className={`p-4 rounded-2xl border text-center space-y-4 shadow transition-all duration-300 ${theme === 'dark'
+                              ? 'bg-[#0f172a]/70 border-[#D0A21C]/15 text-slate-200 shadow-md shadow-black/20'
+                              : 'bg-white border-emerald-950/10 text-stone-850 shadow-md shadow-emerald-950/5'
+                              }`}>
+                              <div className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto shadow-inner transition-all duration-300 ${theme === 'dark' ? 'bg-slate-950 border border-slate-850' : 'bg-emerald-50 border border-emerald-100 shadow-xs'
+                                }`}>
+                                <Medal className={`w-6 h-6 ${theme === 'dark' ? 'text-amber-400' : 'text-emerald-600'}`} />
+                              </div>
+
+                              <div>
+                                <h4 className={`text-xs font-black uppercase tracking-wider transition-colors duration-300 ${theme === 'dark' ? 'text-slate-450' : 'text-stone-500'
+                                  }`}>Vos Statistiques</h4>
+                                <p className={`text-lg font-black font-mono mt-1 transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-stone-900'
+                                  }`}>{stats.xp} <span className={`text-xs font-normal ${theme === 'dark' ? 'text-slate-450' : 'text-stone-400'}`}>XP</span></p>
+                              </div>
+
+                              <div className={`grid grid-cols-2 gap-2 border-t pt-3 transition-colors duration-300 ${theme === 'dark' ? 'border-slate-800/60' : 'border-stone-150'
+                                }`}>
+                                <div className="text-center">
+                                  <p className={`text-[9px] uppercase font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-slate-450' : 'text-stone-500'
+                                    }`}>Réussies</p>
+                                  <p className={`text-sm font-bold font-mono ${theme === 'dark' ? 'text-emerald-400' : 'text-emerald-600'}`}>{stats.correctAnswersCount}</p>
+                                </div>
+                                <div className="text-center">
+                                  <p className={`text-[9px] uppercase font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-slate-455' : 'text-stone-500'
+                                    }`}>Quizz Finis</p>
+                                  <p className={`text-sm font-bold font-mono ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`}>{stats.completedQuizzesCount}</p>
+                                </div>
+                              </div>
+
+                              <div className="pt-2 pb-1">
+                                <button
+                                  onClick={() => { playSelectSound(); setActiveTab('stats'); }}
+                                  className={`w-full p-2 rounded-xl text-[10px] font-bold transition-all cursor-pointer border ${theme === 'dark'
+                                    ? 'bg-slate-950 border-slate-850 hover:bg-slate-900 text-slate-400 hover:text-white btn-3d-slate'
+                                    : 'bg-stone-50 border-stone-200 hover:bg-stone-100 text-stone-600 hover:text-stone-850 btn-3d-slate'
+                                    }`}
+                                >
+                                  Détails des badges →
+                                </button>
+                              </div>
+                            </div>
+
+                            {/* Quick values guide details about the school */}
+                            <div className={`p-4 rounded-2xl border space-y-3.5 transition-all duration-300 ${theme === 'dark'
+                              ? 'bg-neutral-950/40 border-slate-850/80 text-slate-200'
+                              : 'bg-emerald-50/20 border-emerald-950/5 shadow-xs text-stone-800'
+                              }`}>
+                              <h4 className={`text-[10px] font-black uppercase tracking-widest font-mono flex items-center gap-1.5 transition-colors duration-300 ${theme === 'dark' ? 'text-emerald-400' : 'text-emerald-700'
+                                }`}>
+                                <Compass className="w-3.5 h-3.5" />
+                                L&apos;Institut Al-Mouyassar
+                              </h4>
+                              <p className={`text-[11px] leading-relaxed transition-colors duration-305 ${theme === 'dark' ? 'text-slate-400' : 'text-stone-600'
+                                }`}>
+                                L&apos;école a été fondée en <strong>2007</strong> par le vénérable <strong>Cheikh El Hadji Abdallah Niasse</strong> pour instruire les porteurs de la parole sacrée d&apos;Allah.
+                              </p>
+                              <button
+                                onClick={() => { playSelectSound(); setShowSchoolModal(true); }}
+                                className={`text-[10px] font-black flex items-center gap-0.5 tracking-tight cursor-pointer transition-colors duration-300 ${theme === 'dark' ? 'text-amber-400 hover:text-amber-300' : 'text-emerald-600 hover:text-emerald-700'
+                                  }`}
+                              >
+                                Consulter l&apos;histoire complète d&apos;Al-Mouyassar →
+                              </button>
+                            </div>
+
+                            {/* Reset button hidden at the bottom */}
+                            <div className="pt-2.5 text-center">
+                              <button
+                                onClick={handleResetProgress}
+                                className={`text-[9px] font-bold uppercase hover:underline cursor-pointer transition-colors duration-300 ${theme === 'dark' ? 'text-rose-500/70 hover:text-rose-500/95' : 'text-rose-600/70 hover:text-rose-600/95'
+                                  }`}
+                              >
+                                Réinitialiser mon Progrès
+                              </button>
+                            </div>
+                          </div>
                         </div>
-                        <div className="text-center">
-                          <p className={`text-[9px] uppercase font-bold transition-colors duration-300 ${
-                            theme === 'dark' ? 'text-slate-455' : 'text-stone-500'
-                          }`}>Quizz Finis</p>
-                          <p className={`text-sm font-bold font-mono ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`}>{stats.completedQuizzesCount}</p>
-                        </div>
-                      </div>
-
-                      <div className="pt-2 pb-1">
-                        <button
-                          onClick={() => { playSelectSound(); setActiveTab('stats'); }}
-                          className={`w-full p-2 rounded-xl text-[10px] font-bold transition-all cursor-pointer border ${
-                            theme === 'dark'
-                              ? 'bg-slate-950 border-slate-850 hover:bg-slate-900 text-slate-400 hover:text-white btn-3d-slate'
-                              : 'bg-stone-50 border-stone-200 hover:bg-stone-100 text-stone-600 hover:text-stone-850 btn-3d-slate'
-                          }`}
-                        >
-                          Détails des badges →
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Quick values guide details about the school */}
-                    <div className={`p-4 rounded-2xl border space-y-3.5 transition-all duration-300 ${
-                      theme === 'dark'
-                        ? 'bg-neutral-950/40 border-slate-850/80 text-slate-200'
-                        : 'bg-emerald-50/20 border-emerald-950/5 shadow-xs text-stone-800'
-                    }`}>
-                      <h4 className={`text-[10px] font-black uppercase tracking-widest font-mono flex items-center gap-1.5 transition-colors duration-300 ${
-                        theme === 'dark' ? 'text-emerald-400' : 'text-emerald-700'
-                      }`}>
-                        <Compass className="w-3.5 h-3.5" />
-                        L&apos;Institut Al-Mouyassar
-                      </h4>
-                      <p className={`text-[11px] leading-relaxed transition-colors duration-305 ${
-                        theme === 'dark' ? 'text-slate-400' : 'text-stone-600'
-                      }`}>
-                        L&apos;école a été fondée en <strong>2007</strong> par le vénérable <strong>Cheikh El Hadji Abdallah Niasse</strong> pour instruire les porteurs de la parole sacrée d&apos;Allah.
-                      </p>
-                      <button
-                        onClick={() => { playSelectSound(); setShowSchoolModal(true); }}
-                        className={`text-[10px] font-black flex items-center gap-0.5 tracking-tight cursor-pointer transition-colors duration-300 ${
-                          theme === 'dark' ? 'text-amber-400 hover:text-amber-300' : 'text-emerald-600 hover:text-emerald-700'
-                        }`}
-                      >
-                        Consulter l&apos;histoire complète d&apos;Al-Mouyassar →
-                      </button>
-                    </div>
-
-                    {/* Reset button hidden at the bottom */}
-                    <div className="pt-2.5 text-center">
-                      <button
-                        onClick={handleResetProgress}
-                        className={`text-[9px] font-bold uppercase hover:underline cursor-pointer transition-colors duration-300 ${
-                          theme === 'dark' ? 'text-rose-500/70 hover:text-rose-500/95' : 'text-rose-600/70 hover:text-rose-600/95'
-                        }`}
-                      >
-                        Réinitialiser mon Progrès
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                </>
-              )}
+                      </>
+                    )}
 
                     {activeTab === 'stats' && (
                       <StatsCard stats={stats} />
@@ -2128,7 +2057,7 @@ export default function App() {
           >
             {/* Background sparkle effect */}
             <div className="absolute inset-0 bg-radial-gradient from-amber-500/5 to-transparent pointer-events-none" />
-            
+
             <div className="w-12 h-12 shrink-0 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center shadow-inner">
               <Trophy className="w-6 h-6 animate-bounce" />
             </div>
@@ -2141,7 +2070,7 @@ export default function App() {
               <p className="text-xs text-slate-400 mt-1 leading-normal">
                 {latestSessionBadges[latestSessionBadges.length - 1].description}
               </p>
-              
+
               <div className="flex justify-end mt-3">
                 <button
                   onClick={() => setShowSessionBadgeBanner(false)}
@@ -2183,7 +2112,7 @@ export default function App() {
                   {currentUser ? "🌟 Mon Profil d'Apprenti Ansar" : authMode === 'signin' ? "🔑 Connexion à l'Aventure" : "🚀 Créer mon Espace de Jeu"}
                 </h3>
                 <p className="text-xs text-stone-500 max-w-xs mx-auto">
-                  {currentUser 
+                  {currentUser
                     ? "Tes précieux badges, tes points XP et tes conversations avec l'Oustaz Virtuel sont bien enregistrés !"
                     : "Connecte-toi ou crée un compte pour enregistrer tes précieux points (XP) et tes magnifiques badges de réussite !"}
                 </p>
