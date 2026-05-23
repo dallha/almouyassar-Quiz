@@ -318,7 +318,7 @@ export default function GlobalSearch({ activeTab, onNavigateTab, onStartCustomQu
                           >
                             <div className="space-y-1.5 select-none text-start">
                               <h5 className="text-[11px] font-black text-[#004D40] uppercase tracking-tight truncate">
-                                📚 {cat}
+                                📚 {t(`quiz.cat_${cat === 'Institut Al-Mouyassar' ? 'mouyassar' : cat.toLowerCase().replace('saint ', '')}`, cat)}
                               </h5>
                               <p className="text-[9px] text-stone-500 font-semibold leading-relaxed">
                                 {t('common.global_quiz_ready_desc')}
@@ -334,7 +334,7 @@ export default function GlobalSearch({ activeTab, onNavigateTab, onStartCustomQu
                                       'bg-rose-500/10 text-rose-800 border-rose-500/20'
                                     }`}
                                   >
-                                    {lvl}
+                                    {lvl === 'Débutant' ? t('quiz.lvl_beginner', lvl) : lvl === 'Intermédiaire' ? t('quiz.lvl_intermediate', lvl) : t('quiz.lvl_advanced', lvl)}
                                   </span>
                                 ))}
                               </div>
@@ -381,7 +381,7 @@ export default function GlobalSearch({ activeTab, onNavigateTab, onStartCustomQu
                             >
                               <div className="flex-1 min-w-0 flex items-center gap-2.5">
                                 <span className="text-[9px] font-bold text-[#FCF8F2] bg-[#004D40] px-2 py-0.5 rounded-md font-mono shrink-0 uppercase tracking-widest">
-                                  {q.categorie}
+                                  {t(`quiz.cat_${q.categorie === 'Institut Al-Mouyassar' ? 'mouyassar' : q.categorie.toLowerCase().replace('saint ', '')}`, q.categorie)}
                                 </span>
                                 <h5 className="text-xs font-bold text-[#004D40] truncate">
                                   {q.question.replace(/\s\(Variante A-\d+\)/i, '')}
@@ -393,7 +393,7 @@ export default function GlobalSearch({ activeTab, onNavigateTab, onStartCustomQu
                                   q.niveau === 'Intermédiaire' ? 'bg-amber-100 text-amber-800' :
                                   'bg-rose-100 text-rose-800'
                                 }`}>
-                                  {q.niveau}
+                                  {q.niveau === 'Débutant' ? t('quiz.lvl_beginner', q.niveau) : q.niveau === 'Intermédiaire' ? t('quiz.lvl_intermediate', q.niveau) : t('quiz.lvl_advanced', q.niveau)}
                                 </span>
                                 <span className="text-[#004D40]/45 font-mono text-xs font-bold">
                                   {isExpanded ? '▲' : '▼'}

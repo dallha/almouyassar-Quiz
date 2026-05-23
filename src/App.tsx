@@ -1976,11 +1976,11 @@ export default function App() {
                                         <div>
                                           <h5 className={`text-[11px] font-black leading-tight flex items-center gap-1 transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-stone-850'
                                             }`}>
-                                            {quest.title}
+                                            {t(`common.quest_${quest.type === 'quiz_questions' ? 'quiz' : quest.type === 'oustaz_chat' ? 'oustaz' : quest.type === 'karaoke_vocal' ? 'karaoke' : 'accuracy'}_title`, quest.title)}
                                             {quest.isCompleted && <Check className="w-3 h-3 text-emerald-500 stroke-[3]" />}
                                           </h5>
                                           <p className={`text-[10px] leading-snug transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-stone-500'
-                                            }`}>{quest.description}</p>
+                                            }`}>{t(`common.quest_${quest.type === 'quiz_questions' ? 'quiz' : quest.type === 'oustaz_chat' ? 'oustaz' : quest.type === 'karaoke_vocal' ? 'karaoke' : 'accuracy'}_desc`, quest.description)}</p>
                                         </div>
                                         <div className="text-right shrink-0">
                                           <span className={`text-[9px] font-black transition-colors duration-300 ${theme === 'dark' ? 'text-amber-400' : 'text-emerald-700'
