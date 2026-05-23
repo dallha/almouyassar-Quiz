@@ -15,9 +15,10 @@
 
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Question } from '../types';
+import { Question, getLocalizedQuestion } from '../types';
 import { Sparkles, Clock, Check, X, ChevronRight, Star, Zap, Trophy, RotateCcw, Flame } from 'lucide-react';
 import { useLanguage } from '../LanguageContext';
+import { playSuccessSound, playErrorSound } from './SoundEngine';
 
 /* ── PROPS ── */
 interface QuizCardProps {
@@ -155,7 +156,8 @@ export default function QuizCard({
   streak = 0,
   xpMultiplier = 1,
 }: QuizCardProps) {
-  const { dir } = useLanguage();
+  const { dir, language, t } = useLanguage();
+  const localizedQuestion = useMemo(() => getLocalizedQuestion(question, language), [question, language]);
   const [selected, setSelected] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState(timeLimit);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
@@ -169,14 +171,14 @@ export default function QuizCard({
   const shuffledOptions = useMemo(() => {
     // Seed simple basé sur l'ID de la question pour stabilité pendant la session
     const seed = String(question.id).split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
-    const options = [...question.options];
+    const options = [...localizedQuestion.options];
     // Mélanger en permutant de manière déterministe
     for (let i = options.length - 1; i > 0; i--) {
       const j = seed % (i + 1);
       [options[i], options[j]] = [options[j], options[i]];
     }
     return options;
-  }, [question]);
+  }, [localizedQuestion]);
 
   const currentOptionVariants = useMemo(() => ({
     initial: { opacity: 0, x: dir === 'rtl' ? 30 : -30, scale: 0.95 },
@@ -221,27 +223,37 @@ export default function QuizCard({
   }, [timeLeft]);
 
   /* ── GESTION RÉPONSE ── */
-  const handleAnswer = useCallback((answer: string) => {
+  const handleAnswer = (answer: string) => {
     if (hasAnswered) return;
     setHasAnswered(true);
-    if (timerRef.current) clearInterval(timerRef.current);
-
-    const correct = answer === question.reponse_correcte;
-    setIsCorrect(correct);
     setSelected(answer);
     setShowFeedback(true);
 
+    const correct = answer === localizedQuestion.reponse_correcte;
+    setIsCorrect(correct);
+
+    // Arrêter le timer
+    if (timerRef.current) clearInterval(timerRef.current);
+
+    // Effet sonore
     if (correct) {
+      playSuccessSound();
       setShowConfetti(true);
-      setTimeout(() => setShowConfetti(false), 1500);
+    } else {
+      playErrorSound();
     }
 
-    const timeSpent = Math.round((Date.now() - startTime.current) / 1000);
-
+    // Retourner le résultat après 1200ms
+    const timeSpent = timeLimit - timeLeft;
     setTimeout(() => {
       onAnswer(answer, timeSpent);
-    }, correct ? 1000 : 1800);
-  }, [hasAnswered, question.reponse_correcte, onAnswer]);
+    }, 1200);
+  };
+
+  const forceTimeout = useCallback(() => {
+    if (hasAnswered) return;
+    handleAnswer(""); // réponse vide = faux
+  }, [hasAnswered, localizedQuestion.reponse_correcte, onAnswer]);
 
   /* ── XP ESTIMÉ ── */
   const baseXp = 15;
@@ -323,7 +335,7 @@ export default function QuizCard({
               transition={{ delay: 0.1, duration: 0.4 }}
               className="text-xl md:text-2xl font-bold text-[var(--color-deep-green)] leading-relaxed text-center"
             >
-              {question.question}
+              {localizedQuestion.question}
             </motion.h3>
           </div>
 
@@ -331,7 +343,7 @@ export default function QuizCard({
           <div className={`px-5 pb-5 ${dir === 'rtl' ? 'space-y-4 md:space-y-5' : 'space-y-3'}`}>
             {shuffledOptions.map((option, index) => {
               const isSelected = selected === option;
-              const isCorrectOption = option === question.reponse_correcte;
+              const isCorrectOption = option === localizedQuestion.reponse_correcte;
               const showResult = showFeedback && (isSelected || isCorrectOption);
 
               let cardStyle = 'border-[var(--color-deep-green)]/10 bg-white hover:border-[var(--color-gold)]/30 hover:bg-[var(--color-gold)]/[0.02] hover:shadow-lg hover:shadow-[var(--color-gold)]/5';
@@ -449,12 +461,12 @@ export default function QuizCard({
                         {/* Titre encourageant */}
                         <p className={`text-sm font-bold mb-1.5 ${isCorrect ? 'text-emerald-700' : 'text-red-700'
                           }`}>
-                          {isCorrect ? '✅ Bravo !' : '❌ Pas tout à fait...'}
+                          {isCorrect ? t('quiz.correct_banner', '✅ Bravo !') : t('quiz.incorrect_banner', '❌ Pas tout à fait...')}
                         </p>
 
                         {/* Explication */}
                         <p className="text-sm text-[var(--color-deep-green)]/60 leading-relaxed">
-                          {question.explication}
+                          {localizedQuestion.explication}
                         </p>
 
                         {/* Rappel de la bonne réponse si incorrect */}
@@ -465,8 +477,8 @@ export default function QuizCard({
                             transition={{ delay: 0.3 }}
                             className="text-xs text-[var(--color-deep-green)]/40 mt-2 font-medium"
                           >
-                            La bonne réponse était :{' '}
-                            <span className="font-bold text-emerald-600">{question.reponse_correcte}</span>
+                            {t('quiz.correct_answer_was', 'La bonne réponse était : ')}{' '}
+                            <span className="font-bold text-emerald-600">{localizedQuestion.reponse_correcte}</span>
                           </motion.p>
                         )}
                       </div>

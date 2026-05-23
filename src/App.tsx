@@ -619,6 +619,8 @@ export default function App() {
           questions: updatedQuestions
         };
       });
+    } else if (!isTranslatingQuestion) {
+      handleTriggerAiTranslation();
     }
   }, [language, session?.currentIndex, session?.questions[session?.currentIndex]?.id, aiTranslationsCache]);
 

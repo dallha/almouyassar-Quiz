@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { AdventureNode, Question } from '../../types';
 import QuizCard from '../QuizCard';
@@ -25,14 +25,88 @@ export default function AdventureSession({ node, onComplete, onClose }: Adventur
   const [shakeScreen, setShakeScreen] = useState(false);
 
   // Filter questions based on node criteria
-  const sessionQuestions = useMemo(() => {
+  const [sessionQuestions, setSessionQuestions] = useState<Question[]>([]);
+  const [isTranslating, setIsTranslating] = useState(false);
+
+  useEffect(() => {
     let filtered = [...QUESTIONS];
     if (node.categoryFilter) {
       filtered = filtered.filter(q => q.categorie === node.categoryFilter);
     }
     // Pick 3 random questions for the duel/session
-    return filtered.sort(() => 0.5 - Math.random()).slice(0, 3);
+    setSessionQuestions(filtered.sort(() => 0.5 - Math.random()).slice(0, 3));
   }, [node]);
+
+  useEffect(() => {
+    if (sessionQuestions.length === 0 || currentIndex >= sessionQuestions.length) return;
+    if (language === 'fr') return;
+
+    const currentQuestion = sessionQuestions[currentIndex];
+    if (currentQuestion.translations?.[language as 'ar' | 'wo']) return;
+
+    const cacheKey = `${currentQuestion.id}_${language}`;
+    const savedCache = localStorage.getItem('mouyassar_ai_translations_cache');
+    const cache = savedCache ? JSON.parse(savedCache) : {};
+
+    if (cache[cacheKey]) {
+      setSessionQuestions(prev => {
+        const updated = [...prev];
+        updated[currentIndex] = {
+          ...updated[currentIndex],
+          translations: {
+            ...updated[currentIndex].translations,
+            [language]: cache[cacheKey]
+          }
+        };
+        return updated;
+      });
+    } else if (!isTranslating) {
+      const triggerTranslation = async () => {
+        setIsTranslating(true);
+        try {
+          const response = await fetch('/api/translate', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              questionText: currentQuestion.question,
+              options: currentQuestion.options,
+              reponseCorrecte: currentQuestion.reponse_correcte,
+              explication: currentQuestion.explication,
+              language: language
+            })
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            
+            // Update cache
+            cache[cacheKey] = data;
+            localStorage.setItem('mouyassar_ai_translations_cache', JSON.stringify(cache));
+
+            // Update state
+            setSessionQuestions(prev => {
+              const updated = [...prev];
+              updated[currentIndex] = {
+                ...updated[currentIndex],
+                translations: {
+                  ...updated[currentIndex].translations,
+                  [language]: data
+                }
+              };
+              return updated;
+            });
+          }
+        } catch (e) {
+          console.error("Adventure translation error:", e);
+        } finally {
+          setIsTranslating(false);
+        }
+      };
+      triggerTranslation();
+    }
+  }, [language, currentIndex, sessionQuestions, isTranslating]);
 
   // Calculate damage to Boss per correct answer
   const damagePerQuestion = Math.ceil(100 / sessionQuestions.length);
