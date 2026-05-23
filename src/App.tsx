@@ -1244,8 +1244,10 @@ export default function App() {
         unlockedBadgeCount={badgesState.filter(b => b.unlocked).length}
         totalBadgeCount={badgesState.length}
         dailyRewardAvailable={dailyRewardsState.some(r => !r.claimed && r.day === dailyRewardDay)}
+        isLoggedIn={currentUser !== null}
         onDailyRewardClick={() => setShowDailyReward(true)}
         onBadgeGalleryClick={() => setShowBadgeGallery(true)}
+        onAvatarClick={() => setShowAuthModal(true)}
         onNavigate={(action) => {
           if (action === 'adventure') setActiveTab('adventure');
           else if (action === 'quiz') setActiveTab('quiz');

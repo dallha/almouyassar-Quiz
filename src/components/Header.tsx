@@ -15,10 +15,12 @@ interface HeaderProps {
   unlockedBadgeCount?: number;
   totalBadgeCount?: number;
   dailyRewardAvailable?: boolean;
+  isLoggedIn?: boolean;
   onDailyRewardClick?: () => void;
   onBadgeGalleryClick?: () => void;
   onMenuToggle?: (isOpen: boolean) => void;
   onNavigate?: (action: string) => void;
+  onAvatarClick?: () => void;
 }
 
 export default function Header({
@@ -31,10 +33,12 @@ export default function Header({
   unlockedBadgeCount = 0,
   totalBadgeCount = 18,
   dailyRewardAvailable = false,
+  isLoggedIn = false,
   onDailyRewardClick,
   onBadgeGalleryClick,
   onMenuToggle,
   onNavigate,
+  onAvatarClick,
 }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -204,17 +208,23 @@ export default function Header({
               onClick={() => onBadgeGalleryClick?.()}
             />
 
-            {/* Avatar */}
+            {/* Avatar / Connexion */}
             <button
-              className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-transparent hover:border-[var(--color-gold)]/30 transition-all duration-200"
+              onClick={() => onAvatarClick?.()}
+              className="relative w-8 h-8 rounded-full overflow-hidden border border-transparent hover:border-[var(--color-gold)]/30 active:scale-95 transition-all duration-200"
               style={{
                 background:
                   'linear-gradient(135deg, var(--color-deep-green), var(--color-emerald))',
               }}
+              aria-label={isLoggedIn ? "Profil utilisateur" : "Se connecter"}
             >
               <div className="w-full h-full flex items-center justify-center">
                 <User size={14} className="text-white" />
               </div>
+              {/* Green online sync dot if logged in */}
+              {isLoggedIn && (
+                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-white animate-pulse" />
+              )}
             </button>
 
             {/* Menu hamburger */}
