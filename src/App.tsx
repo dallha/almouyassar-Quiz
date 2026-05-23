@@ -1311,7 +1311,7 @@ export default function App() {
       <SmartInstallPrompt />
 
       {/* Main Core View Area */}
-      <main className={`flex-1 w-full mx-auto flex flex-col justify-start transition-all duration-300 ${activeTab === 'adventure'
+      <main className={`flex-1 w-full mx-auto flex flex-col justify-start transition-all duration-300 pt-[var(--header-height)] ${activeTab === 'adventure'
         ? 'max-w-5xl px-2 py-4 md:px-6 md:py-8'
         : 'max-w-4xl px-4 py-6 md:py-10'
         }`}>
