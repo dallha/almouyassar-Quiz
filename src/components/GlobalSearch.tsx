@@ -42,49 +42,49 @@ export default function GlobalSearch({ activeTab, onNavigateTab, onStartCustomQu
     {
       id: 'pitch' as const,
       title: t('common.nav_presentation', 'Présentation'),
-      desc: 'Découvrez la vision, le mot du fondateur et le double cursus.',
+      desc: t('common.global_section_pitch_desc'),
       icon: Compass,
       tags: ['vision', 'presentation', 'fondateur', 'cheikh', 'ecole', 'institut'],
     },
     {
       id: 'adventure' as const,
       title: t('common.nav_adventure', 'Aventure / Parcours'),
-      desc: 'Suivez le cheminement de la foi de niveau en niveau avec votre avatar.',
+      desc: t('common.global_section_adventure_desc'),
       icon: BookOpen,
       tags: ['parcours', 'chemin', 'aventure', 'niveaux', 'apprentissage', 'carte'],
     },
     {
       id: 'quiz' as const,
       title: t('common.nav_quiz_free', 'Quiz Libre'),
-      desc: 'Testez vos connaissances sur les matières phares de l\'institut.',
+      desc: t('common.global_section_quiz_desc'),
       icon: Play,
       tags: ['quiz', 'jeu', 'questions', 'scores', 'test', 'entrainement'],
     },
     {
       id: 'oustaz' as const,
       title: t('common.nav_oustaz', 'Oustaz AI'),
-      desc: 'Posez toutes vos questions spirituelles de relecture ou de Fiqh.',
+      desc: t('common.global_section_oustaz_desc'),
       icon: Users,
       tags: ['oustaz', 'chat', 'intelligence artificielle', 'ai', 'questions', 'reponses'],
     },
     {
       id: 'ansar' as const,
       title: t('common.nav_karaoke', 'Karaoké Spirituel'),
-      desc: 'Récitez et révisez les chants officiels et Sourates de l\'institut.',
+      desc: t('common.global_section_ansar_desc'),
       icon: Sparkles,
       tags: ['karaoke', 'chants', 'audios', 'recitation', 'voix', 'nachid', 'poeme'],
     },
     {
       id: 'stats' as const,
       title: t('common.nav_trophies', 'Trophées & Badges'),
-      desc: 'Consultez les badges divins débloqués au cours de l\'aventure.',
+      desc: t('common.global_section_stats_desc'),
       icon: Award,
       tags: ['badges', 'stats', 'succes', 'recompenses', 'trophees', 'xp'],
     },
     {
       id: 'parental' as const,
       title: t('common.nav_parents', 'Espace Parental'),
-      desc: 'Gérez le temps limite journalier, désactivez des modules et consultez les scores.',
+      desc: t('common.global_section_parental_desc'),
       icon: Settings,
       tags: ['parents', 'limite', 'temps', 'configuration', 'raz', 'statistiques'],
     },
@@ -168,7 +168,7 @@ export default function GlobalSearch({ activeTab, onNavigateTab, onStartCustomQu
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Rechercher un cours, une question, un quiz (ex: Zakat, Fiqh, Oustaz, Bismillah...)"
+          placeholder={t('common.global_search_placeholder')}
           className="w-full bg-[#FCF8F2]/65 hover:bg-[#FCF8F2]/80 focus:bg-white text-stone-900 border-2 border-[#004D40]/15 focus:border-[#D0A21C] rounded-2xl pl-12 pr-11 py-3 text-xs md:text-sm font-semibold selection:bg-[#004D40]/25 transition-all placeholder:text-stone-400 focus:outline-hidden"
         />
 
@@ -176,7 +176,7 @@ export default function GlobalSearch({ activeTab, onNavigateTab, onStartCustomQu
           <button
             onClick={clearSearch}
             className="absolute right-4 p-1 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-500 cursor-pointer transition-colors"
-            title="Effacer la recherche"
+            title={t('common.global_search_clear')}
           >
             <X className="w-3.5 h-3.5" />
           </button>
@@ -186,7 +186,7 @@ export default function GlobalSearch({ activeTab, onNavigateTab, onStartCustomQu
       {/* Difficulty level filters */}
       <div className="mt-3 flex flex-wrap items-center gap-1.5 sm:gap-2">
         <span className="text-[10px] sm:text-[11px] font-bold text-stone-400 select-none uppercase tracking-wide">
-          Difficulté des questions :
+          {t('common.global_search_difficulty')}
         </span>
         {(['Débutant', 'Intermédiaire', 'Avancé'] as const).map((lvl) => {
           const isSelected = selectedLevels.includes(lvl);
@@ -208,7 +208,13 @@ export default function GlobalSearch({ activeTab, onNavigateTab, onStartCustomQu
                 lvl === 'Intermédiaire' ? 'bg-amber-500' :
                 'bg-rose-500'
               }`} />
-              <span>{lvl}</span>
+              <span>
+                {lvl === 'Débutant'
+                  ? t('quiz.lvl_beginner', 'Débutant')
+                  : lvl === 'Intermédiaire'
+                    ? t('quiz.lvl_intermediate', 'Intermédiaire')
+                    : t('quiz.lvl_advanced', 'Avancé')}
+              </span>
               {isSelected && <span className="text-[8px] opacity-75">✓</span>}
             </button>
           );
@@ -227,9 +233,9 @@ export default function GlobalSearch({ activeTab, onNavigateTab, onStartCustomQu
             
             {/* Header info bar */}
             <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-stone-400 select-none pb-1">
-              <span>Résultats de recherche</span>
+              <span>{t('common.global_search_results')}</span>
               <span className="text-[#D0A21C] font-mono bg-[#D0A21C]/10 px-2 py-0.5 rounded-md">
-                {totalResults} trouvé{totalResults > 1 && 's'}
+                {t('common.global_search_found_count').replace('{count}', totalResults.toString()).replace('{plural}', totalResults > 1 ? 's' : '')}
               </span>
             </div>
 
@@ -238,9 +244,9 @@ export default function GlobalSearch({ activeTab, onNavigateTab, onStartCustomQu
                 <div className="w-12 h-12 bg-stone-100 border border-stone-200 rounded-2xl flex items-center justify-center mx-auto text-stone-450">
                   <HelpCircle className="w-6 h-6" />
                 </div>
-                <h4 className="text-xs font-extrabold uppercase text-[#004D40]">Aucun résultat</h4>
+                <h4 className="text-xs font-extrabold uppercase text-[#004D40]">{t('common.global_search_no_result_title')}</h4>
                 <p className="text-[11px] text-stone-500 max-w-sm mx-auto leading-normal">
-                  Nous n&apos;avons pas trouvé d&apos;éléments correspondants à votre saisie. Essayez des mots clés alternatifs comme <b>Fiqh, Coran, Prière, Hadith ou Oustaz</b>.
+                  {t('common.global_search_no_result_desc')}
                 </p>
               </div>
             ) : (
@@ -277,7 +283,7 @@ export default function GlobalSearch({ activeTab, onNavigateTab, onStartCustomQu
                                 <span>{sec.title}</span>
                                 {isCurrent && (
                                   <span className="text-[9px] bg-emerald-500/10 text-emerald-800 border border-emerald-500/20 px-1 py-0.2 rounded-md font-mono lowercase font-bold normal-case">
-                                    onglet actif
+                                    {t('common.active_tab')}
                                   </span>
                                 )}
                               </h5>
@@ -315,7 +321,7 @@ export default function GlobalSearch({ activeTab, onNavigateTab, onStartCustomQu
                                 📚 {cat}
                               </h5>
                               <p className="text-[9px] text-stone-500 font-semibold leading-relaxed">
-                                Prêt et paramétré pour une session de 7 questions d&apos;excellence.
+                                {t('common.global_quiz_ready_desc')}
                               </p>
                               {/* Selected difficulty levels in this category indicator */}
                               <div className="flex flex-wrap gap-1 pt-0.5">
@@ -339,7 +345,7 @@ export default function GlobalSearch({ activeTab, onNavigateTab, onStartCustomQu
                               onClick={() => handleLaunchQuiz(cat)}
                               className="w-full py-1.5 bg-[#D0A21C] hover:bg-[#D0A21C]/95 text-white text-[9.5px] font-extrabold uppercase tracking-wider rounded-lg transition-transform hover:scale-[1.02] cursor-pointer text-center"
                             >
-                              Lancer ce Quiz &rarr;
+                              {t('common.global_quiz_launch_btn')}
                             </button>
                           </div>
                         );
@@ -406,7 +412,7 @@ export default function GlobalSearch({ activeTab, onNavigateTab, onStartCustomQu
                                 >
                                   {/* Answer Options Overview */}
                                   <div className="space-y-1">
-                                    <h6 className="text-[9.5px] font-black text-stone-500 uppercase tracking-widest">Options de réponse :</h6>
+                                    <h6 className="text-[9.5px] font-black text-stone-500 uppercase tracking-widest">{t('common.global_options_label')}</h6>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
                                       {q.options.map((opt) => {
                                         const isCorrect = opt === q.reponse_correcte;
@@ -438,7 +444,7 @@ export default function GlobalSearch({ activeTab, onNavigateTab, onStartCustomQu
                                     <div className="p-3 bg-amber-500/[0.05] border border-amber-500/15 rounded-xl space-y-1">
                                       <h6 className="text-[9.5px] font-bold text-amber-800 uppercase tracking-wider flex items-center gap-1 leading-none select-none font-sans">
                                         <BookOpenCheck className="w-3.5 h-3.5 text-amber-700" />
-                                        <span>Explication &amp; Sagesse</span>
+                                        <span>{t('common.global_explanation_label')}</span>
                                       </h6>
                                       <p className="text-[10.5px] text-stone-700 font-medium leading-relaxed">
                                         {q.explication}

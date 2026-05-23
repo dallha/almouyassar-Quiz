@@ -1114,24 +1114,24 @@ export default function App() {
   const getSubTitleText = () => {
     let catStr = '';
     if (selectedCategories.length === allCategories.length) {
-      catStr = 'Toutes les catégories';
+      catStr = t('common.all_categories');
     } else if (selectedCategories.length === 0) {
-      catStr = 'Aucune catégorie';
+      catStr = t('common.no_category');
     } else if (selectedCategories.length <= 2) {
       catStr = selectedCategories.join(', ');
     } else {
-      catStr = `${selectedCategories.length} catégories`;
+      catStr = t('common.categories_count', { count: selectedCategories.length });
     }
 
     let lvlStr = '';
     if (selectedLevels.length === allLevels.length) {
-      lvlStr = 'Tous les niveaux';
+      lvlStr = t('common.all_levels');
     } else if (selectedLevels.length === 0) {
-      lvlStr = 'Aucun niveau';
+      lvlStr = t('common.no_level');
     } else if (selectedLevels.length <= 2) {
       lvlStr = selectedLevels.join(', ');
     } else {
-      lvlStr = `${selectedLevels.length} niveaux`;
+      lvlStr = t('common.levels_count', { count: selectedLevels.length });
     }
 
     return `${catStr} • ${lvlStr}`;
@@ -1891,7 +1891,7 @@ export default function App() {
                                     : 'bg-stone-50 border-stone-200'
                                     }`}>
                                     <span className={`text-xs font-semibold transition-colors duration-300 ${theme === 'dark' ? 'text-slate-450' : 'text-stone-500'
-                                      }`}>{language === 'ar' ? 'الوقت المحدد لكل سؤال :' : language === 'wo' ? 'Waxtu bu laaj bu ci nek :' : 'Durée par question :'}</span>
+                                      }`}>{t('common.duration_per_question')}</span>
                                     <div className="flex items-center gap-2 pb-1">
                                       {[15, 25, 45].map((sec) => {
                                         const active = timerMinutes === sec;
@@ -1933,16 +1933,8 @@ export default function App() {
                               <Play className="w-4 h-4 text-white fill-white" />
                               <span>
                                 {matchedQuestionsCount > 0
-                                  ? (
-                                    language === 'ar' ? 'ابدأ المسابقة !' :
-                                      language === 'wo' ? 'Tambali laaj ak toontu bi !' :
-                                        'Commencer le Quiz'
-                                  )
-                                  : (
-                                    language === 'ar' ? 'لا توجد أسئلة متاحة' :
-                                      language === 'wo' ? 'Amul laaj bu fi nekk' :
-                                        'Aucune question disponible'
-                                  )
+                                  ? t('common.start_quiz_now')
+                                  : t('common.no_question_available')
                                 }
                               </span>
                             </button>
@@ -1961,13 +1953,13 @@ export default function App() {
                                 <h4 className={`text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 font-mono transition-colors duration-305 ${theme === 'dark' ? 'text-amber-400' : 'text-emerald-700'
                                   }`}>
                                   <Flame className={`w-3.5 h-3.5 animate-pulse ${theme === 'dark' ? 'text-amber-500' : 'text-emerald-600'}`} />
-                                  Quêtes Quotidiennes
+                                  {t('common.daily_quests')}
                                 </h4>
                                 <span className={`text-[8px] border font-mono font-bold px-1.5 py-0.5 rounded uppercase transition-colors duration-305 ${theme === 'dark'
                                   ? 'bg-slate-800 border-[#475569]/40 text-slate-400'
                                   : 'bg-stone-50 border-stone-200 text-stone-500'
                                   }`}>
-                                  Aujourd&apos;hui
+                                  {t('common.today')}
                                 </span>
                               </div>
 
@@ -2014,11 +2006,11 @@ export default function App() {
                                               className={`font-black uppercase tracking-wider cursor-pointer font-sans transition-colors duration-300 ${theme === 'dark' ? 'text-amber-400 hover:text-amber-300' : 'text-emerald-600 hover:text-emerald-700'
                                                 }`}
                                             >
-                                              Réclamer &rarr;
+                                              {t('common.claim')}
                                             </button>
                                           )}
                                           {quest.isClaimed && (
-                                            <span className="text-stone-500 font-extrabold uppercase">Réclamé</span>
+                                            <span className="text-stone-500 font-extrabold uppercase">{t('common.claimed')}</span>
                                           )}
                                         </div>
                                       </div>
@@ -2102,7 +2094,7 @@ export default function App() {
                                 className={`text-[9px] font-bold uppercase hover:underline cursor-pointer transition-colors duration-300 ${theme === 'dark' ? 'text-rose-500/70 hover:text-rose-500/95' : 'text-rose-600/70 hover:text-rose-600/95'
                                   }`}
                               >
-                                Réinitialiser mon Progrès
+                                {t('common.reset_progress_btn')}
                               </button>
                             </div>
                           </div>
@@ -2157,9 +2149,9 @@ export default function App() {
               </div>
 
               <div className="space-y-1.5">
-                <h3 className="text-base font-bold text-white">Quitter l'entraînement en cours ?</h3>
+                <h3 className="text-base font-bold text-white">{t('common.quit_quiz_title')}</h3>
                 <p className="text-xs text-slate-400 leading-normal">
-                  Vos réponses sur cette session spécifique ne seront pas sauvées dans votre tableau de bord final. Êtes-vous sûr ?
+                  {t('common.quit_quiz_desc')}
                 </p>
               </div>
 
@@ -2168,13 +2160,13 @@ export default function App() {
                   onClick={() => { playSelectSound(); setQuitConfirmModal(false); }}
                   className="flex-1 py-2.5 bg-slate-800 hover:bg-slate-750 text-slate-300 text-xs font-bold rounded-lg transition-all cursor-pointer"
                 >
-                  Continuer le Quiz
+                  {t('common.quit_quiz_continue')}
                 </button>
                 <button
                   onClick={handleQuitQuizSession}
                   className="flex-1 py-2.5 bg-rose-600 hover:bg-rose-505 text-white text-xs font-bold rounded-lg shadow-sm transition-all cursor-pointer"
                 >
-                  Quitter quand même
+                  {t('common.quit_quiz_confirm')}
                 </button>
               </div>
             </motion.div>
@@ -2199,9 +2191,9 @@ export default function App() {
             </div>
 
             <div className="flex-1 min-w-0 pr-2">
-              <span className="text-[9px] font-extrabold text-amber-400 uppercase tracking-widest block font-mono">DÉFI ACCOMPLI !</span>
+              <span className="text-[9px] font-extrabold text-amber-400 uppercase tracking-widest block font-mono">{t('common.badge_banner_title')}</span>
               <h4 className="text-sm font-bold text-white truncate mt-0.5">
-                Nouveau Badge : {latestSessionBadges[latestSessionBadges.length - 1].title}
+                {t('common.badge_banner_new_badge')}: {latestSessionBadges[latestSessionBadges.length - 1].title}
               </h4>
               <p className="text-xs text-slate-400 mt-1 leading-normal">
                 {latestSessionBadges[latestSessionBadges.length - 1].description}
@@ -2212,7 +2204,7 @@ export default function App() {
                   onClick={() => setShowSessionBadgeBanner(false)}
                   className="px-2.5 py-1 rounded bg-slate-850 hover:bg-slate-800 text-[10px] font-bold text-slate-300 border border-slate-750 transition-all cursor-pointer"
                 >
-                  Génial !
+                  {t('common.badge_banner_awesome')}
                 </button>
               </div>
             </div>

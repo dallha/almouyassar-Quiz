@@ -310,4 +310,58 @@ export default {
   transition_compile_quiz: "Vérification des critères d'apprentissage & compilation du Quiz...",
   transition_search_theme: "Recherche de questions approuvées pour le thème \"{category}\"...",
   transition_calculating_interests: "Calcul de vos intérêts théologiques pour : \"{title}\"...",
+  duration_per_question: "Durée par question :",
+  start_quiz_now: "Commencer le Quiz",
+  no_question_available: "Aucune question disponible",
+  daily_quests: "Quêtes Quotidiennes",
+  today: "Aujourd'hui",
+  global_search_placeholder: "Rechercher un cours, une question, un quiz (ex: Zakat, Fiqh, Oustaz, Bismillah...)",
+  global_search_clear: "Effacer la recherche",
+  global_search_difficulty: "Difficulté des questions :",
+  global_search_results: "Résultats de recherche",
+  global_search_found_count: "{count} trouvé{plural}",
+  global_search_no_result_title: "Aucun résultat",
+  global_search_no_result_desc: "Nous n'avons pas trouvé d'éléments correspondants à votre saisie. Essayez des mots clés alternatifs comme Fiqh, Coran, Prière, Hadith ou Oustaz.",
+  active_tab: "onglet actif",
+  daily_mission_title: "Mission du Jour",
+  daily_mission_progress: "{completed}/{total} complétée{plural}",
+  days_unit: "jours",
+  daily_reward_available: "Récompense du jour disponible",
+  global_section_pitch_desc: "Découvrez la vision, le mot du fondateur et le double cursus.",
+  global_section_adventure_desc: "Suivez le cheminement de la foi de niveau en niveau avec votre avatar.",
+  global_section_quiz_desc: "Testez vos connaissances sur les matières phares de l'institut.",
+  global_section_oustaz_desc: "Posez vos questions spirituelles et obtenez une réponse guidée.",
+  global_section_ansar_desc: "Récitez et révisez les chants officiels et sourates de l'institut.",
+  global_section_stats_desc: "Consultez les badges et vos progrès débloqués.",
+  global_section_parental_desc: "Gérez le temps limite, les modules et le suivi parental.",
+
+  // Quit quiz modal keys
+  quit_quiz_title: "Quitter le Quiz ?",
+  quit_quiz_desc: "Si tu quittes maintenant, ta progression dans cette session sera perdue.",
+  quit_quiz_continue: "Continuer le Quiz",
+  quit_quiz_confirm: "Quitter quand même",
+
+  // Badge banner keys
+  badge_banner_title: "🏅 Nouveau Badge Débloqué !",
+  badge_banner_new_badge: "Badge",
+  badge_banner_awesome: "Génial !",
+
+  // Subtitle helper keys
+  all_categories: "Toutes les catégories",
+  no_category: "Aucune catégorie",
+  categories_count: "{count} catégories",
+  all_levels: "Tous les niveaux",
+  no_level: "Aucun niveau",
+  levels_count: "{count} niveaux",
+
+  // Quest claim keys
+  claim: "Réclamer →",
+  claimed: "Réclamé",
+  reset_progress_btn: "Réinitialiser mon Progrès",
+
+  // GlobalSearch remaining hardcoded strings
+  global_quiz_ready_desc: "Prêt et paramétré pour une session de 7 questions d'excellence.",
+  global_quiz_launch_btn: "Lancer ce Quiz →",
+  global_options_label: "Options de réponse :",
+  global_explanation_label: "Explication & Sagesse",
 };

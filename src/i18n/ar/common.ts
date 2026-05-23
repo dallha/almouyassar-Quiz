@@ -305,7 +305,61 @@ export default {
   transition_compile_quiz: "جاري التحقق من المعايير وتجهيز الاختبار...",
   transition_search_theme: "جاري البحث عن أسئلة مناسبة لموضوع \"{category}\"...",
   transition_calculating_interests: "جاري احتساب اهتماماتك التعليمية: \"{title}\"...",
+  duration_per_question: "الوقت المحدد لكل سؤال :",
+  start_quiz_now: "ابدأ المسابقة !",
+  no_question_available: "لا توجد أسئلة متاحة",
+  daily_quests: "المهام اليومية",
+  today: "اليوم",
+  global_search_placeholder: "ابحث عن درس أو سؤال أو اختبار (مثال: زكاة، فقه، أستاذ، بسم الله...)",
+  global_search_clear: "مسح البحث",
+  global_search_difficulty: "صعوبة الأسئلة :",
+  global_search_results: "نتائج البحث",
+  global_search_found_count: "{count} نتيجة{plural}",
+  global_search_no_result_title: "لا توجد نتائج",
+  global_search_no_result_desc: "لم نعثر على عناصر مطابقة لعبارتك. جرّب كلمات أخرى مثل: فقه، قرآن، صلاة، حديث أو أستاذ.",
+  active_tab: "التبويب النشط",
+  daily_mission_title: "مهمة اليوم",
+  daily_mission_progress: "{completed}/{total} مكتملة{plural}",
+  days_unit: "أيام",
+  daily_reward_available: "هدية اليوم متاحة",
+  global_section_pitch_desc: "اكتشف الرؤية وكلمة المؤسس والمسار التعليمي المزدوج.",
+  global_section_adventure_desc: "تتبّع مسار رحلتك الإيمانية خطوةً بعد خطوة مع شخصيتك.",
+  global_section_quiz_desc: "اختبر معرفتك في المواد الأساسية للمعهد.",
+  global_section_oustaz_desc: "اطرح أسئلتك التعليمية والروحية واحصل على توجيه واضح.",
+  global_section_ansar_desc: "أنشد وراجع الأناشيد الرسمية والسور التعليمية للمعهد.",
+  global_section_stats_desc: "اطّلع على الأوسمة والتقدّم الذي حققته.",
+  global_section_parental_desc: "تحكم في الوقت والخصائص وتابع التقدم من مساحة الأولياء.",
   app_title: "الميسّر",
   app_subtitle: "تعلّم الإسلام بأسلوب تفاعلي",
   hero_cta: "تابع رحلتك",
+
+  // Quit quiz modal keys
+  quit_quiz_title: "هل تريد الخروج من الاختبار؟",
+  quit_quiz_desc: "إذا خرجت الآن، ستفقد تقدمك في هذه الجلسة.",
+  quit_quiz_continue: "متابعة الاختبار",
+  quit_quiz_confirm: "الخروج على أي حال",
+
+  // Badge banner keys
+  badge_banner_title: "🏅 تم فتح وسام جديد !",
+  badge_banner_new_badge: "الوسام",
+  badge_banner_awesome: "رائع !",
+
+  // Subtitle helper keys
+  all_categories: "جميع المواد",
+  no_category: "لا توجد مادة",
+  categories_count: "{count} مواد",
+  all_levels: "جميع المستويات",
+  no_level: "لا يوجد مستوى",
+  levels_count: "{count} مستويات",
+
+  // Quest claim keys
+  claim: "استلام ←",
+  claimed: "تم الاستلام",
+  reset_progress_btn: "إعادة ضبط التقدم",
+
+  // GlobalSearch remaining hardcoded strings
+  global_quiz_ready_desc: "جاهز ومعد لجلسة من 7 أسئلة متميزة.",
+  global_quiz_launch_btn: "ابدأ هذا الاختبار ←",
+  global_options_label: "خيارات الإجابة :",
+  global_explanation_label: "الشرح والحكمة",
 };

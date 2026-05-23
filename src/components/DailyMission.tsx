@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { Sparkles, Flame, Gift, CheckCircle, ArrowRight } from 'lucide-react';
+import { useLanguage } from '../LanguageContext';
 
 interface Mission {
     id: string;
@@ -24,6 +25,7 @@ export default function DailyMission({
     onMissionClick,
     onClaimReward,
 }: DailyMissionProps) {
+    const { t } = useLanguage();
     const completedCount = missions.filter(m => m.completed).length;
     const totalCount = missions.length;
 
@@ -70,10 +72,13 @@ export default function DailyMission({
                             </div>
                             <div>
                                 <h3 className="text-sm font-bold text-white/90">
-                                    Mission du Jour
+                                    {t('common.daily_mission_title')}
                                 </h3>
                                 <p className="text-[10px] font-medium text-white/40">
-                                    {completedCount}/{totalCount} complétée{completedCount > 1 ? 's' : ''}
+                                    {t('common.daily_mission_progress')
+                                        .replace('{completed}', completedCount.toString())
+                                        .replace('{total}', totalCount.toString())
+                                        .replace('{plural}', completedCount > 1 ? 's' : '')}
                                 </p>
                             </div>
                         </div>
@@ -83,7 +88,7 @@ export default function DailyMission({
                             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20">
                                 <Flame size={14} className="text-amber-400" />
                                 <span className="text-xs font-bold text-amber-400">{streak}</span>
-                                <span className="text-[9px] font-medium text-amber-400/60">jours</span>
+                                <span className="text-[9px] font-medium text-amber-400/60">{t('common.days_unit')}</span>
                             </div>
                         )}
                     </div>
@@ -143,7 +148,7 @@ export default function DailyMission({
                             whileHover={{ scale: 1.01 }}
                         >
                             <Gift size={14} />
-                            <span>Récompense du jour disponible</span>
+                            <span>{t('common.daily_reward_available')}</span>
                         </motion.button>
                     )}
                 </div>
