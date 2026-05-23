@@ -373,8 +373,8 @@ export default function App() {
   const defaultQuests: DailyQuest[] = [
     {
       id: 'quest-quiz',
-      title: "Maître du Quiz",
-      description: "Réponds correctement à 3 questions du Quiz Libre.",
+      title: t('common.quest_quiz_title', "Maître du Quiz"),
+      description: t('common.quest_quiz_desc', "Réponds correctement à 3 questions du Quiz Libre."),
       targetValue: 3,
       currentValue: 0,
       xpReward: 30,
@@ -384,8 +384,8 @@ export default function App() {
     },
     {
       id: 'quest-oustaz',
-      title: "Élève Attentif",
-      description: "Échange 2 questions inspirantes avec l'Oustaz Virtuel.",
+      title: t('common.quest_oustaz_title', "Élève Attentif"),
+      description: t('common.quest_oustaz_desc', "Échange 2 questions inspirantes avec l'Oustaz Virtuel."),
       targetValue: 2,
       currentValue: 0,
       xpReward: 25,
@@ -395,8 +395,8 @@ export default function App() {
     },
     {
       id: 'quest-karaoke',
-      title: "Chœur des Ansar",
-      description: "Débloque ton évaluation de chant et obtiens un feedback.",
+      title: t('common.quest_karaoke_title', "Chœur des Ansar"),
+      description: t('common.quest_karaoke_desc', "Débloque ton évaluation de chant et obtiens un feedback."),
       targetValue: 1,
       currentValue: 0,
       xpReward: 35,
@@ -406,8 +406,8 @@ export default function App() {
     },
     {
       id: 'quest-accuracy',
-      title: "Précision d'Élite",
-      description: "Obtiens une précision d'au moins 80% (4/5 correct) dans une session de quiz.",
+      title: t('common.quest_accuracy_title', "Précision d'Élite"),
+      description: t('common.quest_accuracy_desc', "Obtiens une précision d'au moins 80% (4/5 correct) dans une session de quiz."),
       targetValue: 1,
       currentValue: 0,
       xpReward: 40,
@@ -585,11 +585,11 @@ export default function App() {
   // Simulated system loader on mount to initialize data safely
   useEffect(() => {
     const statusMessages = [
-      "Initialisation des dogmes et concepts d'Aqidah...",
-      "Chargement des leçons de Fiqh et jurisprudence...",
-      "Indexation des histoires des Prophètes (Sirah)...",
-      "Compilation des matières d'Akhlaq et de comportement...",
-      "Connexion sécurisée aux serveurs de l'Institut Al-Mouyassar..."
+      t('common.loading_init_aqidah', "Initialisation des dogmes et concepts d'Aqidah..."),
+      t('common.loading_init_fiqh', "Chargement des leçons de Fiqh et jurisprudence..."),
+      t('common.loading_init_sirah', "Indexation des histoires des Prophètes (Sirah)..."),
+      t('common.loading_init_akhlaq', "Compilation des matières d'Akhlaq et de comportement..."),
+      t('common.loading_init_server', "Connexion sécurisée aux serveurs de l'Institut Al-Mouyassar...")
     ];
     let step = 0;
     const interval = setInterval(() => {
@@ -609,7 +609,7 @@ export default function App() {
     }, 110);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [language]);
 
   // --- Quiz Session Setup ---
   const allCategories = Array.from(new Set(QUESTIONS.map(q => q.categorie)));
