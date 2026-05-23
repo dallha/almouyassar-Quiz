@@ -1,33 +1,33 @@
 export default {
-  adventure_mode: "مغامرة",
-  resume_btn: "استئناف الرحلة",
-  next_voyage: "مواصلة الرحلة",
-  current_progress: "تقدمك الحالي",
+  adventure_mode: "رحلة المعرفة",
+  resume_btn: "مواصلة الرحلة",
+  next_voyage: "إلى المحطة التالية",
+  current_progress: "تقدّم الرحلة",
   zone: "منطقة",
   guardian: "الحارس",
-  guardian_challenge: "📖 اختبار حارس المعرفة",
-  guardian_desc: "يتطلب حارس هذه المنطقة تركيزاً كاملاً وخشوعاً. أثبت إتقانك لهذه M مبادئ لتفتح بقية رحلتك الإيمانية والروحية.",
-  encounter_guardian: "لقاء الحارس",
-  story: "📜 حكاية",
-  mission: "✨ تحدي",
-  reward: "الجائزة",
-  objective: "الهدف",
+  guardian_challenge: "📖 اختبار الحارس",
+  guardian_desc: "حارس هذه المنطقة لا يفتح الطريق إلا بثبات الفهم ودقّة الإجابة. أظهر إتقانك لتتقدم في الرحلة.",
+  encounter_guardian: "مواجهة الحارس",
+  story: "📜 قصة",
+  mission: "✨ مهمة",
+  reward: "المكافأة",
+  objective: "المطلوب",
   target_accuracy: "الدقة المطلوبة",
-  accuracy: "الدقة المحققة",
-  start_btn: "البدء",
-  loading_duel: "جاري تحميل الاختبار...",
+  accuracy: "الدقة",
+  start_btn: "ابدأ المهمة",
+  loading_duel: "يتم تجهيز التحدّي...",
   wisdom: "حكمة",
-  success_title: "نجحت في اختبار الحارس !",
-  success_desc: "تهانينا ! لقد حققت {accuracy}% من الدقة بحكمة وصبر.",
-  fail_title: "الحارس ينتظر عودتك",
-  fail_desc: "لقد افتقرت إجاباتك للدقة المطلوبة هذه المرة. خذ وقتاً للمراجعة الهادئة ثم عد بكل ثقة.",
-  reward_unlocked: "تم فتح لقب مقدس",
+  success_title: "أحسنت، عبرت الاختبار",
+  success_desc: "حققت دقّة {accuracy}% بثبات جميل.",
+  fail_title: "تحتاج هذه المحطة محاولة أخرى",
+  fail_desc: "هذه الجولة لم تبلغ الدقة المطلوبة. راجع بهدوء، ثم عد بثقة.",
+  reward_unlocked: "تم فتح مكافأة جديدة",
   stars_earned: "النجوم المكتسبة",
 
   // Additional keys for full coverage
-  mission_success: "تحدّي ناجح !",
-  mission_fail: "لم يتم اجتياز التحدي",
-  fail_desc_non_boss: "لقد حققت {accuracy}% من الدقة. الهدف المطلوب كان {required}%.",
+  mission_success: "مهمة ناجحة",
+  mission_fail: "لم تُستكمل المهمة بعد",
+  fail_desc_non_boss: "حققت {accuracy}%، بينما المطلوب {required}%.",
   character_guide: "المرشد الروحي",
   character_story: "القصة",
   character_oustaz: "الأستاذ",
@@ -36,8 +36,8 @@ export default {
   checkpoint: {
     title: "بئر زمزم المبارك",
     desc: "استراحة مباركة لتجديد همتك وقواك.",
-    rest: "أرح قلبك وعقلك.",
-    zamzam: "ماء زمزم المبارك يضيء طريق رحلتك.",
+    rest: "استرح قليلاً، وخذ نفساً هادئاً.",
+    zamzam: "رشفة سكينة تُجدّد عزيمتك قبل متابعة الطريق.",
     water: "💧"
   },
   
@@ -74,7 +74,7 @@ export default {
       desc: "لقاء مع مرشدك الروحي لبدء رحلة العلم والإيمان."
     },
     node_1_2: {
-      title: "أركان وعقيدة التتوحيد",
+      title: "أركان التوحيد",
       desc: "أثبت فهمك للشهادتين وعمود الدين الصلاة."
     },
     node_1_3: {
@@ -91,7 +91,7 @@ export default {
     },
     node_2_1: {
       title: "همسات الفجر المباركة",
-      desc: "استمع إلى حكم الفجر الصافية في روضة الذكر."
+      desc: "استقبل أنوار الفجر بمعاني الذكر والطمأنينة."
     },
     node_2_2: {
       title: "أسماء الله الحسنى (ج١)",
