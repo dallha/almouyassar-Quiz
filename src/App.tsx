@@ -472,6 +472,7 @@ export default function App() {
   // --- UI States ---
   const [activeTab, setActiveTab] = useState<'pitch' | 'adventure' | 'quiz' | 'oustaz' | 'ansar' | 'stats' | 'parental'>('pitch');
   const [showSchoolModal, setShowSchoolModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [isQuizActive, setIsQuizActive] = useState(false);
   const [quitConfirmModal, setQuitConfirmModal] = useState(false);
 
@@ -1251,7 +1252,7 @@ export default function App() {
           else if (action === 'revisions') setShowBadgeGallery(true);
           else if (action === 'trophies') setShowBadgeGallery(true);
           else if (action === 'parental') setActiveTab('parental');
-          else if (action === 'settings') setShowBadgeGallery(true);
+          else if (action === 'settings') setShowSettingsModal(true);
           else if (action === 'about') setShowSchoolModal(true);
           else if (action === 'support') window.location.href = 'mailto:mrniass@gmail.com';
           else if (action === 'install') alert("Utilisez l'option d'installation de votre navigateur pour installer l'application.");
@@ -2217,6 +2218,73 @@ export default function App() {
           setPendingLevelUp(null);
         }}
       />
+
+      {/* Custom Settings Modal (Cadre Blanc avec Badge) */}
+      <AnimatePresence>
+        {showSettingsModal && (
+          <>
+            {/* Backdrop blur overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => { playSelectSound(); setShowSettingsModal(false); }}
+              className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+            />
+            {/* White Frame Card Modal */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              transition={{ type: 'spring', damping: 26, stiffness: 300 }}
+              className="fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[290px] bg-white border-[4px] border-emerald-500 rounded-3xl p-6 shadow-2xl text-gray-900 flex flex-col items-center select-none"
+            >
+              {/* Green seedling icon with outer soft border */}
+              <div className="w-12 h-12 rounded-full bg-emerald-500/10 border-2 border-emerald-500 flex items-center justify-center text-2xl mb-4 animate-pulse-slow">
+                🌱
+              </div>
+
+              {/* Rarity tag */}
+              <span className="px-2.5 py-0.5 bg-gray-100 border border-gray-200 text-gray-500 rounded-full text-[9px] font-extrabold uppercase tracking-widest mb-2.5">
+                COMMUN
+              </span>
+
+              {/* Badge Title */}
+              <h3 className="text-xl font-display font-extrabold text-emerald-800 tracking-wide mb-1">
+                Premier Pas
+              </h3>
+
+              {/* Badge Description */}
+              <p className="text-xs font-semibold text-gray-600 text-center mb-4 leading-relaxed px-1">
+                Tu as complété ton premier quiz
+              </p>
+
+              {/* Discovery Details Card */}
+              <div className="w-full bg-gray-50 rounded-xl p-3 border border-gray-200/60 mb-5 flex flex-col items-center">
+                <span className="px-2 py-0.5 bg-emerald-100 border border-emerald-200 text-emerald-700 rounded-full text-[9px] font-bold uppercase tracking-wider mb-2">
+                  Découverte
+                </span>
+                <p className="text-xs font-bold text-gray-700 text-center">
+                  Complète 1 quiz
+                </p>
+              </div>
+
+              {/* Motivational Footer */}
+              <p className="text-[10px] text-gray-400 font-bold text-center leading-normal max-w-[200px] mb-5 uppercase tracking-wide">
+                Continue ton apprentissage pour débloquer ce badge
+              </p>
+
+              {/* Close Button */}
+              <button
+                onClick={() => { playSelectSound(); setShowSettingsModal(false); }}
+                className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md shadow-emerald-700/10 focus:outline-none"
+              >
+                Fermer
+              </button>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* AUTH MODAL SYSTEM (SUPABASE) */}
       <AnimatePresence>
