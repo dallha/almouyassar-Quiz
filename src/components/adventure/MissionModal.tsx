@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Play, Clock, Sparkles, Trophy, BookOpen, Award } from 'lucide-react';
 import { AdventureNode } from '../../types';
+import { useLanguage } from '../../LanguageContext';
 
 interface MissionModalProps {
   node: AdventureNode | null;
@@ -10,9 +11,12 @@ interface MissionModalProps {
 }
 
 export default function MissionModal({ node, isOpen, onClose, onStart }: MissionModalProps) {
+  const { t, dir } = useLanguage();
+
   if (!node) return null;
 
   const isBoss = node.type === 'boss';
+  const nodeKey = node.id.replace(/-/g, '_');
 
   return (
     <AnimatePresence>
@@ -43,7 +47,9 @@ export default function MissionModal({ node, isOpen, onClose, onStart }: Mission
 
             <button 
               onClick={onClose}
-              className="absolute top-4 right-4 p-2 bg-white/5 hover:bg-white/10 rounded-full transition-colors"
+              className={`absolute top-4 p-2 bg-white/5 hover:bg-white/10 rounded-full transition-colors ${
+                dir === 'rtl' ? 'left-4' : 'right-4'
+              }`}
             >
               <X className="w-5 h-5 text-white/70" />
             </button>
@@ -56,17 +62,17 @@ export default function MissionModal({ node, isOpen, onClose, onStart }: Mission
                     ? 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400' 
                     : 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
               }`}>
-                {isBoss ? '📖 Défi du Gardien' : node.type === 'story' ? '📜 Récit' : '✨ Défi'}
+                {isBoss ? t('adventure.guardian_challenge') : node.type === 'story' ? t('adventure.story') : t('adventure.mission')}
               </span>
               
               <h2 className={`text-2xl font-display font-bold text-white mb-2.5 ${isBoss ? 'text-amber-100' : ''}`}>
-                {node.title}
+                {t(`adventure.nodes.${nodeKey}.title`, node.title)}
               </h2>
               
               <p className="text-white/60 text-sm leading-relaxed">
                 {isBoss 
-                  ? "Le Gardien de cette zone demande une concentration absolue. Démontrez votre maîtrise de ces préceptes pour débloquer la suite du voyage spirituel."
-                  : node.description}
+                  ? t('adventure.guardian_desc')
+                  : t(`adventure.nodes.${nodeKey}.desc`, node.description)}
               </p>
             </div>
 
@@ -74,15 +80,15 @@ export default function MissionModal({ node, isOpen, onClose, onStart }: Mission
             <div className="grid grid-cols-2 gap-3 mb-8">
               <div className="bg-black/35 rounded-xl p-3 border border-white/5 flex flex-col items-center justify-center">
                 <Sparkles className="w-4 h-4 text-emerald-400 mb-1" />
-                <span className="text-[9px] text-white/40 uppercase font-bold tracking-wider">Récompense</span>
+                <span className="text-[9px] text-white/40 uppercase font-bold tracking-wider">{t('adventure.reward')}</span>
                 <span className="text-emerald-400 font-bold text-sm">+{node.xpReward} XP</span>
               </div>
               
               {node.type !== 'story' && (
                 <div className="bg-black/35 rounded-xl p-3 border border-white/5 flex flex-col items-center justify-center">
                   <Clock className="w-4 h-4 text-amber-400 mb-1" />
-                  <span className="text-[9px] text-white/40 uppercase font-bold tracking-wider">Objectif</span>
-                  <span className="text-amber-400 font-bold text-sm">{node.requiredAccuracy}% Précision</span>
+                  <span className="text-[9px] text-white/40 uppercase font-bold tracking-wider">{t('adventure.objective')}</span>
+                  <span className="text-amber-400 font-bold text-sm">{node.requiredAccuracy}% {t('adventure.accuracy')}</span>
                 </div>
               )}
 
@@ -101,9 +107,11 @@ export default function MissionModal({ node, isOpen, onClose, onStart }: Mission
                     <span className={`text-[9px] uppercase font-extrabold tracking-wider ${
                       isBoss ? 'text-amber-400' : 'text-emerald-400'
                     }`}>
-                      Titre Sacré à débloquer
+                      {t('adventure.reward_unlocked')}
                     </span>
-                    <p className="text-white font-bold text-sm leading-tight mt-0.5">{node.emotionalReward.name}</p>
+                    <p className="text-white font-bold text-sm leading-tight mt-0.5">
+                      {t(`adventure.badges.${nodeKey}.title`, node.emotionalReward.name)}
+                    </p>
                   </div>
                 </div>
               )}
@@ -119,7 +127,7 @@ export default function MissionModal({ node, isOpen, onClose, onStart }: Mission
               }`}
             >
               <Play fill="currentColor" className="w-4 h-4" />
-              {isBoss ? 'Rencontrer le Gardien' : 'Commencer'}
+              {isBoss ? t('adventure.encounter_guardian') : t('adventure.start_btn')}
             </button>
           </motion.div>
         </>
@@ -127,4 +135,5 @@ export default function MissionModal({ node, isOpen, onClose, onStart }: Mission
     </AnimatePresence>
   );
 }
+
 

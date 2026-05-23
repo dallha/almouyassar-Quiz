@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, ChevronRight, Flame, User, Info, LifeBuoy, Download, Settings, Map, Shield, Trophy } from 'lucide-react';
+import { Menu, X, ChevronRight, ChevronLeft, Flame, User, Info, LifeBuoy, Download, Settings, Map, Shield, Trophy } from 'lucide-react';
 import StreakDisplay from './ui/StreakDisplay';
 import { DailyRewardBadge } from './ui/DailyReward';
 import { BadgeCollectionBadge } from './ui/BadgeGallery';
+import { useLanguage } from '../LanguageContext';
 
 interface HeaderProps {
   level?: number;
@@ -40,6 +41,7 @@ export default function Header({
   onNavigate,
   onAvatarClick,
 }: HeaderProps) {
+  const { dir, t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const xpProgress = Math.min((xp / xpToNextLevel) * 100, 100);
@@ -88,17 +90,17 @@ export default function Header({
   };
 
   const navItems = [
-    { label: 'Quiz Libre', icon: <Flame size={20} strokeWidth={2} />, action: 'quiz' },
-    { label: 'Révisions', icon: <ChevronRight size={20} strokeWidth={2} />, action: 'revisions' },
-    { label: 'Trophées', icon: <Trophy size={20} strokeWidth={2} />, action: 'trophies' },
-    { label: 'Parents', icon: <Shield size={20} strokeWidth={2} />, action: 'parental' },
-    { label: 'Paramètres', icon: <Settings size={20} strokeWidth={2} />, action: 'settings' },
+    { label: t('common.nav_quiz_free', 'Quiz Libre'), icon: <Flame size={20} strokeWidth={2} />, action: 'quiz' },
+    { label: t('common.nav_revisions', 'Révisions'), icon: dir === 'rtl' ? <ChevronLeft size={20} strokeWidth={2} /> : <ChevronRight size={20} strokeWidth={2} />, action: 'revisions' },
+    { label: t('common.nav_trophies', 'Trophées'), icon: <Trophy size={20} strokeWidth={2} />, action: 'trophies' },
+    { label: t('common.nav_parents', 'Parents'), icon: <Shield size={20} strokeWidth={2} />, action: 'parental' },
+    { label: t('common.nav_settings', 'Paramètres'), icon: <Settings size={20} strokeWidth={2} />, action: 'settings' },
   ];
 
   const secondaryItems = [
-    { label: 'À propos', icon: <Info size={16} strokeWidth={2} />, action: 'about' },
-    { label: 'Support', icon: <LifeBuoy size={16} strokeWidth={2} />, action: 'support' },
-    { label: 'Installer l\'application', icon: <Download size={16} strokeWidth={2} />, action: 'install' },
+    { label: t('common.nav_about', 'À propos'), icon: <Info size={16} strokeWidth={2} />, action: 'about' },
+    { label: t('common.nav_support', 'Support'), icon: <LifeBuoy size={16} strokeWidth={2} />, action: 'support' },
+    { label: t('common.nav_install', "Installer l'application"), icon: <Download size={16} strokeWidth={2} />, action: 'install' },
   ];
 
   return (
@@ -159,7 +161,7 @@ export default function Header({
             <div className="hidden sm:block">
               <div className="flex items-center gap-2">
                 <span className="text-xs font-semibold text-[var(--color-deep-green)]/60 uppercase tracking-wider">
-                  Niveau {level}
+                  {t('common.level', 'Niveau {level}').replace('{level}', level.toString())}
                 </span>
                 {streak > 0 && (
                   <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-amber-50 border border-amber-200/50">
@@ -173,7 +175,7 @@ export default function Header({
               {/* Barre XP */}
               <div className="mt-1 relative w-24 h-1.5 rounded-full overflow-hidden bg-[var(--color-deep-green)]/8">
                 <motion.div
-                  className="absolute inset-y-0 left-0 rounded-full"
+                  className={`absolute inset-y-0 ${dir === 'rtl' ? 'right-0' : 'left-0'} rounded-full`}
                   style={{
                     background:
                       'linear-gradient(90deg, var(--color-emerald), var(--color-gold))',
@@ -216,7 +218,7 @@ export default function Header({
                 background:
                   'linear-gradient(135deg, var(--color-deep-green), var(--color-emerald))',
               }}
-              aria-label={isLoggedIn ? "Profil utilisateur" : "Se connecter"}
+              aria-label={isLoggedIn ? t('common.user_profile', 'Profil utilisateur') : t('common.log_in', 'Se connecter')}
             >
               <div className="w-full h-full flex items-center justify-center">
                 <User size={14} className="text-white" />
@@ -279,32 +281,40 @@ export default function Header({
               onClick={toggleMenu}
             />
 
-            {/* Drawer */}
+             {/* Drawer */}
             <motion.div
               drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={{ left: 0, right: 0.8 }}
+              dragConstraints={dir === 'rtl' ? { left: -100, right: 0 } : { left: 0, right: 100 }}
+              dragElastic={0.5}
               onDragEnd={(e, { offset, velocity }) => {
-                if (offset.x > 100 || velocity.x > 500) {
+                const dismiss = dir === 'rtl' 
+                  ? offset.x < -60 || velocity.x < -300 
+                  : offset.x > 60 || velocity.x > 300;
+                if (dismiss) {
                   toggleMenu();
                 }
               }}
-              initial={{ x: '100%' }}
+              initial={{ x: dir === 'rtl' ? '-100%' : '100%' }}
               animate={{ x: 0 }}
-              exit={{ x: '100%' }}
+              exit={{ x: dir === 'rtl' ? '-100%' : '100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 350, mass: 0.5 }}
-              className="fixed top-0 right-0 bottom-0 z-50 w-[320px] max-w-[82vw] shadow-[-10px_0_40px_rgba(0,0,0,0.3)] flex flex-col"
+              className={`fixed top-0 bottom-0 z-50 w-[320px] max-w-[82vw] flex flex-col transition-all ${
+                dir === 'rtl' 
+                  ? 'left-0 shadow-[10px_0_40px_rgba(0,0,0,0.3)]' 
+                  : 'right-0 shadow-[-10px_0_40px_rgba(0,0,0,0.3)]'
+              }`}
               style={{
                 paddingTop: 'env(safe-area-inset-top, 0px)',
                 paddingBottom: 'env(safe-area-inset-bottom, 0px)',
                 background: 'rgba(5, 30, 20, 0.85)',
                 backdropFilter: 'blur(30px)',
                 WebkitBackdropFilter: 'blur(30px)',
-                borderLeft: '1px solid rgba(255, 255, 255, 0.1)',
+                borderLeft: dir === 'rtl' ? 'none' : '1px solid rgba(255, 255, 255, 0.1)',
+                borderRight: dir === 'rtl' ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
               }}
               role="dialog"
               aria-modal="true"
-              aria-label="Menu principal"
+              aria-label={t('common.menu', 'Menu principal')}
             >
               {/* Glow subtil en haut à gauche */}
               <div 
@@ -347,7 +357,7 @@ export default function Header({
                         </span>
                         {streak > 0 && (
                           <span className="text-xs font-medium text-amber-400 flex items-center gap-1">
-                            <Flame size={12} strokeWidth={2} /> {streak} Jours
+                            <Flame size={12} strokeWidth={2} /> {t('common.days', '{count} Jours').replace('{count}', streak.toString())}
                           </span>
                         )}
                       </div>
@@ -356,14 +366,14 @@ export default function Header({
 
                   {/* Header text and Principal Action CTA */}
                   <div className="mt-2">
-                    <p className="text-white/50 text-xs font-medium mb-3 uppercase tracking-wider">Continue ton voyage</p>
+                    <p className="text-white/50 text-xs font-medium mb-3 uppercase tracking-wider">{t('common.continue_journey', 'Continue ton voyage')}</p>
                     <button 
                       onClick={() => handleNavClick('adventure')}
                       className="w-full bg-gradient-to-r from-[var(--color-gold)] to-amber-500 text-[var(--color-deep-green)] font-bold py-3.5 rounded-2xl shadow-[0_4px_15px_rgba(208,162,28,0.25)] active:scale-[0.98] transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-white/50"
-                      aria-label="Reprendre l'Aventure"
+                      aria-label={t('adventure.resume_btn', "Reprendre l'Aventure")}
                     >
                       <Map size={20} strokeWidth={2.5} />
-                      Reprendre l'Aventure
+                      {t('adventure.resume_btn', "Reprendre l'Aventure")}
                     </button>
                   </div>
                 </motion.div>
@@ -385,11 +395,19 @@ export default function Header({
                       <span className="flex-1 font-medium text-[15px] text-white/90 group-hover:text-white transition-colors tracking-wide">
                         {item.label}
                       </span>
-                      <ChevronRight
-                        size={18}
-                        strokeWidth={2}
-                        className="text-white/20 group-hover:text-[var(--color-gold)]/60 transition-colors transform group-hover:translate-x-1"
-                      />
+                      {dir === 'rtl' ? (
+                        <ChevronLeft
+                          size={18}
+                          strokeWidth={2}
+                          className="text-white/20 group-hover:text-[var(--color-gold)]/60 transition-colors transform group-hover:-translate-x-1"
+                        />
+                      ) : (
+                        <ChevronRight
+                          size={18}
+                          strokeWidth={2}
+                          className="text-white/20 group-hover:text-[var(--color-gold)]/60 transition-colors transform group-hover:translate-x-1"
+                        />
+                      )}
                     </motion.button>
                   ))}
                 </nav>

@@ -4,11 +4,7 @@
  */
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import stringsFr from './locales/strings_fr.json';
-import stringsAr from './locales/strings_ar.json';
-import stringsWo from './locales/strings_wo.json';
-
-export type Language = 'fr' | 'ar' | 'wo';
+import { dictionary, Language } from './i18n';
 
 interface LanguageContextType {
   language: Language;
@@ -18,12 +14,6 @@ interface LanguageContextType {
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
-
-const dictionary: Record<Language, Record<string, string>> = {
-  fr: stringsFr,
-  ar: stringsAr,
-  wo: stringsWo,
-};
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguageState] = useState<Language>(() => {
@@ -40,15 +30,29 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   const t = (key: string, defaultValue?: string): string => {
-    const strings = dictionary[language];
-    if (strings && strings[key]) {
-      return strings[key];
-    }
+    const keys = key.split('.');
+    
+    // Helper to walk through the dictionary
+    const getValue = (dict: any, path: string[]): any => {
+      let current = dict;
+      for (const k of path) {
+        if (current && typeof current === 'object' && k in current) {
+          current = current[k];
+        } else {
+          return undefined;
+        }
+      }
+      return current;
+    };
+
+    // Get localized value
+    const localized = getValue(dictionary[language], keys);
+    if (typeof localized === 'string') return localized;
+
     // Fallback to French if missing
-    const frStrings = dictionary['fr'];
-    if (frStrings && frStrings[key]) {
-      return frStrings[key];
-    }
+    const fallback = getValue(dictionary['fr'], keys);
+    if (typeof fallback === 'string') return fallback;
+
     return defaultValue || key;
   };
 
@@ -76,3 +80,4 @@ export const useLanguage = () => {
   }
   return context;
 };
+

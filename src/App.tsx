@@ -122,7 +122,7 @@ function StarryBackground() {
 }
 
 export default function App() {
-  const { t, language } = useLanguage();
+  const { t, language, dir } = useLanguage();
   // --- Persistent States ---
   const [stats, setStats] = useState<UserStats>(() => {
     const saved = localStorage.getItem(LOCAL_STORAGE_STATS_KEY);
@@ -1257,7 +1257,7 @@ export default function App() {
           else if (action === 'settings') setShowSettingsModal(true);
           else if (action === 'about') setShowSchoolModal(true);
           else if (action === 'support') window.location.href = 'mailto:mrniass@gmail.com';
-          else if (action === 'install') alert("Utilisez l'option d'installation de votre navigateur pour installer l'application.");
+          else if (action === 'install') alert(t('common.install_alert'));
         }}
       />
 
@@ -1602,9 +1602,9 @@ export default function App() {
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeTab}
-                    initial={{ opacity: 0, x: 25, filter: 'blur(5px)' }}
+                    initial={{ opacity: 0, x: dir === 'rtl' ? -25 : 25, filter: 'blur(5px)' }}
                     animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-                    exit={{ opacity: 0, x: -25, filter: 'blur(5px)' }}
+                    exit={{ opacity: 0, x: dir === 'rtl' ? 25 : -25, filter: 'blur(5px)' }}
                     transition={{ duration: 0.28, ease: "easeInOut" }}
                     className="w-full"
                   >

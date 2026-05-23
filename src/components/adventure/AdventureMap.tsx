@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { AdventureZone, AdventureState, AdventureNode } from '../../types';
 import MapNode from './MapNode';
 import { Star, ShieldAlert, Compass } from 'lucide-react';
+import { useLanguage } from '../../LanguageContext';
 
 interface AdventureMapProps {
   zones: AdventureZone[];
@@ -12,6 +13,7 @@ interface AdventureMapProps {
 
 export default function AdventureMap({ zones, adventureState, onNodeClick }: AdventureMapProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { t, dir } = useLanguage();
 
   // Scroll to active node on mount
   useEffect(() => {
@@ -55,8 +57,10 @@ export default function AdventureMap({ zones, adventureState, onNodeClick }: Adv
               <Compass className="w-5 h-5 text-emerald-400 animate-pulse" />
             </div>
             <div>
-              <p className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-400">Progression Actuelle</p>
-              <h4 className="text-white font-bold text-sm truncate max-w-[200px]">{activeZone.title}</h4>
+              <p className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-400">{t('adventure.current_progress')}</p>
+              <h4 className="text-white font-bold text-sm truncate max-w-[200px]">
+                {t(`adventure.zones.${activeZone.id.replace('-', '')}.title`, activeZone.title)}
+              </h4>
             </div>
           </div>
 
@@ -88,13 +92,13 @@ export default function AdventureMap({ zones, adventureState, onNodeClick }: Adv
               <div className="sticky top-20 z-30 w-full px-4 mb-14">
                 <div className="max-w-md mx-auto bg-[#0a1e16]/60 backdrop-blur-lg border border-white/5 rounded-2xl p-5 text-center shadow-lg">
                   <span className="inline-block px-3 py-0.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-2">
-                    Zone {zone.order}
+                    {t('adventure.zone')} {zone.order}
                   </span>
                   <h3 className="text-white font-display text-xl font-bold mb-1">
-                    {zone.title}
+                    {t(`adventure.zones.${zone.id.replace('-', '')}.title`, zone.title)}
                   </h3>
                   <p className="text-white/40 text-xs leading-relaxed max-w-sm mx-auto">
-                    {zone.description}
+                    {t(`adventure.zones.${zone.id.replace('-', '')}.description`, zone.description)}
                   </p>
                 </div>
               </div>
@@ -143,4 +147,5 @@ export default function AdventureMap({ zones, adventureState, onNodeClick }: Adv
     </div>
   );
 }
+
 

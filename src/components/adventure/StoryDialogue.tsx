@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, ChevronLeft } from 'lucide-react';
 import { StoryDialogue as StoryDialogueType } from '../../types';
 import { playCheckpointSound } from '../SoundEngine';
+import { useLanguage } from '../../LanguageContext';
 
 interface StoryDialogueProps {
   dialogues: StoryDialogueType[];
@@ -11,6 +12,7 @@ interface StoryDialogueProps {
 }
 
 export default function StoryDialogue({ dialogues, onComplete, isCheckpoint = false }: StoryDialogueProps) {
+  const { t, dir } = useLanguage();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(true);
@@ -107,7 +109,7 @@ export default function StoryDialogue({ dialogues, onComplete, isCheckpoint = fa
               transition={{ delay: 0.2, duration: 0.8 }}
               className="text-white text-lg font-bold font-display tracking-wider leading-relaxed"
             >
-              Repose ton esprit.
+              {t('adventure.checkpoint.rest')}
             </motion.h3>
             <motion.p 
               initial={{ opacity: 0, y: 8 }}
@@ -115,7 +117,7 @@ export default function StoryDialogue({ dialogues, onComplete, isCheckpoint = fa
               transition={{ delay: 0.5, duration: 0.8 }}
               className="text-white/80 text-xs mt-3 leading-relaxed font-medium"
             >
-              La source de Zamzam éclaire ton voyage.
+              {t('adventure.checkpoint.zamzam')}
             </motion.p>
           </div>
 
@@ -125,9 +127,9 @@ export default function StoryDialogue({ dialogues, onComplete, isCheckpoint = fa
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.0, duration: 0.6 }}
             onClick={onComplete}
-            className="px-7 py-3 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 hover:from-emerald-500/20 hover:to-teal-500/20 border border-emerald-500/20 text-emerald-300 font-bold text-[10px] uppercase tracking-widest rounded-xl transition-all duration-300 hover:scale-[1.01] active:scale-[0.98] shadow-md shadow-emerald-950/10"
+            className="px-7 py-3 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 hover:from-emerald-500/20 hover:to-teal-500/20 border border-emerald-500/20 text-emerald-300 font-bold text-[10px] uppercase tracking-widest rounded-xl transition-all duration-300 hover:scale-[1.01] active:scale-[0.98] shadow-md shadow-emerald-950/10 min-h-[48px]"
           >
-            Poursuivre le Voyage
+            {t('adventure.next_voyage')}
           </motion.button>
         </motion.div>
       </AnimatePresence>
@@ -146,9 +148,9 @@ export default function StoryDialogue({ dialogues, onComplete, isCheckpoint = fa
 
   const getCharacterName = (char: string) => {
     switch(char) {
-      case 'oustaz': return 'Oustaz';
-      case 'guide': return 'Guide Spirituel';
-      default: return 'Récit';
+      case 'oustaz': return t('adventure.character_oustaz', 'Oustaz');
+      case 'guide': return t('adventure.character_guide', 'Guide Spirituel');
+      default: return t('adventure.character_story', 'Récit');
     }
   };
 
@@ -183,7 +185,7 @@ export default function StoryDialogue({ dialogues, onComplete, isCheckpoint = fa
             handleNext();
           }}
         >
-          <div className="absolute -top-3.5 left-6 bg-gradient-to-r from-amber-500 to-amber-400 text-black font-extrabold px-3.5 py-0.5 rounded-full text-xs shadow-lg">
+          <div className={`absolute -top-3.5 ${dir === 'rtl' ? 'right-6' : 'left-6'} bg-gradient-to-r from-amber-500 to-amber-400 text-black font-extrabold px-3.5 py-0.5 rounded-full text-xs shadow-lg`}>
             {getCharacterName(currentDialogue.character)}
           </div>
 
@@ -195,7 +197,7 @@ export default function StoryDialogue({ dialogues, onComplete, isCheckpoint = fa
             <button 
               className={`flex items-center gap-1 text-amber-500 text-xs font-bold uppercase tracking-wider transition-opacity ${!isTyping ? 'opacity-100 animate-pulse' : 'opacity-0'}`}
             >
-              Continuer <ChevronRight size={14} />
+              {t('common.continue')} {dir === 'rtl' ? <ChevronLeft size={14} /> : <ChevronRight size={14} />}
             </button>
           </div>
         </motion.div>

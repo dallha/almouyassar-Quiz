@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { Star, Lock, Sparkles, Trophy, BookOpen, Crown, Compass, Droplet, Gift, RefreshCw } from 'lucide-react';
 import { AdventureNode } from '../../types';
+import { useLanguage } from '../../LanguageContext';
 
 interface MapNodeProps {
   node: AdventureNode;
@@ -12,9 +13,11 @@ interface MapNodeProps {
 }
 
 export default function MapNode({ node, isActive, isCompleted, isLocked, onClick, index }: MapNodeProps) {
-  // Winding path calculation
+  const { dir } = useLanguage();
+  
+  // Winding path calculation (flips naturally in RTL to align with Arab reading direction)
   const isLeft = index % 2 === 0;
-  const xOffset = isLeft ? -45 : 45; // slightly wider winding path for aesthetic
+  const xOffset = (isLeft ? -45 : 45) * (dir === 'rtl' ? -1 : 1);
 
   // Determine icon & colors based on type
   let icon = <Compass className="w-6 h-6 text-white/50" />;

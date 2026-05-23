@@ -5,6 +5,7 @@ import QuizCard from '../QuizCard';
 import { Trophy, ArrowRight, Sparkles, AlertCircle, Heart, Shield } from 'lucide-react';
 import { QUESTIONS } from '../../data';
 import { playSuccessSound, playErrorSound } from '../SoundEngine';
+import { useLanguage } from '../../LanguageContext';
 
 interface AdventureSessionProps {
   node: AdventureNode;
@@ -13,6 +14,7 @@ interface AdventureSessionProps {
 }
 
 export default function AdventureSession({ node, onComplete, onClose }: AdventureSessionProps) {
+  const { t, dir, language } = useLanguage();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
@@ -62,13 +64,14 @@ export default function AdventureSession({ node, onComplete, onClose }: Adventur
       }
     }
 
+    const transitionDelay = language === 'ar' ? 1600 : language === 'wo' ? 1200 : 1000;
     setTimeout(() => {
       if (playerHearts > 0 && currentIndex < sessionQuestions.length - 1) {
         setCurrentIndex(prev => prev + 1);
       } else if (playerHearts > 0) {
         setIsFinished(true);
       }
-    }, 1200); // exactly 1200ms respiration timing (perfectly balanced)
+    }, transitionDelay); // exactly language-tuned respiration timing (perfectly balanced)
   };
 
 
@@ -110,26 +113,28 @@ export default function AdventureSession({ node, onComplete, onClose }: Adventur
 
             <h2 className="text-2xl font-display font-extrabold text-white mb-2 tracking-wide">
               {success 
-                ? (isBoss ? 'Épreuve du Gardien validée !' : 'Mission Réussie !') 
-                : (isBoss ? 'Le Gardien attend votre retour' : 'Défi non validé')}
+                ? (isBoss ? t('adventure.success_title') : t('adventure.mission_success')) 
+                : (isBoss ? t('adventure.fail_title') : t('adventure.mission_fail'))}
             </h2>
             
             <p className="text-white/50 text-sm mb-8 leading-relaxed px-4">
               {success 
-                ? `Félicitations, vous avez obtenu ${accuracy}% de précision avec sagesse et persévérance.`
+                ? t('adventure.success_desc').replace('{accuracy}', accuracy.toString())
                 : isBoss 
-                  ? "Vos réponses ont manqué de précision pour cette fois. Prenez le temps de relire et revenez sereinement."
-                  : `Vous avez obtenu ${accuracy}% de précision. L'objectif requis était de ${required}%.`}
+                  ? t('adventure.fail_desc')
+                  : t('adventure.fail_desc_non_boss', "Vous avez obtenu {accuracy}% de précision. L'objectif requis était de {required}%.").replace('{accuracy}', accuracy.toString()).replace('{required}', required.toString())}
             </p>
 
             {success && node.emotionalReward && (
-              <div className="bg-[#0f281d] border border-emerald-500/10 rounded-2xl p-4 mb-8 flex items-center gap-4 text-left shadow-inner">
-                <div className="w-11 h-11 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-xl shrink-0">
+              <div className="bg-[#0f281d] border border-emerald-500/10 rounded-2xl p-4 mb-8 flex items-center gap-4 text-start shadow-inner">
+                <div className="w-11 h-11 rounded-full bg-emerald-50/5 border border-emerald-500/20 flex items-center justify-center text-xl shrink-0">
                   {node.emotionalReward.icon}
                 </div>
                 <div>
-                  <span className="text-[9px] text-emerald-400 uppercase font-extrabold tracking-wider">Titre Sacré Débloqué</span>
-                  <p className="text-white font-bold text-sm">{node.emotionalReward.name}</p>
+                  <span className="text-[9px] text-emerald-400 uppercase font-extrabold tracking-wider">{t('adventure.reward_unlocked')}</span>
+                  <p className="text-white font-bold text-sm">
+                    {t(`adventure.badges.${node.id.replace(/-/g, '_')}.title`, node.emotionalReward.name)}
+                  </p>
                 </div>
               </div>
             )}
@@ -137,19 +142,19 @@ export default function AdventureSession({ node, onComplete, onClose }: Adventur
             <div className="flex gap-3">
               <button 
                 onClick={onClose}
-                className="flex-1 py-4 rounded-xl font-bold text-white/50 bg-white/5 hover:bg-white/10 transition-colors text-sm"
+                className="flex-1 py-4 rounded-xl font-bold text-white/50 bg-white/5 hover:bg-white/10 transition-colors text-sm min-h-[48px]"
               >
-                Retour
+                {t('common.back')}
               </button>
               <button 
                 onClick={handleFinish}
-                className={`flex-[2] py-4 rounded-xl font-bold text-black flex items-center justify-center gap-2 text-sm transition-all duration-300 hover:scale-[1.01] active:scale-[0.98] ${
+                className={`flex-[2] py-4 rounded-xl font-bold text-black flex items-center justify-center gap-2 text-sm transition-all duration-300 hover:scale-[1.01] active:scale-[0.98] min-h-[48px] ${
                   success
                     ? 'bg-gradient-to-r from-emerald-500 to-teal-400 shadow-[0_4px_16px_rgba(16,185,129,0.25)]'
                     : 'bg-gradient-to-r from-amber-500 to-amber-400 shadow-[0_4px_16px_rgba(245,158,11,0.2)]'
                 }`}
               >
-                {success ? 'Continuer' : 'Réessayer'} <ArrowRight className="w-4 h-4" />
+                {success ? t('common.continue') : t('common.retry')} <ArrowRight className={`w-4 h-4 ${dir === 'rtl' ? 'rotate-180' : ''}`} />
               </button>
             </div>
           </div>
@@ -174,8 +179,8 @@ export default function AdventureSession({ node, onComplete, onClose }: Adventur
             </div>
             <div className="flex-1">
               <div className="flex justify-between items-center mb-1">
-                <span className="text-xs font-bold text-white/80">{node.title}</span>
-                <span className="text-[10px] font-extrabold text-amber-400">{bossHp}% sagesse</span>
+                <span className="text-xs font-bold text-white/80">{t(`adventure.nodes.${node.id.replace(/-/g, '_')}.title`, node.title)}</span>
+                <span className="text-[10px] font-extrabold text-amber-400">{bossHp}% {t('adventure.wisdom')}</span>
               </div>
               <div className="w-full h-1.5 bg-emerald-950 rounded-full overflow-hidden border border-white/5">
                 <motion.div 
@@ -188,7 +193,7 @@ export default function AdventureSession({ node, onComplete, onClose }: Adventur
           </div>
 
           {/* Player Noble Hearts */}
-          <div className="flex items-center gap-1.5 ml-4">
+          <div className={`flex items-center gap-1.5 ${dir === 'rtl' ? 'mr-4' : 'ml-4'}`}>
             {Array.from({ length: 3 }).map((_, i) => {
               const active = i < playerHearts;
               return (
@@ -219,7 +224,7 @@ export default function AdventureSession({ node, onComplete, onClose }: Adventur
         ) : (
           <div className="text-white/55 font-medium flex flex-col items-center gap-3">
             <div className="w-8 h-8 rounded-full border-2 border-emerald-500 border-t-transparent animate-spin" />
-            Chargement de l'épreuve...
+            {t('adventure.loading_duel')}
           </div>
         )}
       </div>

@@ -17,6 +17,7 @@ import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { motion, AnimatePresence } from 'motion/react';
 import { Question } from '../types';
 import { Sparkles, Clock, Check, X, ChevronRight, Star, Zap, Trophy, RotateCcw, Flame } from 'lucide-react';
+import { useLanguage } from '../LanguageContext';
 
 /* ── PROPS ── */
 interface QuizCardProps {
@@ -154,6 +155,7 @@ export default function QuizCard({
   streak = 0,
   xpMultiplier = 1,
 }: QuizCardProps) {
+  const { dir } = useLanguage();
   const [selected, setSelected] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState(timeLimit);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
@@ -168,15 +170,23 @@ export default function QuizCard({
     // Seed simple basé sur l'ID de la question pour stabilité pendant la session
     const seed = String(question.id).split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
     const options = [...question.options];
-    // Fisher-Yates avec seed
-    let s = seed;
+    // Mélanger en permutant de manière déterministe
     for (let i = options.length - 1; i > 0; i--) {
-      s = (s * 9301 + 49297) % 233280;
-      const j = s % (i + 1);
+      const j = seed % (i + 1);
       [options[i], options[j]] = [options[j], options[i]];
     }
     return options;
-  }, [question.id]);
+  }, [question]);
+
+  const currentOptionVariants = useMemo(() => ({
+    initial: { opacity: 0, x: dir === 'rtl' ? 30 : -30, scale: 0.95 },
+    animate: (i: number) => ({
+      opacity: 1, x: 0, scale: 1,
+      transition: { delay: 0.08 + i * 0.05, type: 'spring', stiffness: 120, damping: 18 },
+    }),
+    hover: { scale: 1.015, transition: { type: 'spring', stiffness: 400 } },
+    tap: { scale: 0.985 },
+  }), [dir]);
 
   /* ── TIMER ── */
   useEffect(() => {
@@ -318,7 +328,7 @@ export default function QuizCard({
           </div>
 
           {/* ── OPTIONS — CARDS INTERACTIVES ── */}
-          <div className="px-5 pb-5 space-y-3">
+          <div className={`px-5 pb-5 ${dir === 'rtl' ? 'space-y-4 md:space-y-5' : 'space-y-3'}`}>
             {shuffledOptions.map((option, index) => {
               const isSelected = selected === option;
               const isCorrectOption = option === question.reponse_correcte;
@@ -344,14 +354,14 @@ export default function QuizCard({
                 <motion.button
                   key={`${question.id}-${index}`}
                   custom={index}
-                  variants={optionVariants}
+                  variants={currentOptionVariants}
                   initial="initial"
                   animate="animate"
                   whileHover={!hasAnswered ? 'hover' : undefined}
                   whileTap={!hasAnswered ? 'tap' : undefined}
                   onClick={() => !hasAnswered && handleAnswer(option)}
                   disabled={hasAnswered}
-                  className={`relative w-full text-left p-4 md:p-5 rounded-2xl border-2 transition-all duration-300 ${cardStyle} ${hasAnswered ? 'cursor-default' : 'cursor-pointer'
+                  className={`relative w-full text-start ${dir === 'rtl' ? 'p-5 md:p-6' : 'p-4 md:p-5'} rounded-2xl border-2 transition-all duration-300 ${cardStyle} ${hasAnswered ? 'cursor-default' : 'cursor-pointer'
                     }`}
                 >
                   <div className="flex items-center gap-4">
@@ -361,7 +371,7 @@ export default function QuizCard({
                     </span>
 
                     {/* Texte de l'option */}
-                    <span className={`text-sm md:text-base font-medium flex-1 leading-snug transition-all duration-300 ${textStyle}`}>
+                    <span className={`text-sm md:text-base font-medium flex-1 ${dir === 'rtl' ? 'leading-relaxed' : 'leading-snug'} transition-all duration-300 ${textStyle}`}>
                       {option}
                     </span>
 
