@@ -44,27 +44,56 @@ export default function Header({
 }: HeaderProps) {
   const { dir, t, language, setLanguage } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const xpProgress = Math.min((xp / xpToNextLevel) * 100, 100);
+
+  // Tuned for touch scrolling on iPhone: harder to hide, easier to reveal.
+  const TOP_LOCK_ZONE = 36;
+  const HIDE_DELTA = 16;
+  const SHOW_DELTA = -10;
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      const y = window.scrollY;
+      setIsScrolled(y > 10);
+
+      // Keep header visible near top for better orientation.
+      if (y <= TOP_LOCK_ZONE) {
+        setIsHeaderVisible(true);
+        setLastScrollY(y);
+        return;
+      }
+
+      // Quiz keeps an always-available compact header.
+      if (isQuizActive) {
+        setIsHeaderVisible(true);
+        setLastScrollY(y);
+        return;
+      }
+
+      const delta = y - lastScrollY;
+      if (delta > HIDE_DELTA) setIsHeaderVisible(false); // scrolling down
+      if (delta < SHOW_DELTA) setIsHeaderVisible(true); // scrolling up
+      setLastScrollY(y);
     };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isQuizActive, lastScrollY, TOP_LOCK_ZONE, HIDE_DELTA, SHOW_DELTA]);
 
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
+      setIsHeaderVisible(false);
     } else {
       document.body.style.overflow = '';
+      if (!isQuizActive) setIsHeaderVisible(true);
     }
     return () => {
       document.body.style.overflow = '';
     };
-  }, [isMenuOpen]);
+  }, [isMenuOpen, isQuizActive]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -107,29 +136,75 @@ export default function Header({
   return (
     <>
       <header
-        className="fixed top-0 left-0 right-0 z-40 transition-all duration-300"
+        className={`fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-out ${
+          isHeaderVisible && !isMenuOpen ? 'translate-y-0' : '-translate-y-full'
+        }`}
         style={{
           paddingTop: 'env(safe-area-inset-top, 0px)',
           height: `calc(var(--header-height) + env(safe-area-inset-top, 0px))`,
         }}
       >
-        {/* Barre système 48px */}
-        <div
-          className={`relative h-full flex items-center justify-between transition-all duration-300 px-3 md:px-4 ${isScrolled
-              ? 'bg-[var(--color-ivory)]/90 shadow-[var(--shadow-soft)]'
-              : 'bg-transparent'
+        {/* Quiz: ultra-compact contextual chip */}
+        {isQuizActive ? (
+          <div className="h-full px-3 md:px-4 flex items-center justify-center">
+            <div
+              className={`w-full max-w-md rounded-2xl px-3 py-1.5 transition-all duration-300 ${
+                isScrolled
+                  ? 'bg-black/38 border border-white/10 shadow-[0_8px_24px_rgba(0,0,0,0.28)]'
+                  : 'bg-transparent border border-transparent'
+              }`}
+              style={{
+                backdropFilter: isScrolled ? 'blur(12px)' : 'none',
+                WebkitBackdropFilter: isScrolled ? 'blur(12px)' : 'none',
+              }}
+            >
+              <div className="flex items-center justify-between">
+                <button
+                  onClick={() => onQuitQuiz?.()}
+                  className="flex items-center gap-1 px-1.5 py-1 rounded-lg text-[10px] font-semibold text-white/80 hover:text-white transition-colors"
+                >
+                  <ChevronLeft size={13} strokeWidth={2} className={dir === 'rtl' ? 'rotate-180' : ''} />
+                  <span>{t('common.back', 'Quitter')}</span>
+                </button>
+
+                {streak > 0 && (
+                  <div className="flex items-center gap-1 text-[10px] font-semibold text-amber-300/90">
+                    <Flame size={11} />
+                    <span>{streak}</span>
+                  </div>
+                )}
+
+                <button
+                  onClick={() => onAvatarClick?.()}
+                  className="relative w-7 h-7 rounded-full overflow-hidden border border-white/15 active:scale-95 transition-all duration-200"
+                  style={{ background: 'linear-gradient(135deg, var(--color-deep-green), var(--color-emerald))' }}
+                  aria-label={isLoggedIn ? t('common.user_profile', 'Profil utilisateur') : t('common.log_in', 'Se connecter')}
+                >
+                  <div className="w-full h-full flex items-center justify-center">
+                    <User size={11} className="text-white" />
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div
+            className={`relative h-full flex items-center justify-between transition-all duration-300 px-3 md:px-4 ${
+              isScrolled
+                ? 'bg-black/35 shadow-[0_8px_24px_rgba(0,0,0,0.2)]'
+                : 'bg-transparent'
             }`}
-          style={{
-            backdropFilter: isScrolled ? 'blur(16px)' : 'none',
-            WebkitBackdropFilter: isScrolled ? 'blur(16px)' : 'none',
-          }}
-        >
+            style={{
+              backdropFilter: isScrolled ? 'blur(14px)' : 'none',
+              WebkitBackdropFilter: isScrolled ? 'blur(14px)' : 'none',
+            }}
+          >
           {/* Ligne lumineuse */}
           {isScrolled && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="absolute bottom-0 left-4 right-4 h-[1px] bg-gradient-to-r from-transparent via-[var(--color-gold)]/20 to-transparent"
+              className="absolute bottom-0 left-4 right-4 h-[1px] bg-gradient-to-r from-transparent via-emerald-300/20 to-transparent"
             />
           )}
 
@@ -142,7 +217,7 @@ export default function Header({
             {!isQuizActive && (
               <button
                 onClick={toggleMenu}
-                className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors duration-200 hover:bg-[var(--color-deep-green)]/5 active:scale-95"
+                className="flex items-center justify-center w-8 h-8 rounded-lg transition-colors duration-200 hover:bg-white/10 active:scale-95"
                 aria-label="Menu"
               >
                 <AnimatePresence mode="wait">
@@ -154,7 +229,7 @@ export default function Header({
                       exit={{ rotate: 90, opacity: 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <X size={18} className="text-[var(--color-deep-green)]" />
+                      <X size={18} className="text-white/85" />
                     </motion.div>
                   ) : (
                     <motion.div
@@ -164,7 +239,7 @@ export default function Header({
                       exit={{ rotate: -90, opacity: 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <Menu size={18} className="text-[var(--color-deep-green)]" />
+                      <Menu size={18} className="text-white/85" />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -187,7 +262,7 @@ export default function Header({
             </div>
 
             {/* Niveau (caché <360px) */}
-            <span className="hidden [@media(min-width:360px)]:inline text-[10px] font-semibold text-[var(--color-deep-green)]/50 uppercase tracking-wider">
+            <span className="hidden [@media(min-width:360px)]:inline text-[10px] font-semibold text-white/55 uppercase tracking-wider">
               {t('common.level', 'Niveau {level}').replace('{level}', level.toString())}
             </span>
           </div>
@@ -197,8 +272,8 @@ export default function Header({
             {/* Streak très discret */}
             {streak > 0 && (
               <div className="flex items-center gap-0.5 px-1 py-0.5 rounded-full opacity-50">
-                <Flame size={9} className="text-amber-500/60" />
-                <span className="text-[8px] font-semibold text-amber-600/60">{streak}</span>
+                <Flame size={9} className="text-amber-300/85" />
+                <span className="text-[8px] font-semibold text-amber-300/85">{streak}</span>
               </div>
             )}
 
@@ -217,18 +292,9 @@ export default function Header({
               )}
             </button>
 
-            {/* Bouton quitter ghost pendant le quiz */}
-            {isQuizActive && (
-              <button
-                onClick={() => onQuitQuiz?.()}
-                className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-lg text-[9px] font-medium text-[var(--color-deep-green)]/50 hover:text-[var(--color-deep-green)]/80 hover:bg-[var(--color-deep-green)]/5 transition-all"
-              >
-                <ChevronLeft size={12} strokeWidth={2} />
-                <span>Quitter</span>
-              </button>
-            )}
           </div>
-        </div>
+          </div>
+        )}
       </header>
 
       {/* Drawer menu mobile */}
@@ -423,4 +489,3 @@ export default function Header({
     </>
   );
 }
-
