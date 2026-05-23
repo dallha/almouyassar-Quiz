@@ -214,5 +214,48 @@ export default {
   home_school_title: "Institut Al-Mouyassar",
   home_school_desc: "Daara bi dafay jàpp ci 2007 ci biir Cheikh El Hadji Abdallah Niasse ngir jàngle ñi daan bind kàlam Yàlla.",
   home_school_history_btn: "Xool tariikh bi yëpp →",
+
+  // Daily Quests
+  quest_quiz_title: "Maître du Quiz",
+  quest_quiz_desc: "Tontu baax ci 3 laaj yu Quiz Libre bi.",
+  quest_oustaz_title: "Talibé bu dégg",
+  quest_oustaz_desc: "Laajal Oustaz Virtuel bi 2 laaj yu neex.",
+  quest_karaoke_title: "Kœur des Ansar",
+  quest_karaoke_desc: "Débloque sa évaluation de woy ak am feedback.",
+  quest_accuracy_title: "Précision d'Élite",
+  quest_accuracy_desc: "Am précision bu 80% (4/5 baax) ci session de quiz.",
+
+  // System loading messages
+  loading_init_aqidah: "Di yeb Aqidah ak xam-xam yi...",
+  loading_init_fiqh: "Di yeb leçons yu Fiqh ak jurisprudence...",
+  loading_init_sirah: "Di indexer taariixu Yonent yi (Sirah)...",
+  loading_init_akhlaq: "Di compilé matières yu Akhlaq ak téguine...",
+  loading_init_server: "Di connecter serveurs yu Institut Al-Mouyassar...",
+  loading_ready: "Paré pour po !",
+  loading_starting: "Di démarrer",
+
+  // Auth modal
+  auth_profile_title: "🌟 Sama Profil d'Apprenti Ansar",
+  auth_signin_title: "🔑 Connexion à l'Aventure",
+  auth_signup_title: "🚀 Créer sama Espace de Jeu",
+  auth_logged_in_desc: "Sa badges yi, sa points XP ak sa conversations ak Oustaz Virtuel bi ñu gén enregistré baax !",
+  auth_logged_out_desc: "Connecte ou créé compte ngir enregistrer sa points XP ak sa badges de réussite !",
+  auth_email_label: "📧 Sama E-mail",
+  auth_xp_label: "✨ Sama Points d'Expérience",
+  auth_logout_btn: "🚪 Gén d'ici",
+  auth_email_field: "Adresse E-mail :",
+  auth_password_field: "Mot de passe :",
+  auth_email_placeholder: "exemple@mouyassar.com",
+  auth_password_placeholder: "••••••••",
+  auth_signin_btn: "Se connecter",
+  auth_signup_btn: "S'inscrire",
+  auth_switch_to_signup: "Créer compte à la place",
+  auth_switch_to_signin: "Déjà compte ? Se connecter",
+  auth_error_empty: "Remplir tous les champs s'il vous plaît.",
+  auth_error_generic: "Erreur lors de l'authentification.",
+  auth_success_signup: "Masha'Allah ! Sa compte d'aventurier bi créé na. Amuse-toi bien ak progresser ci yoonu xam-xam ! ✨",
+
+  // Session end text
+  session_end_desc: "Tontu nga laaj yi ci anam bu woor. Tannal waxtu ngir seet say ndam ak firi bi ci suuf.",
 };
 

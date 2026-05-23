@@ -214,5 +214,48 @@ export default {
   home_school_title: "L'Institut Al-Mouyassar",
   home_school_desc: "L'école a été fondée en 2007 par le vénérable Cheikh El Hadji Abdallah Niasse pour instruire les porteurs de la parole sacrée d'Allah.",
   home_school_history_btn: "Consulter l'histoire complète d'Al-Mouyassar →",
+
+  // Daily Quests
+  quest_quiz_title: "Maître du Quiz",
+  quest_quiz_desc: "Réponds correctement à 3 questions du Quiz Libre.",
+  quest_oustaz_title: "Élève Attentif",
+  quest_oustaz_desc: "Échange 2 questions inspirantes avec l'Oustaz Virtuel.",
+  quest_karaoke_title: "Chœur des Ansar",
+  quest_karaoke_desc: "Débloque ton évaluation de chant et obtiens un feedback.",
+  quest_accuracy_title: "Précision d'Élite",
+  quest_accuracy_desc: "Obtiens une précision d'au moins 80% (4/5 correct) dans une session de quiz.",
+
+  // System loading messages
+  loading_init_aqidah: "Initialisation des dogmes et concepts d'Aqidah...",
+  loading_init_fiqh: "Chargement des leçons de Fiqh et jurisprudence...",
+  loading_init_sirah: "Indexation des histoires des Prophètes (Sirah)...",
+  loading_init_akhlaq: "Compilation des matières d'Akhlaq et de comportement...",
+  loading_init_server: "Connexion sécurisée aux serveurs de l'Institut Al-Mouyassar...",
+  loading_ready: "Prêt pour le jeu !",
+  loading_starting: "Démarrage en cours",
+
+  // Auth modal
+  auth_profile_title: "🌟 Mon Profil d'Apprenti Ansar",
+  auth_signin_title: "🔑 Connexion à l'Aventure",
+  auth_signup_title: "🚀 Créer mon Espace de Jeu",
+  auth_logged_in_desc: "Tes précieux badges, tes points XP et tes conversations avec l'Oustaz Virtuel sont bien enregistrés !",
+  auth_logged_out_desc: "Connecte-toi ou crée un compte pour enregistrer tes précieux points (XP) et tes magnifiques badges de réussite !",
+  auth_email_label: "📧 Mon E-mail",
+  auth_xp_label: "✨ Mes Points d'Expérience",
+  auth_logout_btn: "🚪 Quitter mon Espace",
+  auth_email_field: "Adresse E-mail :",
+  auth_password_field: "Mot de passe :",
+  auth_email_placeholder: "exemple@mouyassar.com",
+  auth_password_placeholder: "••••••••",
+  auth_signin_btn: "Se connecter",
+  auth_signup_btn: "S'inscrire",
+  auth_switch_to_signup: "Créer un compte à la place",
+  auth_switch_to_signin: "Déjà un compte ? Se connecter",
+  auth_error_empty: "Veuillez remplir tous les champs.",
+  auth_error_generic: "Une erreur s'est produite lors de l'authentification.",
+  auth_success_signup: "Macha'Allah ! Ton compte d'aventurier a bien été créé. Amuse-toi bien et progresse sur le chemin du savoir ! ✨",
+
+  // Session end text
+  session_end_desc: "Vous avez répondu aux questions de l'exercice avec attention. Prenez le temps d'analyser vos résultats et de lire les explications ci-dessous.",
 };
 

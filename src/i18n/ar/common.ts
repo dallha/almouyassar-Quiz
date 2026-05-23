@@ -214,4 +214,47 @@ export default {
   home_school_title: "معهد الميسّر",
   home_school_desc: "تأسس المعهد سنة 2007 على يد الشيخ الحاج عبدالله نياس لتعليم حاملي كلام الله المبارك.",
   home_school_history_btn: "استكشاف تاريخ المعهد بالكامل →",
+
+  // Daily Quests
+  quest_quiz_title: "أستاذ الاختبارات",
+  quest_quiz_desc: "أجب بشكل صحيح على 3 أسئلة من الاختبار الحر.",
+  quest_oustaz_title: "تلميذ منتبه",
+  quest_oustaz_desc: "تبادل سؤالين ملهمين مع الأستاذ الافتراضي.",
+  quest_karaoke_title: "جوقة الأنصار",
+  quest_karaoke_desc: "افتح تقييم الغناء واحصل على التغذية الراجعة.",
+  quest_accuracy_title: "دقة النخبة",
+  quest_accuracy_desc: "احصل على دقة لا تقل عن 80% (4/5 صحيح) في جلسة اختبار.",
+
+  // System loading messages
+  loading_init_aqidah: "جاري تحميل مبادئ العقيدة ومفاهيمها...",
+  loading_init_fiqh: "جاري تحميل دروس الفقه وأصوله...",
+  loading_init_sirah: "جاري فهرسة قصص الأنبياء (السيرة)...",
+  loading_init_akhlaq: "جاري تجميع مواد الأخلاق والسلوك...",
+  loading_init_server: "جاري الاتصال الآمن بخوادم معهد الميسر...",
+  loading_ready: "جاهز للعب !",
+  loading_starting: "جاري بدء التشغيل",
+
+  // Auth modal
+  auth_profile_title: "🌟 ملفي الشخصي لتلميذ الأنصار",
+  auth_signin_title: "🔑 تسجيل الدخول إلى المغامرة",
+  auth_signup_title: "🚀 إنشاء فضاء اللعب الخاص بي",
+  auth_logged_in_desc: "شاراتك الثمينة ونقاط خبرتك ومحادثاتك مع الأستاذ الافتراضي مسجلة بشكل جيد !",
+  auth_logged_out_desc: "سجل الدخول أو أنشئ حساباً لحفظ نقاط خبرتك الثمينة وشارات نجاحك الرائعة !",
+  auth_email_label: "📧 بريدي الإلكتروني",
+  auth_xp_label: "✨ نقاط خبرتي",
+  auth_logout_btn: "🚪 مغادرة فضائي",
+  auth_email_field: "البريد الإلكتروني :",
+  auth_password_field: "كلمة المرور :",
+  auth_email_placeholder: "exemple@mouyassar.com",
+  auth_password_placeholder: "••••••••",
+  auth_signin_btn: "تسجيل الدخول",
+  auth_signup_btn: "إنشاء حساب",
+  auth_switch_to_signup: "إنشاء حساب بدلاً من ذلك",
+  auth_switch_to_signin: "هل لديك حساب بالفعل ؟ تسجيل الدخول",
+  auth_error_empty: "يرجى ملء جميع الحقول.",
+  auth_error_generic: "حدث خطأ أثناء المصادقة.",
+  auth_success_signup: "ما شاء الله ! تم إنشاء حساب المغامر الخاص بك بنجاح. استمتع وتقدم في طريق العلم ! ✨",
+
+  // Session end text
+  session_end_desc: "لقد أجبت على أسئلة التمرين بعناية. خذ الوقت الكافي لتحليل نتائجك وقراءة التفسيرات أدناه.",
 };

@@ -154,7 +154,7 @@ function StarryBackground() {
 
 export default function App() {
   const { t, language, dir } = useLanguage();
-  
+
   const getCategoryKey = (c: string) => {
     if (c === 'Institut Al-Mouyassar') return 'quiz.cat_mouyassar';
     return `quiz.cat_${c.toLowerCase().replace('saint ', '')}`;
@@ -1196,7 +1196,7 @@ export default function App() {
                 {/* Informative cycling text */}
                 <div className="space-y-1">
                   <div className="text-[11px] text-stone-400 font-extrabold uppercase font-sans tracking-wide">
-                    {initProgress === 100 ? "Prêt pour le jeu !" : "Démarrage en cours"}
+                    {initProgress === 100 ? t('common.loading_ready', "Prêt pour le jeu !") : t('common.loading_starting', "Démarrage en cours")}
                   </div>
                   <p className="text-xs font-bold text-stone-700 h-9 flex items-center justify-center px-2 transition-all leading-normal">
                     {initStatusMsg}
@@ -1311,11 +1311,10 @@ export default function App() {
       <SmartInstallPrompt />
 
       {/* Main Core View Area */}
-      <main className={`flex-1 w-full mx-auto flex flex-col justify-start transition-all duration-300 ${
-        activeTab === 'adventure' 
-          ? 'max-w-5xl px-2 py-4 md:px-6 md:py-8' 
-          : 'max-w-4xl px-4 py-6 md:py-10'
-      }`}>
+      <main className={`flex-1 w-full mx-auto flex flex-col justify-start transition-all duration-300 ${activeTab === 'adventure'
+        ? 'max-w-5xl px-2 py-4 md:px-6 md:py-8'
+        : 'max-w-4xl px-4 py-6 md:py-10'
+        }`}>
         <AnimatePresence mode="wait">
 
           {/* SCREEN 1: Active Gameplay Screen */}
@@ -1378,9 +1377,7 @@ export default function App() {
                       {t('quiz.congratulations_session', 'Félicitations, Session Terminée !')}
                     </h2>
                     <p className="text-sm text-slate-400 max-w-md mx-auto">
-                      {language === 'ar' ? 'لقد أجبت على أسئلة التمرين بعناية. خذ الوقت الكافي لتحليل نتائجك وقراءة التفسيرات أدناه.' :
-                        language === 'wo' ? 'Tontu nga laaj yi ci anam bu woor. Tannal waxtu ngir seet say ndam ak firi bi ci suuf.' :
-                          "Vous avez répondu aux questions de l'exercice avec attention. Prenez le temps d'analyser vos résultats et de lire les explications ci-dessous."}
+                      {t('common.session_end_desc')}
                     </p>
                   </div>
 
@@ -2363,12 +2360,12 @@ export default function App() {
                   <Users className="w-6 h-6" />
                 </div>
                 <h3 className="text-lg font-black text-[#004D40] uppercase tracking-tight">
-                  {currentUser ? "🌟 Mon Profil d'Apprenti Ansar" : authMode === 'signin' ? "🔑 Connexion à l'Aventure" : "🚀 Créer mon Espace de Jeu"}
+                  {currentUser ? t('common.auth_profile_title') : authMode === 'signin' ? t('common.auth_signin_title') : t('common.auth_signup_title')}
                 </h3>
                 <p className="text-xs text-stone-500 max-w-xs mx-auto">
                   {currentUser
-                    ? "Tes précieux badges, tes points XP et tes conversations avec l'Oustaz Virtuel sont bien enregistrés !"
-                    : "Connecte-toi ou crée un compte pour enregistrer tes précieux points (XP) et tes magnifiques badges de réussite !"}
+                    ? t('common.auth_logged_in_desc')
+                    : t('common.auth_logged_out_desc')}
                 </p>
               </div>
 
@@ -2377,11 +2374,11 @@ export default function App() {
                 <div className="space-y-4">
                   <div className="p-4 bg-white border border-stone-200 rounded-xl space-y-2">
                     <div className="flex justify-between items-center text-xs text-stone-700">
-                      <span className="text-stone-400 font-semibold uppercase">📧 Mon E-mail</span>
+                      <span className="text-stone-400 font-semibold uppercase">{t('common.auth_email_label')}</span>
                       <span className="font-extrabold text-[#004D40]">{currentUser.email}</span>
                     </div>
                     <div className="flex justify-between items-center text-xs text-stone-700">
-                      <span className="text-stone-400 font-semibold uppercase">✨ Mes Points d'Expérience</span>
+                      <span className="text-stone-400 font-semibold uppercase">{t('common.auth_xp_label')}</span>
                       <span className="font-extrabold text-[#D0A21C]">{stats.xp} XP</span>
                     </div>
                   </div>
@@ -2399,7 +2396,7 @@ export default function App() {
                     className="w-full py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md disabled:opacity-50"
                   >
                     <LogOut className="w-4 h-4" />
-                    <span>🚪 Quitter mon Espace</span>
+                    <span>{t('common.auth_logout_btn')}</span>
                   </button>
                 </div>
               ) : (
@@ -2412,7 +2409,7 @@ export default function App() {
                     setAuthError(null);
 
                     if (!authEmail || !authPassword) {
-                      setAuthError("Veuillez remplir tous les champs.");
+                      setAuthError(t('common.auth_error_empty'));
                       setAuthLoading(false);
                       return;
                     }
@@ -2451,26 +2448,26 @@ export default function App() {
                   <div className="space-y-3">
                     <div>
                       <label className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block mb-1">
-                        Adresse E-mail :
+                        {t('common.auth_email_field')}
                       </label>
                       <input
                         type="email"
                         value={authEmail}
                         onChange={(e) => setAuthEmail(e.target.value)}
-                        placeholder="exemple@mouyassar.com"
+                        placeholder={t('common.auth_email_placeholder')}
                         required
                         className="w-full px-3 py-2 border border-stone-200 bg-white text-stone-850 text-xs rounded-lg focus:outline-none focus:border-[#D0A21C]"
                       />
                     </div>
                     <div>
                       <label className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block mb-1">
-                        Mot de passe :
+                        {t('common.auth_password_field')}
                       </label>
                       <input
                         type="password"
                         value={authPassword}
                         onChange={(e) => setAuthPassword(e.target.value)}
-                        placeholder="••••••••"
+                        placeholder={t('common.auth_password_placeholder')}
                         required
                         className="w-full px-3 py-2 border border-stone-200 bg-white text-stone-850 text-xs rounded-lg focus:outline-none focus:border-[#D0A21C]"
                       />
@@ -2485,9 +2482,9 @@ export default function App() {
                     {authLoading ? (
                       <RefreshCw className="w-3.5 h-3.5 animate-spin" />
                     ) : authMode === 'signin' ? (
-                      "Se connecter"
+                      t('common.auth_signin_btn')
                     ) : (
-                      "S'inscrire"
+                      t('common.auth_signup_btn')
                     )}
                   </button>
 
@@ -2501,7 +2498,7 @@ export default function App() {
                       }}
                       className="text-stone-500 hover:text-[#004D40] text-xs font-bold transition-all underline cursor-pointer"
                     >
-                      {authMode === 'signin' ? "Créer un compte à la place" : "Déjà un compte ? Se connecter"}
+                      {authMode === 'signin' ? t('common.auth_switch_to_signup') : t('common.auth_switch_to_signin')}
                     </button>
                   </div>
                 </form>
