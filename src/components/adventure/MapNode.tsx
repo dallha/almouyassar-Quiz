@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Star, Lock, Sparkles, Trophy, BookOpen, Crown, Compass, Droplet, Gift, RefreshCw } from 'lucide-react';
+import { Star, Lock, BookOpen, Crown, Compass, Droplet } from 'lucide-react';
 import { AdventureNode } from '../../types';
 import { useLanguage } from '../../LanguageContext';
 
@@ -17,7 +17,7 @@ export default function MapNode({ node, isActive, isCompleted, isLocked, onClick
   
   // Winding path calculation (flips naturally in RTL to align with Arab reading direction)
   const isLeft = index % 2 === 0;
-  const xOffset = (isLeft ? -45 : 45) * (dir === 'rtl' ? -1 : 1);
+  const xOffset = (isLeft ? -34 : 34) * (dir === 'rtl' ? -1 : 1);
 
   // Determine icon & colors based on type
   let icon = <Compass className="w-6 h-6 text-white/50" />;
@@ -54,33 +54,33 @@ export default function MapNode({ node, isActive, isCompleted, isLocked, onClick
   }
 
   let bgColor = 'bg-gray-800';
-  let borderColor = 'border-gray-700';
+  let borderColor = 'border-transparent';
   let shadow = '';
 
   if (isCompleted) {
-    bgColor = 'bg-gradient-to-br from-emerald-600 to-teal-700';
-    borderColor = 'border-emerald-300/40';
-    shadow = 'shadow-[0_0_20px_rgba(16,185,129,0.25)]';
+    bgColor = 'bg-[radial-gradient(circle_at_32%_30%,rgba(255,255,255,0.42),rgba(16,185,129,0.92)_42%,rgba(13,148,136,0.92)_100%)]';
+    borderColor = 'border-emerald-100/20';
+    shadow = 'shadow-[0_0_24px_rgba(16,185,129,0.35)]';
   } else if (isActive) {
-    bgColor = `bg-gradient-to-br ${activeColorClass}`;
-    borderColor = 'border-white/90';
-    shadow = `shadow-[0_0_35px_${themeGlow}]`;
+    bgColor = `bg-[radial-gradient(circle_at_34%_30%,rgba(255,255,255,0.6),transparent_28%),linear-gradient(145deg,var(--tw-gradient-stops))] ${activeColorClass}`;
+    borderColor = 'border-white/25';
+    shadow = `shadow-[0_0_38px_${themeGlow}]`;
   } else if (isLocked) {
     bgColor = 'bg-[#0f241c]';
-    borderColor = 'border-[#1e3b2e]';
+    borderColor = 'border-[#1e3b2e]/45';
     shadow = 'shadow-inner';
   }
 
-  const nodeSize = node.type === 'boss' ? 84 : 64;
+  const nodeSize = node.type === 'boss' ? 96 : 74;
 
   return (
-    <div className="relative flex flex-col items-center justify-center my-6 group w-full">
+    <div className="relative flex flex-col items-center justify-center my-4 group w-full">
       {/* Active rotating orbital ring */}
       {isActive && (
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
-          className="absolute z-0 rounded-full border-2 border-dashed border-amber-400/40"
+          className="absolute z-0 rounded-full border border-dashed border-amber-300/35"
           style={{
             width: `${nodeSize + 16}px`,
             height: `${nodeSize + 16}px`,
@@ -123,8 +123,8 @@ export default function MapNode({ node, isActive, isCompleted, isLocked, onClick
         whileTap={!isLocked ? { scale: 0.94 } : {}}
         onClick={onClick}
         disabled={isLocked}
-        className={`relative z-10 flex items-center justify-center rounded-full border-[3px] transition-all duration-300 ${bgColor} ${borderColor} ${shadow} ${
-          isActive ? 'ring-4 ring-amber-400/20' : ''
+        className={`relative z-10 flex items-center justify-center rounded-full border transition-all duration-300 ${bgColor} ${borderColor} ${shadow} ${
+          isActive ? 'ring-2 ring-amber-300/25' : ''
         }`}
         style={{
           width: `${nodeSize}px`,
@@ -143,7 +143,7 @@ export default function MapNode({ node, isActive, isCompleted, isLocked, onClick
       <motion.div 
         initial={{ opacity: 0.85 }}
         whileHover={{ opacity: 1, scale: 1.02 }}
-        className="absolute mt-3.5 pointer-events-none"
+        className="absolute mt-2.5 pointer-events-none"
         style={{
           top: '100%',
           transform: `translateX(${xOffset}px)`,
@@ -152,10 +152,10 @@ export default function MapNode({ node, isActive, isCompleted, isLocked, onClick
       >
         <div className={`px-3 py-1 rounded-xl border whitespace-nowrap text-center shadow-lg transition-all duration-300 ${
           isActive 
-            ? 'bg-amber-950/80 backdrop-blur-md border-amber-500/40 shadow-amber-500/10' 
+            ? 'bg-amber-950/55 backdrop-blur-sm border-amber-500/25 shadow-amber-500/10' 
             : isCompleted 
-              ? 'bg-emerald-950/70 backdrop-blur-sm border-emerald-500/20 text-emerald-400' 
-              : 'bg-[#05140e]/90 backdrop-blur-sm border-white/5 text-white/50'
+              ? 'bg-emerald-950/50 backdrop-blur-sm border-emerald-500/12 text-emerald-300' 
+              : 'bg-[#05140e]/72 backdrop-blur-sm border-white/5 text-white/45'
         }`}>
           <p className={`font-bold text-xs ${isActive ? 'text-amber-300' : isCompleted ? 'text-emerald-300' : ''}`}>
             {t(`adventure.nodes.${node.id.replace(/-/g, '_')}.title`, node.title)}
@@ -165,4 +165,3 @@ export default function MapNode({ node, isActive, isCompleted, isLocked, onClick
     </div>
   );
 }
-

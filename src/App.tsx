@@ -1137,8 +1137,12 @@ export default function App() {
     return `${catStr} • ${lvlStr}`;
   };
 
+  const isAdventureFullscreen = !isQuizActive && activeTab === 'adventure';
+
   return (
-    <div className={`min-h-screen transition-colors duration-500 flex flex-col font-sans antialiased selection:bg-[#004D40]/25 ${theme === 'dark'
+    <div className={`min-h-screen transition-colors duration-500 flex flex-col font-sans antialiased selection:bg-[#004D40]/25 ${isAdventureFullscreen
+      ? 'bg-[#04110b] text-white'
+      : theme === 'dark'
       ? 'bg-[#070b19] text-slate-100 dark'
       : 'bg-[#FCF8F2] text-stone-850'
       }`}>
@@ -1279,43 +1283,47 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* ── Premium Header ── */}
-      <Header
-        level={Math.floor(stats.xp / 200) + 1}
-        xp={stats.xp}
-        xpToNextLevel={200}
-        streak={stats.streak}
-        highestStreak={stats.highestStreak}
-        username="Explorateur"
-        unlockedBadgeCount={badgesState.filter(b => b.unlocked).length}
-        totalBadgeCount={badgesState.length}
-        dailyRewardAvailable={dailyRewardsState.some(r => !r.claimed && r.day === dailyRewardDay)}
-        isLoggedIn={currentUser !== null}
-        isQuizActive={isQuizActive}
-        onDailyRewardClick={() => setShowDailyReward(true)}
-        onBadgeGalleryClick={() => setShowBadgeGallery(true)}
-        onAvatarClick={() => setShowAuthModal(true)}
-        onQuitQuiz={() => setQuitConfirmModal(true)}
-        onNavigate={(action) => {
-          if (action === 'adventure') setActiveTab('adventure');
-          else if (action === 'quiz') setActiveTab('quiz');
-          else if (action === 'revisions') setShowBadgeGallery(true);
-          else if (action === 'trophies') setShowBadgeGallery(true);
-          else if (action === 'parental') setActiveTab('parental');
-          else if (action === 'settings') setShowSettingsModal(true);
-          else if (action === 'about') setShowSchoolModal(true);
-          else if (action === 'support') window.location.href = 'mailto:mrniass@gmail.com';
-          else if (action === 'install') alert(t('common.install_alert'));
-        }}
-      />
+      {!isAdventureFullscreen && (
+        <Header
+          level={Math.floor(stats.xp / 200) + 1}
+          xp={stats.xp}
+          xpToNextLevel={200}
+          streak={stats.streak}
+          highestStreak={stats.highestStreak}
+          username="Explorateur"
+          unlockedBadgeCount={badgesState.filter(b => b.unlocked).length}
+          totalBadgeCount={badgesState.length}
+          dailyRewardAvailable={dailyRewardsState.some(r => !r.claimed && r.day === dailyRewardDay)}
+          isLoggedIn={currentUser !== null}
+          isQuizActive={isQuizActive}
+          onDailyRewardClick={() => setShowDailyReward(true)}
+          onBadgeGalleryClick={() => setShowBadgeGallery(true)}
+          onAvatarClick={() => setShowAuthModal(true)}
+          onQuitQuiz={() => setQuitConfirmModal(true)}
+          onNavigate={(action) => {
+            if (action === 'adventure') setActiveTab('adventure');
+            else if (action === 'quiz') setActiveTab('quiz');
+            else if (action === 'revisions') setShowBadgeGallery(true);
+            else if (action === 'trophies') setShowBadgeGallery(true);
+            else if (action === 'parental') setActiveTab('parental');
+            else if (action === 'settings') setShowSettingsModal(true);
+            else if (action === 'about') setShowSchoolModal(true);
+            else if (action === 'support') window.location.href = 'mailto:mrniass@gmail.com';
+            else if (action === 'install') alert(t('common.install_alert'));
+          }}
+        />
+      )}
 
       {/* Smart Install Prompt — contextuel, badge flottant après 3 interactions */}
-      <SmartInstallPrompt />
+      {!isAdventureFullscreen && <SmartInstallPrompt />}
 
       {/* Main Core View Area */}
-      <main className={`flex-1 w-full mx-auto flex flex-col justify-start transition-all duration-300 pt-[var(--header-height)] ${activeTab === 'adventure'
-        ? 'max-w-5xl px-2 py-4 md:px-6 md:py-8'
-        : 'max-w-4xl px-4 py-6 md:py-10'
+      <main className={`flex-1 w-full mx-auto flex flex-col justify-start transition-all duration-300 ${isAdventureFullscreen
+        ? 'h-[100dvh] max-w-none p-0'
+        : `pt-[var(--header-height)] ${activeTab === 'adventure'
+          ? 'max-w-5xl px-2 py-4 md:px-6 md:py-8'
+          : 'max-w-4xl px-4 py-6 md:py-10'
+        }`
         }`}>
         <AnimatePresence mode="wait">
 
@@ -1538,6 +1546,35 @@ export default function App() {
                 </motion.div>
               )}
             </motion.div>
+          ) : isAdventureFullscreen ? (
+            <motion.div
+              key="adventure-fullscreen"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="h-full w-full"
+            >
+              <AdventureMode
+                adventureState={adventureState}
+                onUpdateState={setAdventureState}
+                onOpenProfile={() => setShowAuthModal(true)}
+                onExitAdventure={() => setActiveTab('pitch')}
+                onRewardUnlocked={(xp, title) => {
+                  if (xp > 0) {
+                    setStats(prev => ({
+                      ...prev,
+                      xp: prev.xp + xp,
+                    }));
+                  }
+                  if (title && !adventureState.unlockedTitles.includes(title)) {
+                    setAdventureState(prev => ({
+                      ...prev,
+                      unlockedTitles: [...prev.unlockedTitles, title]
+                    }));
+                  }
+                }}
+              />
+            </motion.div>
           ) : (
 
             /* SCREEN 2: Main Home Dashboard with Tabs */
@@ -1643,27 +1680,6 @@ export default function App() {
                   >
                     {activeTab === 'pitch' && (
                       <VisionPitch onStartAdventure={() => { playSelectSound(); setActiveTab('adventure'); }} />
-                    )}
-
-                    {activeTab === 'adventure' && (
-                      <AdventureMode
-                        adventureState={adventureState}
-                        onUpdateState={setAdventureState}
-                        onRewardUnlocked={(xp, title) => {
-                          if (xp > 0) {
-                            setStats(prev => ({
-                              ...prev,
-                              xp: prev.xp + xp,
-                            }));
-                          }
-                          if (title && !adventureState.unlockedTitles.includes(title)) {
-                            setAdventureState(prev => ({
-                              ...prev,
-                              unlockedTitles: [...prev.unlockedTitles, title]
-                            }));
-                          }
-                        }}
-                      />
                     )}
 
                     {activeTab === 'oustaz' && !isOustazBlocked && (

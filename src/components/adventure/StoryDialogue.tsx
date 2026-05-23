@@ -166,7 +166,7 @@ export default function StoryDialogue({ dialogues, onComplete, isCheckpoint = fa
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex flex-col justify-end bg-black/80 backdrop-blur-sm p-4 sm:p-8"
+        className="fixed inset-0 z-50 flex flex-col justify-end bg-[#03110b]/52 backdrop-blur-[2px] p-4 sm:p-8"
         onClick={handleNext}
       >
         {/* Character Avatar */}
@@ -211,4 +211,3 @@ export default function StoryDialogue({ dialogues, onComplete, isCheckpoint = fa
     </AnimatePresence>
   );
 }
-

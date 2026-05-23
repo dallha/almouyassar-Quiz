@@ -26,19 +26,20 @@ export default function MissionModal({ node, isOpen, onClose, onStart }: Mission
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md"
+            className="fixed inset-0 z-50 bg-[#03110b]/45 backdrop-blur-[3px]"
             onClick={onClose}
           />
           <motion.div
-            initial={{ y: '100%' }}
-            animate={{ y: 0 }}
-            exit={{ y: '100%' }}
+            initial={{ y: 56, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 56, opacity: 0 }}
             transition={{ type: 'spring', damping: 26, stiffness: 220 }}
-            className={`fixed bottom-0 left-0 right-0 z-50 rounded-t-3xl shadow-[0_-12px_40px_rgba(0,0,0,0.6)] p-7 pb-safe-offset-6 md:max-w-md md:mx-auto md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:rounded-3xl border transition-all duration-300 ${
+            className={`fixed left-3 right-3 z-50 rounded-3xl shadow-[0_-8px_28px_rgba(0,0,0,0.4)] p-6 md:max-w-md md:mx-auto md:left-0 md:right-0 md:bottom-auto md:top-1/2 md:-translate-y-1/2 border transition-all duration-300 ${
               isBoss 
                 ? 'bg-[#0f1813] border-amber-500/30 shadow-[0_0_40px_rgba(245,158,11,0.12)]' 
                 : 'bg-[#0a1e16] border-emerald-500/10'
             }`}
+            style={{ bottom: 'calc(env(safe-area-inset-bottom, 0px) + 18px)' }}
           >
             {/* Glowing top line for Boss */}
             {isBoss && (
@@ -135,5 +136,4 @@ export default function MissionModal({ node, isOpen, onClose, onStart }: Mission
     </AnimatePresence>
   );
 }
-
 

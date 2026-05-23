@@ -163,7 +163,7 @@ export default function AdventureSession({ node, onComplete, onClose }: Adventur
     const success = isBoss ? playerHearts > 0 && accuracy >= required : accuracy >= required;
 
     return (
-      <div className="fixed inset-0 z-50 bg-[#05100b] flex items-center justify-center p-4">
+      <div className="fixed inset-0 z-50 bg-[#05100b]/96 backdrop-blur-[2px] flex items-center justify-center p-4">
         <motion.div 
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -240,7 +240,7 @@ export default function AdventureSession({ node, onComplete, onClose }: Adventur
   const currentQuestion = sessionQuestions[currentIndex];
 
   return (
-    <div className={`fixed inset-0 z-50 bg-[#040e0a] flex flex-col transition-all duration-300 ${
+    <div className={`fixed inset-0 z-50 bg-[#040e0a]/95 flex flex-col transition-all duration-300 ${
       shakeScreen ? 'animate-shake-micro' : ''
     }`}>
       {/* ── HIGH-END GUARDIAN DUEL HUD ── */}
@@ -305,4 +305,3 @@ export default function AdventureSession({ node, onComplete, onClose }: Adventur
     </div>
   );
 }
-
