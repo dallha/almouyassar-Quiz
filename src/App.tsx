@@ -1265,7 +1265,11 @@ export default function App() {
       <SmartInstallPrompt />
 
       {/* Main Core View Area */}
-      <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-6 md:py-10 flex flex-col justify-start">
+      <main className={`flex-1 w-full mx-auto flex flex-col justify-start transition-all duration-300 ${
+        activeTab === 'adventure' 
+          ? 'max-w-5xl px-2 py-4 md:px-6 md:py-8' 
+          : 'max-w-4xl px-4 py-6 md:py-10'
+      }`}>
         <AnimatePresence mode="wait">
 
           {/* SCREEN 1: Active Gameplay Screen */}

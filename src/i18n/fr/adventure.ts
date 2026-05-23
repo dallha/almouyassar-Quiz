@@ -57,49 +57,45 @@ export default {
     }
   },
 
-  // Nobel badges/titles
+  // Nobel badges/titles matching node IDs
   badges: {
-    zone_1_story: {
-      title: "Le Voyageur Purifié"
+    node_1_1: {
+      title: "Apprenti Voyageur"
     },
-    zone_1_boss: {
-      title: "Le Gardien de la Foi"
-    },
-    zone_2_story: {
-      title: "L'Éveillé Lumineux"
-    },
-    zone_2_boss: {
-      title: "Le Protecteur du Verbe"
-    },
-    zone_3_story: {
-      title: "Le Disciple des Prophètes"
-    },
-    zone_3_boss: {
-      title: "L'Érudit Éclairé"
+    node_1_5: {
+      title: "Clé du Jardin"
     }
   },
 
-  // Nodes titles & descriptions
+  // Nodes titles & descriptions matching node IDs after replacing hyphens with underscores
   nodes: {
-    zone_1_story: {
-      title: "L'Appel de la Pureté",
-      desc: "Écoute les conseils d'Oustaz sur les bienfaits de la pureté du corps et de l'esprit."
+    node_1_1: {
+      title: "Le Premier Pas",
+      desc: "Rencontre avec ton guide spirituel pour commencer ton voyage."
     },
-    zone_1_node1: {
-      title: "Les Piliers de l'Islam",
-      desc: "Démontre tes connaissances sur les 5 piliers de notre foi."
+    node_1_2: {
+      title: "Les Fondations",
+      desc: "Prouve ta compréhension de la Shahada et de la Prière."
     },
-    zone_1_node2: {
-      title: "L'Art des Ablutions",
-      desc: "Maîtrise les étapes sacrées de la purification."
+    node_1_3: {
+      title: "La Source de Zamzam",
+      desc: "Une pause bien méritée pour reprendre des forces près de la source sacrée."
     },
-    zone_1_checkpoint: {
-      title: "Halte de la Sagesse",
-      desc: "Une pause méditative près de la source de Zamzam."
+    node_1_4: {
+      title: "L'Épreuve du Jeûne",
+      desc: "Teste tes connaissances sur le mois sacré de Ramadan."
     },
-    zone_1_boss: {
-      title: "Le Défi de la Pureté",
-      desc: "Affronte le premier Gardien pour prouver ta sincérité."
+    node_1_5: {
+      title: "Le Gardien de la Vallée",
+      desc: "L'épreuve finale pour prouver ta sincérité dans la Vallée de la Pureté."
+    },
+    node_2_1: {
+      title: "Murmures à l'aube",
+      desc: "Écoute les paroles matinales de sagesse dans le Jardin."
+    },
+    node_2_2: {
+      title: "Les 99 Noms (Partie 1)",
+      desc: "Démontre tes connaissances sur les attributs divins."
     }
   }
 };

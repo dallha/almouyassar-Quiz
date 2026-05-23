@@ -57,49 +57,45 @@ export default {
     }
   },
 
-  // Noble badges/titles in Wolof
+  // Nobel badges/titles in Wolof matching node IDs
   badges: {
-    zone_1_story: {
-      title: "Tukkat bu sélal"
+    node_1_1: {
+      title: "Tukkat bu tambali"
     },
-    zone_1_boss: {
-      title: "Ki aar ngëm bi ci xolam"
-    },
-    zone_2_story: {
-      title: "Ki baax di zikar saa su nekk"
-    },
-    zone_2_boss: {
-      title: "Ki aar baat yu rafet yi"
-    },
-    zone_3_story: {
-      title: "Borom gëm Yonent yi bu woor"
-    },
-    zone_3_boss: {
-      title: "Ki am xam-xam bu leer nagn"
+    node_1_5: {
+      title: "Cabi u Jardin bi"
     }
   },
 
-  // Nodes titles & descriptions
+  // Nodes titles & descriptions in Wolof matching node IDs
   nodes: {
-    zone_1_story: {
-      title: "Woote u Sellal",
-      desc: "Déglul Oustaz mungi la jangal sélal sa yaram ak sa xol."
+    node_1_1: {
+      title: "Jeego bu jëkk",
+      desc: "Daje ak ki lay wone yoon bi ngir tambali sa tukki xam-xam."
     },
-    zone_1_node1: {
-      title: "Piliers yu woor ci l'Islam",
-      desc: "Wone sa xam-xam ci juróomi piliers yi gnu teureul ci ngëm."
+    node_1_2: {
+      title: "Piliers yu woor yi",
+      desc: "Wone sa xam-xam ci Lâ ilâha illa llâh ak julli."
     },
-    zone_1_node2: {
-      title: "Naka la gniy sélalé (ablutions)",
-      desc: "Jangal anam bu woor binga xamni fi la gniy sélal tambalé."
+    node_1_3: {
+      title: "Sox u Zamzam",
+      desc: "Nooflay bu baax ngir yok sa katan ci wet u sox u Zamzam."
     },
-    zone_1_checkpoint: {
-      title: "Nooflay u xam-xam bu sél",
-      desc: "Nooflay bu bees ngir yok sa katan ci wet u bërëb u Zamzam."
+    node_1_4: {
+      title: "Woor ak li ci ajju",
+      desc: "Wone sa xam-xam ci weer u koor bu barkeel bi."
     },
-    zone_1_boss: {
-      title: "Liggey u sélal sa xol",
-      desc: "Daje ak Ki lay laag bu jëkk ngir wone sa dëg-dëg ngëm."
+    node_1_5: {
+      title: "Ki lay laaj ci Deex bi",
+      desc: "Liggey bu mag bi ngir wone sa dëg-dëg ngëm."
+    },
+    node_2_1: {
+      title: "Kaddoo Fadjr yi",
+      desc: "Déglul baat yu rafet yi ci weer u njàng mi."
+    },
+    node_2_2: {
+      title: "Turi Yalla yi (Partie 1)",
+      desc: "Wone sa xam-xam ci turi Yalla yu rafet yi."
     }
   }
 };

@@ -13,7 +13,7 @@ interface MapNodeProps {
 }
 
 export default function MapNode({ node, isActive, isCompleted, isLocked, onClick, index }: MapNodeProps) {
-  const { dir } = useLanguage();
+  const { dir, t } = useLanguage();
   
   // Winding path calculation (flips naturally in RTL to align with Arab reading direction)
   const isLeft = index % 2 === 0;
@@ -112,7 +112,7 @@ export default function MapNode({ node, isActive, isCompleted, isLocked, onClick
               ? 'bg-[#1b3429] border-[#294c3c] text-white/30' 
               : 'bg-gradient-to-r from-amber-500 to-amber-600 border-amber-300 text-black'
           }`}>
-            Gardien
+            {t('adventure.guardian')}
           </span>
         </div>
       )}
@@ -158,7 +158,7 @@ export default function MapNode({ node, isActive, isCompleted, isLocked, onClick
               : 'bg-[#05140e]/90 backdrop-blur-sm border-white/5 text-white/50'
         }`}>
           <p className={`font-bold text-xs ${isActive ? 'text-amber-300' : isCompleted ? 'text-emerald-300' : ''}`}>
-            {node.title}
+            {t(`adventure.nodes.${node.id.replace(/-/g, '_')}.title`, node.title)}
           </p>
         </div>
       </motion.div>

@@ -41,7 +41,7 @@ export default function Header({
   onNavigate,
   onAvatarClick,
 }: HeaderProps) {
-  const { dir, t } = useLanguage();
+  const { dir, t, language, setLanguage } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const xpProgress = Math.min((xp / xpToNextLevel) * 100, 100);
@@ -362,6 +362,27 @@ export default function Header({
                         )}
                       </div>
                     </div>
+                  </div>
+
+                  {/* Highly premium Glassy Language Selector */}
+                  <div className="flex items-center justify-between gap-1 p-1 bg-white/5 border border-white/10 rounded-xl my-2">
+                    {(['fr', 'ar', 'wo'] as const).map((lang) => {
+                      const isActive = language === lang;
+                      const labels = { fr: 'FR', ar: 'العربية', wo: 'Wolof' };
+                      return (
+                        <button
+                          key={lang}
+                          onClick={() => setLanguage(lang)}
+                          className={`flex-1 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
+                            isActive
+                              ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-black shadow-md'
+                              : 'text-white/60 hover:text-white hover:bg-white/5'
+                          }`}
+                        >
+                          {labels[lang]}
+                        </button>
+                      );
+                    })}
                   </div>
 
                   {/* Header text and Principal Action CTA */}
