@@ -48,5 +48,8 @@ export default {
   result_xp_earned: "النقاط المكتسبة",
   result_streak: "سلسلة الإنجاز",
   result_continue_adventure: "تابع رحلتك",
-  result_retry: "أعد المحاولة"
+  result_retry: "أعد المحاولة",
+  correct_banner: "✅ أحسنت!",
+  incorrect_banner: "❌ ليست دقيقة تمامًا",
+  correct_answer_was: "الإجابة الصحيحة كانت: "
 };

@@ -41,49 +41,49 @@ export default function GlobalSearch({ activeTab, onNavigateTab, onStartCustomQu
   const sections = useMemo(() => [
     {
       id: 'pitch' as const,
-      title: t('presentation', 'Présentation'),
+      title: t('common.nav_presentation', 'Présentation'),
       desc: 'Découvrez la vision, le mot du fondateur et le double cursus.',
       icon: Compass,
       tags: ['vision', 'presentation', 'fondateur', 'cheikh', 'ecole', 'institut'],
     },
     {
       id: 'adventure' as const,
-      title: t('adventure', 'Aventure / Parcours'),
+      title: t('common.nav_adventure', 'Aventure / Parcours'),
       desc: 'Suivez le cheminement de la foi de niveau en niveau avec votre avatar.',
       icon: BookOpen,
       tags: ['parcours', 'chemin', 'aventure', 'niveaux', 'apprentissage', 'carte'],
     },
     {
       id: 'quiz' as const,
-      title: t('quiz', 'Quiz Libre'),
+      title: t('common.nav_quiz_free', 'Quiz Libre'),
       desc: 'Testez vos connaissances sur les matières phares de l\'institut.',
       icon: Play,
       tags: ['quiz', 'jeu', 'questions', 'scores', 'test', 'entrainement'],
     },
     {
       id: 'oustaz' as const,
-      title: t('oustaz', 'Oustaz AI'),
+      title: t('common.nav_oustaz', 'Oustaz AI'),
       desc: 'Posez toutes vos questions spirituelles de relecture ou de Fiqh.',
       icon: Users,
       tags: ['oustaz', 'chat', 'intelligence artificielle', 'ai', 'questions', 'reponses'],
     },
     {
       id: 'ansar' as const,
-      title: t('karaoke', 'Karaoké Spirituel'),
+      title: t('common.nav_karaoke', 'Karaoké Spirituel'),
       desc: 'Récitez et révisez les chants officiels et Sourates de l\'institut.',
       icon: Sparkles,
       tags: ['karaoke', 'chants', 'audios', 'recitation', 'voix', 'nachid', 'poeme'],
     },
     {
       id: 'stats' as const,
-      title: t('trophies', 'Trophées & Badges'),
+      title: t('common.nav_trophies', 'Trophées & Badges'),
       desc: 'Consultez les badges divins débloqués au cours de l\'aventure.',
       icon: Award,
       tags: ['badges', 'stats', 'succes', 'recompenses', 'trophees', 'xp'],
     },
     {
       id: 'parental' as const,
-      title: t('parents', 'Espace Parental'),
+      title: t('common.nav_parents', 'Espace Parental'),
       desc: 'Gérez le temps limite journalier, désactivez des modules et consultez les scores.',
       icon: Settings,
       tags: ['parents', 'limite', 'temps', 'configuration', 'raz', 'statistiques'],
@@ -251,7 +251,7 @@ export default function GlobalSearch({ activeTab, onNavigateTab, onStartCustomQu
                   <div className="space-y-2">
                     <h4 className="text-[10px] font-black uppercase text-[#D0A21C] tracking-widest flex items-center gap-1.5 select-none font-sans">
                       <Compass className="w-3.5 h-3.5" />
-                      <span>{t('sections_matched', 'Rubriques & Menus')}</span>
+                      <span>{t('common.sections_matched', 'Rubriques & Menus')}</span>
                     </h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {results.sections.map((sec) => {
@@ -298,7 +298,7 @@ export default function GlobalSearch({ activeTab, onNavigateTab, onStartCustomQu
                   <div className="space-y-2">
                     <h4 className="text-[10px] font-black uppercase text-[#D0A21C] tracking-widest flex items-center gap-1.5 select-none font-sans">
                       <PlayCircle className="w-3.5 h-3.5" />
-                      <span>{t('quizzes_matched', 'Thèmes de Quiz')}</span>
+                      <span>{t('common.quizzes_matched', 'Thèmes de Quiz')}</span>
                     </h4>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                       {results.quizzes.map((cat) => {
@@ -353,7 +353,7 @@ export default function GlobalSearch({ activeTab, onNavigateTab, onStartCustomQu
                   <div className="space-y-2">
                     <h4 className="text-[10px] font-black uppercase text-[#D0A21C] tracking-widest flex items-center gap-1.5 select-none font-sans">
                       <BookOpenCheck className="w-3.5 h-3.5" />
-                      <span>{t('questions_matched', 'Matières & Questions Relues')}</span>
+                      <span>{t('common.questions_matched', 'Matières & Questions Relues')}</span>
                     </h4>
                     
                     <div className="space-y-1.5 max-h-96 overflow-y-auto pr-1">

@@ -48,5 +48,8 @@ export default {
   result_xp_earned: "XP Yòbbu",
   result_streak: "Streak",
   result_continue_adventure: "Demal ci adventure bi",
-  result_retry: "Esseyal ci kaw"
+  result_retry: "Jéemaat",
+  correct_banner: "✅ MashaAllah, baax na!",
+  incorrect_banner: "❌ Bokkul bu baax",
+  correct_answer_was: "Tontu bu jub bi mooy: "
 };

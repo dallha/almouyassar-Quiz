@@ -1763,7 +1763,7 @@ export default function App() {
                                 <div className="relative">
                                   <input
                                     type="text"
-                                    placeholder={t('quiz_search_placeholder', 'Hadith, ablution, prière, pureté, intention, etc.')}
+                                    placeholder={t('quiz.quiz_search_placeholder', 'Hadith, ablution, prière, pureté, intention, etc.')}
                                     value={quizSearchQuery}
                                     onChange={(e) => setQuizSearchQuery(e.target.value)}
                                     className={`w-full pl-10 pr-10 py-3 rounded-xl text-xs transition-all duration-300 font-medium ${theme === 'dark'

@@ -48,5 +48,8 @@ export default {
   result_xp_earned: "XP Gagné",
   result_streak: "Streak",
   result_continue_adventure: "Continuer l'aventure",
-  result_retry: "Recommencer"
+  result_retry: "Recommencer",
+  correct_banner: "✅ Bravo !",
+  incorrect_banner: "❌ Pas tout à fait...",
+  correct_answer_was: "La bonne réponse était : "
 };
