@@ -27,7 +27,8 @@ import AdventureMode from './components/AdventureMode';
 import OustazVirtual from './components/OustazVirtual';
 import VoixDesAnsar from './components/VoixDesAnsar';
 import ParentalDashboard from './components/ParentalDashboard';
-import MobileInstallPrompt from './components/MobileInstallPrompt';
+import SmartInstallPrompt from './components/SmartInstallPrompt';
+import CreatorSignature from './components/CreatorSignature';
 import GlobalSearch from './components/GlobalSearch';
 import QuizRecommender from './components/QuizRecommender';
 import DailyReward, { DAILY_REWARDS, DailyRewardData } from './components/ui/DailyReward';
@@ -1220,8 +1221,8 @@ export default function App() {
         onBadgeGalleryClick={() => setShowBadgeGallery(true)}
       />
 
-      {/* Mobile Progressive Web App Native Installer Prompt */}
-      <MobileInstallPrompt />
+      {/* Smart Install Prompt — contextuel, badge flottant après 3 interactions */}
+      <SmartInstallPrompt />
 
       {/* Main Core View Area */}
       <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-6 md:py-10 flex flex-col justify-start">
@@ -2049,16 +2050,16 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      {/* FOOTER */}
-      <footer className="py-6 border-t-2 border-[#D0A21C]/20 bg-[#004D40] text-center text-[11px] text-[#FCF8F2]/80 space-y-1.5 mt-auto">
-        <p className="font-bold text-center">
-          &copy; 2026 {t('footer_cop', 'Almouyassar Play & Learn • Dédié à l\'Institut Coranique Al-Mouyassar.')}
+      {/* Creator Signature — section premium */}
+      <CreatorSignature />
+
+      {/* Footer minimal */}
+      <footer className="py-4 text-center">
+        <p className="text-[10px] text-[var(--color-deep-green)]/30 font-medium">
+          &copy; 2026 Al-Mouyassar Play & Learn
         </p>
-        <p className="font-mono text-[9px] text-[#FCF8F2]/65 text-center leading-normal max-w-lg mx-auto">
-          {t('footer_desc', 'Conçu pour faciliter l\'apprentissage du Coran et des sciences islamiques (Akhlaq & Tahji)')}
-        </p>
-        <p className="font-serif italic text-[#D0A21C] text-[10px] text-center pt-1 tracking-wide font-bold">
-          {t('footer_author', 'Créateur : Graphiste de la Hadara')}
+        <p className="text-[8px] text-[var(--color-deep-green)]/20 mt-0.5 font-mono">
+          v2.0 · Dédié à l'Institut Coranique Al-Mouyassar
         </p>
       </footer>
 
