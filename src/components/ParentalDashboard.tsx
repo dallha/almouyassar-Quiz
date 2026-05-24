@@ -332,7 +332,7 @@ export default function ParentalDashboard({
                 <button
                   type="button"
                   onClick={() => { playSelectSound(); setRecoveryMode(false); }}
-                  className={`flex-1 py-2 text-[10px] font-bold rounded-lg uppercase border transition-colors ${
+                  className={`flex-1 py-2 text-[10px] font-black rounded-xl uppercase border transition-all duration-200 active:translate-y-0.5 btn-3d-slate ${
                     theme === 'dark'
                       ? 'border-slate-800 text-slate-400 hover:bg-slate-900'
                       : 'border-stone-200 text-stone-600 hover:bg-stone-50'
@@ -541,10 +541,10 @@ export default function ParentalDashboard({
               <div className="flex gap-2">
                 <button
                   onClick={handleStartPinChange}
-                  className={`text-[9px] font-bold uppercase cursor-pointer flex items-center gap-1 border px-2 py-1.5 rounded-lg transition-colors ${
+                  className={`text-[9px] font-black uppercase cursor-pointer flex items-center gap-1.5 border px-2.5 py-1.5 rounded-lg transition-all duration-200 active:translate-y-0.5 btn-3d-slate ${
                     theme === 'dark'
-                      ? 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:bg-slate-850'
-                      : 'bg-white border-stone-200 text-stone-600 hover:text-stone-800 hover:bg-stone-50'
+                      ? 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:bg-slate-855 shadow-sm'
+                      : 'bg-white border-stone-200 text-stone-650 hover:bg-stone-50 shadow-sm'
                   }`}
                 >
                   <Key className="w-2.5 h-2.5" />
@@ -552,10 +552,10 @@ export default function ParentalDashboard({
                 </button>
                 <button
                   onClick={() => { playSelectSound(); setIsUnlocked(false); }}
-                  className={`text-[9px] font-bold uppercase cursor-pointer flex items-center gap-1 border px-2.5 py-1.5 rounded-lg transition-colors ${
+                  className={`text-[9px] font-black uppercase cursor-pointer flex items-center gap-1.5 border px-2.5 py-1.5 rounded-lg transition-all duration-200 active:translate-y-0.5 btn-3d-slate ${
                     theme === 'dark'
-                      ? 'bg-slate-900 border-slate-800 text-amber-400 hover:text-amber-300 hover:bg-slate-850'
-                      : 'bg-white border-stone-200 text-stone-600 hover:text-stone-800 hover:bg-stone-50'
+                      ? 'bg-slate-900 border-slate-800 text-amber-400 hover:text-amber-300 hover:bg-slate-855 shadow-sm'
+                      : 'bg-white border-stone-200 text-stone-650 hover:bg-stone-50 shadow-sm'
                   }`}
                 >
                   <Unlock className="w-2.5 h-2.5 text-emerald-500" />
@@ -703,17 +703,17 @@ export default function ParentalDashboard({
                   <div className="flex gap-2 justify-end">
                     <button
                       onClick={() => { playSelectSound(); setShowConfirmReset(false); }}
-                      className={`px-3 py-1.5 rounded-lg text-[10px] font-bold border uppercase transition-colors ${
+                      className={`px-3 py-1.5 rounded-xl text-[10px] font-black border uppercase transition-all duration-200 active:translate-y-0.5 btn-3d-slate ${
                         theme === 'dark'
-                          ? 'bg-slate-900 border-slate-800 text-slate-350 hover:bg-slate-850 hover:text-white'
-                          : 'bg-white border-stone-255 text-stone-600 hover:bg-stone-50'
+                          ? 'bg-slate-900 border-slate-800 text-slate-350 hover:bg-slate-850 hover:text-white shadow-sm'
+                          : 'bg-white border-stone-200 text-stone-600 hover:bg-stone-50 shadow-sm'
                       }`}
                     >
                       {t('parental.reset_cancel')}
                     </button>
                     <button
                       onClick={handleConfirmReset}
-                      className="px-3 py-1.5 bg-rose-600 text-white rounded-lg text-[10px] font-bold uppercase shadow-sm active:scale-95"
+                      className="px-3.5 py-1.5 bg-rose-600 text-[#FCF8F2] border border-rose-700/20 rounded-xl text-[10px] font-black uppercase shadow-md transition-all duration-200 active:translate-y-0.5 btn-3d-rose cursor-pointer"
                     >
                       {t('parental.reset_yes')}
                     </button>
@@ -722,10 +722,10 @@ export default function ParentalDashboard({
               ) : (
                 <button
                   onClick={handleTriggerReset}
-                  className={`w-full py-3 font-extrabold uppercase text-[9px] tracking-widest rounded-xl border transition-colors flex items-center justify-center gap-2 cursor-pointer ${
+                  className={`w-full py-3 font-extrabold uppercase text-[9px] tracking-widest rounded-xl border transition-all duration-200 active:translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer btn-3d-rose ${
                     theme === 'dark'
-                      ? 'bg-rose-955/10 hover:bg-rose-955/20 text-rose-400 border-rose-900/30'
-                      : 'bg-rose-50 hover:bg-rose-100 text-rose-700 border-rose-200'
+                      ? 'bg-rose-950/20 hover:bg-rose-950/30 text-rose-400 border-rose-900/30 shadow-sm'
+                      : 'bg-rose-50 hover:bg-rose-100 text-rose-700 border-rose-200 shadow-sm'
                   }`}
                 >
                   <RefreshCw className="w-4 h-4" />

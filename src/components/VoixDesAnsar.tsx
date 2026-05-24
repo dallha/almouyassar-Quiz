@@ -684,7 +684,7 @@ export default function VoixDesAnsar({ stats, onUpdateStats }: VoixDesAnsarProps
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className={`absolute inset-y-0 ${dir === 'rtl' ? 'left-0 pl-3' : 'right-0 pr-3'} flex items-center text-stone-400 hover:text-stone-600 cursor-pointer select-none`}
+                className={`absolute inset-y-0 ${dir === 'rtl' ? 'left-0 pl-3' : 'right-0 pr-3'} flex items-center text-stone-400 hover:text-stone-600 transition-colors duration-200 hover:scale-110 active:scale-95 cursor-pointer select-none`}
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -712,8 +712,8 @@ export default function VoixDesAnsar({ stats, onUpdateStats }: VoixDesAnsarProps
                     <p className="text-xs text-stone-500 font-bold">{t('common.ansar_no_results')}</p>
                     <button
                       type="button"
-                      onClick={() => setSearchQuery('')}
-                      className="text-[10px] uppercase tracking-wider font-extrabold text-[#D0A21C] hover:underline"
+                      onClick={() => { playSelectSound(); setSearchQuery(''); }}
+                      className="px-4 py-2 bg-stone-150 hover:bg-[#D0A21C] hover:text-[#FCF8F2] text-[10px] uppercase tracking-wider font-extrabold text-[#004D40] rounded-xl transition-all duration-200 active:translate-y-0.5 btn-3d-slate cursor-pointer"
                     >
                       {t('common.ansar_clear_search')}
                     </button>
@@ -734,7 +734,7 @@ export default function VoixDesAnsar({ stats, onUpdateStats }: VoixDesAnsarProps
                       playSelectSound();
                       setSelectedSong(song);
                     }}
-                    className="p-4 bg-white border border-stone-200 hover:border-[#D0A21C]/60 rounded-2xl shadow-sm transition-all cursor-pointer hover:-translate-y-1 hover:shadow-md flex flex-col justify-between space-y-3.5 relative group"
+                    className="p-5 bg-white border border-stone-200 hover:border-[#D0A21C]/60 rounded-2xl shadow-sm transition-all duration-200 cursor-pointer hover:-translate-y-1 hover:shadow-md active:translate-y-0 flex flex-col justify-between space-y-4 relative group btn-3d-slate"
                   >
                     <div className="space-y-1.5">
                       <div className="flex items-center justify-between">
@@ -776,9 +776,9 @@ export default function VoixDesAnsar({ stats, onUpdateStats }: VoixDesAnsarProps
           <div className="bg-white border border-stone-200 rounded-2xl p-3 flex items-center justify-between shadow-xs">
             <button
               onClick={handleQuitToSongbook}
-              className="text-[#004D40] hover:text-[#004D40]/80 text-[11px] font-bold flex items-center gap-1 cursor-pointer select-none"
+              className="px-3 py-1.5 bg-stone-50 hover:bg-stone-100 text-[#004D40] text-[10px] font-black uppercase tracking-wider rounded-xl flex items-center gap-1 cursor-pointer select-none border border-stone-200 transition-all duration-200 active:translate-y-0.5 btn-3d-slate shadow-xs"
             >
-              <ChevronLeft className={`w-4 h-4 stroke-[2.5] ${dir === 'rtl' ? 'rotate-180' : ''}`} />
+              <ChevronLeft className={`w-3.5 h-3.5 stroke-[3] ${dir === 'rtl' ? 'rotate-180' : ''}`} />
               <span>{t('common.back')}</span>
             </button>
             <div className="text-center">
@@ -841,16 +841,16 @@ export default function VoixDesAnsar({ stats, onUpdateStats }: VoixDesAnsarProps
                   )}
                 </div>
 
-                <div className="pt-2 flex flex-col sm:flex-row gap-2 justify-center">
+                <div className="pt-3 flex flex-col sm:flex-row gap-3 justify-center">
                   <button
                     onClick={handleRestartFullSong}
-                    className="px-4 py-2 bg-[#004D40] text-amber-400 hover:bg-[#004D40]/90 text-xs font-black uppercase rounded-lg tracking-wider font-sans cursor-pointer"
+                    className="px-5 py-2.5 bg-[#004D40] text-[#FCF8F2] border border-[#D0A21C]/25 text-xs font-black uppercase rounded-xl tracking-wider font-sans cursor-pointer transition-all duration-200 active:translate-y-0.5 btn-3d-emerald shadow-md"
                   >
                     {t('common.ansar_retry_song')}
                   </button>
                   <button
                     onClick={handleQuitToSongbook}
-                    className="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-650 text-xs font-black uppercase rounded-lg tracking-wider font-sans cursor-pointer"
+                    className="px-5 py-2.5 bg-stone-50 border border-stone-200 hover:bg-stone-100 text-stone-600 text-xs font-black uppercase rounded-xl tracking-wider font-sans cursor-pointer transition-all duration-200 active:translate-y-0.5 btn-3d-slate shadow-sm"
                   >
                     {t('common.ansar_quit_song')}
                   </button>
@@ -874,7 +874,7 @@ export default function VoixDesAnsar({ stats, onUpdateStats }: VoixDesAnsarProps
                       {t('common.ansar_step_1_title')}
                     </span>
                     {isMelodyHeard && (
-                      <span className="text-[9px] text-[#004D40] font-bold bg-[#004D40]/10 px-2.0 py-0.5 rounded-full flex items-center gap-0.5">
+                      <span className="text-[9px] text-[#004D40] font-bold bg-[#004D40]/10 px-2.5 py-0.5 rounded-full flex items-center gap-0.5">
                         <Check className="w-3 h-3 stroke-[3]" />
                         <span>{t('common.ansar_melody_heard')}</span>
                       </span>
@@ -885,11 +885,11 @@ export default function VoixDesAnsar({ stats, onUpdateStats }: VoixDesAnsarProps
                     <button
                       onClick={playLineMelody}
                       disabled={isPlayingMelody}
-                      className={`h-11 w-11 rounded-full shrink-0 flex items-center justify-center transition-all ${
+                      className={`h-11 w-11 rounded-full shrink-0 flex items-center justify-center transition-all duration-200 ${
                         isPlayingMelody
                           ? 'bg-[#C62828] text-white animate-pulse'
-                          : 'bg-[#004D40] hover:bg-[#004D40]/90 text-amber-400'
-                      } cursor-pointer shadow-sm`}
+                          : 'bg-[#004D40] hover:bg-[#004D40]/90 text-amber-400 border border-[#D0A21C]/20 active:translate-y-0.5 btn-3d-emerald shadow-sm'
+                      } cursor-pointer`}
                     >
                       {isPlayingMelody ? (
                         <div className="flex gap-0.5 h-3 items-end">
@@ -910,25 +910,25 @@ export default function VoixDesAnsar({ stats, onUpdateStats }: VoixDesAnsarProps
                 </div>
 
                 {/* ARABIC LINE BLOCK */}
-                <div className="p-4 bg-amber-500/[0.02] border border-[#D0A21C]/20 rounded-xl text-center space-y-2 relative overflow-hidden">
-                  <span className={`absolute -top-1 ${dir === 'rtl' ? '-left-1' : '-right-1'} text-stone-100 text-5xl font-bold select-none cursor-default`}>𝅘𝅥𝅮</span>
-                  <span className="text-[8px] font-black uppercase font-mono bg-amber-500/15 text-[#D0A21C] px-2 py-0.5 rounded">
+                <div className="p-6 bg-amber-500/[0.02] border border-[#D0A21C]/20 rounded-2xl text-center space-y-3.5 relative overflow-hidden shadow-inner">
+                  <span className={`absolute -top-1.5 ${dir === 'rtl' ? '-left-1.5' : '-right-1.5'} text-stone-100 text-6xl font-bold select-none cursor-default`}>𝅘𝅥𝅮</span>
+                  <span className="text-[8px] font-black uppercase font-mono bg-amber-500/15 text-[#D0A21C] px-2.5 py-0.5 rounded-md">
                     {t('common.ansar_title')}
                   </span>
-                  <h2 className="text-lg md:text-xl font-bold font-serif text-[#004D40] direction-rtl py-1" dir="rtl">
+                  <h2 className="text-2xl md:text-3xl font-bold font-serif text-[#004D40] tracking-normal leading-relaxed direction-rtl py-1.5" dir="rtl">
                     {isWordAnswered ? activeLine?.arabicLine : activeLine?.sentenceWithBlank}
                   </h2>
-                  <p className="text-xs text-stone-500 italic max-w-sm mx-auto font-sans leading-relaxed">
+                  <p className="text-xs md:text-sm text-stone-500 italic max-w-sm mx-auto font-sans leading-relaxed">
                     « {t('common.nasheed_' + selectedSong.id + '_line_' + activeLine?.id + '_translation', activeLine?.frenchTranslation)} »
                   </p>
                 </div>
 
                 {/* WORD DEFI SELECTIONS */}
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <p className="text-[10px] font-black uppercase text-stone-400 font-sans tracking-wide">
                     {t('common.ansar_step_1_desc')}
                   </p>
-                  <div className="grid grid-cols-3 gap-2" dir="rtl">
+                  <div className="grid grid-cols-3 gap-3" dir="rtl">
                     {activeLine?.options.map((option) => {
                       const isSelected = selectedWord === option;
                       const isAnswerCorrect = isWordAnswered && option === activeLine.missingWord;
@@ -939,16 +939,16 @@ export default function VoixDesAnsar({ stats, onUpdateStats }: VoixDesAnsarProps
                           key={option}
                           onClick={() => handleSelectOption(option)}
                           disabled={!isMelodyHeard || isWordAnswered}
-                          className={`p-2.5 rounded-xl text-center border font-serif text-xs font-bold font-black block transition-all shadow-sm ${
+                          className={`p-3 rounded-2xl text-center border font-serif text-sm font-black block transition-all duration-200 shadow-sm ${
                             !isMelodyHeard
-                              ? 'bg-stone-50 text-stone-300 border-stone-100 opacity-60 cursor-not-allowed'
+                              ? 'bg-stone-100 text-stone-300 border-stone-200 opacity-50 cursor-not-allowed'
                               : isAnswerCorrect
-                              ? 'bg-emerald-500/10 border-emerald-500 text-emerald-800 scale-[1.01]'
+                              ? 'bg-emerald-50 border-emerald-500 text-emerald-800 btn-3d-emerald shadow-emerald-250/20'
                               : isAnswerIncorrect
-                              ? 'bg-rose-500/10 border-rose-500 text-rose-800'
+                              ? 'bg-rose-50 border-rose-500 text-rose-800 btn-3d-rose shadow-rose-250/20'
                               : isSelected
-                              ? 'bg-amber-50/70 border-[#D0A21C] text-[#004D40]'
-                              : 'bg-white hover:bg-stone-50 border-stone-200 text-stone-750 cursor-pointer'
+                              ? 'bg-amber-50 border-[#D0A21C] text-[#004D40] btn-3d-amber shadow-amber-250/20'
+                              : 'bg-white hover:bg-stone-50 border-stone-200 text-stone-700 cursor-pointer btn-3d-slate active:translate-y-0.5'
                           }`}
                         >
                           {option}
@@ -960,33 +960,20 @@ export default function VoixDesAnsar({ stats, onUpdateStats }: VoixDesAnsarProps
                   {isWordAnswered && !singingActive && singingScore === null && (
                     <div className="flex justify-end pt-2">
                       <button
-                        onClick={handleValidateWordSelection}
-                        style={{ display: 'none' }} // fallback safekeeping
-                      />
-                      {!isWordAnswered ? (
-                        <button
-                          onClick={handleValidateWordSelection}
-                          className="px-4 py-2 bg-[#004D40] text-xs font-bold text-white rounded-lg cursor-pointer"
-                        >
-                          {t('common.ansar_validate_word')}
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => setSingingActive(true)}
-                          className="px-4 py-1.5 bg-[#004D40] text-[#D0A21C] border border-[#D0A21C]/20 text-xs font-bold rounded-lg flex items-center gap-1 hover:-translate-y-0.5 transition-all cursor-pointer"
-                        >
-                          <Mic className="w-3.5 h-3.5 text-amber-400" />
-                          <span>{t('common.ansar_sing_prompt')}</span>
-                        </button>
-                      )}
+                        onClick={() => setSingingActive(true)}
+                        className="px-4 py-2 bg-[#004D40] text-[#FCF8F2] border border-[#D0A21C]/25 text-xs font-black uppercase rounded-xl flex items-center gap-2 hover:-translate-y-0.5 transition-all duration-200 active:translate-y-0.5 cursor-pointer btn-3d-emerald shadow-sm"
+                      >
+                        <Mic className="w-4 h-4 text-amber-300" />
+                        <span>{t('common.ansar_sing_prompt')}</span>
+                      </button>
                     </div>
                   )}
 
                   {!isWordAnswered && selectedWord && (
-                    <div className="flex justify-end pt-1">
+                    <div className="flex justify-end pt-2">
                       <button
                         onClick={handleValidateWordSelection}
-                        className="px-4 py-2 bg-[#004D40] text-[#FCF8F2] text-xs font-black uppercase rounded-lg shadow-sm transition-all cursor-pointer hover:scale-[1.02]"
+                        className="px-5 py-2.5 bg-[#004D40] text-[#FCF8F2] border border-[#D0A21C]/25 text-xs font-black uppercase rounded-xl shadow-md transition-all duration-200 active:translate-y-0.5 cursor-pointer btn-3d-emerald"
                       >
                         {t('common.ansar_validate_word')}
                       </button>
@@ -1029,15 +1016,15 @@ export default function VoixDesAnsar({ stats, onUpdateStats }: VoixDesAnsarProps
                         </span>
                       </div>
                     ) : singingScore === null ? (
-                      <div className="py-2 space-y-3">
+                      <div className="py-3 space-y-4">
                         <p className="text-xs text-stone-600 max-w-xs mx-auto leading-relaxed">
                           {t('common.ansar_step_2_desc')}
                         </p>
                         <button
                           onClick={handleStartSinging}
-                          className="px-5 py-3.5 bg-rose-500 hover:bg-rose-600 text-white font-extrabold text-xs uppercase tracking-wide rounded-2xl shadow-md cursor-pointer inline-flex items-center gap-2 animate-bounce"
+                          className="px-6 py-4 bg-rose-600 hover:bg-rose-500 text-[#FCF8F2] font-black text-xs uppercase tracking-wider rounded-2xl shadow-lg cursor-pointer inline-flex items-center gap-2 transition-all duration-200 active:translate-y-0.5 btn-3d-rose animate-bounce"
                         >
-                          <Mic className="w-4.5 h-4.5 stroke-[2.5]" />
+                          <Mic className="w-4.5 h-4.5 stroke-[3]" />
                           <span>{t('common.ansar_sing_prompt')}</span>
                         </button>
                       </div>
@@ -1087,7 +1074,7 @@ export default function VoixDesAnsar({ stats, onUpdateStats }: VoixDesAnsarProps
                               className={`p-4 bg-amber-500/[0.04] border border-[#D0A21C]/35 rounded-xl space-y-1.5 ${dir === 'rtl' ? 'text-right' : 'text-left'}`}
                               dir={dir}
                             >
-                              <div className="flex items-center justify-between pb-1">
+                              <div className="flex items-center justify-between pb-1.5">
                                 <span className="text-[9px] font-black text-[#D0A21C] uppercase tracking-wider flex items-center gap-1">
                                   <Sparkles className="w-3.5 h-3.5" />
                                   {t('common.ansar_feedback_title')} :
@@ -1095,9 +1082,9 @@ export default function VoixDesAnsar({ stats, onUpdateStats }: VoixDesAnsarProps
                                 <button
                                   type="button"
                                   onClick={() => speakTextAloud(oustazFeedback)}
-                                  className="p-1 px-2 border border-[#D0A21C]/25 bg-amber-500/10 text-[#D0A21C] hover:bg-amber-500/20 rounded-md text-[9px] font-bold uppercase flex items-center gap-1 cursor-pointer select-none transition-colors"
+                                  className="p-1 px-2.5 border border-[#D0A21C]/25 bg-amber-500/10 text-[#D0A21C] hover:bg-amber-500/20 rounded-lg text-[9px] font-black uppercase flex items-center gap-1.5 cursor-pointer select-none transition-all duration-200 active:translate-y-0.5 btn-3d-amber"
                                 >
-                                  <Volume2 className="w-3 h-3 text-[#D0A21C]" />
+                                  <Volume2 className="w-3 h-3 text-[#D0A21C] stroke-[2.5]" />
                                   <span>{t('common.ansar_listen_chime')}</span>
                                 </button>
                               </div>
@@ -1121,10 +1108,10 @@ export default function VoixDesAnsar({ stats, onUpdateStats }: VoixDesAnsarProps
                   {isWordAnswered && (singingScore !== null) && (
                     <button
                       onClick={handleAdvanceNextLine}
-                      className="px-4.5 py-2.5 bg-[#D0A21C] hover:bg-[#D0A21C]/90 text-[#FCF8F2] rounded-xl text-xs font-extrabold uppercase font-sans tracking-wide transition-all shadow-sm flex items-center gap-1 cursor-pointer"
+                      className="px-5 py-2.5 bg-[#D0A21C] hover:bg-[#D0A21C]/90 text-[#FCF8F2] rounded-xl text-xs font-black uppercase font-sans tracking-wider transition-all duration-200 active:translate-y-0.5 shadow-md flex items-center gap-2 cursor-pointer btn-3d-amber"
                     >
                       <span>{currentLineIdx === selectedSong.lines.length - 1 ? t('common.ansar_finish_song') : t('common.ansar_next_line')}</span>
-                      <ArrowRight className={`w-3.5 h-3.5 stroke-[2.5] ${dir === 'rtl' ? 'rotate-180' : ''}`} />
+                      <ArrowRight className={`w-3.5 h-3.5 stroke-[3] ${dir === 'rtl' ? 'rotate-180' : ''}`} />
                     </button>
                   )}
                 </div>
