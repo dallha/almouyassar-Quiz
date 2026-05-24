@@ -934,12 +934,12 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
 
         {/* Localized Error Banner inside chat */}
         {errorStatus && (
-          <div className="p-3 bg-rose-50 border border-rose-100 text-rose-700 text-[11px] rounded-xl flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 shrink-0 text-rose-500" />
-            <p className="flex-1">{errorStatus}</p>
+          <div className="p-4 bg-rose-50 border border-rose-500/20 text-rose-700 text-xs rounded-2xl flex items-center gap-3 shadow-soft">
+            <AlertCircle className="w-5 h-5 shrink-0 text-rose-500 animate-bounce" />
+            <p className="flex-1 font-medium">{errorStatus}</p>
             <button
               onClick={() => handleSendMessage(messages[messages.length - 1]?.parts[0].text || '')}
-              className="text-stone-800 bg-stone-100 hover:bg-stone-200 px-2 py-1 rounded text-[10px] uppercase font-bold tracking-tight shrink-0 transition-colors"
+              className="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-[10px] font-extrabold uppercase tracking-wider transition-all duration-200 active:translate-y-0.5 btn-3d-rose shrink-0"
             >
               {t('oustaz.oustaz_retry', "Réessayer")}
             </button>
@@ -951,17 +951,21 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
 
       {/* Suggested prompts box only displayed when chat has low activities */}
       {messages.length < 3 && (
-        <div className="px-4 py-2 bg-stone-50 border-t border-stone-100/60 shrink-0 space-y-1.5">
-          <p className="text-[10px] text-stone-500 font-bold uppercase tracking-wider">
-            {t('oustaz.oustaz_recommended', "Questions recommandées :")}
+        <div className="px-4 py-3 bg-stone-50 border-t border-stone-100/80 shrink-0 space-y-2">
+          <p className="text-[9px] text-stone-500 font-extrabold uppercase tracking-wider flex items-center gap-1">
+            <Sparkles className="w-3.5 h-3.5 text-[#D0A21C]" />
+            <span>{t('oustaz.oustaz_recommended', "Questions recommandées :")}</span>
           </p>
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-2">
             {suggestedPrompts.map((p, i) => (
               <button
                 key={i}
-                onClick={() => handleSendMessage(p.query)}
+                onClick={() => {
+                  playSelectSound();
+                  setInputValue(p.query);
+                }}
                 disabled={isLoading}
-                className="text-[10px] font-bold text-[#004D40] bg-white border border-[#004D40]/15 hover:border-[#D0A21C] px-2.5 py-1.5 rounded-lg shrink-0 cursor-pointer shadow-sm transition-all hover:-translate-y-0.5"
+                className="text-[10px] font-extrabold text-[#004D40] bg-white border border-[#004D40]/15 hover:border-[#D0A21C] hover:text-[#004D40] px-3 py-2 rounded-xl shrink-0 cursor-pointer shadow-sm transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-[0_1px_0_#d0a21c]"
               >
                 {p.label}
               </button>
@@ -971,7 +975,7 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
       )}
 
       {/* Dynamic input bar */}
-      <div className="p-3 bg-white border-t border-stone-100 shrink-0 flex gap-2">
+      <div className="p-4 bg-white border-t border-stone-100 shrink-0 flex gap-3">
         <input
           type="text"
           value={inputValue}
@@ -979,14 +983,14 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
           onKeyDown={(e) => e.key === 'Enter' && handleSendMessage(inputValue)}
           placeholder={t('oustaz.oustaz_placeholder', "Pose une question à l'Oustaz... (ex: C'est quoi la prière ?)")}
           disabled={isLoading}
-          className="flex-1 px-4 py-2.5 border border-stone-200 text-stone-800 rounded-xl text-xs focus:outline-none focus:border-[#D0A21C] disabled:bg-stone-50 disabled:text-stone-400"
+          className="flex-1 px-4 py-3 border border-stone-200 text-stone-800 rounded-2xl text-xs focus:outline-none focus:border-[#D0A21C] disabled:bg-stone-50 disabled:text-stone-400 focus:ring-1 focus:ring-[#D0A21C]/30 transition-all"
         />
         <button
           onClick={() => handleSendMessage(inputValue)}
           disabled={!inputValue.trim() || isLoading}
-          className={`p-2.5 rounded-xl transition-all font-bold shrink-0 cursor-pointer flex items-center justify-center ${
+          className={`p-3 rounded-2xl transition-all font-extrabold shrink-0 cursor-pointer flex items-center justify-center ${
             inputValue.trim() && !isLoading
-              ? 'bg-[#004D40] text-[#FCF8F2] hover:bg-[#004D40]/90 shadow-sm shadow-[#004D40]/10'
+              ? 'bg-[#004D40] text-[#FCF8F2] hover:bg-[#004D40]/90 active:translate-y-0.5 btn-3d-emerald shadow-md'
               : 'bg-stone-100 text-stone-400 border border-stone-200 cursor-not-allowed'
           }`}
         >
