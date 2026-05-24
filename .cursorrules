@@ -1,0 +1,46 @@
+# 🌟 Règles de Développement & Prompts — Al-Mouyassar Play & Learn
+
+Ce fichier définit les directives système pour guider les assistants IA (Claude Code, Cursor, Copilot) dans VS Code afin de maintenir un code de niveau professionnel, fluide et conforme à l'identité visuelle de notre daara.
+
+---
+
+## 🛠️ Stack Technique du Projet
+- **Frontend** : React 19, TypeScript, Vite, Framer Motion (`motion/react`).
+- **Styling** : Tailwind CSS v4 (compilé via `@tailwindcss/vite` dans la config Vite).
+- **Backend & API** : Node.js, Express (proxy sécurisé pour l'API Gemini et le Rate Limiting).
+- **Base de Données** : Supabase PostgreSQL (RLS activé, profiles).
+- **Aesthetics** : Design physique en relief 3D (style Duolingo, boutons qui s'abaissent au clic), transitions douces en glissement/flou, et Mode Nuit Étoilée.
+
+---
+
+## 🗂️ Les 5 Compétences IA pour notre Flux VS Code
+
+### 1. 🛠️ COMPÉTENCE : Shadcn (La base propre)
+*Toujours privilégier des composants atomiques bien proportionnés et ne jamais réinventer la roue pour les structures classiques (modales, popovers, accordéons).*
+- **Règle** : Utiliser des proportions parfaites, un mode sombre par défaut, et des composants Shadcn/Radix encapsulés proprement.
+- **Prompt à taper dans le terminal** :
+  > `/init shadcn en mode sombre par défaut et ajoute les composants Button, Card, et Dialog adaptés à React 19.`
+
+### 2. 🗂️ COMPÉTENCE : Simplify (Dégraisser le code)
+*Les fichiers de quiz et de dashboard ont tendance à grossir rapidement. Tout code redondant ou conteneur HTML inutile doit être éliminé.*
+- **Règle** : Supprimer les divisions imbriquées inutiles, regrouper les styles répétitifs, et externaliser les états ou fonctions lourdes.
+- **Prompt à taper dans le terminal** :
+  > `Refactorise le fichier [NomDuFichier] avec la règle 'Simplify'. Supprime les bordures doubles, fusionne les conteneurs inutiles et masque les options secondaires dans un menu déroulant.`
+
+### 3. 🎨 COMPÉTENCE : Frontend-design (Typo & Espaces)
+*Notre design s'appuie sur une harmonie visuelle soignée : Vert émeraude profond (`#004D40`) et Jaune doré ocre (`#D0A21C`).*
+- **Règle** : Respecter une grille stricte basée sur des multiples de 8px (p-2, p-4, p-8, gap-4). Associer une typographie Serif élégante (Amiri pour l'arabe) avec des polices Sans-Serif géométriques et modernes (Inter / Space Grotesk).
+- **Prompt à taper dans le terminal** :
+  > `Aligne le design de cette page sur une grille stricte de multiples de 8px (p-4, m-2, gap-8). Harmonise la typographie avec une police Serif pour l'arabe (Amiri) et Sans-Serif pour le français, en nettoyant les tailles anarchiques.`
+
+### 4. ✨ COMPÉTENCE : Make-interfaces-feel-better (Micro-interactions)
+*L'application doit se sentir vivante et réactive sous les doigts des enfants de 6 à 15 ans.*
+- **Règle** : Transitions de 200ms sur tous les états de survol (`hover:`), abaissement en relief 3D de 3px au clic (`active:translate-y-0.5`), et spinners/squelettes de chargement soignés avec désactivation des boutons d'action durant les requêtes.
+- **Prompt à taper dans le terminal** :
+  > `Ajoute des transitions douces (duration-200) sur tous les états de survol (hover) de cette page, et intègre un spinner de chargement avec état désactivé sur le bouton de soumission.`
+
+### 5. 💎 COMPÉTENCE : UI-UX-pro-max (Flux global)
+*Faciliter au maximum le parcours des élèves et des parents sans générer de friction ou de frustration.*
+- **Règle** : Réduire le nombre de clics, pré-remplir les données évidentes dans les formulaires, afficher des erreurs constructives et bienveillantes (style Oustaz) au lieu de simples textes rouges agressifs.
+- **Prompt à taper dans le terminal** :
+  > `Regarde mon formulaire actuel dans [Fichier]. Repense le flux complet en mode 'UI-UX-pro-max' : réduis le nombre de clics, pré-remplis les données évidentes et gère proprement l'affichage des erreurs au lieu d'un simple texte rouge.`
