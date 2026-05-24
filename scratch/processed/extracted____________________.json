@@ -1,0 +1,494 @@
+[
+  {
+    "categorie": "Fiqh",
+    "niveau": "Débutant",
+    "question": "Combien y a-t-il de piliers de l'Islam ?",
+    "options": [
+      "Trois",
+      "Quatre",
+      "Cinq",
+      "Six"
+    ],
+    "reponse_correcte": "Cinq",
+    "explication": "Les piliers de l'Islam sont les fondations de notre belle religion, et ils sont au nombre de cinq.",
+    "source": "Les devoirs et obligations du jeune musulman (Fiqh de base)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "كَمْ عَدَدُ أَرْكَانِ الإِسْلَامِ؟",
+        "options": [
+          "ثَلَاثَةٌ",
+          "أَرْبَعَةٌ",
+          "خَمْسَةٌ",
+          "سِتَّةٌ"
+        ],
+        "reponse_correcte": "خَمْسَةٌ",
+        "explication": "أَرْكَانُ الإِسْلَامِ هِيَ أَسَاسُ دِينِنَا الجَمِيلِ، وَعَدَدُهَا خَمْسَةٌ."
+      },
+      "wo": {
+        "question": "Ñaata ponk la Lislaam am?",
+        "options": [
+          "Ñett",
+          "Ñeent",
+          "Juróom",
+          "Juróom-benn"
+        ],
+        "reponse_correcte": "Juróom",
+        "explication": "Ponki Lislaam ñoo di yëf yi gën a am solo ci sunu diine ju rafet ji, te ñoo ngi juróom."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Intermédiaire",
+    "question": "Que signifie la Shahada (l'attestation de foi) ?",
+    "options": [
+      "Croire en Allah seulement",
+      "Croire en Allah et en Ses Prophètes",
+      "Croire qu'il n'y a de dieu qu'Allah et que Muhammad est Son Messager",
+      "Croire au Jour du Jugement"
+    ],
+    "reponse_correcte": "Croire qu'il n'y a de dieu qu'Allah et que Muhammad est Son Messager",
+    "explication": "La Shahada est la clé de l'Islam, elle signifie que nous attestons qu'il n'y a de divinité digne d'adoration qu'Allah, et que Muhammad est Son serviteur et Messager.",
+    "source": "Les devoirs et obligations du jeune musulman (Fiqh de base)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَاذَا تَعْنِي الشَّهَادَةُ (شَهَادَةُ الإِيمَانِ)؟",
+        "options": [
+          "الإِيمَانُ بِاللَّهِ فَقَطْ",
+          "الإِيمَانُ بِاللَّهِ وَبِأَنْبِيَائِهِ",
+          "الإِيمَانُ بِأَنْ لَا إِلَهَ إِلَّا اللَّهُ وَأَنَّ مُحَمَّدًا رَسُولُ اللَّهِ",
+          "الإِيمَانُ بِيَوْمِ القِيَامَةِ"
+        ],
+        "reponse_correcte": "الإِيمَانُ بِأَنْ لَا إِلَهَ إِلَّا اللَّهُ وَأَنَّ مُحَمَّدًا رَسُولُ اللَّهِ",
+        "explication": "الشَّهَادَةُ هِيَ مِفْتَاحُ الإِسْلَامِ، وَتَعْنِي أَنَّنَا نَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَأَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ."
+      },
+      "wo": {
+        "question": "Lan mooy Shahada (seedeel gi)?",
+        "options": [
+          "Gëm Yàlla rekk",
+          "Gëm Yàlla ak Yonentam yi",
+          "Gëm ne amul jëkkër lu dul Yàlla te Muhammad mooy Yonentam",
+          "Gëm Bésu Àllaaxira"
+        ],
+        "reponse_correcte": "Gëm ne amul jëkkër lu dul Yàlla te Muhammad mooy Yonentam",
+        "explication": "Shahada mooy càmmiñu Lislaam, mooy seedeel ne amul jëkkër lu dul Yàlla, te Muhammad mooy Jaamam ak Yonentam."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Débutant",
+    "question": "Quelle est la première épouse du Prophète Muhammad (paix et bénédictions sur lui) mentionnée dans le livre ?",
+    "options": [
+      "Aïcha bint Abi Bakr",
+      "Khadija bint Khuwaylid",
+      "Hafsa bint Umar",
+      "Zaynab bint Khuzaymah"
+    ],
+    "reponse_correcte": "Khadija bint Khuwaylid",
+    "explication": "Khadija (qu'Allah l'agrée) fut la première épouse du Prophète Muhammad (paix et bénédictions sur lui) et la mère de la plupart de ses enfants.",
+    "source": "Les devoirs et obligations du jeune musulman (Fiqh de base)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَنْ هِيَ أَوَّلُ زَوْجَةٍ لِلنَّبِيِّ مُحَمَّدٍ ﷺ ذُكِرَتْ فِي الكِتَابِ؟",
+        "options": [
+          "عَائِشَةُ بِنْتُ أَبِي بَكْرٍ",
+          "خَدِيجَةُ بِنْتُ خُوَيْلِدٍ",
+          "حَفْصَةُ بِنْتُ عُمَرَ",
+          "زَيْنَبُ بِنْتُ خُزَيْمَةَ"
+        ],
+        "reponse_correcte": "خَدِيجَةُ بِنْتُ خُوَيْلِدٍ",
+        "explication": "خَدِيجَةُ رَضِيَ اللَّهُ عَنْهَا كَانَتْ أَوَّلَ زَوْجَاتِ النَّبِيِّ مُحَمَّدٍ ﷺ وَأُمَّ مُعْظَمِ أَوْلَادِهِ."
+      },
+      "wo": {
+        "question": "Ana jabarug Yonent bi Muhammad (jàmm ak mucc yal nako Yàlla def ci moom) bu njëkk biñu wax ci téere bi?",
+        "options": [
+          "Aïcha bint Abi Bakr",
+          "Khadija bint Khuwaylid",
+          "Hafsa bint Umar",
+          "Zaynab bint Khuzaymah"
+        ],
+        "reponse_correcte": "Khadija bint Khuwaylid",
+        "explication": "Khadija (Yàlla na ko gërëm) mooy jabarug Yonent bi Muhammad (jàmm ak mucc yal nako Yàlla def ci moom) bu njëkk, te mooy yaayu ëpp ci doomam yi."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Débutant",
+    "question": "Quelle invocation disons-nous avant de dormir ?",
+    "options": [
+      "\"Au nom d'Allah, je meurs et je vis.\"",
+      "\"Louange à Allah qui nous a fait revivre après nous avoir fait mourir.\"",
+      "\"Ô Allah, c'est par Toi que nous nous réveillons.\"",
+      "\"Ô Allah, je cherche refuge auprès de Toi contre le mal de ce que Tu as créé.\""
+    ],
+    "reponse_correcte": "\"Au nom d'Allah, je meurs et je vis.\"",
+    "explication": "C'est une belle invocation pour se souvenir d'Allah avant de dormir et se remettre à Lui.",
+    "source": "Les devoirs et obligations du jeune musulman (Fiqh de base)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "أَيُّ دُعَاءٍ نَقُولُهُ قَبْلَ النَّوْمِ؟",
+        "options": [
+          "\"بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا.\"",
+          "\"الحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا.\"",
+          "\"اللَّهُمَّ بِكَ أَصْبَحْنَا.\"",
+          "\"أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ.\""
+        ],
+        "reponse_correcte": "\"بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا.\"",
+        "explication": "هَذَا دُعَاءٌ جَمِيلٌ لِنَتَذَكَّرَ اللَّهَ قَبْلَ النَّوْمِ وَنُسَلِّمَ أَنْفُسَنَا إِلَيْهِ."
+      },
+      "wo": {
+        "question": "Ana ñaan giñuy wax buñuy tëdd?",
+        "options": [
+          "\"Ci sa tur, Yàlla, laay dee tey dund.\"",
+          "\"Alhamdoulillah liñu dundal ginnaaw biñu dee.\"",
+          "\"Yàlla, ci yaw lañuy yewwu.\"",
+          "\"Yàlla, dama lay sàkku ci yaw ci bonn bi nga sàkk.\""
+        ],
+        "reponse_correcte": "\"Ci sa tur, Yàlla, laay dee tey dund.\"",
+        "explication": "Lii mooy ñaan gu rafet ngir fàttaliku Yàlla buñuy tëdd te jébbalu ci Moom."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Intermédiaire",
+    "question": "Parmi les choses suivantes, laquelle n'invalide PAS les ablutions (Wudu) ?",
+    "options": [
+      "Uriner ou déféquer",
+      "Émettre des gaz",
+      "Manger de la viande de chameau",
+      "Manger de la viande de poulet"
+    ],
+    "reponse_correcte": "Manger de la viande de poulet",
+    "explication": "Manger de la viande de poulet est permis et n'invalide pas les ablutions. Les autres actions mentionnées sont des annulations des ablutions.",
+    "source": "Les devoirs et obligations du jeune musulman (Fiqh de base)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مِنْ بَيْنِ الأُمُورِ التَّالِيَةِ، أَيُّهَا لَا يُبْطِلُ الوُضُوءَ؟",
+        "options": [
+          "البَوْلُ أَوِ الغَائِطُ",
+          "خُرُوجُ الرِّيحِ",
+          "أَكْلُ لَحْمِ الجَمَلِ",
+          "أَكْلُ لَحْمِ الدَّجَاجِ"
+        ],
+        "reponse_correcte": "أَكْلُ لَحْمِ الدَّجَاجِ",
+        "explication": "أَكْلُ لَحْمِ الدَّجَاجِ مُبَاحٌ وَلَا يُبْطِلُ الوُضُوءَ. الأَفْعَالُ الأُخْرَى المَذْكُورَةُ هِيَ مِنْ نَوَاقِضِ الوُضُوءِ."
+      },
+      "wo": {
+        "question": "Ci yëf yi, lan ci la bokk ci luy bañ a yàq jàngi (Wudu)?",
+        "options": [
+          "Sànni mbaa dëgg",
+          "Génne ngelaw",
+          "Lekk yàppu gémm",
+          "Lekk yàppu ginaar"
+        ],
+        "reponse_correcte": "Lekk yàppu ginaar",
+        "explication": "Lekk yàppu ginaar amul benn coono te du yàq jàngi. Yeneen yëf yiñu wax ci kaw ñoo yàq jàngi."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Intermédiaire",
+    "question": "Quelle est la première chose sur laquelle le serviteur sera jugé le Jour du Jugement ?",
+    "options": [
+      "La prière",
+      "Le jeûne",
+      "La zakat",
+      "Le pèlerinage"
+    ],
+    "reponse_correcte": "La prière",
+    "explication": "Notre Prophète Muhammad (paix et bénédictions sur lui) nous a enseigné que la prière est la première chose sur laquelle nous serons interrogés, car elle est le lien entre nous et Allah.",
+    "source": "Les devoirs et obligations du jeune musulman (Fiqh de base)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَا هِيَ أَوَّلُ مَا يُحَاسَبُ عَلَيْهِ العَبْدُ يَوْمَ القِيَامَةِ؟",
+        "options": [
+          "الصَّلَاةُ",
+          "الصَّوْمُ",
+          "الزَّكَاةُ",
+          "الحَجُّ"
+        ],
+        "reponse_correcte": "الصَّلَاةُ",
+        "explication": "عَلَّمَنَا نَبِيُّنَا مُحَمَّدٌ ﷺ أَنَّ الصَّلَاةَ هِيَ أَوَّلُ مَا نُسْأَلُ عَنْهُ، لِأَنَّهَا الصِّلَةُ بَيْنَنَا وَبَيْنَ اللَّهِ."
+      },
+      "wo": {
+        "question": "Lan mooy yëf bu njëkk biñuy laaj jaam bi ci Bésu Àllaaxira?",
+        "options": [
+          "Julli gi",
+          "Woor gi",
+          "Jakka gi",
+          "Hajj gi"
+        ],
+        "reponse_correcte": "Julli gi",
+        "explication": "Yonent bi Muhammad (jàmm ak mucc yal nako Yàlla def ci moom) wax nañu ne julli gi mooy yëf bu njëkk biñuy laaj, ndax mooy jokkoo bi ci sunu diggante ak Yàlla."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Débutant",
+    "question": "Qu'est-ce que la Zakat ?",
+    "options": [
+      "Une prière surérogatoire",
+      "Un jeûne volontaire",
+      "Une aumône obligatoire donnée aux pauvres",
+      "Un pèlerinage facultatif"
+    ],
+    "reponse_correcte": "Une aumône obligatoire donnée aux pauvres",
+    "explication": "La Zakat est une obligation pour les musulmans riches, c'est une part de leur richesse donnée aux pauvres et aux nécessiteux pour les aider.",
+    "source": "Les devoirs et obligations du jeune musulman (Fiqh de base)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَا هِيَ الزَّكَاةُ؟",
+        "options": [
+          "صَلَاةٌ نَافِلَةٌ",
+          "صَوْمٌ تَطَوُّعِيٌّ",
+          "صَدَقَةٌ وَاجِبَةٌ تُعْطَى لِلْفُقَرَاءِ",
+          "حَجٌّ اخْتِيَارِيٌّ"
+        ],
+        "reponse_correcte": "صَدَقَةٌ وَاجِبَةٌ تُعْطَى لِلْفُقَرَاءِ",
+        "explication": "الزَّكَاةُ وَاجِبَةٌ عَلَى المُسْلِمِينَ الأَغْنِيَاءِ، وَهِيَ جُزْءٌ مِنْ ثَرْوَتِهِمْ يُعْطَى لِلْفُقَرَاءِ وَالمَسَاكِينِ لِمُسَاعَدَتِهِمْ."
+      },
+      "wo": {
+        "question": "Lan mooy Jakka?",
+        "options": [
+          "Julli gu yees",
+          "Woor gu bëgg",
+          "Sarax su war a jox ñi amul",
+          "Hajj bu bëgg"
+        ],
+        "reponse_correcte": "Sarax su war a jox ñi amul",
+        "explication": "Jakka mooy lu war ci jullit yi am alal, mooy benn xaaj ci seen alal biñuy jox ñi amul ak ñi soxla ngir dimbali leen."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Débutant",
+    "question": "Quel est un bon comportement pour un enfant musulman à l'école ?",
+    "options": [
+      "Parler fort en classe",
+      "Ne pas saluer ses camarades",
+      "Jeter les déchets par terre",
+      "Saluer ses camarades avec le Salam"
+    ],
+    "reponse_correcte": "Saluer ses camarades avec le Salam",
+    "explication": "Saluer avec le Salam est une belle manière d'exprimer la paix et l'affection, et c'est une Sunnah de notre Prophète (paix et bénédictions sur lui).",
+    "source": "Les devoirs et obligations du jeune musulman (Fiqh de base)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَا هُوَ أَحَدُ الآدَابِ الحَسَنَةِ لِلطِّفْلِ المُسْلِمِ فِي المَدْرَسَةِ؟",
+        "options": [
+          "التَّحَدُّثُ بِصَوْتٍ عَالٍ فِي الفَصْلِ",
+          "عَدَمُ إِلقَاءِ التَّحِيَّةِ عَلَى الزُّمَلَاءِ",
+          "رَمْيُ النِّفَايَاتِ عَلَى الأَرْضِ",
+          "إِلقَاءُ التَّحِيَّةِ عَلَى الزُّمَلَاءِ بِالسَّلَامِ"
+        ],
+        "reponse_correcte": "إِلقَاءُ التَّحِيَّةِ عَلَى الزُّمَلَاءِ بِالسَّلَامِ",
+        "explication": "إِلقَاءُ التَّحِيَّةِ بِالسَّلَامِ هِيَ طَرِيقَةٌ جَمِيلَةٌ لِلتَّعْبِيرِ عَنِ السَّلَامِ وَالمَحَبَّةِ، وَهِيَ سُنَّةٌ عَنْ نَبِيِّنَا ﷺ."
+      },
+      "wo": {
+        "question": "Ana jikko ju baax ju doom ju jullit war a am ci daara?",
+        "options": [
+          "Wax lëg-lëg ci klas bi",
+          "Bañ a nuyu sa morom",
+          "Sànni mbalit ci suuf",
+          "Nuyu sa morom ak Salaam"
+        ],
+        "reponse_correcte": "Nuyu sa morom ak Salaam",
+        "explication": "Nuyu ak Salaam mooy jikko ju rafet ju wone jàmm ak mbëggeel, te mooy Sunna Yonent bi (jàmm ak mucc yal nako Yàlla def ci moom)."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Intermédiaire",
+    "question": "Que disons-nous après avoir entendu l'Adhan (l'appel à la prière) ?",
+    "options": [
+      "\"Ô Allah, Toi le Seigneur de cet appel parfait et de la prière établie, donne à Muhammad la Wasila et la Fadhila.\"",
+      "\"Louange à Allah qui nous a fait revivre après nous avoir fait mourir.\"",
+      "\"Au nom d'Allah, je meurs et je vis.\"",
+      "\"Ô Allah, c'est par Toi que nous nous réveillons et c'est par Toi que nous nous endormons.\""
+    ],
+    "reponse_correcte": "\"Ô Allah, Toi le Seigneur de cet appel parfait et de la prière établie, donne à Muhammad la Wasila et la Fadhila.\"",
+    "explication": "Cette invocation spéciale après l'Adhan est très importante et nous rapproche du Prophète (paix et bénédictions sur lui) car elle nous promet son intercession.",
+    "source": "Les devoirs et obligations du jeune musulman (Fiqh de base)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَاذَا نَقُولُ بَعْدَ سَمَاعِ الأَذَانِ؟",
+        "options": [
+          "\"اللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ، وَالصَّلَاةِ القَائِمَةِ آتِ مُحَمَّدًا الوَسِيلَةَ وَالفَضِيلَةَ.\"",
+          "\"الحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا.\"",
+          "\"بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا.\"",
+          "\"اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا.\""
+        ],
+        "reponse_correcte": "\"اللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ، وَالصَّلَاةِ القَائِمَةِ آتِ مُحَمَّدًا الوَسِيلَةَ وَالفَضِيلَةَ.\"",
+        "explication": "هَذَا الدُّعَاءُ الخَاصُّ بَعْدَ الأَذَانِ مُهِمٌّ جِدًّا وَيُقَرِّبُنَا مِنَ النَّبِيِّ ﷺ لِأَنَّهُ يَعِدُنَا بِشَفَاعَتِهِ."
+      },
+      "wo": {
+        "question": "Lan lañuy wax buñu déggee Azaan (woo gi ci julli)?",
+        "options": [
+          "\"Yàlla, Yaw Boroom woo gi mat ak julli gi taxaw, jox Muhammad Wasila ak Fadhila.\"",
+          "\"Alhamdoulillah liñu dundal ginnaaw biñu dee.\"",
+          "\"Ci sa tur, Yàlla, laay dee tey dund.\"",
+          "\"Yàlla, ci yaw lañuy yewwu te ci yaw lañuy tëdd.\""
+        ],
+        "reponse_correcte": "\"Yàlla, Yaw Boroom woo gi mat ak julli gi taxaw, jox Muhammad Wasila ak Fadhila.\"",
+        "explication": "Ñaan gii ci ginnaaw Azaan am na solo lool te dinañu rafetal sunu jokkoo ak Yonent bi (jàmm ak mucc yal nako Yàlla def ci moom) ndax dinañu am ci moom safaaro."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Avancé",
+    "question": "Pendant combien de temps le Prophète Nuh (paix sur lui) a-t-il appelé son peuple à Allah ?",
+    "options": [
+      "100 ans",
+      "500 ans",
+      "950 ans",
+      "1000 ans"
+    ],
+    "reponse_correcte": "950 ans",
+    "explication": "Le Prophète Nuh (paix sur lui) a fait preuve d'une patience incroyable en appelant son peuple à Allah pendant 950 ans, sans jamais se décourager.",
+    "source": "Les devoirs et obligations du jeune musulman (Fiqh de base)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "كَمْ سَنَةً دَعَا النَّبِيُّ نُوحٌ عَلَيْهِ السَّلَامُ قَوْمَهُ إِلَى اللَّهِ؟",
+        "options": [
+          "١٠٠ سَنَةٍ",
+          "٥٠٠ سَنَةٍ",
+          "٩٥٠ سَنَةٍ",
+          "١٠٠٠ سَنَةٍ"
+        ],
+        "reponse_correcte": "٩٥٠ سَنَةٍ",
+        "explication": "لَقَدْ أَظْهَرَ النَّبِيُّ نُوحٌ عَلَيْهِ السَّلَامُ صَبْرًا عَظِيمًا فِي دَعْوَةِ قَوْمِهِ إِلَى اللَّهِ لِمُدَّةِ ٩٥٠ سَنَةً، دُونَ أَنْ يَيْأَسَ أَبَدًا."
+      },
+      "wo": {
+        "question": "Ñaata at la Yonent bi Nuh (jàmm yal na ci moom) woo askanam ci Yàlla?",
+        "options": [
+          "100 at",
+          "500 at",
+          "950 at",
+          "1000 at"
+        ],
+        "reponse_correcte": "950 at",
+        "explication": "Yonent bi Nuh (jàmm yal na ci moom) wone na muñ gu màgg ci woo askanam ci Yàlla ci 950 at, te muccul a sonn."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Débutant",
+    "question": "Quel est un bon comportement à adopter avant de manger ?",
+    "options": [
+      "Manger avec la main gauche",
+      "Ne pas dire \"Bismillah\"",
+      "Manger ce qui est devant soi",
+      "Critiquer la nourriture"
+    ],
+    "reponse_correcte": "Manger ce qui est devant soi",
+    "explication": "Le Prophète (paix et bénédictions sur lui) nous a appris à manger avec la main droite, à dire \"Bismillah\" et à manger ce qui est proche de nous, sans gaspiller ni critiquer.",
+    "source": "Les devoirs et obligations du jeune musulman (Fiqh de base)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَا هُوَ أَدَبٌ حَسَنٌ يَنْبَغِي اعْتِمَادُهُ قَبْلَ الأَكْلِ؟",
+        "options": [
+          "الأَكْلُ بِاليَدِ اليُسْرَى",
+          "عَدَمُ قَوْلِ \"بِسْمِ اللَّهِ\"",
+          "الأَكْلُ مِمَّا أَمَامَكَ",
+          "انْتِقَادُ الطَّعَامِ"
+        ],
+        "reponse_correcte": "الأَكْلُ مِمَّا أَمَامَكَ",
+        "explication": "عَلَّمَنَا النَّبِيُّ ﷺ أَنْ نَأْكُلَ بِاليَدِ اليُمْنَى، وَأَنْ نَقُولَ \"بِسْمِ اللَّهِ\"، وَأَنْ نَأْكُلَ مِمَّا هُوَ قَرِيبٌ مِنَّا، دُونَ إِسْرَافٍ أَوْ انْتِقَادٍ."
+      },
+      "wo": {
+        "question": "Ana jikko ju baax juñu war a am buñuy lekk?",
+        "options": [
+          "Lekk ak loxo gu càmmooñ",
+          "Bañ a wax \"Bismillah\"",
+          "Lekk li nekk ci sa kanam",
+          "Tëxal dund bi"
+        ],
+        "reponse_correcte": "Lekk li nekk ci sa kanam",
+        "explication": "Yonent bi (jàmm ak mucc yal nako Yàlla def ci moom) jàngal nañu ne dañuy lekk ak loxo gu ndeyjoor, wax \"Bismillah\" te lekk li nekk ci sunu kanam, bañ a yàq mbaa tëxal dund bi."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Avancé",
+    "question": "Quelle est l'invocation connue sous le nom de \"Sayyid al-Istighfar\" (le maître des demandes de pardon) ?",
+    "options": [
+      "\"Ô Allah, Tu es mon Seigneur, il n'y a de dieu que Toi. Tu m'as créé et je suis Ton serviteur...\"",
+      "\"Astaghfirullah al-Azim wa atubu ilayh.\"",
+      "\"Subhanallah wa bihamdih, Subhanallah al-Azim.\"",
+      "\"La ilaha illa Anta Subhanaka inni kuntu minaz-zalimin.\""
+    ],
+    "reponse_correcte": "\"Ô Allah, Tu es mon Seigneur, il n'y a de dieu que Toi. Tu m'as créé et je suis Ton serviteur...\"",
+    "explication": "Sayyid al-Istighfar est une invocation très complète et puissante pour demander pardon à Allah, et il est recommandé de la réciter le matin et le soir.",
+    "source": "Les devoirs et obligations du jeune musulman (Fiqh de base)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَا هِيَ الدُّعَاءُ المَعْرُوفُ بِاسْمِ \"سَيِّدِ الاسْتِغْفَارِ\"؟",
+        "options": [
+          "\"اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ...\"",
+          "\"أَسْتَغْفِرُ اللَّهَ العَظِيمَ وَأَتُوبُ إِلَيْهِ.\"",
+          "\"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، سُبْحَانَ اللَّهِ العَظِيمِ.\"",
+          "\"لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ.\""
+        ],
+        "reponse_correcte": "\"اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ...\"",
+        "explication": "سَيِّدُ الاسْتِغْفَارِ هُوَ دُعَاءٌ شَامِلٌ وَقَوِيٌّ لِطَلَبِ المَغْفِرَةِ مِنَ اللَّهِ، وَيُسْتَحَبُّ قِرَاءَتُهُ فِي الصَّبَاحِ وَالمَسَاءِ."
+      },
+      "wo": {
+        "question": "Ana ñaan giñuy wax \"Sayyid al-Istighfar\" (kilifa giy sàkku njëggal)?",
+        "options": [
+          "\"Yàlla, Yaw yaay sama Boroom, amul jëkkër lu dul Yaw. Yaw ya ma sàkk te man sama jaam laa...\"",
+          "\"Astaghfirullah al-Azim wa atubu ilayh.\"",
+          "\"Subhanallah wa bihamdih, Subhanallah al-Azim.\"",
+          "\"La ilaha illa Anta Subhanaka inni kuntu minaz-zalimin.\""
+        ],
+        "reponse_correcte": "\"Yàlla, Yaw yaay sama Boroom, amul jëkkër lu dul Yaw. Yaw ya ma sàkk te man sama jaam laa...\"",
+        "explication": "Sayyid al-Istighfar mooy ñaan gu mat seuk te am doole ngir sàkku njëggal ci Yàlla, te dañuy diggal ñu koy jàng suba ak ngoon."
+      }
+    }
+  }
+]

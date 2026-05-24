@@ -1,0 +1,617 @@
+[
+  {
+    "categorie": "Sirah",
+    "niveau": "Débutant",
+    "question": "Quand est né notre cher Prophète Muhammad (PSL) ?",
+    "options": [
+      "L'année de l'Éléphant",
+      "L'année du Tigre",
+      "L'année du Lion",
+      "L'année de la Gazelle"
+    ],
+    "reponse_correcte": "L'année de l'Éléphant",
+    "explication": "Notre Prophète (PSL) est né l'année où Allah a protégé la Kaaba de l'armée de l'éléphant, c'est un signe de la grandeur de sa venue.",
+    "source": "La biographie du Prophète Muhammad (PSL) en points clés",
+    "tags": [
+      "sirah"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَتَى وُلِدَ نَبِيُّنَا مُحَمَّدٌ (صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ)؟",
+        "options": [
+          "عَامُ الْفِيلِ",
+          "عَامُ النَّمِرِ",
+          "عَامُ الْأَسَدِ",
+          "عَامُ الْغَزَالِ"
+        ],
+        "reponse_correcte": "عَامُ الْفِيلِ",
+        "explication": "وُلِدَ نَبِيُّنَا (صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ) فِي الْعَامِ الَّذِي حَمَى فِيهِ اللَّهُ الْكَعْبَةَ مِنْ جَيْشِ الْفِيلِ، وَهَذَا دَلِيلٌ عَلَى عَظَمَةِ قُدُومِهِ."
+      },
+      "wo": {
+        "question": "Kagna la sunu Yonent bi (PSL) juddoo?",
+        "options": [
+          "Atum Ñay bi",
+          "Atum Tigre bi",
+          "Atum Gaynde bi",
+          "Atum Gazelle bi"
+        ],
+        "reponse_correcte": "Atum Ñay bi",
+        "explication": "Sunu Yonent bi (PSL) juddoo na ci at mi Yàlla musal Kaaba ci armee bu ñay bi, loolu firnde la ci màggug ñëwam."
+      }
+    }
+  },
+  {
+    "categorie": "Sirah",
+    "niveau": "Débutant",
+    "question": "Qui était la nourrice de notre Prophète Muhammad (PSL) qui l'a allaité ?",
+    "options": [
+      "Amina",
+      "Khadija",
+      "Halima As-Sa'diya",
+      "Aïcha"
+    ],
+    "reponse_correcte": "Halima As-Sa'diya",
+    "explication": "Halima As-Sa'diya a eu l'honneur d'allaiter notre Prophète (PSL) et de s'occuper de lui pendant son enfance, ce fut une grande bénédiction pour elle et sa famille.",
+    "source": "La biographie du Prophète Muhammad (PSL) en points clés",
+    "tags": [
+      "sirah"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَنْ كَانَتْ مُرْضِعَةَ نَبِيِّنَا مُحَمَّدٍ (صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ) الَّتِي أَرْضَعَتْهُ؟",
+        "options": [
+          "آمِنَةُ",
+          "خَدِيجَةُ",
+          "حَلِيمَةُ السَّعْدِيَّةُ",
+          "عَائِشَةُ"
+        ],
+        "reponse_correcte": "حَلِيمَةُ السَّعْدِيَّةُ",
+        "explication": "حَلِيمَةُ السَّعْدِيَّةُ كَانَ لَهَا شَرَفُ إِرْضَاعِ نَبِيِّنَا (صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ) وَرِعَايَتِهِ فِي طُفُولَتِهِ، وَكَانَتْ بَرَكَةً عَظِيمَةً لَهَا وَلِأَهْلِهَا."
+      },
+      "wo": {
+        "question": "Kii kan la woon ci ñi yare Yonent bi (PSL) te mu nàmpal ko?",
+        "options": [
+          "Amina",
+          "Khadija",
+          "Halima As-Sa'diya",
+          "Aïcha"
+        ],
+        "reponse_correcte": "Halima As-Sa'diya",
+        "explication": "Sunu Yonent bi (PSL) amoon na ndam lu mag ci nàmpal ko te mu yare ko ci jamonoomu gone, loolu barke bu mag la woon ci moom ak ci njabootam."
+      }
+    }
+  },
+  {
+    "categorie": "Sirah",
+    "niveau": "Intermédiaire",
+    "question": "Quel âge avait notre Prophète Muhammad (PSL) lorsqu'il a épousé Khadija (RA) ?",
+    "options": [
+      "20 ans",
+      "25 ans",
+      "30 ans",
+      "40 ans"
+    ],
+    "reponse_correcte": "25 ans",
+    "explication": "Notre Prophète (PSL) avait 25 ans quand il a épousé Khadija (RA), qui était une femme noble et pieuse, et elle fut sa première épouse.",
+    "source": "La biographie du Prophète Muhammad (PSL) en points clés",
+    "tags": [
+      "sirah"
+    ],
+    "translations": {
+      "ar": {
+        "question": "كَمْ كَانَ عُمْرُ نَبِيِّنَا مُحَمَّدٍ (صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ) عِنْدَمَا تَزَوَّجَ خَدِيجَةَ (رَضِيَ اللَّهُ عَنْهَا)؟",
+        "options": [
+          "20 سَنَةً",
+          "25 سَنَةً",
+          "30 سَنَةً",
+          "40 سَنَةً"
+        ],
+        "reponse_correcte": "25 سَنَةً",
+        "explication": "كَانَ عُمْرُ نَبِيِّنَا (صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ) 25 سَنَةً عِنْدَمَا تَزَوَّجَ خَدِيجَةَ (رَضِيَ اللَّهُ عَنْهَا)، وَكَانَتْ خَدِيجَةُ امْرَأَةً نَبِيلَةً وَتَقِيَّةً، وَهِيَ أَوَّلُ زَوْجَاتِهِ."
+      },
+      "wo": {
+        "question": "Ñata at la Yonent bi (PSL) amoon bi mu takk Khadija (RA)?",
+        "options": [
+          "20 at",
+          "25 at",
+          "30 at",
+          "40 at"
+        ],
+        "reponse_correcte": "25 at",
+        "explication": "Yonent bi (PSL) amoon na 25 at bi mu takk Khadija (RA), moom Khadija jigéen ju baax te sell la woon, te moom la jëkk a takk."
+      }
+    }
+  },
+  {
+    "categorie": "Sirah",
+    "niveau": "Débutant",
+    "question": "Où notre Prophète Muhammad (PSL) a-t-il reçu la première révélation du Coran ?",
+    "options": [
+      "Dans la Kaaba",
+      "Dans la grotte de Hira",
+      "À la maison",
+      "Sur le mont Safa"
+    ],
+    "reponse_correcte": "Dans la grotte de Hira",
+    "explication": "La première révélation du Coran est descendue sur notre Prophète (PSL) alors qu'il méditait dans la grotte de Hira, c'était un moment très important pour l'Islam.",
+    "source": "La biographie du Prophète Muhammad (PSL) en points clés",
+    "tags": [
+      "sirah"
+    ],
+    "translations": {
+      "ar": {
+        "question": "أَيْنَ تَلَقَّى نَبِيُّنَا مُحَمَّدٌ (صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ) أَوَّلَ وَحْيٍ مِنَ الْقُرْآنِ الْكَرِيمِ؟",
+        "options": [
+          "فِي الْكَعْبَةِ",
+          "فِي غَارِ حِرَاءٍ",
+          "فِي الْمَنْزِلِ",
+          "عَلَى جَبَلِ الصَّفَا"
+        ],
+        "reponse_correcte": "فِي غَارِ حِرَاءٍ",
+        "explication": "نَزَلَ أَوَّلُ وَحْيٍ مِنَ الْقُرْآنِ الْكَرِيمِ عَلَى نَبِيِّنَا (صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ) وَهُوَ يَتَأَمَّلُ فِي غَارِ حِرَاءٍ، وَكَانَ ذَلِكَ لَحْظَةً عَظِيمَةً لِلْإِسْلَامِ."
+      },
+      "wo": {
+        "question": "Fan la sunu Yonent bi (PSL) jëlee wahyu bu jëkk bi ci Alxuraan?",
+        "options": [
+          "Ci Kaaba gi",
+          "Ci kër Hira gi",
+          "Ci kër gi",
+          "Ci tund Safa gi"
+        ],
+        "reponse_correcte": "Ci kër Hira gi",
+        "explication": "Wahyu bu jëkk bi ci Alxuraan wàcc na ci sunu Yonent bi (PSL) bi mu nekkee di xalaat ci kër Hira gi, loolu jamono ju am solo la woon ci Lislaam."
+      }
+    }
+  },
+  {
+    "categorie": "Sirah",
+    "niveau": "Débutant",
+    "question": "Qui fut la première personne à embrasser l'Islam parmi les compagnons du Prophète (PSL) ?",
+    "options": [
+      "Ali ibn Abi Talib",
+      "Zayd ibn Haritha",
+      "Abu Bakr As-Siddiq",
+      "Khadija bint Khuwaylid"
+    ],
+    "reponse_correcte": "Khadija bint Khuwaylid",
+    "explication": "Khadija (RA), l'épouse du Prophète (PSL), fut la première à croire en son message et à embrasser l'Islam, montrant ainsi son amour et son soutien.",
+    "source": "La biographie du Prophète Muhammad (PSL) en points clés",
+    "tags": [
+      "sirah"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَنْ كَانَتْ أَوَّلَ مَنْ أَسْلَمَ مِنَ الصَّحَابَةِ (رَضِيَ اللَّهُ عَنْهُمْ)؟",
+        "options": [
+          "عَلِيُّ بْنُ أَبِي طَالِبٍ",
+          "زَيْدُ بْنُ حَارِثَةَ",
+          "أَبُو بَكْرٍ الصِّدِّيقُ",
+          "خَدِيجَةُ بِنْتُ خُوَيْلِدٍ"
+        ],
+        "reponse_correcte": "خَدِيجَةُ بِنْتُ خُوَيْلِدٍ",
+        "explication": "خَدِيجَةُ (رَضِيَ اللَّهُ عَنْهَا)، زَوْجَةُ النَّبِيِّ (صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ)، كَانَتْ أَوَّلَ مَنْ آمَنَ بِرِسَالَتِهِ وَأَسْلَمَ، مُظْهِرَةً بِذَلِكَ حُبَّهَا وَدَعْمَهَا لَهُ."
+      },
+      "wo": {
+        "question": "Kan la woon ci ñi jëkk a Lislaam ci sahaba yi (RA)?",
+        "options": [
+          "Ali ibn Abi Talib",
+          "Zayd ibn Haritha",
+          "Abu Bakr As-Siddiq",
+          "Khadija bint Khuwaylid"
+        ],
+        "reponse_correcte": "Khadija bint Khuwaylid",
+        "explication": "Khadija (RA), jabar Yonent bi (PSL), mooy ki jëkk a gëm ci bataaxal bi te Lislaam, won na ci bëggam ak dimbalim."
+      }
+    }
+  },
+  {
+    "categorie": "Sirah",
+    "niveau": "Intermédiaire",
+    "question": "Pourquoi les premiers musulmans ont-ils émigré vers l'Abyssinie ?",
+    "options": [
+      "Pour le commerce",
+      "Pour échapper à la persécution",
+      "Pour chercher de nouvelles terres",
+      "Pour faire la guerre"
+    ],
+    "reponse_correcte": "Pour échapper à la persécution",
+    "explication": "Les musulmans ont émigré vers l'Abyssinie parce que les Quraysh les persécutaient à La Mecque. Le roi d'Abyssinie, le Négus, était un homme juste qui les a protégés.",
+    "source": "La biographie du Prophète Muhammad (PSL) en points clés",
+    "tags": [
+      "sirah"
+    ],
+    "translations": {
+      "ar": {
+        "question": "لِمَاذَا هَاجَرَ الْمُسْلِمُونَ الْأَوَائِلُ إِلَى الْحَبَشَةِ؟",
+        "options": [
+          "لِلتِّجَارَةِ",
+          "لِلْفِرَارِ مِنَ الِاضْطِهَادِ",
+          "لِلْبَحْثِ عَنْ أَرْضٍ جَدِيدَةٍ",
+          "لِخَوْضِ الْحَرْبِ"
+        ],
+        "reponse_correcte": "لِلْفِرَارِ مِنَ الِاضْطِهَادِ",
+        "explication": "هَاجَرَ الْمُسْلِمُونَ إِلَى الْحَبَشَةِ لِأَنَّ قُرَيْشًا كَانَتْ تُضْطَهِدُهُمْ فِي مَكَّةَ. وَكَانَ مَلِكُ الْحَبَشَةِ، النَّجَاشِيُّ، رَجُلًا عَادِلًا حَمَاهُمْ."
+      },
+      "wo": {
+        "question": "Lu taxoon ñi jëkk a Lislaam dem ci Hijra Abyssinie?",
+        "options": [
+          "Ngir defar njaay",
+          "Ngir daw fitna",
+          "Ngir wut suuf yu bees",
+          "Ngir xare"
+        ],
+        "reponse_correcte": "Ngir daw fitna",
+        "explication": "Ñi Lislaam dem nañu Abyssinie ndax Quraysh da leen di fitna ci Makka. Buur Abyssinie bi, Négus bi, nit ku jub la woon te mu musal leen."
+      }
+    }
+  },
+  {
+    "categorie": "Sirah",
+    "niveau": "Avancé",
+    "question": "Combien de temps a duré le boycott imposé par Quraysh contre les Banu Hashim ?",
+    "options": [
+      "Un an",
+      "Deux ans",
+      "Trois ans",
+      "Quatre ans"
+    ],
+    "reponse_correcte": "Trois ans",
+    "explication": "Le boycott était une période difficile où les Banu Hashim ne pouvaient ni acheter ni vendre, et ils ont souffert de la faim et de la soif pendant trois longues années.",
+    "source": "La biographie du Prophète Muhammad (PSL) en points clés",
+    "tags": [
+      "sirah"
+    ],
+    "translations": {
+      "ar": {
+        "question": "كَمْ دَامَ الْحِصَارُ الَّذِي فَرَضَتْهُ قُرَيْشٌ عَلَى بَنِي هَاشِمٍ؟",
+        "options": [
+          "سَنَةً وَاحِدَةً",
+          "سَنَتَيْنِ",
+          "ثَلَاثَ سَنَوَاتٍ",
+          "أَرْبَعَ سَنَوَاتٍ"
+        ],
+        "reponse_correcte": "ثَلَاثَ سَنَوَاتٍ",
+        "explication": "كَانَ الْحِصَارُ فَتْرَةً صَعْبَةً حَيْثُ لَمْ يَسْتَطِعْ بَنُو هَاشِمٍ الشِّرَاءَ وَلَا الْبَيْعَ، وَعَانَوْا مِنَ الْجُوعِ وَالْعَطَشِ لِمُدَّةِ ثَلَاثِ سَنَوَاتٍ طَوِيلَةٍ."
+      },
+      "wo": {
+        "question": "Ñata at la boycott bi Quraysh defoon ci Banu Hashim yagoon?",
+        "options": [
+          "Benn at",
+          "Ñaar at",
+          "Ñett at",
+          "Ñeent at"
+        ],
+        "reponse_correcte": "Ñett at",
+        "explication": "Boycott bi jamono ju metti la woon fu Banu Hashim mënul woon jënd ak jaay, te ñu sonn ci xiif ak mar ci ñett at yu yagg."
+      }
+    }
+  },
+  {
+    "categorie": "Sirah",
+    "niveau": "Avancé",
+    "question": "Quand a eu lieu le voyage nocturne (Isra) et l'ascension (Mi'raj) du Prophète (PSL) ?",
+    "options": [
+      "Après l'Hégire",
+      "Avant l'Hégire",
+      "Pendant la bataille de Badr",
+      "Pendant la conquête de La Mecque"
+    ],
+    "reponse_correcte": "Avant l'Hégire",
+    "explication": "Le voyage nocturne et l'ascension sont des miracles qui ont eu lieu avant l'Hégire, pour montrer au Prophète (PSL) les signes d'Allah et le renforcer avant les grandes épreuves.",
+    "source": "La biographie du Prophète Muhammad (PSL) en points clés",
+    "tags": [
+      "sirah"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَتَى وَقَعَتْ رِحْلَةُ الْإِسْرَاءِ وَالْمِعْرَاجِ لِلنَّبِيِّ (صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ)؟",
+        "options": [
+          "بَعْدَ الْهِجْرَةِ",
+          "قَبْلَ الْهِجْرَةِ",
+          "أَثْنَاءَ غَزْوَةِ بَدْرٍ",
+          "أَثْنَاءَ فَتْحِ مَكَّةَ"
+        ],
+        "reponse_correcte": "قَبْلَ الْهِجْرَةِ",
+        "explication": "الْإِسْرَاءُ وَالْمِعْرَاجُ هُمَا مُعْجِزَتَانِ وَقَعَتَا قَبْلَ الْهِجْرَةِ، لِيُرِيَ اللَّهُ نَبِيَّهُ (صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ) آيَاتِهِ الْكُبْرَى وَيُقَوِّيَهُ قَبْلَ التَّحَدِّيَاتِ الْكَبِيرَةِ."
+      },
+      "wo": {
+        "question": "Kagna la Israa ak Mi'raj Yonent bi (PSL) amoon?",
+        "options": [
+          "Gannaaw Hijra gi",
+          "Jantale Hijra gi",
+          "Ci jamonoomu xare Badr",
+          "Ci jamonoomu teg Makka"
+        ],
+        "reponse_correcte": "Jantale Hijra gi",
+        "explication": "Israa ak Mi'raj ay mujiza lañu woon yu amoon jantale Hijra gi, ngir Yàlla won Yonent bi (PSL) ay firndeem yu mag te mu dëgëral ko jantale ay jafe-jafe yu mag."
+      }
+    }
+  },
+  {
+    "categorie": "Sirah",
+    "niveau": "Intermédiaire",
+    "question": "Quelle fut la première chose que le Prophète (PSL) a fait construire en arrivant à Médine ?",
+    "options": [
+      "Sa maison",
+      "La mosquée",
+      "Un marché",
+      "Une forteresse"
+    ],
+    "reponse_correcte": "La mosquée",
+    "explication": "La première chose que le Prophète (PSL) a construite à Médine fut la mosquée, car c'est le lieu de rassemblement des musulmans pour la prière et l'apprentissage.",
+    "source": "La biographie du Prophète Muhammad (PSL) en points clés",
+    "tags": [
+      "sirah"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَا هُوَ أَوَّلُ شَيْءٍ بَنَاهُ النَّبِيُّ (صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ) عِنْدَ وُصُولِهِ إِلَى الْمَدِينَةِ؟",
+        "options": [
+          "بَيْتَهُ",
+          "الْمَسْجِدَ",
+          "سُوقًا",
+          "حِصْنًا"
+        ],
+        "reponse_correcte": "الْمَسْجِدَ",
+        "explication": "أَوَّلُ شَيْءٍ بَنَاهُ النَّبِيُّ (صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ) فِي الْمَدِينَةِ كَانَ الْمَسْجِدَ، لِأَنَّهُ مَكَانُ تَجَمُّعِ الْمُسْلِمِينَ لِلصَّلَاةِ وَالتَّعَلُّمِ."
+      },
+      "wo": {
+        "question": "Lan mooy lu jëkk Yonent bi (PSL) tabax bi mu agsee Madina?",
+        "options": [
+          "Këram",
+          "Jumaa ji",
+          "Marsé bi",
+          "Daaru xare bi"
+        ],
+        "reponse_correcte": "Jumaa ji",
+        "explication": "Lu jëkk Yonent bi (PSL) tabax ci Madina mooy jumaa ji, ndax mooy barab bu jullit ñi dajaloo ngir julli ak jàng."
+      }
+    }
+  },
+  {
+    "categorie": "Sirah",
+    "niveau": "Débutant",
+    "question": "Quelle est la première grande bataille de l'Islam où les musulmans ont remporté une victoire éclatante ?",
+    "options": [
+      "La bataille de Uhud",
+      "La bataille de la Tranchée",
+      "La bataille de Badr",
+      "La bataille de Khaybar"
+    ],
+    "reponse_correcte": "La bataille de Badr",
+    "explication": "La bataille de Badr fut une victoire miraculeuse pour les musulmans, malgré leur petit nombre, grâce à l'aide d'Allah.",
+    "source": "La biographie du Prophète Muhammad (PSL) en points clés",
+    "tags": [
+      "sirah"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَا هِيَ أَوَّلُ غَزْوَةٍ عَظِيمَةٍ فِي الْإِسْلَامِ انْتَصَرَ فِيهَا الْمُسْلِمُونَ انْتِصَارًا بَاهِرًا؟",
+        "options": [
+          "غَزْوَةُ أُحُدٍ",
+          "غَزْوَةُ الْخَنْدَقِ",
+          "غَزْوَةُ بَدْرٍ",
+          "غَزْوَةُ خَيْبَرَ"
+        ],
+        "reponse_correcte": "غَزْوَةُ بَدْرٍ",
+        "explication": "غَزْوَةُ بَدْرٍ كَانَتْ نَصْرًا مُعْجِزًا لِلْمُسْلِمِينَ، عَلَى الرَّغْمِ مِنْ قِلَّةِ عَدَدِهِمْ، بِفَضْلِ اللَّهِ تَعَالَى."
+      },
+      "wo": {
+        "question": "Lan mooy xare bu mag bu jëkk ci Lislaam bi jullit ñi amee ndam lu rëy?",
+        "options": [
+          "Xare Uhud",
+          "Xare Khandaq",
+          "Xare Badr",
+          "Xare Khaybar"
+        ],
+        "reponse_correcte": "Xare Badr",
+        "explication": "Xare Badr ndam lu mujiza la woon ci jullit ñi, baaxul woon ci seen diggante, ci ndimbalu Yàlla."
+      }
+    }
+  },
+  {
+    "categorie": "Sirah",
+    "niveau": "Avancé",
+    "question": "Quel traité, initialement perçu comme une défaite, s'est avéré être une grande victoire pour l'Islam ?",
+    "options": [
+      "Le traité de Badr",
+      "Le traité de Uhud",
+      "Le traité d'Hudaybiyyah",
+      "Le traité de Khaybar"
+    ],
+    "reponse_correcte": "Le traité d'Hudaybiyyah",
+    "explication": "Le traité d'Hudaybiyyah a permis aux musulmans de se renforcer, de se propager et a ouvert la voie à la conquête de La Mecque, montrant que la sagesse d'Allah est au-delà de ce que nous percevons.",
+    "source": "La biographie du Prophète Muhammad (PSL) en points clés",
+    "tags": [
+      "sirah"
+    ],
+    "translations": {
+      "ar": {
+        "question": "أَيُّ مُعَاهَدَةٍ، رُئِيَتْ فِي الْبِدَايَةِ كَهَزِيمَةٍ، أَثْبَتَتْ أَنَّهَا كَانَتْ نَصْرًا عَظِيمًا لِلْإِسْلَامِ؟",
+        "options": [
+          "صُلْحُ بَدْرٍ",
+          "صُلْحُ أُحُدٍ",
+          "صُلْحُ الْحُدَيْبِيَةِ",
+          "صُلْحُ خَيْبَرَ"
+        ],
+        "reponse_correcte": "صُلْحُ الْحُدَيْبِيَةِ",
+        "explication": "صُلْحُ الْحُدَيْبِيَةِ مَكَّنَ الْمُسْلِمِينَ مِنَ التَّقَوِّي وَالِانْتِشَارِ، وَفَتَحَ الطَّرِيقَ لِفَتْحِ مَكَّةَ، مُظْهِرًا أَنَّ حِكْمَةَ اللَّهِ أَعْظَمُ مِمَّا نُدْرِكُهُ."
+      },
+      "wo": {
+        "question": "Lan mooy paspon bi, bi ñu ko jëkk a gis muy ndogal, mu feeñe ne ndam lu mag la woon ci Lislaam?",
+        "options": [
+          "Paspon Badr",
+          "Paspon Uhud",
+          "Paspon Hudaybiyyah",
+          "Paspon Khaybar"
+        ],
+        "reponse_correcte": "Paspon Hudaybiyyah",
+        "explication": "Paspon Hudaybiyyah dafa taxoon jullit ñi dëgëral seen bopp, te ñu tasoo, te mu ubbi yoon wi ci teg Makka, won na ne hikma Yàlla gi moo gën a mag li ñuy gis."
+      }
+    }
+  },
+  {
+    "categorie": "Sirah",
+    "niveau": "Débutant",
+    "question": "Où notre Prophète Muhammad (PSL) est-il décédé ?",
+    "options": [
+      "À La Mecque",
+      "À Jérusalem",
+      "À Médine",
+      "À Taïf"
+    ],
+    "reponse_correcte": "À Médine",
+    "explication": "Notre cher Prophète (PSL) est décédé à Médine, la ville qu'il a illuminée par sa présence et où il a établi l'État islamique.",
+    "source": "La biographie du Prophète Muhammad (PSL) en points clés",
+    "tags": [
+      "sirah"
+    ],
+    "translations": {
+      "ar": {
+        "question": "أَيْنَ تُوُفِّيَ نَبِيُّنَا مُحَمَّدٌ (صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ)؟",
+        "options": [
+          "فِي مَكَّةَ",
+          "فِي الْقُدْسِ",
+          "فِي الْمَدِينَةِ",
+          "فِي الطَّائِفِ"
+        ],
+        "reponse_correcte": "فِي الْمَدِينَةِ",
+        "explication": "تُوُفِّيَ نَبِيُّنَا الْكَرِيمُ (صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ) فِي الْمَدِينَةِ، الْمَدِينَةِ الَّتِي نَوَّرَهَا بِوُجُودِهِ وَأَقَامَ فِيهَا الدَّوْلَةَ الْإِسْلَامِيَّةَ."
+      },
+      "wo": {
+        "question": "Fan la sunu Yonent bi (PSL) faatoo?",
+        "options": [
+          "Ci Makka",
+          "Ci Yerusalem",
+          "Ci Madina",
+          "Ci Taïf"
+        ],
+        "reponse_correcte": "Ci Madina",
+        "explication": "Sunu Yonent bi (PSL) faatoo na ci Madina, dëkk bi mu leerale ak taxawale ci Lislaam."
+      }
+    }
+  },
+  {
+    "categorie": "Sirah",
+    "niveau": "Intermédiaire",
+    "question": "Combien d'enfants le Prophète Muhammad (PSL) a-t-il eu avec Khadija (RA) ?",
+    "options": [
+      "4 enfants",
+      "5 enfants",
+      "6 enfants",
+      "7 enfants"
+    ],
+    "reponse_correcte": "6 enfants",
+    "explication": "Le Prophète (PSL) a eu six enfants avec Khadija (RA) : Al-Qasim, Zaynab, Ruqayya, Umm Kulthum, Fatima et Abdullah.",
+    "source": "La biographie du Prophète Muhammad (PSL) en points clés",
+    "tags": [
+      "sirah"
+    ],
+    "translations": {
+      "ar": {
+        "question": "كَمْ عَدَدُ أَوْلَادِ النَّبِيِّ مُحَمَّدٍ (صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ) مِنْ خَدِيجَةَ (رَضِيَ اللَّهُ عَنْهَا)؟",
+        "options": [
+          "4 أَوْلَادٍ",
+          "5 أَوْلَادٍ",
+          "6 أَوْلَادٍ",
+          "7 أَوْلَادٍ"
+        ],
+        "reponse_correcte": "6 أَوْلَادٍ",
+        "explication": "أَنْجَبَ النَّبِيُّ (صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ) سِتَّةَ أَوْلَادٍ مِنْ خَدِيجَةَ (رَضِيَ اللَّهُ عَنْهَا): الْقَاسِمُ، وَزَيْنَبُ، وَرُقَيَّةُ، وَأُمُّ كُلْثُومٍ، وَفَاطِمَةُ، وَعَبْدُ اللَّهِ."
+      },
+      "wo": {
+        "question": "Ñata doom la Yonent bi (PSL) amoon ak Khadija (RA)?",
+        "options": [
+          "4 doom",
+          "5 doom",
+          "6 doom",
+          "7 doom"
+        ],
+        "reponse_correcte": "6 doom",
+        "explication": "Yonent bi (PSL) amoon na juróom-benn doom ak Khadija (RA): Al-Qasim, Zaynab, Ruqayya, Umm Kulthum, Fatima ak Abdullah."
+      }
+    }
+  },
+  {
+    "categorie": "Sirah",
+    "niveau": "Intermédiaire",
+    "question": "Qui a dirigé la prière lors du voyage nocturne (Isra) et de l'ascension (Mi'raj) où tous les prophètes étaient rassemblés ?",
+    "options": [
+      "L'Ange Jibril",
+      "Le Prophète Muhammad (PSL)",
+      "Le Prophète Musa (Moïse)",
+      "Le Prophète Isa (Jésus)"
+    ],
+    "reponse_correcte": "Le Prophète Muhammad (PSL)",
+    "explication": "Lors de l'Isra et du Mi'raj, Allah a honoré notre Prophète Muhammad (PSL) en faisant de lui l'imam de tous les prophètes et messagers, montrant ainsi sa position élevée.",
+    "source": "La biographie du Prophète Muhammad (PSL) en points clés",
+    "tags": [
+      "sirah"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَنْ أَمَّ الصَّلَاةَ فِي لَيْلَةِ الْإِسْرَاءِ وَالْمِعْرَاجِ حَيْثُ اجْتَمَعَ جَمِيعُ الْأَنْبِيَاءِ؟",
+        "options": [
+          "الْمَلَكُ جِبْرِيلُ",
+          "النَّبِيُّ مُحَمَّدٌ (صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ)",
+          "النَّبِيُّ مُوسَى (عَلَيْهِ السَّلَامُ)",
+          "النَّبِيُّ عِيسَى (عَلَيْهِ السَّلَامُ)"
+        ],
+        "reponse_correcte": "النَّبِيُّ مُحَمَّدٌ (صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ)",
+        "explication": "فِي لَيْلَةِ الْإِسْرَاءِ وَالْمِعْرَاجِ، أَكْرَمَ اللَّهُ نَبِيَّنَا مُحَمَّدًا (صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ) بِأَنْ جَعَلَهُ إِمَامًا لِجَمِيعِ الْأَنْبِيَاءِ وَالْمُرْسَلِينَ، مُظْهِرًا بِذَلِكَ مَكَانَتَهُ الْعَالِيَةَ."
+      },
+      "wo": {
+        "question": "Kan mooy ki jiite julli bi ci guddi Israa ak Mi'raj bi, fu Yonent yépp dajaloo woon?",
+        "options": [
+          "Malaaka Jibril",
+          "Yonent bi Muhammad (PSL)",
+          "Yonent bi Musa (AS)",
+          "Yonent bi Isa (AS)"
+        ],
+        "reponse_correcte": "Yonent bi Muhammad (PSL)",
+        "explication": "Ci guddi Israa ak Mi'raj, Yàlla defal na Yonent bi Muhammad (PSL) ndam lu mag ci def ko imam ci Yonent yépp ak ndaw yépp, won na ci darajaam ju kawe."
+      }
+    }
+  },
+  {
+    "categorie": "Sirah",
+    "niveau": "Avancé",
+    "question": "Quelle bataille a été nommée d'après la tranchée creusée autour de Médine pour défendre la ville ?",
+    "options": [
+      "La bataille de Uhud",
+      "La bataille de Badr",
+      "La bataille de la Tranchée",
+      "La bataille de Khaybar"
+    ],
+    "reponse_correcte": "La bataille de la Tranchée",
+    "explication": "La bataille de la Tranchée a été nommée ainsi car les musulmans, sur le conseil de Salman Al-Farisi (RA), ont creusé une grande tranchée autour de Médine pour empêcher l'ennemi d'entrer.",
+    "source": "La biographie du Prophète Muhammad (PSL) en points clés",
+    "tags": [
+      "sirah"
+    ],
+    "translations": {
+      "ar": {
+        "question": "أَيُّ غَزْوَةٍ سُمِّيَتْ بِاسْمِ الْخَنْدَقِ الَّذِي حُفِرَ حَوْلَ الْمَدِينَةِ لِلدِّفَاعِ عَنْهَا؟",
+        "options": [
+          "غَزْوَةُ أُحُدٍ",
+          "غَزْوَةُ بَدْرٍ",
+          "غَزْوَةُ الْخَنْدَقِ",
+          "غَزْوَةُ خَيْبَرَ"
+        ],
+        "reponse_correcte": "غَزْوَةُ الْخَنْدَقِ",
+        "explication": "سُمِّيَتْ غَزْوَةُ الْخَنْدَقِ بِهَذَا الِاسْمِ لِأَنَّ الْمُسْلِمِينَ، بِنَصِيحَةِ سَلْمَانَ الْفَارِسِيِّ (رَضِيَ اللَّهُ عَنْهُ)، حَفَرُوا خَنْدَقًا كَبِيرًا حَوْلَ الْمَدِينَةِ لِمَنْعِ الْأَعْدَاءِ مِنَ الدُّخُولِ."
+      },
+      "wo": {
+        "question": "Lan mooy xare bi ñu tudd ci turu xandag bi ñu defoon ci wetu Madina ngir aar dëkk bi?",
+        "options": [
+          "Xare Uhud",
+          "Xare Badr",
+          "Xare Khandaq",
+          "Xare Khaybar"
+        ],
+        "reponse_correcte": "Xare Khandaq",
+        "explication": "Xare Khandaq tudd na ci turu xandag bi ndax jullit ñi, ci ndigalul Salman Al-Farisi (RA), def nañu xandag bu mag ci wetu Madina ngir tere noon yi dugg."
+      }
+    }
+  }
+]

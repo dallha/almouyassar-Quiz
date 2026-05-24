@@ -1,0 +1,617 @@
+[
+  {
+    "categorie": "Aqidah",
+    "niveau": "Débutant",
+    "question": "Pourquoi Allah nous a-t-Il créés ?",
+    "options": [
+      "Pour jouer et s'amuser.",
+      "Pour L'adorer et Lui obéir.",
+      "Pour manger et boire.",
+      "Pour construire des maisons."
+    ],
+    "reponse_correcte": "Pour L'adorer et Lui obéir.",
+    "explication": "Allah nous a créés avec une grande sagesse, pour que nous L'adorions Seul et que nous Lui obéissions, car Il est notre Créateur et notre Bienfaiteur.",
+    "source": "100 questions/réponses sur la lecture Hafs du Coran (Tajwid)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "لِمَاذَا خَلَقَنَا اللَّهُ؟",
+        "options": [
+          "لِلَّعِبِ وَالْمَرَحِ.",
+          "لِنَعْبُدَهُ وَنُطِيعَهُ.",
+          "لِلْأَكْلِ وَالشُّرْبِ.",
+          "لِبِنَاءِ الْبُيُوتِ."
+        ],
+        "reponse_correcte": "لِنَعْبُدَهُ وَنُطِيعَهُ.",
+        "explication": "خَلَقَنَا اللَّهُ بِحِكْمَةٍ عَظِيمَةٍ، لِكَيْ نَعْبُدَهُ وَحْدَهُ وَنُطِيعَهُ، لِأَنَّهُ خَالِقُنَا وَمُنْعِمُنَا."
+      },
+      "wo": {
+        "question": "Lan moo tax Yàlla sàkk nu?",
+        "options": [
+          "Ngir bëgg a fo ak a réy.",
+          "Ngir ñu jaamu Ko te déglu Ko.",
+          "Ngir lekk ak a naan.",
+          "Ngir tabax kër yi."
+        ],
+        "reponse_correcte": "Ngir ñu jaamu Ko te déglu Ko.",
+        "explication": "Yàlla sàkk nu ak hikma bu mag, ngir ñu jaamu Ko Képp te déglu Ko, ndaxte Moo nu sàkk te Moo nu may."
+      }
+    }
+  },
+  {
+    "categorie": "Aqidah",
+    "niveau": "Débutant",
+    "question": "Qui est ton Seigneur ?",
+    "options": [
+      "Le soleil.",
+      "La lune.",
+      "Allah.",
+      "Les étoiles."
+    ],
+    "reponse_correcte": "Allah.",
+    "explication": "Notre Seigneur est Allah, le Créateur de tout, Celui qui nous nourrit et prend soin de nous.",
+    "source": "100 questions/réponses sur la lecture Hafs du Coran (Tajwid)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَنْ رَبُّكَ؟",
+        "options": [
+          "الشَّمْسُ.",
+          "الْقَمَرُ.",
+          "اللَّهُ.",
+          "النُّجُومُ."
+        ],
+        "reponse_correcte": "اللَّهُ.",
+        "explication": "رَبُّنَا هُوَ اللَّهُ، خَالِقُ كُلِّ شَيْءٍ، وَالَّذِي يَرْزُقُنَا وَيَعْتَنِي بِنَا."
+      },
+      "wo": {
+        "question": "Kii ngay jaamu kan la?",
+        "options": [
+          "Jant bi.",
+          "Weer wi.",
+          "Yàlla.",
+          "Biddiw yi."
+        ],
+        "reponse_correcte": "Yàlla.",
+        "explication": "Sunu Boroom mooy Yàlla, Sàkkkat bi lépp, Ki nu diwli tey sàmm nu."
+      }
+    }
+  },
+  {
+    "categorie": "Sirah",
+    "niveau": "Débutant",
+    "question": "Quel est le nom de notre Prophète (paix et bénédictions sur lui) ?",
+    "options": [
+      "Moussa.",
+      "Issa.",
+      "Muhammad.",
+      "Ibrahim."
+    ],
+    "reponse_correcte": "Muhammad.",
+    "explication": "Notre Prophète est Muhammad (paix et bénédictions sur lui), le dernier des prophètes envoyés par Allah pour guider l'humanité.",
+    "source": "100 questions/réponses sur la lecture Hafs du Coran (Tajwid)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَا اسْمُ نَبِيِّنَا (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ)؟",
+        "options": [
+          "مُوسَى.",
+          "عِيسَى.",
+          "مُحَمَّدٌ.",
+          "إِبْرَاهِيمُ."
+        ],
+        "reponse_correcte": "مُحَمَّدٌ.",
+        "explication": "نَبِيُّنَا هُوَ مُحَمَّدٌ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ)، آخِرُ الْأَنْبِيَاءِ الَّذِينَ أَرْسَلَهُمُ اللَّهُ لِهِدَايَةِ الْبَشَرِ."
+      },
+      "wo": {
+        "question": "Lan mooy turu sunu Yonent bi (jàmm ak mucc yal na nekk ci moom)?",
+        "options": [
+          "Muusa.",
+          "Ciisa.",
+          "Muhammadu.",
+          "Ibraahiima."
+        ],
+        "reponse_correcte": "Muhammadu.",
+        "explication": "Sunu Yonent bi mooy Muhammadu (jàmm ak mucc yal na nekk ci moom), mooy Yonent bi mujj ci Yonent yi Yàlla yónni ngir gindee nit ñi."
+      }
+    }
+  },
+  {
+    "categorie": "Aqidah",
+    "niveau": "Intermédiaire",
+    "question": "Combien y a-t-il de catégories de Tawhid (Unicité d'Allah) ?",
+    "options": [
+      "Une seule catégorie.",
+      "Deux catégories.",
+      "Trois catégories.",
+      "Quatre catégories."
+    ],
+    "reponse_correcte": "Trois catégories.",
+    "explication": "Le Tawhid se divise en trois catégories principales : l'unicité dans la Seigneurie (Rububiyyah), l'unicité dans la Divinité (Uluhiyyah) et l'unicité dans les Noms et Attributs (Asma wa Sifat).",
+    "source": "100 questions/réponses sur la lecture Hafs du Coran (Tajwid)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "كَمْ قِسْمًا لِلتَّوْحِيدِ (وِحْدَانِيَّةِ اللَّهِ)؟",
+        "options": [
+          "قِسْمٌ وَاحِدٌ.",
+          "قِسْمَانِ.",
+          "ثَلَاثَةُ أَقْسَامٍ.",
+          "أَرْبَعَةُ أَقْسَامٍ."
+        ],
+        "reponse_correcte": "ثَلَاثَةُ أَقْسَامٍ.",
+        "explication": "يَنْقَسِمُ التَّوْحِيدُ إِلَى ثَلَاثَةِ أَقْسَامٍ رَئِيسِيَّةٍ: تَوْحِيدُ الرُّبُوبِيَّةِ، وَتَوْحِيدُ الْأُلُوهِيَّةِ، وَتَوْحِيدُ الْأَسْمَاءِ وَالصِّفَاتِ."
+      },
+      "wo": {
+        "question": "Ñaata mbooloo la Tawhiid (Yàlla Képp) am?",
+        "options": [
+          "Mbooloo benn rekk.",
+          "Mbooloo ñaar.",
+          "Mbooloo ñett.",
+          "Mbooloo ñeent."
+        ],
+        "reponse_correcte": "Mbooloo ñett.",
+        "explication": "Tawhiid am na ñett mbooloo yu mag: Tawhiid Rubuubiyya (Boroom bi Képp), Tawhiid Uluuhiyya (Yàlla Képp), ak Tawhiid Asmaa' wa Sifaat (Tur yi ak Melokaan yi)."
+      }
+    }
+  },
+  {
+    "categorie": "Sirah",
+    "niveau": "Intermédiaire",
+    "question": "Quand notre Prophète Muhammad (paix et bénédictions sur lui) est-il né ?",
+    "options": [
+      "L'année de la migration.",
+      "L'année de l'éléphant.",
+      "L'année de la révélation.",
+      "L'année de la conquête de La Mecque."
+    ],
+    "reponse_correcte": "L'année de l'éléphant.",
+    "explication": "Notre Prophète Muhammad (paix et bénédictions sur lui) est né l'année où Abraha a tenté de détruire la Kaaba avec son armée d'éléphants.",
+    "source": "100 questions/réponses sur la lecture Hafs du Coran (Tajwid)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَتَى وُلِدَ نَبِيُّنَا مُحَمَّدٌ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ)؟",
+        "options": [
+          "عَامُ الْهِجْرَةِ.",
+          "عَAMُ الْفِيلِ.",
+          "عَامُ الْوَحْيِ.",
+          "عَامُ فَتْحِ مَكَّةَ."
+        ],
+        "reponse_correcte": "عَامُ الْفِيلِ.",
+        "explication": "وُلِدَ نَبِيُّنَا مُحَمَّدٌ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) فِي الْعَامِ الَّذِي حَاوَلَ فِيهِ أَبْرَهَةُ هَدْمَ الْكَعْبَةِ بِجَيْشِهِ الَّذِي كَانَ فِيهِ الْفِيلُ."
+      },
+      "wo": {
+        "question": "Kañ la sunu Yonent bi Muhammadu (jàmm ak mucc yal na nekk ci moom) juddoo?",
+        "options": [
+          "Atum Hijra.",
+          "Atum Ñay.",
+          "Atum Wahy.",
+          "Atum Fàtt Makkah."
+        ],
+        "reponse_correcte": "Atum Ñay.",
+        "explication": "Sunu Yonent bi Muhammadu (jàmm ak mucc yal na nekk ci moom) juddoo na ci at mi Abraha jéemoon a sànni Kaaba gi ak mbooloomu ñay."
+      }
+    }
+  },
+  {
+    "categorie": "Adhkar",
+    "niveau": "Débutant",
+    "question": "Que dis-tu en entrant aux toilettes ?",
+    "options": [
+      "Al-hamdulillah.",
+      "Bismillah, Allahumma inni a'udhu bika minal khubuthi wal khaba'ith.",
+      "Subhanallah.",
+      "Allahu Akbar."
+    ],
+    "reponse_correcte": "Bismillah, Allahumma inni a'udhu bika minal khubuthi wal khaba'ith.",
+    "explication": "C'est une invocation très importante pour demander la protection d'Allah contre les djinns mâles et femelles qui se trouvent dans ces lieux.",
+    "source": "100 questions/réponses sur la lecture Hafs du Coran (Tajwid)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَاذَا تَقُولُ عِنْدَ دُخُولِ الْخَلَاءِ؟",
+        "options": [
+          "الْحَمْدُ لِلَّهِ.",
+          "بِسْمِ اللَّهِ، اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ.",
+          "سُبْحَانَ اللَّهِ.",
+          "اللَّهُ أَكْبَرُ."
+        ],
+        "reponse_correcte": "بِسْمِ اللَّهِ، اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ.",
+        "explication": "هَذَا دُعَاءٌ مُهِمٌّ جِدًّا لِطَلَبِ حِمَايَةِ اللَّهِ مِنَ الْجِنِّ ذُكُورِهِمْ وَإِنَاثِهِمْ الَّذِينَ يَتَوَاجَدُونَ فِي تِلْكَ الْأَمَاكِنِ."
+      },
+      "wo": {
+        "question": "Lan ngay wax bu ngay dugg tooylet bi?",
+        "options": [
+          "Al-xamdulillaah.",
+          "Bismillaah, Allaahumma inni a'uuzu bika minal xubuzi wal xabaa'izi.",
+          "Subhaanallaah.",
+          "Allaahu Akbar."
+        ],
+        "reponse_correcte": "Bismillaah, Allaahumma inni a'uuzu bika minal xubuzi wal xabaa'izi.",
+        "explication": "Lii mooy ñaan bu am solo lool ngir ñaan Yàlla mu sàmm la ci jinne goor ak jinne jigéen yi nekk ci barab yooyu."
+      }
+    }
+  },
+  {
+    "categorie": "Aqidah",
+    "niveau": "Intermédiaire",
+    "question": "Quel est le plus grand des péchés auprès d'Allah ?",
+    "options": [
+      "Le mensonge.",
+      "Le vol.",
+      "L'association à Allah (Shirk).",
+      "La désobéissance aux parents."
+    ],
+    "reponse_correcte": "L'association à Allah (Shirk).",
+    "explication": "Le Shirk, c'est-à-dire adorer autre qu'Allah ou Lui associer quoi que ce soit, est le plus grand des péchés car c'est une injustice envers Allah, notre Créateur.",
+    "source": "100 questions/réponses sur la lecture Hafs du Coran (Tajwid)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَا أَكْبَرُ السَّيِّئَاتِ عِنْدَ اللَّهِ؟",
+        "options": [
+          "الْكَذِبُ.",
+          "السَّرِقَةُ.",
+          "الشِّرْكُ بِاللَّهِ.",
+          "عُقُوقُ الْوَالِدَيْنِ."
+        ],
+        "reponse_correcte": "الشِّرْكُ بِاللَّهِ.",
+        "explication": "الشِّرْكُ، أَيْ عِبَادَةُ غَيْرِ اللَّهِ أَوْ الْإِشْرَاكُ بِهِ شَيْئًا، هُوَ أَكْبَرُ الذُّنُوبِ لِأَنَّهُ ظُلْمٌ لِلَّهِ، خَالِقِنَا."
+      },
+      "wo": {
+        "question": "Lan mooy bàkkaar bi gën a mag ci Yàlla?",
+        "options": [
+          "Fen.",
+          "Sàcc.",
+          "Boole Yàlla ak yeneen (Shirk).",
+          "Bàyyi waajur yi."
+        ],
+        "reponse_correcte": "Boole Yàlla ak yeneen (Shirk).",
+        "explication": "Shirk, mooy jaamu lu dul Yàlla walla boole Yàlla ak lu nekk, mooy bàkkaar bi gën a mag ndaxte mooy njublaŋ ci Yàlla, sunu Sàkkkat bi."
+      }
+    }
+  },
+  {
+    "categorie": "Aqidah",
+    "niveau": "Avancé",
+    "question": "Quel est le jugement de l'invocation des morts et de la demande d'aide auprès d'eux ?",
+    "options": [
+      "C'est une bonne action.",
+      "C'est une innovation (Bid'ah) sans gravité.",
+      "C'est un Shirk majeur qui fait sortir de l'Islam.",
+      "C'est permis si on a une bonne intention."
+    ],
+    "reponse_correcte": "C'est un Shirk majeur qui fait sortir de l'Islam.",
+    "explication": "Demander de l'aide aux morts ou les invoquer est un Shirk majeur, car seul Allah peut exaucer les invocations et apporter l'aide dans l'invisible.",
+    "source": "100 questions/réponses sur la lecture Hafs du Coran (Tajwid)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَا حُكْمُ دُعَاءِ الْأَمْوَاتِ وَالِاسْتِغَاثَةِ بِهِمْ؟",
+        "options": [
+          "هِيَ حَسَنَةٌ.",
+          "هِيَ بِدْعَةٌ غَيْرُ خَطِيرَةٍ.",
+          "هُوَ شِرْكٌ أَكْبَرُ يُخْرِجُ مِنَ الْمِلَّةِ.",
+          "هُوَ جَائِزٌ إِذَا كَانَتِ النِّيَّةُ حَسَنَةً."
+        ],
+        "reponse_correcte": "هُوَ شِرْكٌ أَكْبَرُ يُخْرِجُ مِنَ الْمِلَّةِ.",
+        "explication": "طَلَبُ الْمُسَاعَدَةِ مِنَ الْأَمْوَاتِ أَوْ دُعَاؤُهُمْ هُوَ شِرْكٌ أَكْبَرُ، لِأَنَّ اللَّهَ وَحْدَهُ هُوَ الَّذِي يَسْتَجِيبُ الدُّعَاءَ وَيُقَدِّمُ الْعَوْنَ فِي الْغَيْبِ."
+      },
+      "wo": {
+        "question": "Lan mooy àttey ñaanu dee yi ak ñaan leen ndimbal?",
+        "options": [
+          "Li mooy jëf ju baax.",
+          "Li mooy bid'a bu amul solo.",
+          "Li mooy shirk bu mag bu génne ci Lislaam.",
+          "Li baax na su fekkee ni yéene ji baax na."
+        ],
+        "reponse_correcte": "Li mooy shirk bu mag bu génne ci Lislaam.",
+        "explication": "Ñaan ndimbal ci dee yi walla ñaan leen mooy shirk bu mag, ndaxte Yàlla Képp moo mën a tontu ñaan yi tey indil ndimbal ci gannaaw gu nit mënul gis."
+      }
+    }
+  },
+  {
+    "categorie": "Sirah",
+    "niveau": "Intermédiaire",
+    "question": "Comment les Quraysh appelaient-ils le Prophète Muhammad (paix et bénédictions sur lui) avant sa prophétie ?",
+    "options": [
+      "Le menteur.",
+      "Le sorcier.",
+      "Le véridique, le digne de confiance (As-Sadiq al-Amin).",
+      "Le poète."
+    ],
+    "reponse_correcte": "Le véridique, le digne de confiance (As-Sadiq al-Amin).",
+    "explication": "Même ses ennemis reconnaissaient sa grande moralité et sa sincérité, l'appelant \"As-Sadiq al-Amin\" (le véridique, le digne de confiance).",
+    "source": "100 questions/réponses sur la lecture Hafs du Coran (Tajwid)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "كَيْفَ كَانَتْ قُرَيْشٌ تُسَمِّي النَّبِيَّ مُحَمَّدًا (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) قَبْلَ نُبُوَّتِهِ؟",
+        "options": [
+          "الْكَذَّابُ.",
+          "السَّاحِرُ.",
+          "الصَّادِقُ الْأَمِينُ.",
+          "الشَّاعِرُ."
+        ],
+        "reponse_correcte": "الصَّادِقُ الْأَمِينُ.",
+        "explication": "حَتَّى أَعْدَاؤُهُ كَانُوا يَعْتَرِفُونَ بِأَخْلَاقِهِ الْعَالِيَةِ وَصِدْقِهِ، وَيُسَمُّونَهُ \"الصَّادِقَ الْأَمِينَ\"."
+      },
+      "wo": {
+        "question": "Naka la Quraysh daan wooye Yonent bi Muhammadu (jàmm ak mucc yal na nekk ci moom) balaa Yonentam?",
+        "options": [
+          "Fenkat bi.",
+          "Bàkkan bi.",
+          "Dëggu kat bi, wóor kat bi (As-Sadiq al-Amin).",
+          "Woykat bi."
+        ],
+        "reponse_correcte": "Dëggu kat bi, wóor kat bi (As-Sadiq al-Amin).",
+        "explication": "Ba sax ñi ko bañoon dañu daan nangu jikkoom ju rafet ak dëggoom, di ko wooye \"As-Sadiq al-Amin\" (dëggu kat bi, wóor kat bi)."
+      }
+    }
+  },
+  {
+    "categorie": "Adhkar",
+    "niveau": "Intermédiaire",
+    "question": "Quelle est la meilleure invocation pour demander pardon (Sayyid al-Istighfar) ?",
+    "options": [
+      "Astaghfirullah.",
+      "Allahumma innaka 'afuwwun tuhibbul 'afwa fa'fu 'anni.",
+      "Allahumma anta Rabbi la ilaha illa anta, khalaqtani wa ana 'abduka...",
+      "Subhanallah wa bihamdih."
+    ],
+    "reponse_correcte": "Allahumma anta Rabbi la ilaha illa anta, khalaqtani wa ana 'abduka...",
+    "explication": "C'est une invocation très complète qui exprime notre reconnaissance envers Allah, notre Seigneur, et notre repentir pour nos péchés.",
+    "source": "100 questions/réponses sur la lecture Hafs du Coran (Tajwid)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَا هُوَ سَيِّدُ الِاسْتِغْفَارِ؟",
+        "options": [
+          "أَسْتَغْفِرُ اللَّهَ.",
+          "اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي.",
+          "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ...",
+          "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ."
+        ],
+        "reponse_correcte": "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ...",
+        "explication": "هَذَا الدُّعَاءُ شَامِلٌ جِدًّا يُعَبِّرُ عَنْ شُكْرِنَا لِلَّهِ، رَبِّنَا، وَتَوْبَتِنَا مِنْ ذُنُوبِنَا."
+      },
+      "wo": {
+        "question": "Lan mooy ñaanu jéggal gi gën a mag (Sayyid al-Istighfar)?",
+        "options": [
+          "Astagfirullaah.",
+          "Allaahumma innaka 'afuwwun tuhibbul 'afwa fa'fu 'anni.",
+          "Allaahumma anta Rabbi laa ilaaha illaa anta, xalaqtanii wa anaa 'abduka...",
+          "Subhaanallaah wa bihamdih."
+        ],
+        "reponse_correcte": "Allaahumma anta Rabbi laa ilaaha illaa anta, xalaqtanii wa anaa 'abduka...",
+        "explication": "Ñaan gii dafa matale lool tey feeñal sunu gërëm ci Yàlla, sunu Boroom, ak sunu tuub ci sunu bàkkaar yi."
+      }
+    }
+  },
+  {
+    "categorie": "Aqidah",
+    "niveau": "Avancé",
+    "question": "Parmi les conditions de \"La ilaha illa Allah\" (Il n'y a de divinité digne d'adoration qu'Allah), laquelle est essentielle pour que la parole soit acceptée ?",
+    "options": [
+      "La connaissance de son sens.",
+      "La richesse.",
+      "La beauté.",
+      "La célébrité."
+    ],
+    "reponse_correcte": "La connaissance de son sens.",
+    "explication": "Pour que la parole \"La ilaha illa Allah\" soit valide, il faut en connaître le sens, c'est-à-dire qu'il n'y a aucune divinité digne d'être adorée en dehors d'Allah.",
+    "source": "100 questions/réponses sur la lecture Hafs du Coran (Tajwid)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مِنْ شُرُوطِ \"لَا إِلَهَ إِلَّا اللَّهُ\" (لَا مَعْبُودَ بِحَقٍّ إِلَّا اللَّهُ)، أَيُّهَا ضَرُورِيٌّ لِقَبُولِ الْكَلِمَةِ؟",
+        "options": [
+          "مَعْرِفَةُ مَعْنَاهَا.",
+          "الْغِنَى.",
+          "الْجَمَالُ.",
+          "الشُّهْرَةُ."
+        ],
+        "reponse_correcte": "مَعْرِفَةُ مَعْنَاهَا.",
+        "explication": "لِتَكُونَ كَلِمَةُ \"لَا إِلَهَ إِلَّا اللَّهُ\" صَحِيحَةً، يَجِبُ مَعْرِفَةُ مَعْنَاهَا، وَهُوَ أَنَّهُ لَا مَعْبُودَ بِحَقٍّ إِلَّا اللَّهُ."
+      },
+      "wo": {
+        "question": "Ci àttey \"Laa ilaaha illaa Allaah\" (Amul jàmmukat bu dëggu lu dul Yàlla), lan mooy li gën a am solo ngir wax gi nangu?",
+        "options": [
+          "Xam njariñam.",
+          "Am alal.",
+          "Rafet.",
+          "Siw."
+        ],
+        "reponse_correcte": "Xam njariñam.",
+        "explication": "Ngir wax gi \"Laa ilaaha illaa Allaah\" mu baax, dafa war a xam njariñam, mooy amul jàmmukat bu dëggu lu dul Yàlla."
+      }
+    }
+  },
+  {
+    "categorie": "Sirah",
+    "niveau": "Avancé",
+    "question": "Qui fut le premier homme à embrasser l'Islam avec le Prophète Muhammad (paix et bénédictions sur lui) ?",
+    "options": [
+      "Umar ibn al-Khattab.",
+      "Ali ibn Abi Talib.",
+      "Abu Bakr as-Siddiq.",
+      "Uthman ibn Affan."
+    ],
+    "reponse_correcte": "Abu Bakr as-Siddiq.",
+    "explication": "Abu Bakr as-Siddiq fut le premier homme adulte à croire au Prophète Muhammad (paix et bénédictions sur lui) et à embrasser l'Islam.",
+    "source": "100 questions/réponses sur la lecture Hafs du Coran (Tajwid)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَنْ كَانَ أَوَّلَ رَجُلٍ أَسْلَمَ مَعَ النَّبِيِّ مُحَمَّدٍ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ)؟",
+        "options": [
+          "عُمَرُ بْنُ الْخَطَّابِ.",
+          "عَلِيُّ بْنُ أَبِي طَالِبٍ.",
+          "أَبُو بَكْرٍ الصِّدِّيقُ.",
+          "عُثْمَانُ بْنُ عَفَّانَ."
+        ],
+        "reponse_correcte": "أَبُو بَكْرٍ الصِّدِّيقُ.",
+        "explication": "أَبُو بَكْرٍ الصِّدِّيقُ كَانَ أَوَّلَ رَجُلٍ بَالِغٍ يُؤْمِنُ بِالنَّبِيِّ مُحَمَّدٍ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) وَيُسْلِمُ."
+      },
+      "wo": {
+        "question": "Kan mooy goor gu njëkk gi gëm Lislaam ak Yonent bi Muhammadu (jàmm ak mucc yal na nekk ci moom)?",
+        "options": [
+          "Umar ibn al-Khattab.",
+          "Ali ibn Abi Talib.",
+          "Abu Bakr as-Siddiq.",
+          "Uthman ibn Affan."
+        ],
+        "reponse_correcte": "Abu Bakr as-Siddiq.",
+        "explication": "Abu Bakr as-Siddiq mooy goor gu mag gu njëkk gi gëm Yonent bi Muhammadu (jàmm ak mucc yal na nekk ci moom) te gëm Lislaam."
+      }
+    }
+  },
+  {
+    "categorie": "Adhkar",
+    "niveau": "Avancé",
+    "question": "Que dis-tu en entrant au marché ?",
+    "options": [
+      "Bismillah.",
+      "La ilaha illa Allah wahdahu la sharika lah, lahul mulku wa lahul hamd, yuhyi wa yumit, wa huwa hayyun la yamut, bi yadihil khayr, wa huwa 'ala kulli shay'in qadir.",
+      "Al-hamdulillah.",
+      "Allahu Akbar."
+    ],
+    "reponse_correcte": "La ilaha illa Allah wahdahu la sharika lah, lahul mulku wa lahul hamd, yuhyi wa yumit, wa huwa hayyun la yamut, bi yadihil khayr, wa huwa 'ala kulli shay'in qadir.",
+    "explication": "Cette invocation est très vertueuse et protège le musulman des distractions du marché, tout en lui rappelant l'unicité et la grandeur d'Allah.",
+    "source": "100 questions/réponses sur la lecture Hafs du Coran (Tajwid)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَاذَا تَقُولُ عِنْدَ دُخُولِ السُّوقِ؟",
+        "options": [
+          "بِسْمِ اللَّهِ.",
+          "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، يُحْيِي وَيُمِيتُ، وَهُوَ حَيٌّ لَا يَمُوتُ، بِيَدِهِ الْخَيْرُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.",
+          "الْحَمْدُ لِلَّهِ.",
+          "اللَّهُ أَكْبَرُ."
+        ],
+        "reponse_correcte": "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، يُحْيِي وَيُمِيتُ، وَهُوَ حَيٌّ لَا يَمُوتُ، بِيَدِهِ الْخَيْرُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.",
+        "explication": "هَذَا الدُّعَاءُ ذُو فَضْلٍ عَظِيمٍ وَيَحْمِي الْمُسْلِمَ مِنْ مُلْهِيَاتِ السُّوقِ، وَيُذَكِّرُهُ بِتَوْحِيدِ اللَّهِ وَعَظَمَتِهِ."
+      },
+      "wo": {
+        "question": "Lan ngay wax bu ngay dugg marse bi?",
+        "options": [
+          "Bismillaah.",
+          "Laa ilaaha illaa Allaah wahdahu laa shariika lah, lahul mulku wa lahul hamd, yuhyii wa yumiitu, wa huwa hayyun laa yamuutu, bi yadihil xayru, wa huwa 'alaa kulli shay'in qadiir.",
+          "Al-xamdulillaah.",
+          "Allaahu Akbar."
+        ],
+        "reponse_correcte": "Laa ilaaha illaa Allaah wahdahu laa shariika lah, lahul mulku wa lahul hamd, yuhyii wa yumiitu, wa huwa hayyun laa yamuutu, bi yadihil xayru, wa huwa 'alaa kulli shay'in qadiir.",
+        "explication": "Ñaan gii dafa am barke lool tey sàmm jullit bi ci yëngu-yënguy marse bi, tey fàttali ko Tawhiid ak màggug Yàlla."
+      }
+    }
+  },
+  {
+    "categorie": "Aqidah",
+    "niveau": "Débutant",
+    "question": "Quelle est ta religion ?",
+    "options": [
+      "Le christianisme.",
+      "Le judaïsme.",
+      "L'islam.",
+      "Le bouddhisme."
+    ],
+    "reponse_correcte": "L'islam.",
+    "explication": "Notre religion est l'Islam, la religion de tous les prophètes, qui nous enseigne à adorer Allah Seul et à Lui obéir.",
+    "source": "100 questions/réponses sur la lecture Hafs du Coran (Tajwid)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَا دِينُكَ؟",
+        "options": [
+          "النَّصْرَانِيَّةُ.",
+          "الْيَهُودِيَّةُ.",
+          "الْإِسْلَامُ.",
+          "الْبُوذِيَّةُ."
+        ],
+        "reponse_correcte": "الْإِسْلَامُ.",
+        "explication": "دِينُنَا هُوَ الْإِسْلَامُ، دِينُ جَمِيعِ الْأَنْبِيَاءِ، الَّذِي يُعَلِّمُنَا عِبَادَةَ اللَّهِ وَحْدَهُ وَطَاعَتَهُ."
+      },
+      "wo": {
+        "question": "Lan mooy sa diine?",
+        "options": [
+          "Kirist.",
+          "Yawut.",
+          "Lislaam.",
+          "Budist."
+        ],
+        "reponse_correcte": "Lislaam.",
+        "explication": "Sunu diine mooy Lislaam, diine Yonent yépp, bi nu jàngal a jaamu Yàlla Képp te déglu Ko."
+      }
+    }
+  },
+  {
+    "categorie": "Sirah",
+    "niveau": "Débutant",
+    "question": "Qui est la mère de notre Prophète Muhammad (paix et bénédictions sur lui) ?",
+    "options": [
+      "Khadijah.",
+      "Aisha.",
+      "Aminah bint Wahb.",
+      "Fatimah."
+    ],
+    "reponse_correcte": "Aminah bint Wahb.",
+    "explication": "La mère de notre Prophète Muhammad (paix et bénédictions sur lui) s'appelait Aminah bint Wahb.",
+    "source": "100 questions/réponses sur la lecture Hafs du Coran (Tajwid)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَنْ هِيَ أُمُّ نَبِيِّنَا مُحَمَّدٍ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ)؟",
+        "options": [
+          "خَدِيجَةُ.",
+          "عَائِشَةُ.",
+          "آمِنَةُ بِنْتُ وَهْبٍ.",
+          "فَاطِمَةُ."
+        ],
+        "reponse_correcte": "آمِنَةُ بِنْتُ وَهْبٍ.",
+        "explication": "أُمُّ نَبِيِّنَا مُحَمَّدٍ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) كَانَ اسْمُهَا آمِنَةَ بِنْتَ وَهْبٍ."
+      },
+      "wo": {
+        "question": "Kan mooy ndeyu sunu Yonent bi Muhammadu (jàmm ak mucc yal na nekk ci moom)?",
+        "options": [
+          "Xadiija.",
+          "Aayisha.",
+          "Aamina bint Wahb.",
+          "Faatima."
+        ],
+        "reponse_correcte": "Aamina bint Wahb.",
+        "explication": "Ndeyu sunu Yonent bi Muhammadu (jàmm ak mucc yal na nekk ci moom) daan na tudd Aamina bint Wahb."
+      }
+    }
+  }
+]

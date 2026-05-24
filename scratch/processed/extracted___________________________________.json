@@ -1,0 +1,863 @@
+[
+  {
+    "categorie": "Fiqh",
+    "niveau": "Débutant",
+    "question": "En quelle année de l'Hégire le jeûne du Ramadan a-t-il été rendu obligatoire ?",
+    "options": [
+      "La première année de l'Hégire",
+      "La deuxième année de l'Hégire",
+      "La troisième année de l'Hégire",
+      "La quatrième année de l'Hégire"
+    ],
+    "reponse_correcte": "La deuxième année de l'Hégire",
+    "explication": "Le jeûne du Ramadan est devenu obligatoire pour les musulmans la deuxième année après l'Hégire du Prophète Muhammad (paix et bénédictions sur lui) de La Mecque à Médine. C'est une information importante pour comprendre l'histoire de l'Islam.",
+    "source": "Les trésors du Ramadan pour enfants (jeûne, prières, invocations)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "فِي أَيِّ سَنَةٍ مِنَ الْهِجْرَةِ فُرِضَ صِيَامُ رَمَضَانَ؟",
+        "options": [
+          "السَّنَةِ الْأُولَى مِنَ الْهِجْرَةِ",
+          "السَّنَةِ الثَّانِيَةِ مِنَ الْهِجْرَةِ",
+          "السَّنَةِ الثَّالِثَةِ مِنَ الْهِجْرَةِ",
+          "السَّنَةِ الرَّابِعَةِ مِنَ الْهِجْرَةِ"
+        ],
+        "reponse_correcte": "السَّنَةِ الثَّانِيَةِ مِنَ الْهِجْرَةِ",
+        "explication": "صِيَامُ رَمَضَانَ أَصْبَحَ وَاجِبًا عَلَى الْمُسْلِمِينَ فِي السَّنَةِ الثَّانِيَةِ بَعْدَ هِجْرَةِ النَّبِيِّ مُحَمَّدٍ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) مِنْ مَكَّةَ إِلَى الْمَدِينَةِ. هَذِهِ مَعْلُومَةٌ مُهِمَّةٌ لِفَهْمِ تَارِيخِ الْإِسْلَامِ."
+      },
+      "wo": {
+        "question": "Ci atum Hijra bu ñeela la wooru Ramadan war?",
+        "options": [
+          "Atum Hijra bu njëkk bi",
+          "Atum Hijra bu ñaareel bi",
+          "Atum Hijra bu ñetteel bi",
+          "Atum Hijra bu ñeenteel bi"
+        ],
+        "reponse_correcte": "Atum Hijra bu ñaareel bi",
+        "explication": "Wooru Ramadan war na ci jullit ñi ci ñaareelu atum Hijra ginaaw bi Yonent bi Muhammad (saw) tuxoo Makka dem Madina. Loolu ab xam-xam bu am solo la ngir mën a dégg taarixu Lislaam."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Débutant",
+    "question": "Quel est le rang du jeûne du Ramadan parmi les piliers de l'Islam ?",
+    "options": [
+      "Le deuxième pilier",
+      "Le troisième pilier",
+      "Le quatrième pilier",
+      "Le cinquième pilier"
+    ],
+    "reponse_correcte": "Le quatrième pilier",
+    "explication": "Le jeûne du Ramadan est le quatrième des cinq piliers de l'Islam, qui sont les fondations de notre religion. Les autres piliers sont l'attestation de foi, la prière, la zakat et le pèlerinage.",
+    "source": "Les trésors du Ramadan pour enfants (jeûne, prières, invocations)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَا هُوَ تَرْتِيبُ صِيَامِ رَمَضَانَ بَيْنَ أَرْكَانِ الْإِسْلَامِ؟",
+        "options": [
+          "الرُّكْنُ الثَّانِي",
+          "الرُّكْنُ الثَّالِثُ",
+          "الرُّكْنُ الرَّابِعُ",
+          "الرُّكْنُ الْخَامِسُ"
+        ],
+        "reponse_correcte": "الرُّكْنُ الرَّابِعُ",
+        "explication": "صِيَامُ رَمَضَانَ هُوَ الرُّكْنُ الرَّابِعُ مِنْ أَرْكَانِ الْإِسْلَامِ الْخَمْسَةِ، الَّتِي هِيَ أَسَاسُ دِينِنَا. الْأَرْكَانُ الْأُخْرَى هِيَ شَهَادَةُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ، وَإِقَامُ الصَّلَاةِ، وَإِيتَاءُ الزَّكَاةِ، وَحَجُّ الْبَيْتِ."
+      },
+      "wo": {
+        "question": "Wooru Ramadan, lan la ci diggante ponki Lislaam yi?",
+        "options": [
+          "Ponku ñaareel bi",
+          "Ponku ñetteel bi",
+          "Ponku ñeenteel bi",
+          "Ponku juróomeel bi"
+        ],
+        "reponse_correcte": "Ponku ñeenteel bi",
+        "explication": "Wooru Ramadan mooy ñeenteelu ponk ci juróomi ponki Lislaam yi, ñoom ñoo di yëngu-yëngu diine ji. Yeneen ponk yi ñoo di seede, julli, zakat ak aj."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Intermédiaire",
+    "question": "Le Prophète Muhammad (paix et bénédictions sur lui) nous a interdit de jeûner juste avant le Ramadan de combien de jours ?",
+    "options": [
+      "Une semaine",
+      "Un jour ou deux",
+      "Un mois",
+      "Trois jours"
+    ],
+    "reponse_correcte": "Un jour ou deux",
+    "explication": "Le Prophète (paix et bénédictions sur lui) nous a interdit de jeûner un jour ou deux avant le Ramadan pour ne pas anticiper le mois béni et pour bien distinguer le jeûne obligatoire du jeûne surérogatoire.",
+    "source": "Les trésors du Ramadan pour enfants (jeûne, prières, invocations)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "نَهَانَا النَّبِيُّ مُحَمَّدٌ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) عَنِ الصَّوْمِ قَبْلَ رَمَضَانَ بِكَمْ يَوْمٍ؟",
+        "options": [
+          "بِأُسْبُوعٍ",
+          "بِيَوْمٍ أَوْ يَوْمَيْنِ",
+          "بِشَهْرٍ",
+          "بِثَلَاثَةِ أَيَّامٍ"
+        ],
+        "reponse_correcte": "بِيَوْمٍ أَوْ يَوْمَيْنِ",
+        "explication": "نَهَانَا النَّبِيُّ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) عَنِ الصَّوْمِ قَبْلَ رَمَضَانَ بِيَوْمٍ أَوْ يَوْمَيْنِ لِكَيْ لَا نَسْتَبِقَ الشَّهْرَ الْمُبَارَكَ وَلِلتَّفْرِيقِ بَيْنَ الصَّوْمِ الْوَاجِبِ وَالتَّطَوُّعِ."
+      },
+      "wo": {
+        "question": "Yonent bi Muhammad (saw) tere nañu woor lu jiitu Ramadan ci ñata bis?",
+        "options": [
+          "Ci benn ayu-bis",
+          "Ci benn bis walla ñaar",
+          "Ci benn weer",
+          "Ci ñett bis"
+        ],
+        "reponse_correcte": "Ci benn bis walla ñaar",
+        "explication": "Yonent bi (saw) tere nañu woor benn bis walla ñaar njëkk Ramadan ngir bañ a jiitu weeru barke bi te ngir mën a texe diggante wooru war ak wooru sunna."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Débutant",
+    "question": "En quel mois le Saint Coran a-t-il été révélé pour la première fois ?",
+    "options": [
+      "Mouharram",
+      "Dhoul Hijjah",
+      "Ramadan",
+      "Chawwal"
+    ],
+    "reponse_correcte": "Ramadan",
+    "explication": "Le mois de Ramadan est très spécial car c'est pendant ce mois que le Coran, notre livre sacré, a commencé à être révélé au Prophète Muhammad (paix et bénédictions sur lui). C'est pourquoi on l'appelle aussi le \"mois du Coran\".",
+    "source": "Les trésors du Ramadan pour enfants (jeûne, prières, invocations)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "فِي أَيِّ شَهْرٍ نَزَلَ الْقُرْآنُ الْكَرِيمُ لِأَوَّلِ مَرَّةٍ؟",
+        "options": [
+          "الْمُحَرَّمِ",
+          "ذِي الْحِجَّةِ",
+          "رَمَضَانَ",
+          "شَوَّالٍ"
+        ],
+        "reponse_correcte": "رَمَضَانَ",
+        "explication": "شَهْرُ رَمَضَانَ مُمَيَّزٌ جِدًّا لِأَنَّ الْقُرْآنَ، كِتَابَنَا الْمُقَدَّسَ، بَدَأَ نُزُولُهُ فِيهِ عَلَى النَّبِيِّ مُحَمَّدٍ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ). لِذَلِكَ يُسَمَّى أَيْضًا \"شَهْرَ الْقُرْآنِ\"."
+      },
+      "wo": {
+        "question": "Ci weeru lan la Alxuraan bu sell bi dale ci njëkk?",
+        "options": [
+          "Muharram",
+          "Dhul Hijjah",
+          "Ramadan",
+          "Shawwal"
+        ],
+        "reponse_correcte": "Ramadan",
+        "explication": "Weeru Ramadan am na solo lool ndax ci weer woowu la Alxuraan, sunu téere bu sell bi, dale ci Yonent bi Muhammad (saw). Looloo tax ñu koy wax itam \"weeru Alxuraan\"."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Intermédiaire",
+    "question": "Parmi les Sunnahs (traditions) du Prophète (paix et bénédictions sur lui) pendant le Ramadan, laquelle est correcte ?",
+    "options": [
+      "Retarder le repas de rupture du jeûne (Iftar) et avancer le repas de l'aube (Souhour)",
+      "Avancer le repas de rupture du jeûne (Iftar) et retarder le repas de l'aube (Souhour)",
+      "Retarder le repas de rupture du jeûne (Iftar) et retarder le repas de l'aube (Souhour)",
+      "Avancer le repas de rupture du jeûne (Iftar) et avancer le repas de l'aube (Souhour)"
+    ],
+    "reponse_correcte": "Avancer le repas de rupture du jeûne (Iftar) et retarder le repas de l'aube (Souhour)",
+    "explication": "C'est une Sunnah de se hâter de rompre le jeûne dès que le soleil se couche et de retarder le Souhour (repas de l'aube) le plus près possible de l'heure du Fajr. Cela apporte une grande bénédiction et suit l'exemple de notre Prophète bien-aimé.",
+    "source": "Les trésors du Ramadan pour enfants (jeûne, prières, invocations)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مِنْ سُنَنِ النَّبِيِّ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) فِي رَمَضَانَ، أَيُّهَا صَحِيحٌ؟",
+        "options": [
+          "تَأْخِيرُ الْفُطُورِ وَالتَّبْكِيرُ بِالسَّحُورِ",
+          "تَعْجِيلُ الْفُطُورِ وَتَأْخِيرُ السَّحُورِ",
+          "تَأْخِيرُ الْفُطُورِ وَتَأْخِيرُ السَّحُورِ",
+          "تَعْجِيلُ الْفُطُورِ وَتَعْجِيلُ السَّحُورِ"
+        ],
+        "reponse_correcte": "تَعْجِيلُ الْفُطُورِ وَتَأْخِيرُ السَّحُورِ",
+        "explication": "مِنَ السُّنَّةِ الْمُبَادَرَةُ بِالْفِطْرِ عِنْدَ غُرُوبِ الشَّمْسِ وَتَأْخِيرُ السَّحُورِ إِلَى أَقْرَبِ وَقْتٍ مُمْكِنٍ مِنْ أَذَانِ الْفَجْرِ. هَذَا يَجْلِبُ بَرَكَةً كَبِيرَةً وَيَتْبَعُ مِثَالَ نَبِيِّنَا الْحَبِيبِ."
+      },
+      "wo": {
+        "question": "Ci sunna Yonent bi (saw) ci Ramadan, lan mooy lu dëgg?",
+        "options": [
+          "Yeesal ndog yi te gaawale sahur",
+          "Gaawale ndog yi te yeesal sahur",
+          "Yeesal ndog yi te yeesal sahur",
+          "Gaawale ndog yi te gaawale sahur"
+        ],
+        "reponse_correcte": "Gaawale ndog yi te yeesal sahur",
+        "explication": "Sunna la ñu gaaw a dog su jant bi soowee te ñu yeesal sahur bi ba mu jege Fajr. Loolu dafa indi barke bu bari te dafa topp ci royu Yonent bi (saw)."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Intermédiaire",
+    "question": "Qu'est-ce que la Zakat al-Fitr que Allah nous a rendue obligatoire ?",
+    "options": [
+      "De la nourriture de base du pays donnée aux pauvres et aux nécessiteux",
+      "De l'argent donné aux pauvres et aux nécessiteux avant la prière de l'Aïd",
+      "De la nourriture ou de l'argent donné aux pauvres et aux nécessiteux avant la prière de l'Aïd",
+      "De l'argent donné aux pauvres et aux nécessiteux après la prière de l'Aïd"
+    ],
+    "reponse_correcte": "De la nourriture de base du pays donnée aux pauvres et aux nécessiteux",
+    "explication": "La Zakat al-Fitr est une aumône obligatoire donnée sous forme de nourriture de base (comme des dattes, du riz, du blé) aux pauvres et aux nécessiteux avant la prière de l'Aïd. Elle purifie le jeûneur et nourrit les démunis pour qu'ils puissent aussi célébrer l'Aïd.",
+    "source": "Les trésors du Ramadan pour enfants (jeûne, prières, invocations)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَا هِيَ زَكَاةُ الْفِطْرِ الَّتِي فَرَضَهَا اللَّهُ عَلَيْنَا؟",
+        "options": [
+          "طَعَامٌ مِنْ قُوتِ أَهْلِ الْبَلَدِ يُعْطَى لِلْفُقَرَاءِ وَالْمَسَاكِينِ",
+          "أَوْرَاقٌ نَقْدِيَّةٌ تُعْطَى لِلْفُقَرَاءِ وَالْمَسَاكِينِ قَبْلَ صَلَاةِ الْعِيدِ",
+          "طَعَامٌ أَوْ نُقُودٌ تُعْطَى لِلْفُقَرَاءِ وَالْمَسَاكِينِ قَبْلَ صَلَاةِ الْعِيدِ",
+          "أَوْرَاقٌ نَقْدِيَّةٌ تُعْطَى لِلْفُقَرَاءِ وَالْمَسَاكِينِ بَعْدَ صَلَاةِ الْعِيدِ"
+        ],
+        "reponse_correcte": "طَعَامٌ مِنْ قُوتِ أَهْلِ الْبَلَدِ يُعْطَى لِلْفُقَرَاءِ وَالْمَسَاكِينِ",
+        "explication": "زَكَاةُ الْفِطْرِ هِيَ صَدَقَةٌ وَاجِبَةٌ تُعْطَى عَلَى شَكْلِ طَعَامٍ أَسَاسِيٍّ (كَالتَّمْرِ أَوِ الْأَرُزِّ أَوِ الْقَمْحِ) لِلْفُقَرَاءِ وَالْمَسَاكِينِ قَبْلَ صَلَاةِ الْعِيدِ. إِنَّهَا تُطَهِّرُ الصَّائِمَ وَتُطْعِمُ الْمُحْتَاجِينَ لِيَتَمَكَّنُوا أَيْضًا مِنَ الِاحْتِفَالِ بِالْعِيدِ."
+      },
+      "wo": {
+        "question": "Lan mooy Zakat al-Fitr bi Yalla defal nu war?",
+        "options": [
+          "Ndeyeum dund gu dekk bi jox ko ñakk yi ak miskin yi",
+          "Xaalis buñu jox ñakk yi ak miskin yi njëkk julli Aid",
+          "Ndeyeum dund walla xaalis buñu jox ñakk yi ak miskin yi njëkk julli Aid",
+          "Xaalis buñu jox ñakk yi ak miskin yi ginaaw julli Aid"
+        ],
+        "reponse_correcte": "Ndeyeum dund gu dekk bi jox ko ñakk yi ak miskin yi",
+        "explication": "Zakat al-Fitr mooy sarax su war suñu joxe ci melokaanu dund gu dekk bi (ni mel ni tandarma, ceeb, walla farin) ñakk yi ak miskin yi njëkk julli Aid. Dafay setal ki woor te dundal ñakk yi ngir ñoom itam mën a fete Aid bi."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Intermédiaire",
+    "question": "Le voyageur et le malade dont la guérison est espérée, peuvent-ils rompre leur jeûne et doivent-ils le rattraper plus tard ?",
+    "options": [
+      "Oui, c'est correct",
+      "Non, c'est faux",
+      "Ils ne peuvent pas rompre leur jeûne",
+      "Ils peuvent rompre mais ne rattrapent pas"
+    ],
+    "reponse_correcte": "Oui, c'est correct",
+    "explication": "Allah nous facilite les choses. Si tu es malade et que tu espères guérir, ou si tu es en voyage, tu peux rompre ton jeûne. Mais tu devras rattraper ces jours plus tard, quand tu seras en bonne santé ou de retour de voyage.",
+    "source": "Les trésors du Ramadan pour enfants (jeûne, prières, invocations)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "هَلْ يَجُوزُ لِلْمُسَافِرِ وَالْمَرِيضِ الَّذِي يُرْجَى لَهُ الشِّفَاءُ أَنْ يُفْطِرَا وَيَجِبُ عَلَيْهِمَا أَنْ يَقْضِيَا صَوْمَهُمَا بَعْدَ ذَلِكَ؟",
+        "options": [
+          "نَعَمْ، صَحِيحٌ",
+          "لَا، خَطَأٌ",
+          "لَا يَجُوزُ لَهُمَا أَنْ يُفْطِرَا",
+          "يَجُوزُ لَهُمَا أَنْ يُفْطِرَا وَلَا يَقْضِيَانِ"
+        ],
+        "reponse_correcte": "نَعَمْ، صَحِيحٌ",
+        "explication": "اللَّهُ يُيَسِّرُ الْأُمُورَ عَلَيْنَا. إِذَا كُنْتَ مَرِيضًا وَتَأْمُلُ الشِّفَاءَ، أَوْ كُنْتَ مُسَافِرًا، يُمْكِنُكَ الْإِفْطَارُ. وَلَكِنْ يَجِبُ عَلَيْكَ قَضَاءُ هَذِهِ الْأَيَّامِ لَاحِقًا، عِنْدَمَا تَكُونُ بِصِحَّةٍ جَيِّدَةٍ أَوْ تَعُودُ مِنْ سَفَرِكَ."
+      },
+      "wo": {
+        "question": "Jëmm ju yéewu ak jëmm ju feebar juñu yaakaar ne dina wér, mën nañu dog te war nañu ko faji ginaaw bi?",
+        "options": [
+          "Waaw, dëgg la",
+          "Déedéet, lu baaxul la",
+          "Mënunu dog",
+          "Mën nañu dog waaye duñu faji"
+        ],
+        "reponse_correcte": "Waaw, dëgg la",
+        "explication": "Yalla dafa nu yombalal. Su fekkee da ngay feebar te yaakaar ne dina nga wér, walla da ngay yéewu, mën nga dog. Waaye da nga war a faji bis yooyu ginaaw bi, su nga wéree walla su nga dellusee ci sa yéewu."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Avancé",
+    "question": "L'incapable de jeûner et le malade dont la guérison n'est pas espérée, peuvent-ils rompre leur jeûne et doivent-ils nourrir un pauvre pour chaque jour ?",
+    "options": [
+      "Oui, c'est correct",
+      "Non, c'est faux",
+      "Ils doivent jeûner malgré tout",
+      "Ils ne doivent rien faire"
+    ],
+    "reponse_correcte": "Oui, c'est correct",
+    "explication": "Pour ceux qui ne peuvent pas jeûner du tout, comme les personnes très âgées ou les malades chroniques qui n'espèrent pas guérir, Allah leur a facilité les choses. Ils ne jeûnent pas, mais ils doivent nourrir un pauvre pour chaque jour de jeûne manqué. C'est une belle façon de compenser et d'aider les autres.",
+    "source": "Les trésors du Ramadan pour enfants (jeûne, prières, invocations)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "هَلْ يَجُوزُ لِلْعَاجِزِ عَنِ الصِّيَامِ وَالْمَرِيضِ الَّذِي لَا يُرْجَى لَهُ الشِّفَاءُ أَنْ يُفْطِرَا، وَلَكِنْ يَجِبُ عَلَيْهِمَا أَنْ يُطْعِمَا بَدَلَ الصِّيَامِ عَنْ كُلِّ يَوْمٍ مِسْكِينًا؟",
+        "options": [
+          "نَعَمْ، صَحِيحٌ",
+          "لَا، خَطَأٌ",
+          "يَجِبُ عَلَيْهِمَا الصِّيَامُ بِالرَّغْمِ مِنْ ذَلِكَ",
+          "لَا يَجِبُ عَلَيْهِمَا فِعْلُ شَيْءٍ"
+        ],
+        "reponse_correcte": "نَعَمْ، صَحِيحٌ",
+        "explication": "لِلَّذِينَ لَا يَسْتَطِيعُونَ الصِّيَامَ مُطْلَقًا، كَالْكِبَارِ فِي السِّنِّ جِدًّا أَوِ الْمَرْضَى الْمُزْمِنِينَ الَّذِينَ لَا يُرْجَى شِفَاؤُهُمْ، قَدْ يَسَّرَ اللَّهُ عَلَيْهِمُ الْأَمْرَ. فَهُمْ لَا يَصُومُونَ، وَلَكِنْ يَجِبُ عَلَيْهِمْ إِطْعَامُ مِسْكِينٍ عَنْ كُلِّ يَوْمٍ فَاتَهُمْ. هَذِهِ طَرِيقَةٌ جَمِيلَةٌ لِلتَّعْوِيضِ وَمُسَاعَدَةِ الْآخَرِينَ."
+      },
+      "wo": {
+        "question": "Ki mënul woor ak jëmm ju feebar juñu yaakaar ne dina wér, mën nañu dog te war nañu lekkale benn miskin ci bis bu nekk?",
+        "options": [
+          "Waaw, dëgg la",
+          "Déedéet, lu baaxul la",
+          "War nañu woor ci lu nekk",
+          "Warunu def dara"
+        ],
+        "reponse_correcte": "Waaw, dëgg la",
+        "explication": "Ñi mënul woor dara, ni mel ni mag yu màgg yi walla ñi feebar feebar bu sax te yaakaarunu ne dinañu wér, Yalla dafa leen yombalal. Duñu woor, waaye war nañu lekkale benn miskin ci bis bu nekk buñu ñakk. Loolu ab yoon bu rafet la ngir faji te dimbali yeneen ñi."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Intermédiaire",
+    "question": "Parmi les exigences du jeûne, laquelle est la plus importante ?",
+    "options": [
+      "Jouer à des jeux interdits",
+      "Regarder des séries comiques",
+      "La piété envers Allah et la protection de tous les membres du corps contre les interdits",
+      "Manger et boire beaucoup"
+    ],
+    "reponse_correcte": "La piété envers Allah et la protection de tous les membres du corps contre les interdits",
+    "explication": "Le jeûne n'est pas seulement s'abstenir de manger et de boire. C'est aussi un entraînement pour notre âme et notre corps à se rapprocher d'Allah. Cela signifie que nous devons faire attention à ce que nous disons, à ce que nous regardons, à ce que nous écoutons, et à toutes nos actions, pour qu'elles soient agréables à Allah.",
+    "source": "Les trésors du Ramadan pour enfants (jeûne, prières, invocations)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مِنْ لَوَازِمِ الصِّيَامِ، أَيُّهَا الْأَهَمُّ؟",
+        "options": [
+          "اللَّعِبُ بِالْأَلْعَابِ الْمُحَرَّمَةِ",
+          "مُشَاهَدَةُ الْمُسَلْسَلَاتِ الْمُضْحِكَةِ",
+          "تَقْوَى اللَّهِ وَحِفْظُ جَمِيعِ الْجَوَارِحِ عَنِ الْمُحَرَّمَاتِ",
+          "الْأَكْلُ وَالشُّرْبُ الْكَثِيرُ"
+        ],
+        "reponse_correcte": "تَقْوَى اللَّهِ وَحِفْظُ جَمِيعِ الْجَوَارِحِ عَنِ الْمُحَرَّمَاتِ",
+        "explication": "الصِّيَامُ لَيْسَ مُجَرَّدَ الْإِمْسَاكِ عَنِ الْأَكْلِ وَالشُّرْبِ. إِنَّهُ أَيْضًا تَدْرِيبٌ لِرُوحِنَا وَجَسَدِنَا عَلَى التَّقَرُّبِ إِلَى اللَّهِ. هَذَا يَعْنِي أَنَّهُ يَجِبُ عَلَيْنَا الِانْتِبَاهُ لِمَا نَقُولُهُ، وَمَا نَنْظُرُ إِلَيْهِ، وَمَا نَسْتَمِعُ إِلَيْهِ، وَلِجَمِيعِ أَفْعَالِنَا، لِتَكُونَ مُرْضِيَةً لِلَّهِ."
+      },
+      "wo": {
+        "question": "Ci li wooru laaj, lan mooy li ëpp solo?",
+        "options": [
+          "Féex ak ay jëw yu haram",
+          "Seetaan ay série yu reetaan",
+          "Raggal Yalla ak samm yëpp ci sa yaram ci haram yi",
+          "Lekk ak naan lu bari"
+        ],
+        "reponse_correcte": "Raggal Yalla ak samm yëpp ci sa yaram ci haram yi",
+        "explication": "Wooru du rekk bañ a lekk ak bañ a naan. Ab yar la itam ci sunu ruu ak sunu yaram ngir jege Yalla. Loolu dafa tekki ne war nañu moytu li ñuy wax, li ñuy seetaan, li ñuy dégg, ak sunu jëf yëpp, ngir ñu neex Yalla."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Débutant",
+    "question": "Combien d'Aïds (fêtes) les musulmans ont-ils ?",
+    "options": [
+      "L'Aïd des enfants et l'Aïd des mères",
+      "L'Aïd de Noël et l'Aïd de l'amour",
+      "L'Aïd al-Adha et l'Aïd al-Fitr",
+      "Un seul Aïd"
+    ],
+    "reponse_correcte": "L'Aïd al-Adha et l'Aïd al-Fitr",
+    "explication": "En Islam, nous avons deux grandes fêtes joyeuses : l'Aïd al-Fitr, qui vient après le Ramadan, et l'Aïd al-Adha, la fête du sacrifice. Ce sont des jours de joie, de remerciement à Allah et de partage avec la famille et les amis.",
+    "source": "Les trésors du Ramadan pour enfants (jeûne, prières, invocations)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "كَمْ عِيدًا لِلْمُسْلِمِينَ؟",
+        "options": [
+          "عِيدُ الطِّفْلِ وَعِيدُ الْأُمِّ",
+          "عِيدُ الْكَرِيسْمَسِ وَعِيدُ الْحُبِّ",
+          "عِيدُ الْأَضْحَى وَعِيدُ الْفِطْرِ",
+          "عِيدٌ وَاحِدٌ فَقَطْ"
+        ],
+        "reponse_correcte": "عِيدُ الْأَضْحَى وَعِيدُ الْفِطْرِ",
+        "explication": "فِي الْإِسْلَامِ، لَدَيْنَا عِيدَانِ كَبِيرَانِ مُفْرِحَانِ: عِيدُ الْفِطْرِ، الَّذِي يَأْتِي بَعْدَ رَمَضَانَ، وَعِيدُ الْأَضْحَى، عِيدُ الْقُرْبَانِ. هَذِهِ أَيَّامُ فَرَحٍ وَشُكْرٍ لِلَّهِ وَمُشَارَكَةٍ مَعَ الْعَائِلَةِ وَالْأَصْدِقَاءِ."
+      },
+      "wo": {
+        "question": "Ñata Aid lañu am ci Lislaam?",
+        "options": [
+          "Aidu doom yi ak Aidu yaay yi",
+          "Aidu Noël ak Aidu mbëggeel",
+          "Aid al-Adha ak Aid al-Fitr",
+          "Benn Aid rekk"
+        ],
+        "reponse_correcte": "Aid al-Adha ak Aid al-Fitr",
+        "explication": "Ci Lislaam, am nañu ñaari Aid yu mag yu neex: Aid al-Fitr, bi ñuy fete ginaaw Ramadan, ak Aid al-Adha, Aidu sarax bi. Bis yoyu bisu mbëggeel la, bisu gërëm Yalla ak bisu séddale ak sa njaboot ak sa xarit."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Intermédiaire",
+    "question": "Quand commence et quand se termine le temps de la prière de l'Aïd ?",
+    "options": [
+      "Elle commence au lever du soleil et se termine après le zénith",
+      "Elle commence au lever du soleil et se termine au lever du soleil",
+      "Elle commence à la hauteur du soleil d'une lance et se termine avant le zénith",
+      "Elle commence à la hauteur du soleil d'une lance et se termine après le zénith"
+    ],
+    "reponse_correcte": "Elle commence à la hauteur du soleil d'une lance et se termine avant le zénith",
+    "explication": "La prière de l'Aïd commence environ un quart d'heure après le lever du soleil (quand le soleil est à la hauteur d'une lance) et se termine juste avant que le soleil n'atteigne son point le plus haut dans le ciel (le zénith). C'est important de la faire à l'heure pour ne pas manquer cette belle prière.",
+    "source": "Les trésors du Ramadan pour enfants (jeûne, prières, invocations)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَتَى يَبْدَأُ وَمَتَى يَنْتَهِي وَقْتُ صَلَاةِ الْعِيدِ؟",
+        "options": [
+          "يَبْدَأُ مِنْ طُلُوعِ الشَّمْسِ وَيَنْتَهِي بَعْدَ زَوَالِ الشَّمْسِ",
+          "يَبْدَأُ مِنْ طُلُوعِ الْفَجْرِ وَيَنْتَهِي عِنْدَ شُرُوقِ الشَّمْسِ",
+          "يَبْدَأُ عِنْدَ ارْتِفَاعِ الشَّمْسِ قَدْرَ رُمْحٍ وَيَنْتَهِي قَبْلَ زَوَالِ الشَّمْسِ",
+          "يَبْدَأُ عِنْدَ ارْتِفَاعِ الشَّمْسِ قَدْرَ رُمْحٍ وَيَنْتَهِي بَعْدَ زَوَالِ الشَّمْسِ"
+        ],
+        "reponse_correcte": "يَبْدَأُ عِنْدَ ارْتِفَاعِ الشَّمْسِ قَدْرَ رُمْحٍ وَيَنْتَهِي قَبْلَ زَوَالِ الشَّمْسِ",
+        "explication": "صَلَاةُ الْعِيدِ تَبْدَأُ بَعْدَ شُرُوقِ الشَّمْسِ بِرُبْعِ سَاعَةٍ تَقْرِيبًا (عِنْدَمَا تَرْتَفِعُ الشَّمْسُ قَدْرَ رُمْحٍ) وَتَنْتَهِي قَبْلَ أَنْ تَصِلَ الشَّمْسُ إِلَى مُنْتَصَفِ السَّمَاءِ (الزَّوَالِ). مِنْ الْمُهِمِّ أَدَاؤُهَا فِي وَقْتِهَا لِكَيْ لَا نُفَوِّتَ هَذِهِ الصَّلَاةَ الْجَمِيلَةَ."
+      },
+      "wo": {
+        "question": "Kañ la julli Aid di tàmbalee te kañ la di jéex?",
+        "options": [
+          "Di tàmbalee ci bëcëg te di jéex ginaaw tisbaar",
+          "Di tàmbalee ci suba te di jéex ci bëcëg",
+          "Di tàmbalee ci bëcëg bu jant bi yéegoo ci lu tollu ak benn lance te di jéex njëkk tisbaar",
+          "Di tàmbalee ci bëcëg bu jant bi yéegoo ci lu tollu ak benn lance te di jéex ginaaw tisbaar"
+        ],
+        "reponse_correcte": "Di tàmbalee ci bëcëg bu jant bi yéegoo ci lu tollu ak benn lance te di jéex njëkk tisbaar",
+        "explication": "Julli Aid dafay tàmbalee lu tollu ak fukki minit ak juróom ginaaw bëcëg (su jant bi yéegoo ci lu tollu ak benn lance) te di jéex njëkk jant bi aju ci diggu asamaan (tisbaar). Am solo la ñu def ko ci waxtu wi ngir bañ a ñakk julli bu rafet boobu."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Avancé",
+    "question": "Quand est-il recommandé de faire le Takbir (dire \"Allahou Akbar\") pour l'Aïd al-Fitr ?",
+    "options": [
+      "Dès l'apparition du croissant de lune de Chawwal jusqu'à la prière de l'Aïd",
+      "Du Fajr du jour de l'Aïd jusqu'au troisième jour de Chawwal",
+      "De la prière de l'Icha de la nuit de l'Aïd jusqu'à l'Asr du jour de l'Aïd",
+      "Pendant les dix premiers jours de Dhoul Hijjah"
+    ],
+    "reponse_correcte": "Dès l'apparition du croissant de lune de Chawwal jusqu'à la prière de l'Aïd",
+    "explication": "Pour l'Aïd al-Fitr, nous commençons à dire le Takbir dès que nous savons que le mois de Ramadan est terminé et que le mois de Chawwal a commencé (généralement après avoir vu la nouvelle lune), et nous continuons jusqu'à ce que la prière de l'Aïd soit accomplie. C'est une façon de montrer notre joie et notre gratitude à Allah.",
+    "source": "Les trésors du Ramadan pour enfants (jeûne, prières, invocations)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَتَى يُسَنُّ التَّكْبِيرُ فِي عِيدِ الْفِطْرِ؟",
+        "options": [
+          "مِنْ ثُبُوتِ دُخُولِ شَهْرِ شَوَّالٍ حَتَّى صَلَاةِ الْعِيدِ",
+          "مِنْ صَلَاةِ فَجْرِ يَوْمِ الْعِيدِ حَتَّى ثَالِثِ يَوْمٍ مِنْ شَهْرِ شَوَّالٍ",
+          "مِنْ صَلَاةِ الْعِشَاءِ لِلَيْلَةِ الْعِيدِ حَتَّى عَصْرِ يَوْمِ الْعِيدِ",
+          "فِي الْأَيَّامِ الْعَشْرِ الْأُولَى مِنْ ذِي الْحِجَّةِ"
+        ],
+        "reponse_correcte": "مِنْ ثُبُوتِ دُخُولِ شَهْرِ شَوَّالٍ حَتَّى صَلَاةِ الْعِيدِ",
+        "explication": "لِعِيدِ الْفِطْرِ، نَبْدَأُ بِالتَّكْبِيرِ بِمُجَرَّدِ عِلْمِنَا بِانْتِهَاءِ شَهْرِ رَمَضَانَ وَبَدْءِ شَهْرِ شَوَّالٍ (عَادَةً بَعْدَ رُؤْيَةِ الْهِلَالِ)، وَنَسْتَمِرُّ حَتَّى تُؤَدَّى صَلَاةُ الْعِيدِ. هَذِهِ طَرِيقَةٌ لِإِظْهَارِ فَرَحِنَا وَشُكْرِنَا لِلَّهِ."
+      },
+      "wo": {
+        "question": "Kañ lañuy def Takbir ci Aid al-Fitr?",
+        "options": [
+          "Ci njëkk gi weeru Shawwal feeñ ba ci julli Aid",
+          "Ci Fajr bu bisu Aid ba ci ñetteelu bisu Shawwal",
+          "Ci julli Icha bu guddi Aid ba ci Asr bu bisu Aid",
+          "Ci fukki bis yu njëkk yi ci Dhul Hijjah"
+        ],
+        "reponse_correcte": "Ci njëkk gi weeru Shawwal feeñ ba ci julli Aid",
+        "explication": "Ci Aid al-Fitr, dañuy tàmbalee Takbir buñu xamee ne weeru Ramadan jéex na te weeru Shawwal tàmbalee na (ci lu ëpp ginaaw biñu gisee weeru bees bi), te dañuy wéy ba julli Aid bi jéex. Loolu ab yoon la ngir wone sunu mbëggeel ak sunu gërëm ci Yalla."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Débutant",
+    "question": "Comment est l'odeur de la bouche du jeûneur auprès d'Allah ?",
+    "options": [
+      "Désagréable",
+      "Normale",
+      "Plus agréable que l'odeur du musc",
+      "Indifférente"
+    ],
+    "reponse_correcte": "Plus agréable que l'odeur du musc",
+    "explication": "Même si l'odeur de la bouche du jeûneur peut être un peu différente pour nous, auprès d'Allah, elle est très aimée et plus agréable que le parfum du musc. C'est un signe de la grande récompense et de l'honneur que les jeûneurs reçoivent d'Allah pour leur obéissance.",
+    "source": "Les trésors du Ramadan pour enfants (jeûne, prières, invocations)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "كَيْفَ رَائِحَةُ فَمِ الصَّائِمِ عِنْدَ اللَّهِ؟",
+        "options": [
+          "كَرِيهَةٌ",
+          "عَادِيَّةٌ",
+          "أَطْيَبُ مِنْ رِيحِ الْمِسْكِ",
+          "غَيْرُ مُهِمَّةٍ"
+        ],
+        "reponse_correcte": "أَطْيَبُ مِنْ رِيحِ الْمِسْكِ",
+        "explication": "حَتَّى لَوْ كَانَتْ رَائِحَةُ فَمِ الصَّائِمِ مُخْتَلِفَةً قَلِيلًا بِالنِّسْبَةِ لَنَا، فَإِنَّهَا عِنْدَ اللَّهِ مَحْبُوبَةٌ جِدًّا وَأَطْيَبُ مِنْ رَائِحَةِ الْمِسْكِ. هَذِهِ عَلَامَةٌ عَلَى الْأَجْرِ الْعَظِيمِ وَالشَّرَفِ الَّذِي يَنَالُهُ الصَّائِمُونَ مِنْ اللَّهِ عَلَى طَاعَتِهِمْ."
+      },
+      "wo": {
+        "question": "Nu mu mel xëdd gu ki woor ci Yalla?",
+        "options": [
+          "Lu bonn la",
+          "Lu normal la",
+          "Gën a neex xëdd gu misk",
+          "Lu amul solo la"
+        ],
+        "reponse_correcte": "Gën a neex xëdd gu misk",
+        "explication": "Même si xëdd gu ki woor mën na nekk lu wuute tuuti ci nun, ci Yalla dafa neex lool te gën a neex xëdd gu misk. Loolu ab tektal la ci pay gi ak daraja gi ñuy jox ñi woor ci seen topp Yalla."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Avancé",
+    "question": "Le jeûne du Ramadan est obligatoire pour qui ?",
+    "options": [
+      "Musulman, sain d'esprit, pubère, résident, capable, femme exempte de menstrues et de lochies",
+      "Musulman, sain d'esprit, pubère, résident, capable",
+      "Musulman, sain d'esprit, pubère",
+      "Tous les musulmans, quel que soit leur âge"
+    ],
+    "reponse_correcte": "Musulman, sain d'esprit, pubère, résident, capable, femme exempte de menstrues et de lochies",
+    "explication": "Pour que le jeûne du Ramadan soit obligatoire, il faut remplir plusieurs conditions : être musulman, avoir toute sa raison, avoir atteint la puberté, être résident (non voyageur), être capable de jeûner (non malade), et pour les femmes, être exempte de menstrues ou de lochies. Si l'une de ces conditions n'est pas remplie, le jeûne n'est pas obligatoire, mais il peut y avoir des compensations.",
+    "source": "Les trésors du Ramadan pour enfants (jeûne, prières, invocations)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "عَلَى مَنْ يَجِبُ صَوْمُ رَمَضَانَ؟",
+        "options": [
+          "عَلَى كُلِّ مُسْلِمٍ، عَاقِلٍ، بَالِغٍ، مُقِيمٍ، قَادِرٍ، وَامْرَأَةٍ خَالِيَةٍ عَنِ الْحَيْضِ وَالنِّفَاسِ",
+          "عَلَى كُلِّ مُسْلِمٍ، عَاقِلٍ، بَالِغٍ، مُقِيمٍ، قَادِرٍ",
+          "عَلَى كُلِّ مُسْلِمٍ، عَاقِلٍ، بَالِغٍ",
+          "عَلَى جَمِيعِ الْمُسْلِمِينَ بِغَضِّ النَّظَرِ عَنْ عُمْرِهِمْ"
+        ],
+        "reponse_correcte": "عَلَى كُلِّ مُسْلِمٍ، عَاقِلٍ، بَالِغٍ، مُقِيمٍ، قَادِرٍ، وَامْرَأَةٍ خَالِيَةٍ عَنِ الْحَيْضِ وَالنِّفَاسِ",
+        "explication": "لِكَيْ يَكُونَ صَوْمُ رَمَضَانَ وَاجِبًا، يَجِبُ تَوَفُّرُ عِدَّةِ شُرُوطٍ: أَنْ يَكُونَ مُسْلِمًا، عَاقِلًا، بَالِغًا، مُقِيمًا (غَيْرَ مُسَافِرٍ)، قَادِرًا عَلَى الصِّيَامِ (غَيْرَ مَرِيضٍ)، وَبِالنِّسْبَةِ لِلنِّسَاءِ، أَنْ تَكُونَ خَالِيَةً مِنَ الْحَيْضِ أَوِ النِّفَاسِ. إِذَا لَمْ يَتَوَفَّرْ أَحَدُ هَذِهِ الشُّرُوطِ، فَالصِّيَامُ لَيْسَ وَاجِبًا، وَلَكِنْ قَدْ تَكُونُ هُنَاكَ كَفَّارَاتٌ."
+      },
+      "wo": {
+        "question": "Wooru Ramadan war na ci kan?",
+        "options": [
+          "Ci jullit, ku am xel, ku mag, ku dëkk, ku mën, ak jigéen ju set ci caax ak nifaas",
+          "Ci jullit, ku am xel, ku mag, ku dëkk, ku mën",
+          "Ci jullit, ku am xel, ku mag",
+          "Ci jullit yëpp, lu nekk seen at"
+        ],
+        "reponse_correcte": "Ci jullit, ku am xel, ku mag, ku dëkk, ku mën, ak jigéen ju set ci caax ak nifaas",
+        "explication": "Ngir wooru Ramadan war, dafa laaj ñu am ay sàrt yu bari: nekk jullit, am sa xel mat, magat, dëkk (du yéewu), mën a woor (du feebar), te ci jigéen ñi, ñu set ci caax ak nifaas. Su fekkee benn ci sàrt yooyu amul, wooru warul, waaye mën na am ay faju."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Avancé",
+    "question": "Quelle est la meilleure invocation à dire pendant la Nuit du Destin (Laylat al-Qadr) ?",
+    "options": [
+      "Ô Allah, accorde-moi de l'argent",
+      "Ô Allah, accorde-moi une belle demeure",
+      "Ô Allah, Tu es Pardonneur, Tu aimes le pardon, alors pardonne-moi",
+      "Ô Allah, accorde-moi la santé"
+    ],
+    "reponse_correcte": "Ô Allah, Tu es Pardonneur, Tu aimes le pardon, alors pardonne-moi",
+    "explication": "La Nuit du Destin est une nuit très spéciale où les invocations sont exaucées. Le Prophète (paix et bénédictions sur lui) a enseigné à Aïcha (qu'Allah l'agrée) de dire cette invocation : \"Allahumma innaka 'afuwwun tuhibbul 'afwa fa'fu 'anni\" (Ô Allah, Tu es Pardonneur, Tu aimes le pardon, alors pardonne-moi). C'est la meilleure demande que l'on puisse faire en cette nuit bénie.",
+    "source": "Les trésors du Ramadan pour enfants (jeûne, prières, invocations)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَا هِيَ أَفْضَلُ دُعَاءٍ يُقَالُ فِي لَيْلَةِ الْقَدْرِ؟",
+        "options": [
+          "اللَّهُمَّ ارْزُقْنِي مَالًا",
+          "اللَّهُمَّ ارْزُقْنِي مَنْزِلًا",
+          "اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي",
+          "اللَّهُمَّ ارْزُقْنِي الصِّحَّةَ"
+        ],
+        "reponse_correcte": "اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي",
+        "explication": "لَيْلَةُ الْقَدْرِ لَيْلَةٌ خَاصَّةٌ جِدًّا تُسْتَجَابُ فِيهَا الدَّعَوَاتُ. عَلَّمَ النَّبِيُّ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) عَائِشَةَ (رَضِيَ اللَّهُ عَنْهَا) أَنْ تَقُولَ هَذَا الدُّعَاءَ: \"اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي\". هَذَا أَفْضَلُ طَلَبٍ يُمْكِنُ الْمَرْءُ أَنْ يَدْعُوَ بِهِ فِي هَذِهِ اللَّيْلَةِ الْمُبَارَكَةِ."
+      },
+      "wo": {
+        "question": "Lan mooy ñaan gu gën ci Laylat al-Qadr?",
+        "options": [
+          "Yalla, may ma xaalis",
+          "Yalla, may ma kër gu baax",
+          "Yalla, yaw yaa ngi baal, yaa ngi bëgg baal, baal ma",
+          "Yalla, may ma wér gu yaram"
+        ],
+        "reponse_correcte": "Yalla, yaw yaa ngi baal, yaa ngi bëgg baal, baal ma",
+        "explication": "Guddi Qadr guddi gu am solo la lool, ci la ñaan yi di ñu tontu. Yonent bi (saw) jangal na Aïcha (Yalla na ko Yalla gërëm) mu wax ñaan gi: \"Allahumma innaka 'afuwwun tuhibbul 'afwa fa'fu 'anni\" (Yalla, yaw yaa ngi baal, yaa ngi bëgg baal, baal ma). Loolu mooy ñaan gu gën gi ñu mën a def ci guddi gu barke googu."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Intermédiaire",
+    "question": "Quel est le statut de la prière du Tarawih pendant le Ramadan ?",
+    "options": [
+      "Recommandée (Mustahabbah)",
+      "Innovation (Bid'ah)",
+      "Sunnah confirmée (Sunnah Mu'akkadah)",
+      "Obligatoire (Fard)"
+    ],
+    "reponse_correcte": "Sunnah confirmée (Sunnah Mu'akkadah)",
+    "explication": "La prière du Tarawih est une Sunnah très importante et confirmée du Prophète (paix et bénédictions sur lui) pendant le mois de Ramadan. Elle apporte de grandes récompenses et permet de se rapprocher d'Allah pendant les nuits bénies.",
+    "source": "Les trésors du Ramadan pour enfants (jeûne, prières, invocations)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَا هُوَ حُكْمُ صَلَاةِ التَّرَاوِيحِ فِي شَهْرِ رَمَضَانَ؟",
+        "options": [
+          "مُسْتَحَبَّةٌ",
+          "بِدْعَةٌ",
+          "سُنَّةٌ مُؤَكَّدَةٌ",
+          "فَرْضٌ"
+        ],
+        "reponse_correcte": "سُنَّةٌ مُؤَكَّدَةٌ",
+        "explication": "صَلَاةُ التَّرَاوِيحِ هِيَ سُنَّةٌ مُهِمَّةٌ جِدًّا وَمُؤَكَّدَةٌ عَنِ النَّبِيِّ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) فِي شَهْرِ رَمَضَانَ. إِنَّهَا تَجْلِبُ أَجْرًا عَظِيمًا وَتُسَاعِدُ عَلَى التَّقَرُّبِ إِلَى اللَّهِ فِي اللَّيَالِي الْمُبَارَكَةِ."
+      },
+      "wo": {
+        "question": "Lan mooy àtte julli Tarawih ci weeru Ramadan?",
+        "options": [
+          "Luñu digal la (Mustahabbah)",
+          "Lu bees la (Bid'ah)",
+          "Sunna buñu wóoral la (Sunnah Mu'akkadah)",
+          "Lu war la (Fard)"
+        ],
+        "reponse_correcte": "Sunna buñu wóoral la (Sunnah Mu'akkadah)",
+        "explication": "Julli Tarawih ab Sunna bu am solo la te buñu wóoral ci Yonent bi (saw) ci weeru Ramadan. Dafay indi ay pay yu mag te dafay tax ñu jege Yalla ci guddi yu barke yooyu."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Débutant",
+    "question": "Combien d'années le Prophète Muhammad (paix et bénédictions sur lui) a-t-il jeûné le Ramadan ?",
+    "options": [
+      "7 ans",
+      "9 ans",
+      "10 ans",
+      "11 ans"
+    ],
+    "reponse_correcte": "9 ans",
+    "explication": "Le Prophète Muhammad (paix et bénédictions sur lui) a jeûné le Ramadan pendant neuf années de sa vie. Le jeûne a été rendu obligatoire la deuxième année de l'Hégire, et il est décédé la onzième année de l'Hégire.",
+    "source": "Les trésors du Ramadan pour enfants (jeûne, prières, invocations)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "كَمْ سَنَةً صَامَ النَّبِيُّ مُحَمَّدٌ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) رَمَضَانَ؟",
+        "options": [
+          "7 سَنَوَاتٍ",
+          "9 سَنَوَاتٍ",
+          "10 سَنَوَاتٍ",
+          "11 سَنَةً"
+        ],
+        "reponse_correcte": "9 سَنَوَاتٍ",
+        "explication": "صَامَ النَّبِيُّ مُحَمَّدٌ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) رَمَضَانَ لِمُدَّةِ تِسْعِ سَنَوَاتٍ مِنْ حَيَاتِهِ. فُرِضَ الصِّيَامُ فِي السَّنَةِ الثَّانِيَةِ مِنَ الْهِجْرَةِ، وَتُوُفِّيَ فِي السَّنَةِ الْحَادِيَةَ عَشْرَةَ مِنَ الْهِجْرَةِ."
+      },
+      "wo": {
+        "question": "Ñata at la Yonent bi Muhammad (saw) woor Ramadan?",
+        "options": [
+          "7 at",
+          "9 at",
+          "10 at",
+          "11 at"
+        ],
+        "reponse_correcte": "9 at",
+        "explication": "Yonent bi Muhammad (saw) woor na Ramadan ci juróom ñetti at ci dundam. Wooru war na ci ñaareelu atum Hijra, te mu faatu ci fukki at ak benn ci Hijra."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Intermédiaire",
+    "question": "Le Dhikr (rappel d'Allah) illimité (non restreint à un moment précis) peut être fait à tout moment, comme par exemple :",
+    "options": [
+      "Le Dhikr après la prière",
+      "Les invocations du matin et du soir",
+      "Le Tasbih (dire \"Soubhanallah\"), le Tahlil (dire \"La ilaha illallah\") et l'Istighfar (demander pardon)",
+      "Le Dhikr avant de dormir"
+    ],
+    "reponse_correcte": "Le Tasbih (dire \"Soubhanallah\"), le Tahlil (dire \"La ilaha illallah\") et l'Istighfar (demander pardon)",
+    "explication": "Il existe deux types de Dhikr : le Dhikr restreint, qui se fait à des moments précis (comme après la prière ou le matin/soir), et le Dhikr illimité, que l'on peut faire à tout moment, comme le Tasbih, le Tahlil et l'Istighfar. C'est une belle façon de se souvenir d'Allah tout au long de la journée.",
+    "source": "Les trésors du Ramadan pour enfants (jeûne, prières, invocations)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "الذِّكْرُ الْمُطْلَقُ يَكُونُ فِي كُلِّ وَقْتٍ، مِثْلُ:",
+        "options": [
+          "الذِّكْرُ بَعْدَ الصَّلَاةِ",
+          "أَذْكَارُ الصَّبَاحِ وَالْمَسَاءِ",
+          "التَّسْبِيحُ وَالتَّهْلِيلُ وَالِاسْتِغْفَارُ",
+          "الذِّكْرُ قَبْلَ النَّوْمِ"
+        ],
+        "reponse_correcte": "التَّسْبِيحُ وَالتَّهْلِيلُ وَالِاسْتِغْفَارُ",
+        "explication": "يُوجَدُ نَوْعَانِ مِنَ الذِّكْرِ: الذِّكْرُ الْمُقَيَّدُ، الَّذِي يُؤَدَّى فِي أَوْقَاتٍ مُحَدَّدَةٍ (كَالذِّكْرِ بَعْدَ الصَّلَاةِ أَوْ أَذْكَارِ الصَّبَاحِ وَالْمَسَاءِ)، وَالذِّكْرُ الْمُطْلَقُ، الَّذِي يُمْكِنُ أَدَاؤُهُ فِي أَيِّ وَقْتٍ، كَالتَّسْبِيحِ وَالتَّهْلِيلِ وَالِاسْتِغْفَارِ. هَذِهِ طَرِيقَةٌ جَمِيلَةٌ لِتَذَكُّرِ اللَّهِ طَوَالَ الْيَوْمِ."
+      },
+      "wo": {
+        "question": "Dhikr bu amul dayo (buñu tëggul ci waxtu bu am solo) mën nañu ko def ci bés bu nekk, ni mel ni:",
+        "options": [
+          "Dhikr ginaaw julli",
+          "Ñaanu suba ak guddi",
+          "Tasbih (Subhanallah), Tahlil (La ilaha illallah) ak Istighfar (jégël)",
+          "Dhikr njëkk nelaw"
+        ],
+        "reponse_correcte": "Tasbih (Subhanallah), Tahlil (La ilaha illallah) ak Istighfar (jégël)",
+        "explication": "Am na ñaari xeetu Dhikr: Dhikr bu tëgg, bi ñuy def ci waxtu yu am solo (ni mel ni ginaaw julli walla suba ak guddi), ak Dhikr bu amul dayo, bi ñuy mën a def ci waxtu wu nekk, ni mel ni Tasbih, Tahlil ak Istighfar. Loolu ab yoon bu rafet la ngir fàttaliku Yalla ci bés bi yëpp."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Débutant",
+    "question": "Si quelqu'un insulte un jeûneur, que doit-il dire ?",
+    "options": [
+      "Il doit lui répondre de la même manière",
+      "Il doit prier contre lui",
+      "Il doit dire : \"Je suis en train de jeûner\"",
+      "Il doit l'ignorer"
+    ],
+    "reponse_correcte": "Il doit dire : \"Je suis en train de jeûner\"",
+    "explication": "Quand tu jeûnes, tu t'entraînes à être patient et à avoir un bon comportement. Si quelqu'un t'insulte ou te cherche querelle, le Prophète (paix et bénédictions sur lui) nous a appris à dire calmement : \"Je suis en train de jeûner.\" Cela nous aide à nous rappeler notre adoration et à éviter les disputes.",
+    "source": "Les trésors du Ramadan pour enfants (jeûne, prières, invocations)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "إِذَا سَبَّ أَحَدٌ صَائِمًا، فَمَاذَا يَقُولُ؟",
+        "options": [
+          "فَلْيَقُلْ لَهُ مِثْلَمَا قَالَ",
+          "دَعَا عَلَيْهِ",
+          "فَلْيَقُلْ لَهُ: \"إِنِّي امْرُؤٌ صَائِمٌ\"",
+          "يَتَجَاهَلُهُ"
+        ],
+        "reponse_correcte": "فَلْيَقُلْ لَهُ: \"إِنِّي امْرُؤٌ صَائِمٌ\"",
+        "explication": "عِنْدَمَا تَصُومُ، تَتَدَرَّبُ عَلَى الصَّبْرِ وَحُسْنِ الْخُلُقِ. إِذَا سَبَّكَ أَحَدٌ أَوْ خَاصَمَكَ، عَلَّمَنَا النَّبِيُّ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) أَنْ نَقُولَ بِهُدُوءٍ: \"إِنِّي صَائِمٌ\". هَذَا يُسَاعِدُنَا عَلَى تَذَكُّرِ عِبَادَتِنَا وَتَجَنُّبِ الْخِصَامِ."
+      },
+      "wo": {
+        "question": "Su kenn sagaale ki woor, lan la war a wax?",
+        "options": [
+          "War na ko tontu ni mu ko defee",
+          "War na ñaanal ko lu bonn",
+          "War na wax: \"Maa ngi woor\"",
+          "War na ko bañ a gis"
+        ],
+        "reponse_correcte": "War na wax: \"Maa ngi woor\"",
+        "explication": "Su nga wooree, da ngay yar sa bopp ci muñ ak am jikko ju baax. Su kenn sagaale la walla mu laal la, Yonent bi (saw) jangal na nu ñu wax ci jàmm: \"Maa ngi woor.\" Loolu dafay tax ñu fàttaliku sunu jaamu Yalla te bañ a xuloo."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Débutant",
+    "question": "Selon la Sunnah, avec quoi doit-on rompre le jeûne ?",
+    "options": [
+      "Des gâteaux (Baklava)",
+      "Du lait",
+      "Des dattes fraîches (Rutab), sinon des dattes sèches (Tamr), sinon de l'eau",
+      "Du jus"
+    ],
+    "reponse_correcte": "Des dattes fraîches (Rutab), sinon des dattes sèches (Tamr), sinon de l'eau",
+    "explication": "La Sunnah du Prophète (paix et bénédictions sur lui) est de rompre le jeûne avec des dattes fraîches (rutab) si elles sont disponibles. Sinon, avec des dattes sèches (tamr). Et si on n'en a pas, alors avec de l'eau. C'est une façon simple et bénie de commencer l'Iftar.",
+    "source": "Les trésors du Ramadan pour enfants (jeûne, prières, invocations)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مِنَ السُّنَّةِ الْفِطْرُ عَلَى:",
+        "options": [
+          "بَقْلَاوَةٍ",
+          "حَلِيبٍ",
+          "رُطَبٍ فَإِنْ لَمْ تَجِدْ فَتَمْرٍ فَإِنْ لَمْ تَجِدْ فَمَاءٍ",
+          "عَصِيرٍ"
+        ],
+        "reponse_correcte": "رُطَبٍ فَإِنْ لَمْ تَجِدْ فَتَمْرٍ فَإِنْ لَمْ تَجِدْ فَمَاءٍ",
+        "explication": "سُنَّةُ النَّبِيِّ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) هِيَ الْفِطْرُ عَلَى الرُّطَبِ إِنْ وُجِدَتْ. وَإِلَّا فَعَلَى التَّمْرِ. وَإِنْ لَمْ يُوجَدْ، فَعَلَى الْمَاءِ. هَذِهِ طَرِيقَةٌ بَسِيطَةٌ وَمُبَارَكَةٌ لِبَدْءِ الْإِفْطَارِ."
+      },
+      "wo": {
+        "question": "Ci sunna bi, lan lañuy dogale?",
+        "options": [
+          "Baklava",
+          "Mle",
+          "Tandarma yu bees (Rutab), su fekkee amul, tandarma yu wow (Tamr), su fekkee amul, ndox",
+          "Jus"
+        ],
+        "reponse_correcte": "Tandarma yu bees (Rutab), su fekkee amul, tandarma yu wow (Tamr), su fekkee amul, ndox",
+        "explication": "Sunna Yonent bi (saw) mooy dogale ci tandarma yu bees (rutab) su amee. Su amul, ci tandarma yu wow (tamr). Te su amul, ci ndox. Loolu ab yoon bu yomb la te bu barke ngir tàmbalee dog."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Avancé",
+    "question": "Une fille a eu ses menstrues à quatorze ans et n'a pas jeûné par ignorance que cela signifiait la puberté. Que doit-elle faire ?",
+    "options": [
+      "Elle n'a rien à faire car elle était ignorante",
+      "Elle doit rattraper les jours manqués et n'a pas de péché pour l'ignorance",
+      "Elle doit rattraper les jours manqués et se repentir pour son ignorance",
+      "Elle doit seulement se repentir"
+    ],
+    "reponse_correcte": "Elle doit rattraper les jours manqués et n'a pas de péché pour l'ignorance",
+    "explication": "Si une fille atteint la puberté (par les menstrues, par exemple) et ne jeûne pas parce qu'elle ne savait pas que cela la rendait responsable, elle n'a pas de péché pour son ignorance passée. Cependant, dès qu'elle apprend la règle, elle doit rattraper tous les jours de jeûne qu'elle a manqués pendant cette période.",
+    "source": "Les trésors du Ramadan pour enfants (jeûne, prières, invocations)",
+    "tags": [
+      "fiqh"
+    ],
+    "translations": {
+      "ar": {
+        "question": "فَتَاةٌ أَتَاهَا الْحَيْضُ وَهِيَ فِي الرَّابِعَةِ عَشْرَةَ مِنْ عُمْرِهَا وَتَرَكَتِ الصِّيَامَ جَهْلًا مِنْهَا بِأَنَّ الْبُلُوغَ يَحْصُلُ بِذَلِكَ. فَمَا الْحُكْمُ؟",
+        "options": [
+          "لَا شَيْءَ عَلَيْهَا لِأَنَّهَا كَانَتْ جَاهِلَةً",
+          "يَجِبُ عَلَيْهَا قَضَاءُ الْأَيَّامِ الْفَائِتَةِ وَلَا إِثْمَ عَلَيْهَا لِلْجَهْلِ",
+          "يَجِبُ عَلَيْهَا قَضَاءُ الْأَيَّامِ الْفَائِتَةِ وَالتَّوْبَةُ لِجَهْلِهَا",
+          "يَجِبُ عَلَيْهَا التَّوْبَةُ فَقَطْ"
+        ],
+        "reponse_correcte": "يَجِبُ عَلَيْهَا قَضَاءُ الْأَيَّامِ الْفَائِتَةِ وَلَا إِثْمَ عَلَيْهَا لِلْجَهْلِ",
+        "explication": "إِذَا بَلَغَتِ الْفَتَاةُ (بِالْحَيْضِ مَثَلًا) وَلَمْ تَصُمْ لِجَهْلِهَا بِأَنَّ ذَلِكَ يُوجِبُ عَلَيْهَا الصِّيَامَ، فَلَا إِثْمَ عَلَيْهَا لِجَهْلِهَا السَّابِقِ. وَلَكِنْ بِمُجَرَّدِ أَنْ تَعْلَمَ الْحُكْمَ، يَجِبُ عَلَيْهَا قَضَاءُ جَمِيعِ أَيَّامِ الصِّيَامِ الَّتِي فَاتَتْهَا فِي تِلْكَ الْفَتْرَةِ."
+      },
+      "wo": {
+        "question": "Jigéen bu am caax ci fukki at ak ñeent te woorul ndax xamul ne loolu mooy magat. Que doit-elle faire?",
+        "options": [
+          "Amul lu mu def ndax xamul woon",
+          "War na faji bis yi mu ñakk te amul bàkkaar ci xamul gi",
+          "War na faji bis yi mu ñakk te tuub ci xamul gi",
+          "War na tuub rekk"
+        ],
+        "reponse_correcte": "War na faji bis yi mu ñakk te amul bàkkaar ci xamul gi",
+        "explication": "Su fekkee jigéen magat na (ci caax, ni mel ni) te woorul ndax xamul woon ne loolu dafa tax mu war a woor, amul bàkkaar ci xamul gi mu defoon. Waaye bu mu xamee àtte bi, war na faji bis yëpp yu mu ñakkoon ci waxtu woowu."
+      }
+    }
+  }
+]

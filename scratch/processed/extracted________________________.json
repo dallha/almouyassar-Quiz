@@ -1,0 +1,863 @@
+[
+  {
+    "categorie": "Coran",
+    "niveau": "Débutant",
+    "question": "Selon le livre, quel est le but le plus important de la lecture du Coran ?",
+    "options": [
+      "Le lire rapidement pour finir beaucoup de chapitres.",
+      "Le réciter avec une belle voix sans comprendre.",
+      "Méditer sur ses significations et les comprendre.",
+      "Le garder dans un endroit propre et élevé."
+    ],
+    "reponse_correcte": "Méditer sur ses significations et les comprendre.",
+    "explication": "Le livre nous enseigne que le Coran a été révélé pour que nous méditions sur ses versets, comprenions ses significations et agissions en conséquence. C'est le but le plus grand de sa lecture.",
+    "source": "Méditation et réflexion sur le Coran (Tadabbur)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "وَفْقًا لِلْكِتَابِ، مَا هُوَ الْهَدَفُ الْأَهَمُّ مِنْ قِرَاءَةِ الْقُرْآنِ؟",
+        "options": [
+          "قِرَاءَتُهُ بِسُرْعَةٍ لِإِنْهَاءِ الْكَثِيرِ مِنَ الْأَجْزَاءِ.",
+          "تِلَاوَتُهُ بِصَوْتٍ جَمِيلٍ دُونَ فَهْمٍ.",
+          "التَّدَبُّرُ فِي مَعَانِيهِ وَفَهْمُهَا.",
+          "حِفْظُهُ فِي مَكَانٍ نَظِيفٍ وَمُرْتَفِعٍ."
+        ],
+        "reponse_correcte": "التَّدَبُّرُ فِي مَعَانِيهِ وَفَهْمُهَا.",
+        "explication": "يُعَلِّمُنَا الْكِتَابُ أَنَّ الْقُرْآنَ نَزَلَ لِنَتَدَبَّرَ آيَاتِهِ، وَنَفْهَمَ مَعَانِيهِ، وَنَعْمَلَ بِمُقْتَضَاهَا. هَذَا هُوَ الْهَدَفُ الْأَسْمَى مِنْ قِرَاءَتِهِ."
+      },
+      "wo": {
+        "question": "Ni mel ni bind bi, lan mooy njariñ li gëna am solo ci jàng Alxuraan?",
+        "options": [
+          "Jàng ko gaaw ngir jexal ay baatu yu bare.",
+          "Jàng ko ak baat bu neex te xamoo ko.",
+          "Xool ci ay njariñam te xam ko.",
+          "Fàggu ko ci barab bu set te kawe."
+        ],
+        "reponse_correcte": "Xool ci ay njariñam te xam ko.",
+        "explication": "Téere bi dafa ñu jàngal ne Alxuraan dafa wàcc ngir ñu xool ci ay aayoom, te xam ay njariñam te def li mu diggal. Loolu mooy njariñ li gëna am solo ci jàng ko."
+      }
+    }
+  },
+  {
+    "categorie": "Coran",
+    "niveau": "Débutant",
+    "question": "La sourate Al-Qamar (54:17) dit : \"Et Nous avons certes rendu le Coran facile pour la méditation. Y a-t-il donc quelqu'un pour méditer ?\" Que nous enseigne ce verset sur le Coran ?",
+    "options": [
+      "Qu'il est difficile à comprendre pour la plupart des gens.",
+      "Qu'il est facile à réciter mais difficile à appliquer.",
+      "Qu'il est facile à mémoriser mais compliqué à méditer.",
+      "Qu'il est facile à réciter, à mémoriser, à comprendre et à appliquer."
+    ],
+    "reponse_correcte": "Qu'il est facile à réciter, à mémoriser, à comprendre et à appliquer.",
+    "explication": "Ce verset nous montre que le Coran est facile dans tous ses aspects : la récitation, la mémorisation, la compréhension et l'application. Allah nous a facilité son chemin pour que nous puissions en tirer profit.",
+    "source": "Méditation et réflexion sur le Coran (Tadabbur)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "تَقُولُ سُورَةُ الْقَمَرِ (54:17): ﴿وَلَقَدْ يَسَّرْنَا الْقُرْآنَ لِلذِّكْرِ فَهَلْ مِن مُّدَّكِرٍ﴾ مَاذَا يُعَلِّمُنَا هَذَا الْآيَةُ عَنِ الْقُرْآنِ؟",
+        "options": [
+          "أَنَّهُ صَعْبُ الْفَهْمِ لِأَغْلَبِ النَّاسِ.",
+          "أَنَّهُ سَهْلُ التِّلَاوَةِ وَلَكِنْ صَعْبُ التَّطْبِيقِ.",
+          "أَنَّهُ سَهْلُ الْحِفْظِ وَلَكِنْ مُعَقَّدُ التَّدَبُّرِ.",
+          "أَنَّهُ سَهْلُ التِّلَاوَةِ وَالْحِفْظِ وَالْفَهْمِ وَالتَّطْبِيقِ."
+        ],
+        "reponse_correcte": "أَنَّهُ سَهْلُ التِّلَاوَةِ وَالْحِفْظِ وَالْفَهْمِ وَالتَّطْبِيقِ.",
+        "explication": "تُبَيِّنُ لَنَا هَذِهِ الْآيَةُ أَنَّ الْقُرْآنَ سَهْلٌ فِي جَمِيعِ جَوَانِبِهِ: التِّلَاوَةِ، وَالْحِفْظِ، وَالْفَهْمِ، وَالتَّطْبِيقِ. لَقَدْ يَسَّرَ اللَّهُ لَنَا طَرِيقَهُ لِنَسْتَفِيدَ مِنْهُ."
+      },
+      "wo": {
+        "question": "Suura Al-Qamar (54:17) nee na: \"Te dëgg-dëgg, def nañu Alxuraan mu yomb ci xalaat. Ndax am na ku ci xalaat?\" Lan la aayoo jàngale ci Alxuraan?",
+        "options": [
+          "Ne dafa jafe ci ñu bare ñu ko xam.",
+          "Ne dafa yomb ci jàng te dafa jafe ci def li mu diggal.",
+          "Ne dafa yomb ci xam ci xol te dafa jafe ci xalaat.",
+          "Ne dafa yomb ci jàng, ci xam ci xol, ci xam te ci def li mu diggal."
+        ],
+        "reponse_correcte": "Ne dafa yomb ci jàng, ci xam ci xol, ci xam te ci def li mu diggal.",
+        "explication": "Aayoo dafa ñu wone ne Alxuraan dafa yomb ci léppam: ci jàng, ci xam ci xol, ci xam te ci def li mu diggal. Yàlla dafa ñu yombal yoonam ngir ñu mën ci am njariñ."
+      }
+    }
+  },
+  {
+    "categorie": "Coran",
+    "niveau": "Débutant",
+    "question": "Le Coran est décrit comme une lumière, une bénédiction, une guidance et une miséricorde pour qui ?",
+    "options": [
+      "Seulement pour les Arabes.",
+      "Seulement pour les prophètes.",
+      "Pour tous les mondes (l'humanité et les djinns).",
+      "Pour ceux qui le mémorisent entièrement."
+    ],
+    "reponse_correcte": "Pour tous les mondes (l'humanité et les djinns).",
+    "explication": "Allah a fait du Coran une lumière et une guidance pour toute l'humanité et les djinns, afin qu'ils puissent trouver le droit chemin et la miséricorde.",
+    "source": "Méditation et réflexion sur le Coran (Tadabbur)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "يُوصَفُ الْقُرْآنُ بِأَنَّهُ نُورٌ وَبَرَكَةٌ وَهُدًى وَرَحْمَةٌ لِمَنْ؟",
+        "options": [
+          "لِلْعَرَبِ فَقَطْ.",
+          "لِلْأَنْبِيَاءِ فَقَطْ.",
+          "لِلْعَالَمِينَ أَجْمَعِينَ (الْإِنْسِ وَالْجِنِّ).",
+          "لِمَنْ يَحْفَظُهُ كَامِلًا."
+        ],
+        "reponse_correcte": "لِلْعَالَمِينَ أَجْمَعِينَ (الْإِنْسِ وَالْجِنِّ).",
+        "explication": "جَعَلَ اللَّهُ الْقُرْآنَ نُورًا وَهُدًى لِجَمِيعِ الْبَشَرِ وَالْجِنِّ، لِكَيْ يَجِدُوا الطَّرِيقَ الصَّحِيحَ وَالرَّحْمَةَ."
+      },
+      "wo": {
+        "question": "Alxuraan dafa ñu ko wax ne dafa leer, dafa barkeel, dafa yombal te dafa yëram ci kan?",
+        "options": [
+          "Ci Arab yi rekk.",
+          "Ci Yonent yi rekk.",
+          "Ci àdduna yépp (nit ñi ak jinne yi).",
+          "Ci ñi ko xam ci xol yépp."
+        ],
+        "reponse_correcte": "Ci àdduna yépp (nit ñi ak jinne yi).",
+        "explication": "Yàlla def na Alxuraan mu leer te mu yombal ci nit ñi ak jinne yi yépp, ngir ñu mën ci am yoon wu jub te am yërmande."
+      }
+    }
+  },
+  {
+    "categorie": "Coran",
+    "niveau": "Intermédiaire",
+    "question": "Contrairement aux livres précédents, qu'est-ce qui est spécial à propos du Coran concernant sa préservation ?",
+    "options": [
+      "Il a été préservé par les anges.",
+      "Allah a promis de le préserver Lui-même.",
+      "Les prophètes l'ont écrit de leurs propres mains.",
+      "Il a été transmis oralement sans être écrit."
+    ],
+    "reponse_correcte": "Allah a promis de le préserver Lui-même.",
+    "explication": "Allah a promis de préserver le Coran, contrairement aux livres précédents qui ont été altérés. C'est une bénédiction pour nous, car nous avons le livre d'Allah tel qu'il a été révélé.",
+    "source": "Méditation et réflexion sur le Coran (Tadabbur)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "بِخِلَافِ الْكُتُبِ السَّابِقَةِ، مَا الْمُمَيِّزُ فِي الْقُرْآنِ بِخُصُوصِ حِفْظِهِ؟",
+        "options": [
+          "لَقَدْ حَفِظَتْهُ الْمَلَائِكَةُ.",
+          "وَعَدَ اللَّهُ بِحِفْظِهِ بِنَفْسِهِ.",
+          "كَتَبَهُ الْأَنْبِيَاءُ بِأَيْدِيهِمْ.",
+          "نُقِلَ شَفَوِيًّا دُونَ كِتَابَةٍ."
+        ],
+        "reponse_correcte": "وَعَدَ اللَّهُ بِحِفْظِهِ بِنَفْسِهِ.",
+        "explication": "وَعَدَ اللَّهُ بِحِفْظِ الْقُرْآنِ، بِخِلَافِ الْكُتُبِ السَّابِقَةِ الَّتِي تَعَرَّضَتْ لِلتَّحْرِيفِ. هَذِهِ نِعْمَةٌ لَنَا، لِأَنَّ لَدَيْنَا كِتَابَ اللَّهِ كَمَا أُنْزِلَ."
+      },
+      "wo": {
+        "question": "Ni mel ni téere yi jiitu, lan mooy li gëna wutale Alxuraan ci wallu aar gi?",
+        "options": [
+          "Malaaka yi ñoo ko aar.",
+          "Yàlla moo dige ne moom ci boppam dina ko aar.",
+          "Yonent yi ñoo ko bind ak seen loxo.",
+          "Dafa ñu ko jox ci gémmiñ te bindu ñu ko."
+        ],
+        "reponse_correcte": "Yàlla moo dige ne moom ci boppam dina ko aar.",
+        "explication": "Yàlla dige na ne dina aar Alxuraan, ni mel ni téere yi jiitu yi ñu soppi woon. Loolu mooy barke ci ñun, ndax am nañu téere Yàlla bi ni mu wàccee."
+      }
+    }
+  },
+  {
+    "categorie": "Coran",
+    "niveau": "Avancé",
+    "question": "Le livre \"Awalu Marra Atadabbar al-Quran\" est présenté comme une \"clé\" pour quoi ?",
+    "options": [
+      "Pour apprendre l'arabe rapidement.",
+      "Pour mémoriser le Coran sans effort.",
+      "Pour ouvrir la porte à la méditation du Coran et aux livres d'exégèse.",
+      "Pour devenir un grand savant en sciences islamiques."
+    ],
+    "reponse_correcte": "Pour ouvrir la porte à la méditation du Coran et aux livres d'exégèse.",
+    "explication": "Ce livre est comme une clé qui nous aide à commencer notre voyage de méditation du Coran et nous encourage à explorer les livres d'exégèse avec plus de confiance et de compréhension.",
+    "source": "Méditation et réflexion sur le Coran (Tadabbur)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "يُقَدَّمُ كِتَابُ \"أَوَّلُ مَرَّةٍ أَتَدَبَّرُ الْقُرْآنَ\" كَمِفْتَاحٍ لِمَاذَا؟",
+        "options": [
+          "لِتَعَلُّمِ اللُّغَةِ الْعَرَبِيَّةِ بِسُرْعَةٍ.",
+          "لِحِفْظِ الْقُرْآنِ دُونَ جُهْدٍ.",
+          "لِفَتْحِ بَابِ تَدَبُّرِ الْقُرْآنِ وَكُتُبِ التَّفْسِيرِ.",
+          "لِتُصْبِحَ عَالِمًا كَبِيرًا فِي الْعُلُومِ الْإِسْلَامِيَّةِ."
+        ],
+        "reponse_correcte": "لِفَتْحِ بَابِ تَدَبُّرِ الْقُرْآنِ وَكُتُبِ التَّفْسِيرِ.",
+        "explication": "هَذَا الْكِتَابُ بِمَثَابَةِ الْمِفْتَاحِ الَّذِي يُسَاعِدُنَا عَلَى بَدْءِ رِحْلَةِ تَدَبُّرِ الْقُرْآنِ وَيُشَجِّعُنَا عَلَى اسْتِكْشَافِ كُتُبِ التَّفْسِيرِ بِمَزِيدٍ مِنَ الثِّقَةِ وَالْفَهْمِ."
+      },
+      "wo": {
+        "question": "Téere bi \"Awalu Marra Atadabbar al-Quran\" dafa ñu ko wone ni \"caabi\" ci lan?",
+        "options": [
+          "Ngir jàng Arab gaaw.",
+          "Ngir xam Alxuraan ci xol te amul jafe-jafe.",
+          "Ngir ubbi buntu xalaat ci Alxuraan ak téere Tafsir yi.",
+          "Ngir nekk borom xam-xam bu mag ci xam-xami Lislaam."
+        ],
+        "reponse_correcte": "Ngir ubbi buntu xalaat ci Alxuraan ak téere Tafsir yi.",
+        "explication": "Téere bi dafa mel ni caabi bi ñuy ubbi ci sunu yoonu xalaat ci Alxuraan te dafa ñu xëcc ngir ñu xool ci téere Tafsir yi ak gëna wóor te gëna xam."
+      }
+    }
+  },
+  {
+    "categorie": "Coran",
+    "niveau": "Débutant",
+    "question": "Lorsque tu lis le Coran pour méditer, que te conseille le livre de faire si tu trouves une sourate difficile ?",
+    "options": [
+      "Arrêter de lire et passer à autre chose.",
+      "La lire rapidement pour ne pas perdre de temps.",
+      "Ne pas la lire du tout.",
+      "Ne pas t'énerver et continuer à méditer, car Allah t'ouvrira les portes de la compréhension."
+    ],
+    "reponse_correcte": "Ne pas t'énerver et continuer à méditer, car Allah t'ouvrira les portes de la compréhension.",
+    "explication": "Le livre nous encourage à ne pas nous décourager si nous trouvons des difficultés. Avec patience et persévérance, Allah nous aidera à comprendre et à méditer Ses paroles.",
+    "source": "Méditation et réflexion sur le Coran (Tadabbur)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "عِنْدَمَا تَقْرَأُ الْقُرْآنَ لِلتَّدَبُّرِ، مَاذَا يَنْصَحُكَ الْكِتَابُ أَنْ تَفْعَلَ إِذَا وَجَدْتَ سُورَةً صَعْبَةً؟",
+        "options": [
+          "تَتَوَقَّفُ عَنِ الْقِرَاءَةِ وَتَنْتَقِلُ إِلَى شَيْءٍ آخَرَ.",
+          "تَقْرَأُهَا بِسُرْعَةٍ لِعَدَمِ إِضَاعَةِ الْوَقْتِ.",
+          "لَا تَقْرَأُهَا أَبَدًا.",
+          "لَا تَضْجَرُ وَتَسْتَمِرُّ فِي التَّدَبُّرِ، فَإِنَّ اللَّهَ سَيَفْتَحُ لَكَ أَبْوَابَ الْفَهْمِ."
+        ],
+        "reponse_correcte": "لَا تَضْجَرُ وَتَسْتَمِرُّ فِي التَّدَبُّرِ، فَإِنَّ اللَّهَ سَيَفْتَحُ لَكَ أَبْوَابَ الْفَهْمِ.",
+        "explication": "يُشَجِّعُنَا الْكِتَابُ عَلَى عَدَمِ الْيَأْسِ إِذَا وَاجَهْنَا صُعُوبَاتٍ. بِالصَّبْرِ وَالْمُثَابَرَةِ، سَيُسَاعِدُنَا اللَّهُ عَلَى فَهْمِ كَلِمَاتِهِ وَتَدَبُّرِهَا."
+      },
+      "wo": {
+        "question": "Su jàngee Alxuraan ngir xalaat, lan la téere bi la diggal nga def su fekkee am nga suura bu jafe?",
+        "options": [
+          "Bay jàng te dem ci yeneen.",
+          "Jàng ko gaaw ngir bañ a yàq sa jamono.",
+          "Bañ ko jàng sax.",
+          "Bañ a mer te wéy ci xalaat, ndax Yàlla dina la ubbi buntu xam-xam."
+        ],
+        "reponse_correcte": "Bañ a mer te wéy ci xalaat, ndax Yàlla dina la ubbi buntu xam-xam.",
+        "explication": "Téere bi dafa ñu xëcc ngir bañ a décourager su fekkee am nañu ay jafe-jafe. Ak muñ ak sax, Yàlla dina ñu dimbali ñu xam te xalaat ci ay kàddoom."
+      }
+    }
+  },
+  {
+    "categorie": "Coran",
+    "niveau": "Débutant",
+    "question": "La sourate Al-Fatiha a plusieurs noms. Lequel de ces noms n'est PAS mentionné dans le livre ?",
+    "options": [
+      "Umm Al-Kitab (La Mère du Livre).",
+      "Al-Hamd (La Louange).",
+      "Al-Baqarah (La Vache).",
+      "Ash-Shafiyah (La Guérisseuse)."
+    ],
+    "reponse_correcte": "Al-Baqarah (La Vache).",
+    "explication": "La sourate Al-Baqarah est une autre sourate du Coran, pas un nom d'Al-Fatiha. Al-Fatiha a de nombreux noms qui soulignent son importance, comme Umm Al-Kitab, Al-Hamd et Ash-Shafiyah.",
+    "source": "Méditation et réflexion sur le Coran (Tadabbur)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "لِسُورَةِ الْفَاتِحَةِ عِدَّةُ أَسْمَاءٍ. أَيُّ هَذِهِ الْأَسْمَاءِ لَمْ يُذْكَرْ فِي الْكِتَابِ؟",
+        "options": [
+          "أُمُّ الْكِتَابِ.",
+          "الْحَمْدُ.",
+          "الْبَقَرَةُ.",
+          "الشَّافِيَةُ."
+        ],
+        "reponse_correcte": "الْبَقَرَةُ.",
+        "explication": "سُورَةُ الْبَقَرَةِ هِيَ سُورَةٌ أُخْرَى مِنَ الْقُرْآنِ، وَلَيْسَتْ اسْمًا لِلْفَاتِحَةِ. لِلْفَاتِحَةِ أَسْمَاءٌ كَثِيرَةٌ تُبْرِزُ أَهَمِّيَّتَهَا، مِثْلُ أُمِّ الْكِتَابِ، وَالْحَمْدِ، وَالشَّافِيَةِ."
+      },
+      "wo": {
+        "question": "Suura Al-Fatiha am na ay tur yu bare. Ci tur yii, bi lan lañu waxul ci téere bi?",
+        "options": [
+          "Umm Al-Kitab (Ndèye Téere bi).",
+          "Al-Hamd (Sant gi).",
+          "Al-Baqarah (Nag gi).",
+          "Ash-Shafiyah (Ki Faju)."
+        ],
+        "reponse_correcte": "Al-Baqarah (Nag gi).",
+        "explication": "Suura Al-Baqarah mooy beneen suura ci Alxuraan, te du turu Al-Fatiha. Al-Fatiha am na ay tur yu bare yu wone soloom, ni mel ni Umm Al-Kitab, Al-Hamd ak Ash-Shafiyah."
+      }
+    }
+  },
+  {
+    "categorie": "Coran",
+    "niveau": "Débutant",
+    "question": "Le Prophète Muhammad (paix et bénédictions sur lui) a dit qu'Al-Fatiha est la plus grande sourate du Coran. Quel est son autre nom mentionné dans ce contexte ?",
+    "options": [
+      "Al-Kahf (La Caverne).",
+      "Al-Mulk (La Royauté).",
+      "As-Sab' Al-Mathani (Les Sept Répétés) et le Grand Coran.",
+      "Yasin."
+    ],
+    "reponse_correcte": "As-Sab' Al-Mathani (Les Sept Répétés) et le Grand Coran.",
+    "explication": "Le Prophète (paix et bénédictions sur lui) a souligné la grandeur d'Al-Fatiha en l'appelant \"As-Sab' Al-Mathani\" et \"Le Grand Coran\", car elle est récitée dans chaque prière et contient les fondements de la religion.",
+    "source": "Méditation et réflexion sur le Coran (Tadabbur)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "قَالَ النَّبِيُّ مُحَمَّدٌ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) إِنَّ الْفَاتِحَةَ أَعْظَمُ سُورَةٍ فِي الْقُرْآنِ. مَا اسْمُهَا الْآخَرُ الْمَذْكُورُ فِي هَذَا السِّيَاقِ؟",
+        "options": [
+          "الْكَهْفُ.",
+          "الْمُلْكُ.",
+          "السَّبْعُ الْمَثَانِي وَالْقُرْآنُ الْعَظِيمُ.",
+          "يس."
+        ],
+        "reponse_correcte": "السَّبْعُ الْمَثَانِي وَالْقُرْآنُ الْعَظِيمُ.",
+        "explication": "أَكَّدَ النَّبِيُّ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) عَلَى عَظَمَةِ الْفَاتِحَةِ بِتَسْمِيَتِهَا \"السَّبْعَ الْمَثَانِي\" وَ\"الْقُرْآنَ الْعَظِيمَ\"، لِأَنَّهَا تُتْلَى فِي كُلِّ صَلَاةٍ وَتَحْتَوِي عَلَى أُسُسِ الدِّينِ."
+      },
+      "wo": {
+        "question": "Yonent bi Muhammad (jamm ak mucc ñoo ngi ci moom) nee na Al-Fatiha mooy suura bi gëna mag ci Alxuraan. Lan mooy beneen turam bi ñu wax ci loolu?",
+        "options": [
+          "Al-Kahf (Bàmbara gi).",
+          "Al-Mulk (Nguur gi).",
+          "As-Sab' Al-Mathani (Juroom ñaari yu ñu wéyal) ak Alxuraan bu Mag bi.",
+          "Yasin."
+        ],
+        "reponse_correcte": "As-Sab' Al-Mathani (Juroom ñaari yu ñu wéyal) ak Alxuraan bu Mag bi.",
+        "explication": "Yonent bi (jamm ak mucc ñoo ngi ci moom) wone na soloom Al-Fatiha bi mu ko woowee \"As-Sab' Al-Mathani\" ak \"Alxuraan bu Mag bi\", ndax dafa ñu ko jàng ci lépp lu ñu julli te dafa am ay cosaanu diine."
+      }
+    }
+  },
+  {
+    "categorie": "Coran",
+    "niveau": "Intermédiaire",
+    "question": "La sourate Al-Fatiha commence par la croyance, puis l'adoration, et enfin la méthodologie. Quel verset indique l'adoration ?",
+    "options": [
+      "\"Louange à Allah, Seigneur des mondes.\"",
+      "\"Le Tout Miséricordieux, le Très Miséricordieux.\"",
+      "\"C'est Toi Seul que nous adorons, et c'est Toi Seul dont nous implorons le secours.\"",
+      "\"Guide-nous dans le droit chemin.\""
+    ],
+    "reponse_correcte": "\"C'est Toi Seul que nous adorons, et c'est Toi Seul dont nous implorons le secours.\"",
+    "explication": "Ce verset (Ayah 5) est le cœur de l'adoration dans Al-Fatiha, car il exprime notre soumission totale à Allah et notre dépendance envers Lui seul.",
+    "source": "Méditation et réflexion sur le Coran (Tadabbur)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "تَبْدَأُ سُورَةُ الْفَاتِحَةِ بِالْعَقِيدَةِ، ثُمَّ الْعِبَادَةِ، ثُمَّ الْمَنْهَجِ. أَيُّ آيَةٍ تُشِيرُ إِلَى الْعِبَادَةِ؟",
+        "options": [
+          "﴿الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ﴾",
+          "﴿الرَّحْمَنِ الرَّحِيمِ﴾",
+          "﴿إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ﴾",
+          "﴿اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ﴾"
+        ],
+        "reponse_correcte": "﴿إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ﴾",
+        "explication": "هَذِهِ الْآيَةُ (الْآيَةُ 5) هِيَ قَلْبُ الْعِبَادَةِ فِي الْفَاتِحَةِ، لِأَنَّهَا تُعَبِّرُ عَنِ اسْتِسْلَامِنَا التَّامِّ لِلَّهِ وَاعْتِمَادِنَا عَلَيْهِ وَحْدَهُ."
+      },
+      "wo": {
+        "question": "Suura Al-Fatiha dafa tàmbalee ak ngëm, boobu ñu def ci Yàlla, te ci gannaaw loolu ñu def ci yoon. Ci aayoo yii, bi lan mooy bi wone ñu def ci Yàlla?",
+        "options": [
+          "\"Sant na Yàlla, Boroom àdduna yépp.\"",
+          "\"Ki yëram, Ki yëram lu nekk.\"",
+          "\"Yaa ngi ñu def ci Yàlla, te Yaa ngi ñu ñaan ndimbal.\"",
+          "\"Yombalal ñu ci yoon wu jub.\""
+        ],
+        "reponse_correcte": "\"Yaa ngi ñu def ci Yàlla, te Yaa ngi ñu ñaan ndimbal.\"",
+        "explication": "Aayoo (Aaya 5) mooy xolu ñu def ci Yàlla ci Al-Fatiha, ndax dafa wone sunu jébbalu gu mat ci Yàlla ak sunu wéeru ci moom rekk."
+      }
+    }
+  },
+  {
+    "categorie": "Coran",
+    "niveau": "Avancé",
+    "question": "Comment la fin de la sourate Al-Fatiha est-elle liée au début de la sourate Al-Baqarah ?",
+    "options": [
+      "Al-Fatiha se termine par une demande de guidance, et Al-Baqarah commence par la description des pieux qui suivent cette guidance.",
+      "Al-Fatiha se termine par une prière pour la richesse, et Al-Baqarah commence par la mention des bienfaits matériels.",
+      "Al-Fatiha se termine par une mise en garde contre les hypocrites, et Al-Baqarah commence par leur description.",
+      "Il n'y a pas de lien direct entre la fin d'Al-Fatiha et le début d'Al-Baqarah."
+    ],
+    "reponse_correcte": "Al-Fatiha se termine par une demande de guidance, et Al-Baqarah commence par la description des pieux qui suivent cette guidance.",
+    "explication": "Al-Fatiha se termine par notre demande à Allah de nous guider sur le droit chemin, et Al-Baqarah commence en décrivant ceux qui sont guidés, les pieux, qui croient en l'invisible et suivent la guidance d'Allah. C'est une belle continuité.",
+    "source": "Méditation et réflexion sur le Coran (Tadabbur)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "كَيْفَ تَرْتَبِطُ نِهَايَةُ سُورَةِ الْفَاتِحَةِ بِبِدَايَةِ سُورَةِ الْبَقَرَةِ؟",
+        "options": [
+          "تَنْتَهِي الْفَاتِحَةُ بِطَلَبِ الْهِدَايَةِ، وَتَبْدَأُ الْبَقَرَةُ بِوَصْفِ الْمُتَّقِينَ الَّذِينَ يَتَّبِعُونَ هَذِهِ الْهِدَايَةَ.",
+          "تَنْتَهِي الْفَاتِحَةُ بِدُعَاءٍ لِلْغِنَى، وَتَبْدَأُ الْبَقَرَةُ بِذِكْرِ النِّعَمِ الْمَادِّيَّةِ.",
+          "تَنْتَهِي الْفَاتِحَةُ بِتَحْذِيرٍ مِنَ الْمُنَافِقِينَ، وَتَبْدَأُ الْبَقَرَةُ بِوَصْفِهِمْ.",
+          "لَا يُوجَدُ رَبْطٌ مُبَاشِرٌ بَيْنَ نِهَايَةِ الْفَاتِحَةِ وَبِدَايَةِ الْبَقَرَةِ."
+        ],
+        "reponse_correcte": "تَنْتَهِي الْفَاتِحَةُ بِطَلَبِ الْهِدَايَةِ، وَتَبْدَأُ الْبَقَرَةُ بِوَصْفِ الْمُتَّقِينَ الَّذِينَ يَتَّبِعُونَ هَذِهِ الْهِدَايَةَ.",
+        "explication": "تَنْتَهِي الْفَاتِحَةُ بِطَلَبِنَا مِنَ اللَّهِ أَنْ يَهْدِيَنَا إِلَى الصِّرَاطِ الْمُسْتَقِيمِ، وَتَبْدَأُ الْبَقَرَةُ بِوَصْفِ الْمُهْتَدِينَ، وَهُمُ الْمُتَّقُونَ الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيَتَّبِعُونَ هُدَى اللَّهِ. هَذِهِ اسْتِمْرَارِيَّةٌ جَمِيلَةٌ."
+      },
+      "wo": {
+        "question": "Naka la jexu suura Al-Fatiha ak tàmbli suura Al-Baqarah di jokkoo?",
+        "options": [
+          "Al-Fatiha dafa jex ci ñaan yoon, te Al-Baqarah dafa tàmbli ci wax ci ñi ragal Yàlla yi topp yoon woowu.",
+          "Al-Fatiha dafa jex ci ñaan alal, te Al-Baqarah dafa tàmbli ci wax ci barke alal.",
+          "Al-Fatiha dafa jex ci yedd ci munaafiq yi, te Al-Baqarah dafa tàmbli ci wax ci ñoom.",
+          "Amul benn jokkoo bu leer ci jexu Al-Fatiha ak tàmbli Al-Baqarah."
+        ],
+        "reponse_correcte": "Al-Fatiha dafa jex ci ñaan yoon, te Al-Baqarah dafa tàmbli ci wax ci ñi ragal Yàlla yi topp yoon woowu.",
+        "explication": "Al-Fatiha dafa jex ci sunu ñaan ci Yàlla mu yombalal ñu ci yoon wu jub, te Al-Baqarah dafa tàmbli ci wax ci ñi yombalal ñu, ñi ragal Yàlla, ñi gëm ci li ñu gisul te topp yoonu Yàlla. Loolu mooy benn jokkoo bu rafet."
+      }
+    }
+  },
+  {
+    "categorie": "Coran",
+    "niveau": "Intermédiaire",
+    "question": "La sourate Al-Baqarah est appelée \"Umm Al-Kitab\" (La Mère du Livre) dans le livre. Pourquoi ce nom lui est-il attribué ?",
+    "options": [
+      "Parce qu'elle est la plus longue sourate du Coran.",
+      "Parce qu'elle contient l'histoire de la vache.",
+      "Parce qu'elle englobe tous les objectifs de la religion.",
+      "Parce qu'elle a été révélée en premier."
+    ],
+    "reponse_correcte": "Parce qu'elle englobe tous les objectifs de la religion.",
+    "explication": "Al-Baqarah est appelée \"Umm Al-Kitab\" car elle contient les principes fondamentaux et les objectifs essentiels de l'Islam, ce qui en fait une sourate très complète pour comprendre la religion.",
+    "source": "Méditation et réflexion sur le Coran (Tadabbur)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "تُسَمَّى سُورَةُ الْبَقَرَةِ \"أُمَّ الْكِتَابِ\" فِي الْكِتَابِ. لِمَاذَا أُطْلِقَ عَلَيْهَا هَذَا الِاسْمُ؟",
+        "options": [
+          "لِأَنَّهَا أَطْوَلُ سُورَةٍ فِي الْقُرْآنِ.",
+          "لِأَنَّهَا تَحْتَوِي عَلَى قِصَّةِ الْبَقَرَةِ.",
+          "لِأَنَّهَا تَشْمَلُ جَمِيعَ مَقَاصِدِ الدِّينِ.",
+          "لِأَنَّهَا أُنْزِلَتْ أَوَّلًا."
+        ],
+        "reponse_correcte": "لِأَنَّهَا تَشْمَلُ جَمِيعَ مَقَاصِدِ الدِّينِ.",
+        "explication": "تُسَمَّى الْبَقَرَةُ \"أُمَّ الْكِتَابِ\" لِأَنَّهَا تَحْتَوِي عَلَى الْمَبَادِئِ الْأَسَاسِيَّةِ وَالْأَهْدَافِ الْجَوْهَرِيَّةِ لِلْإِسْلَامِ، مِمَّا يَجْعَلُهَا سُورَةً شَامِلَةً جِدًّا لِفَهْمِ الدِّينِ."
+      },
+      "wo": {
+        "question": "Suura Al-Baqarah dafa ñu ko woowee \"Umm Al-Kitab\" (Ndèye Téere bi) ci téere bi. Lan motax ñu ko woowee tur woowu?",
+        "options": [
+          "Ndax mooy suura bi gëna gudd ci Alxuraan.",
+          "Ndax dafa am ci biiram taarixu nag gi.",
+          "Ndax dafa boole lépp lu diine bi bëgg.",
+          "Ndax mooy bi ñu wàccee ci jiital."
+        ],
+        "reponse_correcte": "Ndax dafa boole lépp lu diine bi bëgg.",
+        "explication": "Al-Baqarah dafa ñu ko woowee \"Umm Al-Kitab\" ndax dafa am ci biiram ay cosaan yu am solo ak ay njariñ yu am solo ci Lislaam, loolu motax mooy suura bu matale bu am solo ngir xam diine bi."
+      }
+    }
+  },
+  {
+    "categorie": "Coran",
+    "niveau": "Avancé",
+    "question": "Quel est le thème principal (axe central) de la sourate Al-Baqarah ?",
+    "options": [
+      "Les histoires des prophètes.",
+      "La gestion de la richesse et le commerce.",
+      "La succession sur Terre selon la méthodologie d'Allah.",
+      "Les règles du mariage et du divorce."
+    ],
+    "reponse_correcte": "La succession sur Terre selon la méthodologie d'Allah.",
+    "explication": "Le thème principal d'Al-Baqarah est l'établissement de la succession (Khalifa) sur Terre en suivant les lois et la guidance d'Allah, montrant comment l'humanité doit vivre et gérer le monde selon Sa volonté.",
+    "source": "Méditation et réflexion sur le Coran (Tadabbur)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَا هُوَ الْمِحْوَرُ الرَّئِيسِيُّ (الْهَدَفُ الْعَامُّ) لِسُورَةِ الْبَقَرَةِ؟",
+        "options": [
+          "قِصَصُ الْأَنْبِيَاءِ.",
+          "إِدَارَةُ الثَّرْوَةِ وَالتِّجَارَةِ.",
+          "الِاسْتِخْلَافُ فِي الْأَرْضِ بِمَنْهَجِ اللَّهِ.",
+          "أَحْكَامُ الزَّوَاجِ وَالطَّلَاقِ."
+        ],
+        "reponse_correcte": "الِاسْتِخْلَافُ فِي الْأَرْضِ بِمَنْهَجِ اللَّهِ.",
+        "explication": "الْمِحْوَرُ الرَّئِيسِيُّ لِسُورَةِ الْبَقَرَةِ هُوَ إِقَامَةُ الْخِلَافَةِ فِي الْأَرْضِ بِاتِّبَاعِ شَرَائِعِ اللَّهِ وَهُدَاهُ، مِمَّا يُبَيِّنُ كَيْفَ يَنْبَغِي لِلْبَشَرِ أَنْ يَعِيشُوا وَيُدِيرُوا الْعَالَمَ وَفْقًا لِإِرَادَتِهِ سُبْحَانَهُ."
+      },
+      "wo": {
+        "question": "Lan mooy tema bi gëna am solo (axe central) ci suura Al-Baqarah?",
+        "options": [
+          "Taarixu yonent yi.",
+          "Jëfandikoo alal ak njaay.",
+          "Nekkal ci suuf ni mel ni yoonu Yàlla.",
+          "Ay àttey séy ak fas séy."
+        ],
+        "reponse_correcte": "Nekkal ci suuf ni mel ni yoonu Yàlla.",
+        "explication": "Tema bi gëna am solo ci Al-Baqarah mooy taxawal nekkaal (Khalifa) ci suuf ci topp ay àttey Yàlla ak yoonam, di wone ni nit ñi war a dund te jëfandikoo àdduna bi ni mu ko bëgge."
+      }
+    }
+  },
+  {
+    "categorie": "Coran",
+    "niveau": "Intermédiaire",
+    "question": "Quel est le thème principal (axe central) de la sourate Al-Baqarah ?",
+    "options": [
+      "Les histoires des prophètes.",
+      "La gestion de la richesse et le commerce.",
+      "La succession sur Terre selon la méthodologie d'Allah.",
+      "Les règles du mariage et du divorce."
+    ],
+    "reponse_correcte": "La succession sur Terre selon la méthodologie d'Allah.",
+    "explication": "Le thème principal d'Al-Baqarah est l'établissement de la succession (Khalifa) sur Terre en suivant les lois et la guidance d'Allah, montrant comment l'humanité doit vivre et gérer le monde selon Sa volonté.",
+    "source": "Méditation et réflexion sur le Coran (Tadabbur)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَا هُوَ الْمِحْوَرُ الرَّئِيسِيُّ (الْهَدَفُ الْعَامُّ) لِسُورَةِ الْبَقَرَةِ؟",
+        "options": [
+          "قِصَصُ الْأَنْبِيَاءِ.",
+          "إِدَارَةُ الثَّرْوَةِ وَالتِّجَارَةِ.",
+          "الِاسْتِخْلَافُ فِي الْأَرْضِ بِمَنْهَجِ اللَّهِ.",
+          "أَحْكَامُ الزَّوَاجِ وَالطَّلَاقِ."
+        ],
+        "reponse_correcte": "الِاسْتِخْلَافُ فِي الْأَرْضِ بِمَنْهَجِ اللَّهِ.",
+        "explication": "الْمِحْوَرُ الرَّئِيسِيُّ لِسُورَةِ الْبَقَرَةِ هُوَ إِقَامَةُ الْخِلَافَةِ فِي الْأَرْضِ بِاتِّبَاعِ شَرَائِعِ اللَّهِ وَهُدَاهُ، مِمَّا يُبَيِّنُ كَيْفَ يَنْبَغِي لِلْبَشَرِ أَنْ يَعِيشُوا وَيُدِيرُوا الْعَالَمَ وَفْقًا لِإِرَادَتِهِ سُبْحَانَهُ."
+      },
+      "wo": {
+        "question": "Lan mooy tema bi gëna am solo (axe central) ci suura Al-Baqarah?",
+        "options": [
+          "Taarixu yonent yi.",
+          "Jëfandikoo alal ak njaay.",
+          "Nekkal ci suuf ni mel ni yoonu Yàlla.",
+          "Ay àttey séy ak fas séy."
+        ],
+        "reponse_correcte": "Nekkal ci suuf ni mel ni yoonu Yàlla.",
+        "explication": "Tema bi gëna am solo ci Al-Baqarah mooy taxawal nekkaal (Khalifa) ci suuf ci topp ay àttey Yàlla ak yoonam, di wone ni nit ñi war a dund te jëfandikoo àdduna bi ni mu ko bëgge."
+      }
+    }
+  },
+  {
+    "categorie": "Coran",
+    "niveau": "Débutant",
+    "question": "Le Prophète Muhammad (paix et bénédictions sur lui) a dit qu'Al-Fatiha est la plus grande sourate du Coran. Quel est son autre nom mentionné dans ce contexte ?",
+    "options": [
+      "Al-Kahf (La Caverne).",
+      "Al-Mulk (La Royauté).",
+      "As-Sab' Al-Mathani (Les Sept Répétés) et le Grand Coran.",
+      "Yasin."
+    ],
+    "reponse_correcte": "As-Sab' Al-Mathani (Les Sept Répétés) et le Grand Coran.",
+    "explication": "Le Prophète (paix et bénédictions sur lui) a souligné la grandeur d'Al-Fatiha en l'appelant \"As-Sab' Al-Mathani\" et \"Le Grand Coran\", car elle est récitée dans chaque prière et contient les fondements de la religion.",
+    "source": "Méditation et réflexion sur le Coran (Tadabbur)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "قَالَ النَّبِيُّ مُحَمَّدٌ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) إِنَّ الْفَاتِحَةَ أَعْظَمُ سُورَةٍ فِي الْقُرْآنِ. مَا اسْمُهَا الْآخَرُ الْمَذْكُورُ فِي هَذَا السِّيَاقِ؟",
+        "options": [
+          "الْكَهْفُ.",
+          "الْمُلْكُ.",
+          "السَّبْعُ الْمَثَانِي وَالْقُرْآنُ الْعَظِيمُ.",
+          "يس."
+        ],
+        "reponse_correcte": "السَّبْعُ الْمَثَانِي وَالْقُرْآنُ الْعَظِيمُ.",
+        "explication": "أَكَّدَ النَّبِيُّ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) عَلَى عَظَمَةِ الْفَاتِحَةِ بِتَسْمِيَتِهَا \"السَّبْعَ الْمَثَانِي\" وَ\"الْقُرْآنَ الْعَظِيمَ\"، لِأَنَّهَا تُتْلَى فِي كُلِّ صَلَاةٍ وَتَحْتَوِي عَلَى أُسُسِ الدِّينِ."
+      },
+      "wo": {
+        "question": "Yonent bi Muhammad (jamm ak mucc ñoo ngi ci moom) nee na Al-Fatiha mooy suura bi gëna mag ci Alxuraan. Lan mooy beneen turam bi ñu wax ci loolu?",
+        "options": [
+          "Al-Kahf (Bàmbara gi).",
+          "Al-Mulk (Ngur gi).",
+          "As-Sab' Al-Mathani (Juroom ñaari yu ñu wéyal) ak Alxuraan bu Mag bi.",
+          "Yasin."
+        ],
+        "reponse_correcte": "As-Sab' Al-Mathani (Juroom ñaari yu ñu wéyal) ak Alxuraan bu Mag bi.",
+        "explication": "Yonent bi (jamm ak mucc ñoo ngi ci moom) wone na soloom Al-Fatiha bi mu ko woowee \"As-Sab' Al-Mathani\" ak \"Alxuraan bu Mag bi\", ndax dafa ñu ko jàng ci lépp lu ñu julli te dafa am ay cosaanu diine."
+      }
+    }
+  },
+  {
+    "categorie": "Coran",
+    "niveau": "Débutant",
+    "question": "La sourate Al-Fatiha a plusieurs noms. Lequel de ces noms n'est PAS mentionné dans le livre ?",
+    "options": [
+      "Umm Al-Kitab (La Mère du Livre).",
+      "Al-Hamd (La Louange).",
+      "Al-Baqarah (La Vache).",
+      "Ash-Shafiyah (La Guérisseuse)."
+    ],
+    "reponse_correcte": "Al-Baqarah (La Vache).",
+    "explication": "La sourate Al-Baqarah est une autre sourate du Coran, pas un nom d'Al-Fatiha. Al-Fatiha a de nombreux noms qui soulignent son importance, comme Umm Al-Kitab, Al-Hamd et Ash-Shafiyah.",
+    "source": "Méditation et réflexion sur le Coran (Tadabbur)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "لِسُورَةِ الْفَاتِحَةِ عِدَّةُ أَسْمَاءٍ. أَيُّ هَذِهِ الْأَسْمَاءِ لَمْ يُذْكَرْ فِي الْكِتَابِ؟",
+        "options": [
+          "أُمُّ الْكِتَابِ.",
+          "الْحَمْدُ.",
+          "الْبَقَرَةُ.",
+          "الشَّافِيَةُ."
+        ],
+        "reponse_correcte": "الْبَقَرَةُ.",
+        "explication": "سُورَةُ الْبَقَرَةِ هِيَ سُورَةٌ أُخْرَى مِنَ الْقُرْآنِ، وَلَيْسَتْ اسْمًا لِلْفَاتِحَةِ. لِلْفَاتِحَةِ أَسْمَاءٌ كَثِيرَةٌ تُبْرِزُ أَهَمِّيَّتَهَا، مِثْلُ أُمِّ الْكِتَابِ، وَالْحَمْدِ، وَالشَّافِيَةِ."
+      },
+      "wo": {
+        "question": "Suura Al-Fatiha am na ay tur yu bare. Ci tur yii, bi lan lañu waxul ci téere bi?",
+        "options": [
+          "Umm Al-Kitab (Ndèye Téere bi).",
+          "Al-Hamd (Sant gi).",
+          "Al-Baqarah (Nag gi).",
+          "Ash-Shafiyah (Ki Faju)."
+        ],
+        "reponse_correcte": "Al-Baqarah (Nag gi).",
+        "explication": "Suura Al-Baqarah mooy beneen suura ci Alxuraan, te du turu Al-Fatiha. Al-Fatiha am na ay tur yu bare yu wone soloom, ni mel ni Umm Al-Kitab, Al-Hamd ak Ash-Shafiyah."
+      }
+    }
+  },
+  {
+    "categorie": "Coran",
+    "niveau": "Intermédiaire",
+    "question": "La sourate Al-Baqarah est appelée \"Umm Al-Kitab\" (La Mère du Livre) dans le livre. Pourquoi ce nom lui est-il attribué ?",
+    "options": [
+      "Parce qu'elle est la plus longue sourate du Coran.",
+      "Parce qu'elle contient l'histoire de la vache.",
+      "Parce qu'elle englobe tous les objectifs de la religion.",
+      "Parce qu'elle a été révélée en premier."
+    ],
+    "reponse_correcte": "Parce qu'elle englobe tous les objectifs de la religion.",
+    "explication": "Al-Baqarah est appelée \"Umm Al-Kitab\" car elle contient les principes fondamentaux et les objectifs essentiels de l'Islam, ce qui en fait une sourate très complète pour comprendre la religion.",
+    "source": "Méditation et réflexion sur le Coran (Tadabbur)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "تُسَمَّى سُورَةُ الْبَقَرَةِ \"أُمَّ الْكِتَابِ\" فِي الْكِتَابِ. لِمَاذَا أُطْلِقَ عَلَيْهَا هَذَا الِاسْمُ؟",
+        "options": [
+          "لِأَنَّهَا أَطْوَلُ سُورَةٍ فِي الْقُرْآنِ.",
+          "لِأَنَّهَا تَحْتَوِي عَلَى قِصَّةِ الْبَقَرَةِ.",
+          "لِأَنَّهَا تَشْمَلُ جَمِيعَ مَقَاصِدِ الدِّينِ.",
+          "لِأَنَّهَا أُنْزِلَتْ أَوَّلًا."
+        ],
+        "reponse_correcte": "لِأَنَّهَا تَشْمَلُ جَمِيعَ مَقَاصِدِ الدِّينِ.",
+        "explication": "تُسَمَّى الْبَقَرَةُ \"أُمَّ الْكِتَابِ\" لِأَنَّهَا تَحْتَوِي عَلَى الْمَبَادِئِ الْأَسَاسِيَّةِ وَالْأَهْدَافِ الْجَوْهَرِيَّةِ لِلْإِسْلَامِ، مِمَّا يَجْعَلُهَا سُورَةً شَامِلَةً جِدًّا لِفَهْمِ الدِّينِ."
+      },
+      "wo": {
+        "question": "Suura Al-Baqarah dafa ñu ko woowee \"Umm Al-Kitab\" (Ndèye Téere bi) ci téere bi. Lan motax ñu ko woowee tur woowu?",
+        "options": [
+          "Ndax mooy suura bi gëna gudd ci Alxuraan.",
+          "Ndax dafa am ci biiram taarixu nag gi.",
+          "Ndax dafa boole lépp lu diine bi bëgg.",
+          "Ndax mooy bi ñu wàccee ci jiital."
+        ],
+        "reponse_correcte": "Ndax dafa boole lépp lu diine bi bëgg.",
+        "explication": "Al-Baqarah dafa ñu ko woowee \"Umm Al-Kitab\" ndax dafa am ci biiram ay cosaan yu am solo ak ay njariñ yu am solo ci Lislaam, loolu motax mooy suura bu matale bu am solo ngir xam diine bi."
+      }
+    }
+  },
+  {
+    "categorie": "Coran",
+    "niveau": "Avancé",
+    "question": "Quel est le thème principal (axe central) de la sourate Al-Baqarah ?",
+    "options": [
+      "Les histoires des prophètes.",
+      "La gestion de la richesse et le commerce.",
+      "La succession sur Terre selon la méthodologie d'Allah.",
+      "Les règles du mariage et du divorce."
+    ],
+    "reponse_correcte": "La succession sur Terre selon la méthodologie d'Allah.",
+    "explication": "Le thème principal d'Al-Baqarah est l'établissement de la succession (Khalifa) sur Terre en suivant les lois et la guidance d'Allah, montrant comment l'humanité doit vivre et gérer le monde selon Sa volonté.",
+    "source": "Méditation et réflexion sur le Coran (Tadabbur)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَا هُوَ الْمِحْوَرُ الرَّئِيسِيُّ (الْهَدَفُ الْعَامُّ) لِسُورَةِ الْبَقَرَةِ؟",
+        "options": [
+          "قِصَصُ الْأَنْبِيَاءِ.",
+          "إِدَارَةُ الثَّرْوَةِ وَالتِّجَارَةِ.",
+          "الِاسْتِخْلَافُ فِي الْأَرْضِ بِمَنْهَجِ اللَّهِ.",
+          "أَحْكَامُ الزَّوَاجِ وَالطَّلَاقِ."
+        ],
+        "reponse_correcte": "الِاسْتِخْلَافُ فِي الْأَرْضِ بِمَنْهَجِ اللَّهِ.",
+        "explication": "الْمِحْوَرُ الرَّئِيسِيُّ لِسُورَةِ الْبَقَرَةِ هُوَ إِقَامَةُ الْخِلَافَةِ فِي الْأَرْضِ بِاتِّبَاعِ شَرَائِعِ اللَّهِ وَهُدَاهُ، مِمَّا يُبَيِّنُ كَيْفَ يَنْبَغِي لِلْبَشَرِ أَنْ يَعِيشُوا وَيُدِيرُوا الْعَالَمَ وَفْقًا لِإِرَادَتِهِ سُبْحَانَهُ."
+      },
+      "wo": {
+        "question": "Lan mooy tema bi gëna am solo (axe central) ci suura Al-Baqarah?",
+        "options": [
+          "Taarixu yonent yi.",
+          "Jëfandikoo alal ak njaay.",
+          "Nekkal ci suuf ni mel ni yoonu Yàlla.",
+          "Ay àttey séy ak fas séy."
+        ],
+        "reponse_correcte": "Nekkal ci suuf ni mel ni yoonu Yàlla.",
+        "explication": "Tema bi gëna am solo ci Al-Baqarah mooy taxawal nekkaal (Khalifa) ci suuf ci topp ay àttey Yàlla ak yoonam, di wone ni nit ñi war a dund te jëfandikoo àdduna bi ni mu ko bëgge."
+      }
+    }
+  },
+  {
+    "categorie": "Coran",
+    "niveau": "Débutant",
+    "question": "Le Prophète Muhammad (paix et bénédictions sur lui) a dit qu'Al-Fatiha est la plus grande sourate du Coran. Quel est son autre nom mentionné dans ce contexte ?",
+    "options": [
+      "Al-Kahf (La Caverne).",
+      "Al-Mulk (La Royauté).",
+      "As-Sab' Al-Mathani (Les Sept Répétés) et le Grand Coran.",
+      "Yasin."
+    ],
+    "reponse_correcte": "As-Sab' Al-Mathani (Les Sept Répétés) et le Grand Coran.",
+    "explication": "Le Prophète (paix et bénédictions sur lui) a souligné la grandeur d'Al-Fatiha en l'appelant \"As-Sab' Al-Mathani\" et \"Le Grand Coran\", car elle est récitée dans chaque prière et contient les fondements de la religion.",
+    "source": "Méditation et réflexion sur le Coran (Tadabbur)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "قَالَ النَّبِيُّ مُحَمَّدٌ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) إِنَّ الْفَاتِحَةَ أَعْظَمُ سُورَةٍ فِي الْقُرْآنِ. مَا اسْمُهَا الْآخَرُ الْمَذْكُورُ فِي هَذَا السِّيَاقِ؟",
+        "options": [
+          "الْكَهْفُ.",
+          "الْمُلْكُ.",
+          "السَّبْعُ الْمَثَانِي وَالْقُرْآنُ الْعَظِيمُ.",
+          "يس."
+        ],
+        "reponse_correcte": "السَّبْعُ الْمَثَانِي وَالْقُرْآنُ الْعَظِيمُ.",
+        "explication": "أَكَّدَ النَّبِيُّ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) عَلَى عَظَمَةِ الْفَاتِحَةِ بِتَسْمِيَتِهَا \"السَّبْعَ الْمَثَانِي\" وَ\"الْقُرْآنَ الْعَظِيمَ\"، لِأَنَّهَا تُتْلَى فِي كُلِّ صَلَاةٍ وَتَحْتَوِي عَلَى أُسُسِ الدِّينِ."
+      },
+      "wo": {
+        "question": "Yonent bi Muhammad (jamm ak mucc ñoo ngi ci moom) nee na Al-Fatiha mooy suura bi gëna mag ci Alxuraan. Lan mooy beneen turam bi ñu wax ci loolu?",
+        "options": [
+          "Al-Kahf (Bàmbara gi).",
+          "Al-Mulk (Ngur gi).",
+          "As-Sab' Al-Mathani (Juroom ñaari yu ñu wéyal) ak Alxuraan bu Mag bi.",
+          "Yasin."
+        ],
+        "reponse_correcte": "As-Sab' Al-Mathani (Juroom ñaari yu ñu wéyal) ak Alxuraan bu Mag bi.",
+        "explication": "Yonent bi (jamm ak mucc ñoo ngi ci moom) wone na soloom Al-Fatiha bi mu ko woowee \"As-Sab' Al-Mathani\" ak \"Alxuraan bu Mag bi\", ndax dafa ñu ko jàng ci lépp lu ñu julli te dafa am ay cosaanu diine."
+      }
+    }
+  },
+  {
+    "categorie": "Coran",
+    "niveau": "Débutant",
+    "question": "La sourate Al-Fatiha a plusieurs noms. Lequel de ces noms n'est PAS mentionné dans le livre ?",
+    "options": [
+      "Umm Al-Kitab (La Mère du Livre).",
+      "Al-Hamd (La Louange).",
+      "Al-Baqarah (La Vache).",
+      "Ash-Shafiyah (La Guérisseuse)."
+    ],
+    "reponse_correcte": "Al-Baqarah (La Vache).",
+    "explication": "La sourate Al-Baqarah est une autre sourate du Coran, pas un nom d'Al-Fatiha. Al-Fatiha a de nombreux noms qui soulignent son importance, comme Umm Al-Kitab, Al-Hamd et Ash-Shafiyah.",
+    "source": "Méditation et réflexion sur le Coran (Tadabbur)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "لِسُورَةِ الْفَاتِحَةِ عِدَّةُ أَسْمَاءٍ. أَيُّ هَذِهِ الْأَسْمَاءِ لَمْ يُذْكَرْ فِي الْكِتَابِ؟",
+        "options": [
+          "أُمُّ الْكِتَابِ.",
+          "الْحَمْدُ.",
+          "الْبَقَرَةُ.",
+          "الشَّافِيَةُ."
+        ],
+        "reponse_correcte": "الْبَقَرَةُ.",
+        "explication": "سُورَةُ الْبَقَرَةِ هِيَ سُورَةٌ أُخْرَى مِنَ الْقُرْآنِ، وَلَيْسَتْ اسْمًا لِلْفَاتِحَةِ. لِلْفَاتِحَةِ أَسْمَاءٌ كَثِيرَةٌ تُبْرِزُ أَهَمِّيَّتَهَا، مِثْلُ أُمِّ الْكِتَابِ، وَالْحَمْدِ، وَالشَّافِيَةِ."
+      },
+      "wo": {
+        "question": "Suura Al-Fatiha am na ay tur yu bare. Ci tur yii, bi lan lañu waxul ci téere bi?",
+        "options": [
+          "Umm Al-Kitab (Ndèye Téere bi).",
+          "Al-Hamd (Sant gi).",
+          "Al-Baqarah (Nag gi).",
+          "Ash-Shafiyah (Ki Faju)."
+        ],
+        "reponse_correcte": "Al-Baqarah (Nag gi).",
+        "explication": "Suura Al-Baqarah mooy beneen suura ci Alxuraan, te du turu Al-Fatiha. Al-Fatiha am na ay tur yu bare yu wone soloom, ni mel ni Umm Al-Kitab, Al-Hamd ak Ash-Shafiyah."
+      }
+    }
+  },
+  {
+    "categorie": "Coran",
+    "niveau": "Intermédiaire",
+    "question": "La sourate Al-Baqarah est appelée \"Umm Al-Kitab\" (La Mère du Livre) dans le livre. Pourquoi ce nom lui est-il attribué ?",
+    "options": [
+      "Parce qu'elle est la plus longue sourate du Coran.",
+      "Parce qu'elle contient l'histoire de la vache.",
+      "Parce qu'elle englobe tous les objectifs de la religion.",
+      "Parce qu'elle a été révélée en premier."
+    ],
+    "reponse_correcte": "Parce qu'elle englobe tous les objectifs de la religion.",
+    "explication": "Al-Baqarah est appelée \"Umm Al-Kitab\" car elle contient les principes fondamentaux et les objectifs essentiels de l'Islam, ce qui en fait une sourate très complète pour comprendre la religion.",
+    "source": "Méditation et réflexion sur le Coran (Tadabbur)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "تُسَمَّى سُورَةُ الْبَقَرَةِ \"أُمَّ الْكِتَابِ\" فِي الْكِتَابِ. لِمَاذَا أُطْلِقَ عَلَيْهَا هَذَا الِاسْمُ؟",
+        "options": [
+          "لِأَنَّهَا أَطْوَلُ سُورَةٍ فِي الْقُرْآنِ.",
+          "لِأَنَّهَا تَحْتَوِي عَلَى قِصَّةِ الْبَقَرَةِ.",
+          "لِأَنَّهَا تَشْمَلُ جَمِيعَ مَقَاصِدِ الدِّينِ.",
+          "لِأَنَّهَا أُنْزِلَتْ أَوَّلًا."
+        ],
+        "reponse_correcte": "لِأَنَّهَا تَشْمَلُ جَمِيعَ مَقَاصِدِ الدِّينِ.",
+        "explication": "تُسَمَّى الْبَقَرَةُ \"أُمَّ الْكِتَابِ\" لِأَنَّهَا تَحْتَوِي عَلَى الْمَبَادِئِ الْأَسَاسِيَّةِ وَالْأَهْدَافِ الْجَوْهَرِيَّةِ لِلْإِسْلَامِ، مِمَّا يَجْعَلُهَا سُورَةً شَامِلَةً جِدًّا لِفَهْمِ الدِّينِ."
+      },
+      "wo": {
+        "question": "Suura Al-Baqarah dafa ñu ko woowee \"Umm Al-Kitab\" (Ndèye Téere bi) ci téere bi. Lan motax ñu ko woowee tur woowu?",
+        "options": [
+          "Ndax mooy suura bi gëna gudd ci Alxuraan.",
+          "Ndax dafa am ci biiram taarixu nag gi.",
+          "Ndax dafa boole lépp lu diine bi bëgg.",
+          "Ndax mooy bi ñu wàccee ci jiital."
+        ],
+        "reponse_correcte": "Ndax dafa boole lépp lu diine bi bëgg.",
+        "explication": "Al-Baqarah dafa ñu ko woowee \"Umm Al-Kitab\" ndax dafa am ci biiram ay cosaan yu am solo ak ay njariñ yu am solo ci Lislaam, loolu motax mooy suura bu matale bu am solo ngir xam diine bi."
+      }
+    }
+  },
+  {
+    "categorie": "Coran",
+    "niveau": "Avancé",
+    "question": "Quel est le thème principal (axe central) de la sourate Al-Baqarah ?",
+    "options": [
+      "Les histoires des prophètes.",
+      "La gestion de la richesse et le commerce.",
+      "La succession sur Terre selon la méthodologie d'Allah.",
+      "Les règles du mariage et du divorce."
+    ],
+    "reponse_correcte": "La succession sur Terre selon la méthodologie d'Allah.",
+    "explication": "Le thème principal d'Al-Baqarah est l'établissement de la succession (Khalifa) sur Terre en suivant les lois et la guidance d'Allah, montrant comment l'humanité doit vivre et gérer le monde selon Sa volonté.",
+    "source": "Méditation et réflexion sur le Coran (Tadabbur)",
+    "tags": [
+      "coran"
+    ],
+    "translations": {
+      "ar": {
+        "question": "مَا هُوَ الْمِحْوَرُ الرَّئِيسِيُّ (الْهَدَفُ الْعَامُّ) لِسُورَةِ الْبَقَرَةِ؟",
+        "options": [
+          "قِصَصُ الْأَنْبِيَاءِ.",
+          "إِدَارَةُ الثَّرْوَةِ وَالتِّجَارَةِ.",
+          "الِاسْتِخْلَافُ فِي الْأَرْضِ بِمَنْهَجِ اللَّهِ.",
+          "أَحْكَامُ الزَّوَاجِ وَالطَّلَاقِ."
+        ],
+        "reponse_correcte": "الِاسْتِخْلَافُ فِي الْأَرْضِ بِمَنْهَجِ اللَّهِ.",
+        "explication": "الْمِحْوَرُ الرَّئِيسِيُّ لِسُورَةِ الْبَقَرَةِ هُوَ إِقَامَةُ الْخِلَافَةِ فِي الْأَرْضِ بِاتِّبَاعِ شَرَائِعِ اللَّهِ وَهُدَاهُ، مِمَّا يُبَيِّنُ كَيْفَ يَنْبَغِي لِلْبَشَرِ أَنْ يَعِيشُوا وَيُدِيرُوا الْعَالَمَ وَفْقًا لِإِرَادَتِهِ سُبْحَانَهُ."
+      },
+      "wo": {
+        "question": "Lan mooy tema bi gëna am solo (axe central) ci suura Al-Baqarah?",
+        "options": [
+          "Taarixu yonent yi.",
+          "Jëfandikoo alal ak njaay.",
+          "Nekkal ci suuf ni mel ni yoonu Yàlla.",
+          "Ay àttey séy ak fas séy."
+        ],
+        "reponse_correcte": "Nekkal ci suuf ni mel ni yoonu Yàlla.",
+        "explication": "Tema bi gëna am solo ci Al-Baqarah mooy taxawal nekkaal (Khalifa) ci suuf ci topp ay àttey Yàlla ak yoonam, di wone ni nit ñi war a dund te jëfandikoo àdduna bi ni mu ko bëgge."
+      }
+    }
+  }
+]

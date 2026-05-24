@@ -1,0 +1,187 @@
+[
+  {
+    "categorie": "Fiqh",
+    "niveau": "Débutant",
+    "question": "Avant de commencer la prière, comment doit-on faire l'intention (niyyah) ?",
+    "options": [
+      "En la disant à voix haute avec la langue.",
+      "En la disant doucement avec la langue.",
+      "En la faisant dans son cœur, sans la prononcer.",
+      "L'intention n'est pas nécessaire pour la prière."
+    ],
+    "reponse_correcte": "En la faisant dans son cœur, sans la prononcer.",
+    "explication": "L'intention est un acte du cœur, on la fait en pensant à la prière que l'on va accomplir, sans avoir besoin de la dire avec la langue. C'est Allah qui connaît le mieux ce qui est dans nos cœurs !",
+    "translations": {
+      "ar": {
+        "question": "قَبْلَ أَنْ نَبْدَأَ الصَّلَاةَ، كَيْفَ نَنْوِي (نِيَّةَ) الصَّلَاةِ؟",
+        "options": [
+          "بِقَوْلِهَا بِصَوْتٍ عَالٍ بِاللِّسَانِ.",
+          "بِقَوْلِهَا بِصَوْتٍ مُنْخَفِضٍ بِاللِّسَانِ.",
+          "بِجَعْلِهَا فِي الْقَلْبِ، دُونَ النُّطْقِ بِهَا.",
+          "النِّيَّةُ لَيْسَتْ ضَرُورِيَّةً لِلصَّلَاةِ."
+        ],
+        "reponse_correcte": "بِجَعْلِهَا فِي الْقَلْبِ، دُونَ النُّطْقِ بِهَا.",
+        "explication": "النِّيَّةُ عَمَلٌ قَلْبِيٌّ، نَقُومُ بِهَا بِالتَّفْكِيرِ فِي الصَّلَاةِ الَّتِي سَنُؤَدِّيهَا، دُونَ الْحَاجَةِ إِلَى النُّطْقِ بِهَا بِاللِّسَانِ. وَاللَّهُ أَعْلَمُ بِمَا فِي قُلُوبِنَا!"
+      },
+      "wo": {
+        "question": "Jàppandi, balaa ñuy tàmbali julli, nan lañuy def sunuy yéene (niyyah)?",
+        "options": [
+          "Di ko wax ci kaw ak làŋam.",
+          "Di ko wax ci suuf ak làŋam.",
+          "Di ko def ci xol bi, te duñu ko wax.",
+          "Yéene du lu am solo ci julli."
+        ],
+        "reponse_correcte": "Di ko def ci xol bi, te duñu ko wax.",
+        "explication": "Yéene, liggéeyu xol la. Nu koy def ci sunuy xol, di xalaat julli gi nuy def, te duñu ko wax ak làŋam. Yàlla moo gën a xam li nekk ci sunuy xol!"
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Débutant",
+    "question": "Où doit-on placer nos mains lorsque nous sommes debout pendant la prière, après le Takbir d'ouverture ?",
+    "options": [
+      "Les laisser pendre le long du corps.",
+      "Placer la main gauche sur la main droite, sur la poitrine.",
+      "Placer la main droite sur la main gauche, sur la poitrine.",
+      "Les croiser derrière le dos."
+    ],
+    "reponse_correcte": "Placer la main droite sur la main gauche, sur la poitrine.",
+    "explication": "C'est une Sunnah du Prophète Muhammad (paix et bénédictions sur lui) de placer la main droite sur la main gauche, sur la poitrine, en signe de respect et de soumission devant Allah.",
+    "translations": {
+      "ar": {
+        "question": "أَيْنَ يَجِبُ أَنْ نَضَعَ أَيْدِيَنَا عِنْدَمَا نَقِفُ فِي الصَّلَاةِ، بَعْدَ تَكْبِيرَةِ الْإِحْرَامِ؟",
+        "options": [
+          "نَتْرُكُهَا مُتَدَلِّيَةً بِجَانِبِ الْجِسْمِ.",
+          "نَضَعُ الْيَدَ الْيُسْرَى عَلَى الْيَدِ الْيُمْنَى، عَلَى الصَّدْرِ.",
+          "نَضَعُ الْيَدَ الْيُمْنَى عَلَى الْيَدِ الْيُسْرَى، عَلَى الصَّدْرِ.",
+          "نُشَبِّكُهَا خَلْفَ الظَّهْرِ."
+        ],
+        "reponse_correcte": "نَضَعُ الْيَدَ الْيُمْنَى عَلَى الْيَدِ الْيُسْرَى، عَلَى الصَّدْرِ.",
+        "explication": "مِنْ سُنَّةِ النَّبِيِّ مُحَمَّدٍ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) أَنْ نَضَعَ الْيَدَ الْيُمْنَى عَلَى الْيَدِ الْيُسْرَى، عَلَى الصَّدْرِ، إِظْهَارًا لِلِاحْتِرَامِ وَالْخُضُوعِ لِلَّهِ."
+      },
+      "wo": {
+        "question": "Fan lañuy teg sunuy loxo suñu taxawé ci julli, ginnaaw Takbiratul Ihram?",
+        "options": [
+          "Ñu bayyi leen ñuy dal ci wetu yaram bi.",
+          "Teg loxo gu càmmooñ gi ci gu ndeyjoor gi, ci kàttan gi.",
+          "Teg loxo gu ndeyjoor gi ci gu càmmooñ gi, ci kàttan gi.",
+          "Ñu jàppale leen ci ginnaaw ginaaw."
+        ],
+        "reponse_correcte": "Teg loxo gu ndeyjoor gi ci gu càmmooñ gi, ci kàttan gi.",
+        "explication": "Sunna ci Yonnant bi Muhammad (jàmm ak mucc ñoo ngi ci moom) mooy teg loxo gu ndeyjoor gi ci gu càmmooñ gi, ci kàttan gi, ngir wone màggal ak ñeewu ci Yàlla."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Débutant",
+    "question": "Quand on se relève de l'inclination (Ruku'), que dit-on ?",
+    "options": [
+      "\"Allahu Akbar\" (Allah est le Plus Grand).",
+      "\"Subhana Rabbiyal A'la\" (Gloire à mon Seigneur, le Très-Haut).",
+      "\"Sami' Allahu liman hamidah\" (Allah entend celui qui Le loue).",
+      "\"Alhamdulillah\" (Toutes les louanges sont à Allah)."
+    ],
+    "reponse_correcte": "\"Sami' Allahu liman hamidah\" (Allah entend celui qui Le loue).",
+    "explication": "Après le Ruku', en se relevant, on dit \"Sami' Allahu liman hamidah\". Puis, une fois debout et stable, on ajoute \"Rabbana wa lakal hamd\" (Ô notre Seigneur, à Toi la louange). C'est ainsi que le Prophète (paix et bénédictions sur lui) nous a montré.",
+    "translations": {
+      "ar": {
+        "question": "عِنْدَمَا نَرْفَعُ رُؤُوسَنَا مِنَ الرُّكُوعِ، مَاذَا نَقُولُ؟",
+        "options": [
+          "\"اللَّهُ أَكْبَرُ\".",
+          "\"سُبْحَانَ رَبِّيَ الْأَعْلَى\".",
+          "\"سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ\".",
+          "\"الْحَمْدُ لِلَّهِ\"."
+        ],
+        "reponse_correcte": "\"سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ\".",
+        "explication": "بَعْدَ الرُّكُوعِ، عِنْدَ الرَّفْعِ مِنْهُ، نَقُولُ \"سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ\". ثُمَّ بَعْدَ الْوُقُوفِ وَالِاسْتِقْرَارِ، نُضِيفُ \"رَبَّنَا وَلَكَ الْحَمْدُ\". هَكَذَا عَلَّمَنَا النَّبِيُّ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ)."
+      },
+      "wo": {
+        "question": "Suñu joggé ci ruku gi, lan lañuy wax?",
+        "options": [
+          "\"Allahu Akbar\" (Yàlla moo gën a Màgg).",
+          "\"Subhana Rabbiyal A'la\" (Sell na sama Boroom, mi gën a Kawe).",
+          "\"Sami' Allahu liman hamidah\" (Yàlla dégg na ku ko sant).",
+          "\"Alhamdulillah\" (Sant yépp Yàlla la)."
+        ],
+        "reponse_correcte": "\"Sami' Allahu liman hamidah\" (Yàlla dégg na ku ko sant).",
+        "explication": "Ginnaaw ruku gi, suñu joggé, dañuy wax \"Sami' Allahu liman hamidah\". Te suñu taxawé ba dal, nu teg ci \"Rabbana wa lakal hamd\" (Yàlla sunu Boroom, yaw la sant yépp). Ni la Yonnant bi (jàmm ak mucc ñoo ngi ci moom) nu woné."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Débutant",
+    "question": "Sur combien de parties du corps (os) doit-on se prosterner (Sujud) ?",
+    "options": [
+      "Cinq parties.",
+      "Six parties.",
+      "Sept parties.",
+      "Huit parties."
+    ],
+    "reponse_correcte": "Sept parties.",
+    "explication": "Le Prophète Muhammad (paix et bénédictions sur lui) nous a enseigné de nous prosterner sur sept parties du corps : le front et le nez (comptés comme une seule), les deux mains, les deux genoux et les extrémités des deux pieds (les orteils).",
+    "translations": {
+      "ar": {
+        "question": "عَلَى كَمْ جُزْءٍ مِنَ الْجِسْمِ (عَظْمٍ) يَجِبُ أَنْ نَسْجُدَ؟",
+        "options": [
+          "خَمْسَةِ أَجْزَاءٍ.",
+          "سِتَّةِ أَجْزَاءٍ.",
+          "سَبْعَةِ أَجْزَاءٍ.",
+          "ثَمَانِيَةِ أَجْزَاءٍ."
+        ],
+        "reponse_correcte": "سَبْعَةِ أَجْزَاءٍ.",
+        "explication": "عَلَّمَنَا النَّبِيُّ مُحَمَّدٌ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) أَنْ نَسْجُدَ عَلَى سَبْعَةِ أَعْضَاءٍ: الْجَبْهَةِ وَالْأَنْفِ (يُعَدَّانِ وَاحِدًا)، وَالْيَدَيْنِ، وَالرُّكْبَتَيْنِ، وَأَطْرَافِ الْقَدَمَيْنِ (أَصَابِعِ الْقَدَمَيْنِ)."
+      },
+      "wo": {
+        "question": "Ci ñata wàllu yaram (yax) lañuy sujood?",
+        "options": [
+          "Juróom ñetti wàll.",
+          "Juróom benni wàll.",
+          "Juróom ñaari wàll.",
+          "Juróom ñeenti wàll."
+        ],
+        "reponse_correcte": "Juróom ñaari wàll.",
+        "explication": "Yonnant bi Muhammad (jàmm ak mucc ñoo ngi ci moom) jàngal na nu nu sujood ci juróom ñaari wàllu yaram: jëmm ak bakkan (ñu jàpp leen benn), ñaari loxo yi, ñaari tànk yi, ak ñaari bàkkanu tànk yi."
+      }
+    }
+  },
+  {
+    "categorie": "Fiqh",
+    "niveau": "Débutant",
+    "question": "Que dit-on pendant la position assise du Tashahhud dans la prière ?",
+    "options": [
+      "Seulement \"Subhanallah\".",
+      "Le Tashahhud et les Salawat sur le Prophète.",
+      "Seulement \"Alhamdulillah\".",
+      "Le Du'a al-Istiftah."
+    ],
+    "reponse_correcte": "Le Tashahhud et les Salawat sur le Prophète.",
+    "explication": "Pendant le Tashahhud, nous récitons les paroles du Tashahhud qui incluent des salutations à Allah, au Prophète et aux pieux serviteurs, puis nous attestons de l'unicité d'Allah et de la prophétie de Muhammad. Ensuite, nous envoyons des prières (Salawat) sur le Prophète Muhammad (paix et bénédictions sur lui) et sa famille, comme il nous l'a appris.",
+    "translations": {
+      "ar": {
+        "question": "مَاذَا نَقُولُ فِي وَضْعِ الْجُلُوسِ لِلتَّشَهُّدِ فِي الصَّلَاةِ؟",
+        "options": [
+          "فَقَطْ \"سُبْحَانَ اللَّهِ\".",
+          "التَّشَهُّدَ وَالصَّلَوَاتِ عَلَى النَّبِيِّ.",
+          "فَقَطْ \"الْحَمْدُ لِلَّهِ\".",
+          "دُعَاءَ الِاسْتِفْتَاحِ."
+        ],
+        "reponse_correcte": "التَّشَهُّدَ وَالصَّلَوَاتِ عَلَى النَّبِيِّ.",
+        "explication": "أَثْنَاءَ التَّشَهُّدِ، نَتْلُو كَلِمَاتِ التَّشَهُّدِ الَّتِي تَشْمَلُ التَّحِيَّاتِ لِلَّهِ وَلِلنَّبِيِّ وَلِلْعِبَادِ الصَّالِحِينَ، ثُمَّ نَشْهَدُ بِوَحْدَانِيَّةِ اللَّهِ وَنُبُوَّةِ مُحَمَّدٍ. بَعْدَ ذَلِكَ، نُصَلِّي عَلَى النَّبِيِّ مُحَمَّدٍ (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) وَآلِهِ، كَمَا عَلَّمَنَا."
+      },
+      "wo": {
+        "question": "Lan lañuy wax suñu toogé ci Tashahhud ci julli gi?",
+        "options": [
+          "\"Subhanallah\" rekk.",
+          "Tashahhud bi ak Salawat yi ci Yonnant bi.",
+          "\"Alhamdulillah\" rekk.",
+          "Du'a al-Istiftah."
+        ],
+        "reponse_correcte": "Tashahhud bi ak Salawat yi ci Yonnant bi.",
+        "explication": "Ci Tashahhud bi, dañuy jàngi ay baatu Tashahhud yu am solo, yu ci mel ni nuy nuyu Yàlla, Yonnant bi ak jaam yu baax yi, te nu seede ne amul benn yàlla bu wóor lu dul Yàlla, te Muhammad mooy Jaamam ak Yonnantam. Ginnaaw loolu, dañuy julli ci Yonnant bi Muhammad (jàmm ak mucc ñoo ngi ci moom) ak njabootam, ni mu nu ko jàngale."
+      }
+    }
+  }
+]
