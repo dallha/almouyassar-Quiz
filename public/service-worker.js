@@ -3,8 +3,8 @@ const CACHE_NAME = 'mouyassar-pwa-cache-v1';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
-  '/src/main.tsx',
-  '/src/index.css'
+  '/logo.png',
+  '/manifest.json'
 ];
 
 // Install Event

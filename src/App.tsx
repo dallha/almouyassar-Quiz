@@ -33,6 +33,7 @@ import GlobalSearch from './components/GlobalSearch';
 import QuizRecommender from './components/QuizRecommender';
 import DailyReward, { DailyRewardData } from './components/ui/DailyReward';
 import BadgeGallery, { BadgeData } from './components/ui/BadgeGallery';
+import { ErrorBoundary } from './components/ui/ErrorBoundary';
 
 /* ── STATIC DATA ── */
 const DAILY_REWARDS: DailyRewardData[] = [
@@ -1663,11 +1664,15 @@ export default function App() {
                     )}
 
                     {activeTab === 'oustaz' && !isOustazBlocked && (
-                      <OustazVirtual currentUser={currentUser} />
+                      <ErrorBoundary>
+                        <OustazVirtual currentUser={currentUser} />
+                      </ErrorBoundary>
                     )}
 
                     {activeTab === 'ansar' && (
-                      <VoixDesAnsar stats={stats} onUpdateStats={setStats} />
+                      <ErrorBoundary>
+                        <VoixDesAnsar stats={stats} onUpdateStats={setStats} />
+                      </ErrorBoundary>
                     )}
 
                     {activeTab === 'parental' && (
