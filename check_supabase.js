@@ -1,5 +1,9 @@
-const { createClient } = require('@supabase/supabase-js');
-require('dotenv').config({ path: '/Users/mac/Documents/Mes Docs/code/AlMouyassar Islamic Quiz/.env' });
+import { createClient } from '@supabase/supabase-js';
+import dotenv from 'dotenv';
+import path from 'path';
+
+// Utiliser le chemin d'accès absolu ou chercher à la racine
+dotenv.config({ path: path.join(process.cwd(), '.env') });
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY;
