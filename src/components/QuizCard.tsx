@@ -29,6 +29,7 @@ interface QuizCardProps {
   onAnswer: (selected: string, timeSpent: number) => void;
   streak?: number;
   xpMultiplier?: number;
+  isTranslating?: boolean;
 }
 
 /* ── ANIMATIONS ── */
@@ -155,8 +156,83 @@ export default function QuizCard({
   onAnswer,
   streak = 0,
   xpMultiplier = 1,
+  isTranslating = false,
 }: QuizCardProps) {
   const { dir, language, t } = useLanguage();
+
+  if (isTranslating) {
+    let loadingText = "L'Oustaz traduit la question... 🌿";
+    if (language === 'ar') {
+      loadingText = "جاري تحميل ترجمة السؤال من الأستاذ... 🌿";
+    } else if (language === 'wo') {
+      loadingText = "Oustaz bi mi ngi firi laaj bi... 🌿";
+    }
+
+    return (
+      <div className="relative w-full max-w-2xl mx-auto">
+        <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/40 overflow-hidden p-8 flex flex-col items-center justify-center min-h-[380px]">
+          {/* Ambient glow */}
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
+
+          {/* Shimmering Sacred Geometry / Symbol */}
+          <div className="relative mb-6">
+            <motion.div
+              animate={{ 
+                scale: [1, 1.05, 1],
+                rotate: [0, 180, 360]
+              }}
+              transition={{ 
+                duration: 6, 
+                repeat: Infinity,
+                ease: "linear"
+              }}
+              className="w-16 h-16 rounded-full border-2 border-emerald-500/20 border-t-emerald-500 flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.15)]"
+            >
+              <div className="w-10 h-10 rounded-full bg-emerald-50/50 flex items-center justify-center text-lg">
+                🌙
+              </div>
+            </motion.div>
+            <motion.div
+              animate={{ opacity: [0.3, 0.7, 0.3] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="absolute inset-0 rounded-full bg-emerald-500/10 blur-md"
+            />
+          </div>
+
+          {/* Localized Loading Text with Shimmering / Pulsing effect */}
+          <motion.p
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="text-lg font-bold text-[var(--color-deep-green)] text-center leading-relaxed max-w-md"
+            style={{ direction: dir }}
+          >
+            {loadingText}
+          </motion.p>
+
+          {/* Premium Skeleton lines for options */}
+          <div className="w-full mt-8 space-y-4">
+            {Array.from({ length: 3 }).map((_, idx) => (
+              <div 
+                key={idx} 
+                className="w-full h-14 rounded-2xl bg-white border border-gray-100 flex items-center px-4 overflow-hidden relative"
+              >
+                {/* Shimmer Overlay */}
+                <motion.div 
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-gray-100/40 to-transparent animate-[shimmer_1.8s_infinite]"
+                  animate={{ x: ['-100%', '100%'] }}
+                  transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut', delay: idx * 0.15 }}
+                />
+                <div className="w-8 h-8 rounded-lg bg-gray-100 flex-shrink-0" />
+                <div className="h-4 bg-gray-100/80 rounded-md flex-1 ml-3 max-w-[70%]" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const localizedQuestion = useMemo(() => getLocalizedQuestion(question, language), [question, language]);
   const [selected, setSelected] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState(timeLimit);

@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { AdventureNode, Question } from '../../types';
+import { AdventureNode, Question, getLocalizedQuestion } from '../../types';
 import QuizCard from '../QuizCard';
 import { Trophy, ArrowRight, Sparkles, AlertCircle, Heart, Shield } from 'lucide-react';
 import { QUESTIONS } from '../../data';
@@ -113,8 +113,8 @@ export default function AdventureSession({ node, onComplete, onClose }: Adventur
   const bossHp = Math.max(0, 100 - (score * damagePerQuestion));
 
   const handleAnswer = (answer: string, _timeSpent: number) => {
-    const currentQuestion = sessionQuestions[currentIndex];
-    const isCorrect = answer === currentQuestion.reponse_correcte;
+    const localizedQ = getLocalizedQuestion(currentQuestion, language);
+    const isCorrect = answer === localizedQ.reponse_correcte;
 
     if (isCorrect) {
       setScore(prev => prev + 1);
@@ -294,6 +294,7 @@ export default function AdventureSession({ node, onComplete, onClose }: Adventur
             timeLimit={node.timeLimit || 25}
             onAnswer={handleAnswer}
             streak={0}
+            isTranslating={isTranslating}
           />
         ) : (
           <div className="text-white/55 font-medium flex flex-col items-center gap-3">

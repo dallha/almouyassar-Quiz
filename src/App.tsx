@@ -1353,10 +1353,12 @@ export default function App() {
                   totalQuestions={session.questions.length}
                   timeLimit={timerEnabled ? timerMinutes * 60 : 30}
                   onAnswer={(selected, timeSpent) => {
-                    const isCorrect = selected === session.questions[session.currentIndex].reponse_correcte;
+                    const localizedQ = getLocalizedQuestion(session.questions[session.currentIndex], language);
+                    const isCorrect = selected === localizedQ.reponse_correcte;
                     handleAnswerValidatedCallback(selected, isCorrect, timeSpent);
                   }}
                   streak={stats.streak}
+                  isTranslating={isTranslatingQuestion}
                 />
               ) : (
                 /* Interactive Finished Overview card */
