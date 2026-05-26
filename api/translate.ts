@@ -152,8 +152,7 @@ Règles impératives :
   } catch (error: any) {
     console.error("Gemini Serverless Translate API Error:", error);
     return res.status(500).json({ 
-      error: "Impossible de traduire cette question en ce moment.",
-      details: error.message || error
+      error: "Impossible de traduire cette question en ce moment."
     });
   }
 }

@@ -142,8 +142,7 @@ export default async function handler(req: any, res: any) {
   } catch (error: any) {
     console.error("Gemini Serverless API Error:", error);
     return res.status(500).json({ 
-      error: "Impossible de joindre l'Oustaz Virtuel en ce moment.",
-      details: error.message || error
+      error: "Impossible de joindre l'Oustaz Virtuel en ce moment."
     });
   }
 }
