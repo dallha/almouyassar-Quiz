@@ -339,22 +339,38 @@ export default function App() {
 
     if (isSupabaseConfigured() && currentUser) {
       const timeoutId = setTimeout(async () => {
+        // [SECURITY FIX]: Use secure RPC to prevent client-side XP falsification (Anti-cheat)
         const { error } = await supabase
-          .from('profiles')
-          .update({
-            xp: stats.xp,
-            total_answered: stats.totalAnswered,
-            correct_answers_count: stats.correctAnswersCount,
-            streak: stats.streak,
-            highest_streak: stats.highestStreak,
-            completed_quizzes_count: stats.completedQuizzesCount,
-            unlocked_badge_ids: stats.unlockedBadgeIds,
-            updated_at: new Date().toISOString(),
-          })
-          .eq('id', currentUser.id);
+          .rpc('update_user_stats_secure', {
+            new_xp: stats.xp,
+            new_total_answered: stats.totalAnswered,
+            new_correct: stats.correctAnswersCount,
+            new_streak: stats.streak,
+            new_highest_streak: stats.highestStreak,
+            new_completed: stats.completedQuizzesCount,
+            new_badges: stats.unlockedBadgeIds
+          });
 
         if (error) {
-          console.error("Error updating statistics in Supabase:", error);
+          console.error("Error updating statistics via secure RPC in Supabase:", error);
+          
+          // Fallback en cas où la fonction RPC n'a pas encore été créée sur le Dashboard
+          if (error.code === 'PGRST202' || error.message.includes('function "update_user_stats_secure" does not exist')) {
+            console.warn("Fallback to insecure update: please run supabase_secure_rpc.sql in Supabase Dashboard");
+            await supabase
+              .from('profiles')
+              .update({
+                xp: stats.xp,
+                total_answered: stats.totalAnswered,
+                correct_answers_count: stats.correctAnswersCount,
+                streak: stats.streak,
+                highest_streak: stats.highestStreak,
+                completed_quizzes_count: stats.completedQuizzesCount,
+                unlocked_badge_ids: stats.unlockedBadgeIds,
+                updated_at: new Date().toISOString(),
+              })
+              .eq('id', currentUser.id);
+          }
         }
       }, 800); // 800ms debounce
 
