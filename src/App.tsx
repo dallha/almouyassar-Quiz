@@ -34,6 +34,7 @@ import QuizRecommender from './components/QuizRecommender';
 import DailyReward, { DailyRewardData } from './components/ui/DailyReward';
 import BadgeGallery, { BadgeData } from './components/ui/BadgeGallery';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
+import { useAppStore } from './store';
 
 /* ── STATIC DATA ── */
 const DAILY_REWARDS: DailyRewardData[] = [
@@ -168,326 +169,31 @@ export default function App() {
     return l;
   };
 
-  // --- Persistent States ---
-  const [stats, setStats] = useState<UserStats>(() => {
-    const saved = localStorage.getItem(LOCAL_STORAGE_STATS_KEY);
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch (e) {
-        console.error("Failed to parse local quiz stats", e);
-      }
-    }
-    return {
-      xp: 0,
-      totalAnswered: 0,
-      correctAnswersCount: 0,
-      streak: 0,
-      highestStreak: 0,
-      lastPlayedDate: null,
-      completedQuizzesCount: 0,
-      unlockedBadgeIds: [],
-    };
-  });
-
-  // Track correct answers per category separately to handle subject-specific badges
-  const [categoryStats, setCategoryStats] = useState<Record<string, number>>(() => {
-    const saved = localStorage.getItem(LOCAL_STORAGE_CAT_KEY);
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch (e) {
-        // Fallback
-      }
-    }
-    return {
-      'Fiqh': 0,
-      'Aqidah': 0,
-      'Sirah': 0,
-      'Coran': 0,
-      'Akhlaq': 0,
-      'Institut Al-Mouyassar': 0
-    };
-  });
-
-  const [isMuted, setIsMuted] = useState(() => {
-    return localStorage.getItem(LOCAL_STORAGE_MUTE_KEY) === 'true';
-  });
-
-  const [isOustazBlocked, setIsOustazBlocked] = useState(() => {
-    return localStorage.getItem('mouyassar_oustaz_blocked') === 'true';
-  });
-
-  const [adventureState, setAdventureState] = useState<AdventureState>(() => {
-    const saved = localStorage.getItem(LOCAL_STORAGE_ADVENTURE_KEY);
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch (e) {
-        // Fallback
-      }
-    }
-    return {
-      unlockedZones: ['zone-1'],
-      completedNodes: [],
-      currentNodeId: 'node-1-1',
-      starsEarned: 0,
-      collectedCards: [],
-      unlockedTitles: [],
-      stamina: 100,
-      lastStaminaUpdate: new Date().toISOString()
-    };
-  });
+  // --- Zustand Store (Premium Architecture) ---
+  const {
+    stats, setStats,
+    categoryStats, setCategoryStats,
+    isMuted, setIsMuted,
+    isOustazBlocked, setIsOustazBlocked,
+    adventureState, setAdventureState,
+    theme, setTheme,
+    dailyQuests, setDailyQuests, questsDate,
+    dailyRewardsState, setDailyRewardsState, dailyRewardDay, dailyRewardDate,
+    badgesState, setBadgesState,
+    progressQuest: handleProgressQuest,
+    claimQuestReward: handleClaimQuestReward,
+    claimDailyReward: handleClaimDailyReward,
+    checkAndResetDailies
+  } = useAppStore();
 
   useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_ADVENTURE_KEY, JSON.stringify(adventureState));
-  }, [adventureState]);
-
-  // --- Supabase Auth and Sync States ---
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [authEmail, setAuthEmail] = useState('');
-  const [authPassword, setAuthPassword] = useState('');
-  const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
-  const [authError, setAuthError] = useState<string | null>(null);
-  const [authLoading, setAuthLoading] = useState(false);
-
-  // Listen for Supabase Authentication status
-  useEffect(() => {
-    if (!isSupabaseConfigured()) return;
-
-    // Get current session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setCurrentUser(session?.user ?? null);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setCurrentUser(session?.user ?? null);
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, []);
-
-  // Fetch profile stats on successful login
-  useEffect(() => {
-    if (!isSupabaseConfigured() || !currentUser) return;
-
-    const loadProfile = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', currentUser.id)
-          .single();
-
-        if (error && error.code !== 'PGRST116') {
-          console.error("Error retrieving Supabase profile:", error);
-          return;
-        }
-
-        if (data) {
-          // Merge stats with DB data
-          setStats({
-            xp: data.xp ?? 0,
-            totalAnswered: data.total_answered ?? 0,
-            correctAnswersCount: data.correct_answers_count ?? 0,
-            streak: data.streak ?? 0,
-            highestStreak: data.highest_streak ?? 0,
-            lastPlayedDate: data.last_played_date ?? null,
-            completedQuizzesCount: data.completed_quizzes_count ?? 0,
-            unlockedBadgeIds: data.unlocked_badge_ids ?? [],
-          });
-        } else {
-          // Profile doesn't exist yet, insert it using current offline stats
-          const { error: insertErr } = await supabase
-            .from('profiles')
-            .insert({
-              id: currentUser.id,
-              username: currentUser.email?.split('@')[0] || 'Apprenti Ansar',
-              xp: stats.xp,
-              total_answered: stats.totalAnswered,
-              correct_answers_count: stats.correctAnswersCount,
-              streak: stats.streak,
-              highest_streak: stats.highestStreak,
-              completed_quizzes_count: stats.completedQuizzesCount,
-              unlocked_badge_ids: stats.unlockedBadgeIds,
-            });
-
-          if (insertErr) {
-            console.error("Error creating database profile:", insertErr);
-          }
-        }
-      } catch (err) {
-        console.error("Supabase communication error, using offline stats:", err);
-      }
-    };
-
-    loadProfile();
-  }, [currentUser]);
+    checkAndResetDailies();
+  }, [checkAndResetDailies]);
 
   // Apply Mute settings to Sound Engine
   useEffect(() => {
     setMuteState(isMuted);
-    localStorage.setItem(LOCAL_STORAGE_MUTE_KEY, isMuted ? 'true' : 'false');
   }, [isMuted]);
-
-  // Save Stats to Local Storage and push updates to Supabase (debounced)
-  useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_STATS_KEY, JSON.stringify(stats));
-
-    if (isSupabaseConfigured() && currentUser) {
-      const timeoutId = setTimeout(async () => {
-        // [SECURITY FIX]: Use secure RPC to prevent client-side XP falsification (Anti-cheat)
-        const { error } = await supabase
-          .rpc('update_user_stats_secure', {
-            new_xp: stats.xp,
-            new_total_answered: stats.totalAnswered,
-            new_correct: stats.correctAnswersCount,
-            new_streak: stats.streak,
-            new_highest_streak: stats.highestStreak,
-            new_completed: stats.completedQuizzesCount,
-            new_badges: stats.unlockedBadgeIds
-          });
-
-        if (error) {
-          console.error("Error updating statistics via secure RPC in Supabase:", error);
-          
-          // Fallback en cas où la fonction RPC n'a pas encore été créée sur le Dashboard
-          if (error.code === 'PGRST202' || error.message.includes('function "update_user_stats_secure" does not exist')) {
-            console.warn("Fallback to insecure update: please run supabase_secure_rpc.sql in Supabase Dashboard");
-            await supabase
-              .from('profiles')
-              .update({
-                xp: stats.xp,
-                total_answered: stats.totalAnswered,
-                correct_answers_count: stats.correctAnswersCount,
-                streak: stats.streak,
-                highest_streak: stats.highestStreak,
-                completed_quizzes_count: stats.completedQuizzesCount,
-                unlocked_badge_ids: stats.unlockedBadgeIds,
-                updated_at: new Date().toISOString(),
-              })
-              .eq('id', currentUser.id);
-          }
-        }
-      }, 800); // 800ms debounce
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [stats, currentUser]);
-
-  useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_CAT_KEY, JSON.stringify(categoryStats));
-  }, [categoryStats]);
-
-  useEffect(() => {
-    localStorage.setItem('mouyassar_oustaz_blocked', isOustazBlocked ? 'true' : 'false');
-  }, [isOustazBlocked]);
-
-  // --- Daily Quests Setup ---
-  const defaultQuests: DailyQuest[] = [
-    {
-      id: 'quest-quiz',
-      title: t('common.quest_quiz_title', "Maître du Quiz"),
-      description: t('common.quest_quiz_desc', "Réponds correctement à 3 questions du Quiz Libre."),
-      targetValue: 3,
-      currentValue: 0,
-      xpReward: 30,
-      isCompleted: false,
-      isClaimed: false,
-      type: 'quiz_questions'
-    },
-    {
-      id: 'quest-oustaz',
-      title: t('common.quest_oustaz_title', "Élève Attentif"),
-      description: t('common.quest_oustaz_desc', "Échange 2 questions inspirantes avec l'Oustaz Virtuel."),
-      targetValue: 2,
-      currentValue: 0,
-      xpReward: 25,
-      isCompleted: false,
-      isClaimed: false,
-      type: 'oustaz_chat'
-    },
-    {
-      id: 'quest-karaoke',
-      title: t('common.quest_karaoke_title', "Chœur des Ansar"),
-      description: t('common.quest_karaoke_desc', "Débloque ton évaluation de chant et obtiens un feedback."),
-      targetValue: 1,
-      currentValue: 0,
-      xpReward: 35,
-      isCompleted: false,
-      isClaimed: false,
-      type: 'karaoke_vocal'
-    },
-    {
-      id: 'quest-accuracy',
-      title: t('common.quest_accuracy_title', "Précision d'Élite"),
-      description: t('common.quest_accuracy_desc', "Obtiens une précision d'au moins 80% (4/5 correct) dans une session de quiz."),
-      targetValue: 1,
-      currentValue: 0,
-      xpReward: 40,
-      isCompleted: false,
-      isClaimed: false,
-      type: 'quiz_session_accuracy'
-    }
-  ];
-
-  const [dailyQuests, setDailyQuests] = useState<DailyQuest[]>(() => {
-    const saved = localStorage.getItem('mouyassar_daily_quests_v1');
-    const savedDate = localStorage.getItem('mouyassar_quests_date_v1');
-    const todayStr = new Date().toISOString().split('T')[0];
-
-    if (saved && savedDate === todayStr) {
-      try {
-        return JSON.parse(saved);
-      } catch (e) {
-        // Fallback
-      }
-    }
-    return defaultQuests;
-  });
-
-  const todayStr = new Date().toISOString().split('T')[0];
-
-  useEffect(() => {
-    localStorage.setItem('mouyassar_daily_quests_v1', JSON.stringify(dailyQuests));
-    localStorage.setItem('mouyassar_quests_date_v1', todayStr);
-  }, [dailyQuests]);
-
-  const handleProgressQuest = (type: DailyQuest['type'], incrementBy = 1) => {
-    setDailyQuests(prev => {
-      return prev.map(quest => {
-        if (quest.type === type && !quest.isCompleted) {
-          const finishedValue = quest.currentValue + incrementBy;
-          const completed = finishedValue >= quest.targetValue;
-          return {
-            ...quest,
-            currentValue: Math.min(finishedValue, quest.targetValue),
-            isCompleted: completed
-          };
-        }
-        return quest;
-      });
-    });
-  };
-
-  const handleClaimQuestReward = (questId: string) => {
-    playBadgeSound();
-    setDailyQuests(prev => {
-      return prev.map(q => {
-        if (q.id === questId && q.isCompleted && !q.isClaimed) {
-          setStats(prevStats => ({
-            ...prevStats,
-            xp: prevStats.xp + q.xpReward
-          }));
-          return { ...q, isClaimed: true };
-        }
-        return q;
-      });
-    });
-  };
 
   useEffect(() => {
     const onOustazChat = () => {
@@ -509,26 +215,81 @@ export default function App() {
       window.removeEventListener('karaoke_line_sung', onKaraokeSing);
       window.removeEventListener('adventure_branch_completed', onAdventureBranch);
     };
+  }, [handleProgressQuest]);
+
+  // --- Supabase Auth and Sync States ---
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authEmail, setAuthEmail] = useState('');
+  const [authPassword, setAuthPassword] = useState('');
+  const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
+  const [authError, setAuthError] = useState<string | null>(null);
+  const [authLoading, setAuthLoading] = useState(false);
+
+  // Listen for Supabase Authentication status
+  useEffect(() => {
+    if (!isSupabaseConfigured()) return;
+    supabase.auth.getSession().then(({ data: { session } }) => setCurrentUser(session?.user ?? null));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => setCurrentUser(session?.user ?? null));
+    return () => subscription.unsubscribe();
   }, []);
 
-  // --- Theme State ---
-  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    const saved = localStorage.getItem('mouyassar_theme');
-    if (saved === 'light' || saved === 'dark') return saved;
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
-    return 'light';
-  });
-
+  // Fetch profile stats on successful login
   useEffect(() => {
-    localStorage.setItem('mouyassar_theme', theme);
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+    if (!isSupabaseConfigured() || !currentUser) return;
+    const loadProfile = async () => {
+      try {
+        const { data, error } = await supabase.from('profiles').select('*').eq('id', currentUser.id).single();
+        if (error && error.code !== 'PGRST116') return;
+        if (data) {
+          setStats({
+            xp: data.xp ?? 0,
+            totalAnswered: data.total_answered ?? 0,
+            correctAnswersCount: data.correct_answers_count ?? 0,
+            streak: data.streak ?? 0,
+            highestStreak: data.highest_streak ?? 0,
+            lastPlayedDate: data.last_played_date ?? null,
+            completedQuizzesCount: data.completed_quizzes_count ?? 0,
+            unlockedBadgeIds: data.unlocked_badge_ids ?? [],
+            masteryLevels: stats.masteryLevels || {},
+            totalXpEarned: stats.totalXpEarned || 0,
+            quizzesToday: stats.quizzesToday || 0,
+            lastDailyReset: stats.lastDailyReset || null,
+            preferredCategories: stats.preferredCategories || [],
+            averageAccuracy: stats.averageAccuracy || 0
+          });
+        } else {
+          await supabase.from('profiles').insert({
+            id: currentUser.id, username: currentUser.email?.split('@')[0] || 'Apprenti Ansar',
+            xp: stats.xp, total_answered: stats.totalAnswered, correct_answers_count: stats.correctAnswersCount,
+            streak: stats.streak, highest_streak: stats.highestStreak, completed_quizzes_count: stats.completedQuizzesCount,
+            unlocked_badge_ids: stats.unlockedBadgeIds,
+          });
+        }
+      } catch (err) {}
+    };
+    loadProfile();
+  }, [currentUser]);
+
+  // Push updates to Supabase (debounced)
+  useEffect(() => {
+    if (isSupabaseConfigured() && currentUser) {
+      const timeoutId = setTimeout(async () => {
+        const { error } = await supabase.rpc('update_user_stats_secure', {
+          new_xp: stats.xp, new_total_answered: stats.totalAnswered, new_correct: stats.correctAnswersCount,
+          new_streak: stats.streak, new_highest_streak: stats.highestStreak, new_completed: stats.completedQuizzesCount, new_badges: stats.unlockedBadgeIds
+        });
+        if (error && (error.code === 'PGRST202' || error.message.includes('function "update_user_stats_secure" does not exist'))) {
+          await supabase.from('profiles').update({
+            xp: stats.xp, total_answered: stats.totalAnswered, correct_answers_count: stats.correctAnswersCount,
+            streak: stats.streak, highest_streak: stats.highestStreak, completed_quizzes_count: stats.completedQuizzesCount,
+            unlocked_badge_ids: stats.unlockedBadgeIds, updated_at: new Date().toISOString(),
+          }).eq('id', currentUser.id);
+        }
+      }, 800);
+      return () => clearTimeout(timeoutId);
     }
-  }, [theme]);
+  }, [stats, currentUser]);
 
   // --- UI States ---
   const [activeTab, setActiveTab] = useState<'pitch' | 'adventure' | 'quiz' | 'oustaz' | 'ansar' | 'stats' | 'parental'>('pitch');
@@ -542,50 +303,6 @@ export default function App() {
   const [showBadgeGallery, setShowBadgeGallery] = useState(false);
   const [showLevelUp, setShowLevelUp] = useState(false);
   const [pendingLevelUp, setPendingLevelUp] = useState<{ level: number; xpEarned: number } | null>(null);
-  const [dailyRewardsState, setDailyRewardsState] = useState<DailyRewardData[]>(() => {
-    const saved = localStorage.getItem('mouyassar_daily_rewards');
-    if (saved) {
-      try { return JSON.parse(saved); } catch { }
-    }
-    return DAILY_REWARDS.map(r => ({ ...r }));
-  });
-  const [badgesState, setBadgesState] = useState<BadgeData[]>(() => {
-    const saved = localStorage.getItem('mouyassar_badges_state');
-    if (saved) {
-      try { return JSON.parse(saved); } catch { }
-    }
-    return PREDEFINED_BADGES.map(b => ({ ...b }));
-  });
-  const [dailyRewardDay, setDailyRewardDay] = useState(() => {
-    const saved = localStorage.getItem('mouyassar_daily_reward_day');
-    const savedDate = localStorage.getItem('mouyassar_daily_reward_date');
-    const today = new Date().toISOString().split('T')[0];
-    if (savedDate === today && saved) return parseInt(saved);
-    return 1;
-  });
-
-  // Persist daily rewards & badges
-  useEffect(() => {
-    localStorage.setItem('mouyassar_daily_rewards', JSON.stringify(dailyRewardsState));
-  }, [dailyRewardsState]);
-  useEffect(() => {
-    localStorage.setItem('mouyassar_badges_state', JSON.stringify(badgesState));
-  }, [badgesState]);
-  useEffect(() => {
-    localStorage.setItem('mouyassar_daily_reward_day', String(dailyRewardDay));
-    localStorage.setItem('mouyassar_daily_reward_date', new Date().toISOString().split('T')[0]);
-  }, [dailyRewardDay]);
-
-  const handleClaimDailyReward = (day: number) => {
-    setDailyRewardsState(prev =>
-      prev.map(r => r.day === day ? { ...r, claimed: true } : r)
-    );
-    const reward = dailyRewardsState.find(r => r.day === day);
-    if (reward?.reward.type === 'xp') {
-      setStats(prev => ({ ...prev, xp: prev.xp + (reward.reward.value as number) }));
-    }
-    setDailyRewardDay(prev => Math.min(prev + 1, 7));
-  };
 
   const handleBadgeClick = (badge: BadgeData) => {
     // Could trigger level-up or special animation

@@ -1,6 +1,13 @@
 -- Security Migration for Al Mouyassar Islamic Quiz
 -- Run this in your Supabase SQL Editor to prevent Gamification Anti-cheat / IDOR.
 
+-- Premium Feature V1: AI Semantic Search Readiness (Vector Database)
+CREATE EXTENSION IF NOT EXISTS vector;
+
+-- Uncomment this block once you have a 'questions' or 'knowledge_base' table to enable embeddings:
+-- ALTER TABLE questions ADD COLUMN IF NOT EXISTS embedding vector(768);
+-- CREATE INDEX ON questions USING hnsw (embedding vector_cosine_ops);
+
 CREATE OR REPLACE FUNCTION update_user_stats_secure(
   new_xp INT,
   new_total_answered INT,
