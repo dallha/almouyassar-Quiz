@@ -26,7 +26,9 @@ export default function AdventureMap({ zones, adventureState, onNodeClick }: Adv
   }, []);
 
   // Calculate active zone and progression
-  const activeZone = zones.find(z => !z.isLocked) || zones[0];
+  const activeZone = zones.find(z => z.nodes.some(node => node.id === adventureState.currentNodeId))
+    || zones.find(z => adventureState.unlockedZones.includes(z.id))
+    || zones[0];
   const completedCount = activeZone.nodes.filter(node => 
     adventureState.completedNodes.includes(node.id)
   ).length;
@@ -143,9 +145,10 @@ export default function AdventureMap({ zones, adventureState, onNodeClick }: Adv
 
                 {/* Node list */}
                 {zone.nodes.map((node, index) => {
-                  const isCompleted = adventureState.completedNodes.includes(node.id);
+                    const isCompleted = adventureState.completedNodes.includes(node.id);
                   const isActive = adventureState.currentNodeId === node.id;
-                  const isLocked = isZoneLocked || (!isCompleted && !isActive);
+                  const isZoneUnlocked = adventureState.unlockedZones.includes(zone.id);
+                  const isLocked = !isZoneUnlocked || (!isCompleted && !isActive);
 
                   return (
                     <div key={node.id} className="relative w-full flex justify-center py-3.5" data-active={isActive}>

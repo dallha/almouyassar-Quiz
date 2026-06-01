@@ -218,11 +218,23 @@ export default function App() {
   }, [handleProgressQuest]);
 
   // --- Supabase Auth and Sync States ---
+  // currentUser : known authenticated Supabase user session
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  // showAuthModal : controls whether the auth modal is visible
   const [showAuthModal, setShowAuthModal] = useState(false);
+  // authEmail/authPassword : values bound to the auth form inputs
   const [authEmail, setAuthEmail] = useState('');
   const [authPassword, setAuthPassword] = useState('');
-  const [authMode, setAuthMode] = useState<'signin' | 'signup' | 'forgot'>('signin');
+  // authMode : determines which auth form variant is displayed
+  // - signin : login
+  // - signup : registration
+  // - forgot : request password reset email
+  // - recovery : update password after clicking Supabase recovery link
+  const [authMode, setAuthMode] = useState<'signin' | 'signup' | 'forgot' | 'recovery'>('signin');
+  // authRecoveryToken: stores the Supabase recovery token from the URL
+  const [authRecoveryToken, setAuthRecoveryToken] = useState<string | null>(null);
+  // authRecoveryFlow: keeps the UI in recovery mode even if a session exists
+  const [authRecoveryFlow, setAuthRecoveryFlow] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const [authMessage, setAuthMessage] = useState<string | null>(null);
   const [authLoading, setAuthLoading] = useState(false);
@@ -237,6 +249,7 @@ export default function App() {
   }, []);
 
   const handleResendConfirmationEmail = async () => {
+    // Resend the email verification for users who have signed up but not yet confirmed.
     if (!authEmail) {
       setAuthError(t('common.auth_error_empty'));
       return;
@@ -256,6 +269,53 @@ export default function App() {
       setResendLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!isSupabaseConfigured() || typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get('type');
+    const token = params.get('token');
+
+    if (type === 'recovery' && token) {
+      // When a recovery link is opened, switch to the recovery flow.
+      // This keeps the password reset modal visible and prevents the normal
+      // logged-in user panel from taking over the UI.
+      setAuthRecoveryToken(token);
+      setAuthMode('recovery');
+      setAuthRecoveryFlow(true);
+      setShowAuthModal(true);
+      setAuthMessage(t('common.auth_recovery_verifying'));
+      setAuthError(null);
+      setAuthLoading(true);
+
+      const verifyRecoveryToken = async () => {
+        try {
+          const { data, error } = await supabase.auth.verifyOtp({ type: 'recovery', token });
+          if (error) throw error;
+          setAuthMessage(t('common.auth_recovery_verified'));
+          if (data?.user?.email) {
+            setAuthEmail(data.user.email);
+          }
+        } catch (err: any) {
+          setAuthError(err.message || t('common.auth_error_generic'));
+          setAuthRecoveryFlow(false);
+        } finally {
+          setAuthLoading(false);
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+      };
+
+      verifyRecoveryToken();
+    }
+  }, [t]);
+
+  useEffect(() => {
+    // If recovery mode becomes active and the user session is available,
+    // keep the recovery email field synchronized with the signed-in email.
+    if (authMode === 'recovery' && currentUser?.email) {
+      setAuthEmail(currentUser.email);
+    }
+  }, [authMode, currentUser]);
 
   // Fetch profile stats on successful login
   useEffect(() => {
@@ -2109,24 +2169,28 @@ export default function App() {
                   <Users className="w-6 h-6" />
                 </div>
                 <h3 className="text-lg font-black text-[#004D40] uppercase tracking-tight">
-                  {currentUser
+                  {currentUser && !authRecoveryFlow
                     ? t('common.auth_profile_title')
                     : authMode === 'signin'
                     ? t('common.auth_signin_title')
                     : authMode === 'signup'
                     ? t('common.auth_signup_title')
-                    : t('common.auth_reset_password_title')}
+                    : authMode === 'forgot'
+                    ? t('common.auth_reset_password_title')
+                    : t('common.auth_recovery_title')}
                 </h3>
                 <p className="text-xs text-stone-500 max-w-xs mx-auto">
-                  {currentUser
+                  {currentUser && !authRecoveryFlow
                     ? t('common.auth_logged_in_desc')
                     : authMode === 'forgot'
                     ? t('common.auth_reset_password_desc')
+                    : authMode === 'recovery'
+                    ? t('common.auth_recovery_desc')
                     : t('common.auth_logged_out_desc')}
                 </p>
               </div>
 
-              {currentUser ? (
+              {currentUser && !authRecoveryFlow ? (
                 // Logged In UI
                 <div className="space-y-4">
                   <div className="p-4 bg-white border border-stone-200 rounded-xl space-y-2">
@@ -2191,6 +2255,15 @@ export default function App() {
                         setAuthEmail('');
                         setAuthPassword('');
                         setShowAuthModal(false);
+                      } else if (authMode === 'recovery') {
+                        // Update the user's password after a valid recovery token was verified.
+                        const { data, error } = await supabase.auth.updateUser({ password: authPassword });
+                        if (error) throw error;
+                        setAuthMessage(t('common.auth_password_changed_success'));
+                        setAuthPassword('');
+                        setAuthMode('signin');
+                        setAuthRecoveryFlow(false);
+                        setShowAuthModal(true);
                       } else {
                         const { data, error } = await supabase.auth.signUp({
                           email: authEmail,
@@ -2243,8 +2316,9 @@ export default function App() {
                         value={authEmail}
                         onChange={(e) => setAuthEmail(e.target.value)}
                         placeholder={t('common.auth_email_placeholder')}
-                        required
-                        className="w-full px-3 py-2 border border-stone-200 bg-white text-stone-850 text-xs rounded-lg focus:outline-none focus:border-[#D0A21C]"
+                        required={authMode !== 'recovery'}
+                        disabled={authMode === 'recovery'}
+                        className="w-full px-3 py-2 border border-stone-200 bg-white text-stone-850 text-xs rounded-lg focus:outline-none focus:border-[#D0A21C] disabled:bg-stone-100 disabled:text-stone-500"
                       />
                     </div>
                     {authMode !== 'forgot' && (
@@ -2275,8 +2349,10 @@ export default function App() {
                       t('common.auth_signin_btn')
                     ) : authMode === 'signup' ? (
                       t('common.auth_signup_btn')
-                    ) : (
+                    ) : authMode === 'forgot' ? (
                       t('common.auth_reset_password_btn')
+                    ) : (
+                      t('common.auth_set_new_password_btn')
                     )}
                   </button>
 

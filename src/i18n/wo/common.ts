@@ -293,6 +293,12 @@ export default {
   auth_resend_confirmation_btn: "Renvoyer l'email de confirmation",
   auth_confirmation_resent: "Email de confirmation renvoyé. Vérifie ta boîte mail et le dossier spam.",
   auth_reset_password_sent: "Un e-mail de réinitialisation a été envoyé. Vérifie ta boîte mail et le dossier spam.",
+  auth_recovery_title: "Changer le mot de passe",
+  auth_recovery_desc: "Choisis un nouveau mot de passe pour sécuriser ton compte.",
+  auth_recovery_verifying: "Vérification du lien de réinitialisation...",
+  auth_recovery_verified: "Lien valide. Choisis un nouveau mot de passe.",
+  auth_set_new_password_btn: "Définir un nouveau mot de passe",
+  auth_password_changed_success: "Ton mot de passe a été mis à jour avec succès.",
   auth_back_to_signin: "Retour à la connexion",
   auth_sending: "Envoi en cours...",
 

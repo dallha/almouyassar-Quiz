@@ -293,6 +293,12 @@ export default {
   auth_resend_confirmation_btn: "إعادة إرسال بريد التفعيل",
   auth_confirmation_resent: "تم إعادة إرسال بريد التفعيل. تحقق من صندوق البريد والمجلد العشوائي.",
   auth_reset_password_sent: "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني. تحقق من صندوق البريد والمجلد العشوائي.",
+  auth_recovery_title: "تغيير كلمة المرور",
+  auth_recovery_desc: "اختر كلمة مرور جديدة لتأمين حسابك.",
+  auth_recovery_verifying: "جارٍ التحقق من رابط إعادة التعيين...",
+  auth_recovery_verified: "الرابط صالح. اختر كلمة مرور جديدة.",
+  auth_set_new_password_btn: "تعيين كلمة مرور جديدة",
+  auth_password_changed_success: "تم تحديث كلمة المرور بنجاح.",
   auth_back_to_signin: "العودة لتسجيل الدخول",
   auth_sending: "جارٍ الإرسال...",
 

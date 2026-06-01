@@ -62,6 +62,13 @@ Dédiée à l'**Institut Coranique Al-Mouyassar**, fondé en **2007** par le vé
 
 ---
 
+## 🩹 Correctifs récents
+- Correction du flux de progression du mode Aventure : le niveau suivant est dorénavant déverrouillé automatiquement et le joueur est déplacé vers le nœud suivant à la fin d’un niveau.
+- Correction du flux de récupération de mot de passe Supabase : le lien de réinitialisation affiche maintenant un formulaire de nouveau mot de passe, au lieu de connecter automatiquement l’utilisateur.
+- Mise à jour du texte localisé pour la récupération de mot de passe en français, arabe et wolof.
+
+---
+
 ## 🏗️ Architecture & Structure du Projet
 
 L'application suit une architecture hybride **SPA (Single Page Application)** développée en **React 19** et **TypeScript**, orchestrée par **Vite** en développement, et servie par un serveur de proxy API **Express** en production.

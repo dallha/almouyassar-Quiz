@@ -63,21 +63,32 @@ export default function AdventureMode({ adventureState, onUpdateState, onRewardU
   const handleNodeComplete = (success: boolean, xpEarned: number) => {
     if (success && selectedNode) {
       const isAlreadyCompleted = adventureState.completedNodes.includes(selectedNode.id);
-      
       let nextNodeId = adventureState.currentNodeId;
+      let unlockedZones = adventureState.unlockedZones;
+
       if (!isAlreadyCompleted && adventureState.currentNodeId === selectedNode.id) {
-        // Find next node in zone
+        // Find next node in the current zone and advance progress.
         const currentIndex = selectedZone!.nodes.findIndex(n => n.id === selectedNode.id);
         if (currentIndex < selectedZone!.nodes.length - 1) {
           nextNodeId = selectedZone!.nodes[currentIndex + 1].id;
         } else {
-          // Zone finished! In real app, unlock next zone
-          nextNodeId = null; // Wait for next zone update
+          // End of the current zone. Unlock the next zone and move the player to its first node.
+          const currentZoneIndex = ADVENTURE_ZONES.findIndex(z => z.id === selectedZone!.id);
+          const nextZone = ADVENTURE_ZONES[currentZoneIndex + 1];
+          if (nextZone) {
+            if (!unlockedZones.includes(nextZone.id)) {
+              unlockedZones = [...unlockedZones, nextZone.id];
+            }
+            nextNodeId = nextZone.nodes[0]?.id ?? null;
+          } else {
+            nextNodeId = null;
+          }
         }
       }
 
       onUpdateState({
         ...adventureState,
+        unlockedZones,
         completedNodes: isAlreadyCompleted ? adventureState.completedNodes : [...adventureState.completedNodes, selectedNode.id],
         currentNodeId: nextNodeId,
         starsEarned: adventureState.starsEarned + (selectedNode.type === 'boss' ? 3 : 1),
@@ -92,7 +103,9 @@ export default function AdventureMode({ adventureState, onUpdateState, onRewardU
     setView('map');
   };
 
-  const activeZone = ADVENTURE_ZONES.find(z => !z.isLocked) || ADVENTURE_ZONES[0];
+  const activeZone = ADVENTURE_ZONES.find(z => z.nodes.some(node => node.id === adventureState.currentNodeId))
+    || ADVENTURE_ZONES.find(z => adventureState.unlockedZones.includes(z.id))
+    || ADVENTURE_ZONES[0];
   const completedCount = activeZone.nodes.filter(node => adventureState.completedNodes.includes(node.id)).length;
   const totalCount = activeZone.nodes.length;
 
