@@ -180,6 +180,7 @@ export default function App() {
     dailyQuests, setDailyQuests, questsDate,
     dailyRewardsState, setDailyRewardsState, dailyRewardDay, dailyRewardDate,
     badgesState, setBadgesState,
+    username, setUsername,
     progressQuest: handleProgressQuest,
     claimQuestReward: handleClaimQuestReward,
     claimDailyReward: handleClaimDailyReward,
@@ -225,6 +226,8 @@ export default function App() {
   // authEmail/authPassword : values bound to the auth form inputs
   const [authEmail, setAuthEmail] = useState('');
   const [authPassword, setAuthPassword] = useState('');
+  // authUsername : username for signup form
+  const [authUsername, setAuthUsername] = useState('');
   // authMode : determines which auth form variant is displayed
   // - signin : login
   // - signup : registration
@@ -344,10 +347,16 @@ export default function App() {
             preferredCategories: stats.preferredCategories || [],
             averageAccuracy: stats.averageAccuracy || 0
           });
+          // Set username from profile if available
+          if (data.username) {
+            setUsername(data.username);
+          }
         } else {
+          const defaultUsername = currentUser.email?.split('@')[0] || 'Apprenti Ansar';
+          setUsername(defaultUsername);
           await supabase.from('profiles').insert({
             id: currentUser.id,
-            username: currentUser.email?.split('@')[0] || 'Apprenti Ansar',
+            username: defaultUsername,
             xp: stats.xp,
             total_answered: stats.totalAnswered,
             correct_answers_count: stats.correctAnswersCount,
@@ -1117,7 +1126,7 @@ export default function App() {
           xpToNextLevel={200}
           streak={stats.streak}
           highestStreak={stats.highestStreak}
-          username="Explorateur"
+          username={username}
           unlockedBadgeCount={badgesState.filter(b => b.unlocked).length}
           totalBadgeCount={badgesState.length}
           dailyRewardAvailable={dailyRewardsState.some(r => !r.claimed && r.day === dailyRewardDay)}
@@ -2191,18 +2200,75 @@ export default function App() {
               </div>
 
               {currentUser && !authRecoveryFlow ? (
-                // Logged In UI
+                // Logged In UI with editable profile
                 <div className="space-y-4">
-                  <div className="p-4 bg-white border border-stone-200 rounded-xl space-y-2">
+                  <div className="p-4 bg-white border border-stone-200 rounded-xl space-y-3">
+                    {/* Email (read-only) */}
                     <div className="flex justify-between items-center text-xs text-stone-700">
                       <span className="text-stone-400 font-semibold uppercase">{t('common.auth_email_label')}</span>
                       <span className="font-extrabold text-[#004D40]">{currentUser.email}</span>
                     </div>
-                    <div className="flex justify-between items-center text-xs text-stone-700">
+                    
+                    {/* Editable Username */}
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">
+                        {t('common.user_profile', "Nom d'utilisateur")}
+                      </label>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={username}
+                          onChange={(e) => setUsername(e.target.value)}
+                          placeholder="Explorateur"
+                          className="flex-1 px-3 py-2 border border-stone-200 bg-white text-stone-850 text-xs rounded-lg focus:outline-none focus:border-[#D0A21C]"
+                        />
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            if (!currentUser) return;
+                            setAuthLoading(true);
+                            setAuthError(null);
+                            setAuthMessage(null);
+                            try {
+                              const { error } = await supabase
+                                .from('profiles')
+                                .update({ username, updated_at: new Date().toISOString() })
+                                .eq('id', currentUser.id);
+                              if (error) throw error;
+                              setAuthMessage(t('common.auth_profile_updated', 'Profil mis à jour !'));
+                            } catch (err: any) {
+                              setAuthError(err.message || t('common.auth_error_generic'));
+                            } finally {
+                              setAuthLoading(false);
+                            }
+                          }}
+                          disabled={authLoading}
+                          className="px-3 py-2 bg-[#004D40] hover:bg-[#004D40]/90 text-white font-bold text-xs rounded-lg transition-all cursor-pointer disabled:opacity-50 shrink-0"
+                        >
+                          {authLoading ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : t('common.save', 'Sauvegarder')}
+                        </button>
+                      </div>
+                    </div>
+                    
+                    {/* XP (read-only) */}
+                    <div className="flex justify-between items-center text-xs text-stone-700 pt-1 border-t border-stone-100">
                       <span className="text-stone-400 font-semibold uppercase">{t('common.auth_xp_label')}</span>
                       <span className="font-extrabold text-[#D0A21C]">{stats.xp} XP</span>
                     </div>
                   </div>
+
+                  {/* Success/Error messages */}
+                  {authError && (
+                    <div className="p-3 bg-rose-50 border border-rose-100 text-rose-700 text-xs rounded-xl flex items-center gap-2">
+                      <AlertTriangle className="w-4 h-4 text-rose-500 shrink-0" />
+                      <p>{authError}</p>
+                    </div>
+                  )}
+                  {authMessage && (
+                    <div className="p-3 bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs rounded-xl">
+                      {authMessage}
+                    </div>
+                  )}
 
                   <button
                     type="button"
@@ -2270,10 +2336,28 @@ export default function App() {
                           password: authPassword,
                         });
                         if (error) throw error;
+                        
+                        // Save username to profile on signup
+                        const finalUsername = authUsername.trim() || currentUser?.email?.split('@')[0] || 'Explorateur';
+                        if (data?.user) {
+                          await supabase.from('profiles').upsert({
+                            id: data.user.id,
+                            username: finalUsername,
+                            xp: 0,
+                            total_answered: 0,
+                            correct_answers_count: 0,
+                            streak: 0,
+                            highest_streak: 0,
+                            completed_quizzes_count: 0,
+                            unlocked_badge_ids: [],
+                          });
+                        }
+                        
                         if (data?.session) {
                           setAuthMessage(t('common.auth_success_signup'));
                           setAuthEmail('');
                           setAuthPassword('');
+                          setAuthUsername('');
                           setShowAuthModal(false);
                         } else {
                           setAuthMessage(
@@ -2283,6 +2367,7 @@ export default function App() {
                             )
                           );
                           setAuthPassword('');
+                          setAuthUsername('');
                           setAuthMode('signin');
                         }
                       }
@@ -2321,7 +2406,22 @@ export default function App() {
                         className="w-full px-3 py-2 border border-stone-200 bg-white text-stone-850 text-xs rounded-lg focus:outline-none focus:border-[#D0A21C] disabled:bg-stone-100 disabled:text-stone-500"
                       />
                     </div>
-                    {authMode !== 'forgot' && (
+                    {/* Username field - only shown during signup */}
+                  {authMode === 'signup' && (
+                    <div>
+                      <label className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block mb-1">
+                        {t('common.user_profile', "Nom d'utilisateur")}
+                      </label>
+                      <input
+                        type="text"
+                        value={authUsername}
+                        onChange={(e) => setAuthUsername(e.target.value)}
+                        placeholder="Explorateur"
+                        className="w-full px-3 py-2 border border-stone-200 bg-white text-stone-850 text-xs rounded-lg focus:outline-none focus:border-[#D0A21C]"
+                      />
+                    </div>
+                  )}
+                  {authMode !== 'forgot' && (
                       <div>
                         <label className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block mb-1">
                           {t('common.auth_password_field')}

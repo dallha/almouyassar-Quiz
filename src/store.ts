@@ -88,6 +88,10 @@ interface AppState {
   adventureState: AdventureState;
   setAdventureState: (state: AdventureState | ((prev: AdventureState) => AdventureState)) => void;
   
+  // User Profile
+  username: string;
+  setUsername: (username: string) => void;
+  
   // Settings
   theme: 'light' | 'dark';
   setTheme: (theme: 'light' | 'dark') => void;
@@ -135,7 +139,11 @@ export const useAppStore = create<AppState>()(
         adventureState: typeof updater === 'function' ? updater(state.adventureState) : updater 
       })),
 
+      username: 'Explorateur',
+      setUsername: (username) => set({ username }),
+
       theme: (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light',
+
       setTheme: (theme) => {
         set({ theme });
         if (theme === 'dark') {
@@ -250,7 +258,8 @@ export const useAppStore = create<AppState>()(
         dailyRewardsState: state.dailyRewardsState,
         dailyRewardDay: state.dailyRewardDay,
         dailyRewardDate: state.dailyRewardDate,
-        badgesState: state.badgesState
+        badgesState: state.badgesState,
+        username: state.username
       })
     }
   )
