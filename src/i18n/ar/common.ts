@@ -286,6 +286,15 @@ export default {
   auth_success_signup: "تم إنشاء حسابك بنجاح. مرحبًا بك في رحلتك التعليمية ✨",
   auth_success_signin: "تم تسجيل الدخول بنجاح! مرحبًا بعودتك.",
   auth_confirm_email: "تم إنشاء حسابك. تحقق من بريدك الإلكتروني لتفعيل الدخول.",
+  auth_forgot_password: "هل نسيت كلمة المرور؟",
+  auth_reset_password_title: "إعادة تعيين كلمة المرور",
+  auth_reset_password_desc: "أدخل بريدك الإلكتروني لتلقي رابط إعادة التعيين.",
+  auth_reset_password_btn: "إرسال رابط إعادة التعيين",
+  auth_resend_confirmation_btn: "إعادة إرسال بريد التفعيل",
+  auth_confirmation_resent: "تم إعادة إرسال بريد التفعيل. تحقق من صندوق البريد.",
+  auth_reset_password_sent: "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.",
+  auth_back_to_signin: "العودة لتسجيل الدخول",
+  auth_sending: "جارٍ الإرسال...",
 
   // Session end text
   session_end_desc: "أنهيت هذه الجلسة بنجاح. راجع النتائج والشرح لتثبيت الفهم.",

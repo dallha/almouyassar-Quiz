@@ -222,10 +222,11 @@ export default function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authEmail, setAuthEmail] = useState('');
   const [authPassword, setAuthPassword] = useState('');
-  const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
+  const [authMode, setAuthMode] = useState<'signin' | 'signup' | 'forgot'>('signin');
   const [authError, setAuthError] = useState<string | null>(null);
   const [authMessage, setAuthMessage] = useState<string | null>(null);
   const [authLoading, setAuthLoading] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
 
   // Listen for Supabase Authentication status
   useEffect(() => {
@@ -234,6 +235,27 @@ export default function App() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => setCurrentUser(session?.user ?? null));
     return () => subscription.unsubscribe();
   }, []);
+
+  const handleResendConfirmationEmail = async () => {
+    if (!authEmail) {
+      setAuthError(t('common.auth_error_empty'));
+      return;
+    }
+
+    setAuthError(null);
+    setAuthMessage(null);
+    setResendLoading(true);
+
+    try {
+      const { error } = await supabase.auth.resend({ email: authEmail, type: 'signup' });
+      if (error) throw error;
+      setAuthMessage(t('common.auth_confirmation_resent'));
+    } catch (err: any) {
+      setAuthError(err.message || t('common.auth_error_generic'));
+    } finally {
+      setResendLoading(false);
+    }
+  };
 
   // Fetch profile stats on successful login
   useEffect(() => {
@@ -2087,11 +2109,19 @@ export default function App() {
                   <Users className="w-6 h-6" />
                 </div>
                 <h3 className="text-lg font-black text-[#004D40] uppercase tracking-tight">
-                  {currentUser ? t('common.auth_profile_title') : authMode === 'signin' ? t('common.auth_signin_title') : t('common.auth_signup_title')}
+                  {currentUser
+                    ? t('common.auth_profile_title')
+                    : authMode === 'signin'
+                    ? t('common.auth_signin_title')
+                    : authMode === 'signup'
+                    ? t('common.auth_signup_title')
+                    : t('common.auth_reset_password_title')}
                 </h3>
                 <p className="text-xs text-stone-500 max-w-xs mx-auto">
                   {currentUser
                     ? t('common.auth_logged_in_desc')
+                    : authMode === 'forgot'
+                    ? t('common.auth_reset_password_desc')
                     : t('common.auth_logged_out_desc')}
                 </p>
               </div>
@@ -2135,13 +2165,22 @@ export default function App() {
                     setAuthLoading(true);
                     setAuthError(null);
 
-                    if (!authEmail || !authPassword) {
+                    if (!authEmail || (authMode !== 'forgot' && !authPassword)) {
                       setAuthError(t('common.auth_error_empty'));
                       setAuthLoading(false);
                       return;
                     }
 
                     try {
+                      if (authMode === 'forgot') {
+                        const { error } = await supabase.auth.resetPasswordForEmail(authEmail);
+                        if (error) throw error;
+                        setAuthMessage(t('common.auth_reset_password_sent'));
+                        setAuthPassword('');
+                        setAuthMode('signin');
+                        return;
+                      }
+
                       if (authMode === 'signin') {
                         const { data, error } = await supabase.auth.signInWithPassword({
                           email: authEmail,
@@ -2208,19 +2247,21 @@ export default function App() {
                         className="w-full px-3 py-2 border border-stone-200 bg-white text-stone-850 text-xs rounded-lg focus:outline-none focus:border-[#D0A21C]"
                       />
                     </div>
-                    <div>
-                      <label className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block mb-1">
-                        {t('common.auth_password_field')}
-                      </label>
-                      <input
-                        type="password"
-                        value={authPassword}
-                        onChange={(e) => setAuthPassword(e.target.value)}
-                        placeholder={t('common.auth_password_placeholder')}
-                        required
-                        className="w-full px-3 py-2 border border-stone-200 bg-white text-stone-850 text-xs rounded-lg focus:outline-none focus:border-[#D0A21C]"
-                      />
-                    </div>
+                    {authMode !== 'forgot' && (
+                      <div>
+                        <label className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block mb-1">
+                          {t('common.auth_password_field')}
+                        </label>
+                        <input
+                          type="password"
+                          value={authPassword}
+                          onChange={(e) => setAuthPassword(e.target.value)}
+                          placeholder={t('common.auth_password_placeholder')}
+                          required={authMode !== 'forgot'}
+                          className="w-full px-3 py-2 border border-stone-200 bg-white text-stone-850 text-xs rounded-lg focus:outline-none focus:border-[#D0A21C]"
+                        />
+                      </div>
+                    )}
                   </div>
 
                   <button
@@ -2232,10 +2273,37 @@ export default function App() {
                       <RefreshCw className="w-3.5 h-3.5 animate-spin" />
                     ) : authMode === 'signin' ? (
                       t('common.auth_signin_btn')
-                    ) : (
+                    ) : authMode === 'signup' ? (
                       t('common.auth_signup_btn')
+                    ) : (
+                      t('common.auth_reset_password_btn')
                     )}
                   </button>
+
+                  {authMode === 'signin' && (
+                    <div className="flex flex-col gap-2 text-center pt-3">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          playSelectSound();
+                          setAuthMode('forgot');
+                          setAuthError(null);
+                          setAuthMessage(null);
+                        }}
+                        className="text-[#004D40] hover:text-[#002f2b] text-xs font-bold transition-all underline"
+                      >
+                        {t('common.auth_forgot_password')}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleResendConfirmationEmail}
+                        disabled={!authEmail || resendLoading}
+                        className="text-[#004D40] hover:text-[#002f2b] text-xs font-bold transition-all underline disabled:opacity-50"
+                      >
+                        {resendLoading ? t('common.auth_sending') : t('common.auth_resend_confirmation_btn')}
+                      </button>
+                    </div>
+                  )}
 
                   <div className="text-center pt-2">
                     <button
@@ -2248,7 +2316,11 @@ export default function App() {
                       }}
                       className="text-stone-500 hover:text-[#004D40] text-xs font-bold transition-all underline cursor-pointer"
                     >
-                      {authMode === 'signin' ? t('common.auth_switch_to_signup') : t('common.auth_switch_to_signin')}
+                      {authMode === 'forgot'
+                        ? t('common.auth_back_to_signin')
+                        : authMode === 'signin'
+                        ? t('common.auth_switch_to_signup')
+                        : t('common.auth_switch_to_signin')}
                     </button>
                   </div>
                 </form>

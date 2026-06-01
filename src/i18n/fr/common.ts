@@ -286,6 +286,15 @@ export default {
   auth_success_signup: "Macha'Allah ! Ton compte d'aventurier a bien été créé. Amuse-toi bien et progresse sur le chemin du savoir ! ✨",
   auth_success_signin: "Connexion réussie ! Bienvenue à nouveau.",
   auth_confirm_email: "Ton compte est créé. Vérifie ta boîte mail pour activer ton accès.",
+  auth_forgot_password: "Mot de passe oublié ?",
+  auth_reset_password_title: "Réinitialiser le mot de passe",
+  auth_reset_password_desc: "Saisis ton adresse e-mail pour recevoir un lien de réinitialisation.",
+  auth_reset_password_btn: "Envoyer l'e-mail de réinitialisation",
+  auth_resend_confirmation_btn: "Renvoyer l'email de confirmation",
+  auth_confirmation_resent: "Email de confirmation renvoyé. Vérifie ta boîte mail.",
+  auth_reset_password_sent: "Un e-mail de réinitialisation a été envoyé. Vérifie ta boîte mail.",
+  auth_back_to_signin: "Retour à la connexion",
+  auth_sending: "Envoi en cours...",
 
   // Hero mobile keys
   app_title: "Al-Mouyassar",
