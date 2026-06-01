@@ -373,21 +373,41 @@ export default function App() {
     loadProfile();
   }, [currentUser]);
 
-  // Push updates to Supabase (debounced)
+  // Helper function to sync stats to Supabase immediately
+  const syncStatsToSupabase = async (statsToSync: UserStats) => {
+    if (!isSupabaseConfigured() || !currentUser) return;
+    try {
+      const { error } = await supabase.rpc('update_user_stats_secure', {
+        new_xp: statsToSync.xp,
+        new_total_answered: statsToSync.totalAnswered,
+        new_correct: statsToSync.correctAnswersCount,
+        new_streak: statsToSync.streak,
+        new_highest_streak: statsToSync.highestStreak,
+        new_completed: statsToSync.completedQuizzesCount,
+        new_badges: statsToSync.unlockedBadgeIds
+      });
+      if (error && (error.code === 'PGRST202' || error.message.includes('function "update_user_stats_secure" does not exist'))) {
+        await supabase.from('profiles').update({
+          xp: statsToSync.xp,
+          total_answered: statsToSync.totalAnswered,
+          correct_answers_count: statsToSync.correctAnswersCount,
+          streak: statsToSync.streak,
+          highest_streak: statsToSync.highestStreak,
+          completed_quizzes_count: statsToSync.completedQuizzesCount,
+          unlocked_badge_ids: statsToSync.unlockedBadgeIds,
+          updated_at: new Date().toISOString(),
+        }).eq('id', currentUser.id);
+      }
+    } catch (err) {
+      console.error('Erreur sync stats Supabase:', err);
+    }
+  };
+
+  // Push updates to Supabase (debounced) - sauvegarde périodique
   useEffect(() => {
     if (isSupabaseConfigured() && currentUser) {
-      const timeoutId = setTimeout(async () => {
-        const { error } = await supabase.rpc('update_user_stats_secure', {
-          new_xp: stats.xp, new_total_answered: stats.totalAnswered, new_correct: stats.correctAnswersCount,
-          new_streak: stats.streak, new_highest_streak: stats.highestStreak, new_completed: stats.completedQuizzesCount, new_badges: stats.unlockedBadgeIds
-        });
-        if (error && (error.code === 'PGRST202' || error.message.includes('function "update_user_stats_secure" does not exist'))) {
-          await supabase.from('profiles').update({
-            xp: stats.xp, total_answered: stats.totalAnswered, correct_answers_count: stats.correctAnswersCount,
-            streak: stats.streak, highest_streak: stats.highestStreak, completed_quizzes_count: stats.completedQuizzesCount,
-            unlocked_badge_ids: stats.unlockedBadgeIds, updated_at: new Date().toISOString(),
-          }).eq('id', currentUser.id);
-        }
+      const timeoutId = setTimeout(() => {
+        syncStatsToSupabase(stats);
       }, 800);
       return () => clearTimeout(timeoutId);
     }
@@ -874,6 +894,9 @@ export default function App() {
     if (isCorrect) {
       setCategoryStats(updatedCategoryCount);
     }
+    
+    // Sync progress to Supabase immediately after each answer
+    syncStatsToSupabase(updatedStats);
   };
 
   const handleFinishSession = () => {
@@ -937,6 +960,13 @@ export default function App() {
         ...prev,
         isFinished: true
       };
+    });
+    
+    // Sync progress to Supabase immediately after finishing a session
+    syncStatsToSupabase({
+      ...stats,
+      xp: stats.xp + bonusXp,
+      completedQuizzesCount: stats.completedQuizzesCount + 1
     });
   };
 
