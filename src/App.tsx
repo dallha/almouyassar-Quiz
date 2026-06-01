@@ -224,6 +224,7 @@ export default function App() {
   const [authPassword, setAuthPassword] = useState('');
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
   const [authError, setAuthError] = useState<string | null>(null);
+  const [authMessage, setAuthMessage] = useState<string | null>(null);
   const [authLoading, setAuthLoading] = useState(false);
 
   // Listen for Supabase Authentication status
@@ -239,8 +240,11 @@ export default function App() {
     if (!isSupabaseConfigured() || !currentUser) return;
     const loadProfile = async () => {
       try {
-        const { data, error } = await supabase.from('profiles').select('*').eq('id', currentUser.id).single();
-        if (error && error.code !== 'PGRST116') return;
+        const { data, error } = await supabase.from('profiles').select('*').eq('id', currentUser.id).maybeSingle();
+        if (error) {
+          console.error('Erreur Supabase profiles:', error);
+          return;
+        }
         if (data) {
           setStats({
             xp: data.xp ?? 0,
@@ -260,13 +264,20 @@ export default function App() {
           });
         } else {
           await supabase.from('profiles').insert({
-            id: currentUser.id, username: currentUser.email?.split('@')[0] || 'Apprenti Ansar',
-            xp: stats.xp, total_answered: stats.totalAnswered, correct_answers_count: stats.correctAnswersCount,
-            streak: stats.streak, highest_streak: stats.highestStreak, completed_quizzes_count: stats.completedQuizzesCount,
+            id: currentUser.id,
+            username: currentUser.email?.split('@')[0] || 'Apprenti Ansar',
+            xp: stats.xp,
+            total_answered: stats.totalAnswered,
+            correct_answers_count: stats.correctAnswersCount,
+            streak: stats.streak,
+            highest_streak: stats.highestStreak,
+            completed_quizzes_count: stats.completedQuizzesCount,
             unlocked_badge_ids: stats.unlockedBadgeIds,
           });
         }
-      } catch (err) {}
+      } catch (err) {
+        console.error('Erreur chargement profil Supabase:', err);
+      }
     };
     loadProfile();
   }, [currentUser]);
@@ -2058,11 +2069,13 @@ export default function App() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setShowAuthModal(false)}
+              onClick={() => {
+                setShowAuthModal(false);
+                setAuthError(null);
+                setAuthMessage(null);
+              }}
               className="absolute inset-0 bg-[#004D40]/30 backdrop-blur-sm"
             />
-
-            {/* Modal Box */}
             <motion.div
               initial={{ scale: 0.95, y: 15, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
@@ -2130,22 +2143,39 @@ export default function App() {
 
                     try {
                       if (authMode === 'signin') {
-                        const { error } = await supabase.auth.signInWithPassword({
+                        const { data, error } = await supabase.auth.signInWithPassword({
                           email: authEmail,
                           password: authPassword,
                         });
                         if (error) throw error;
+                        setAuthMessage(t('common.auth_success_signin', 'Connexion réussie !'));
+                        setAuthEmail('');
+                        setAuthPassword('');
+                        setShowAuthModal(false);
                       } else {
-                        const { error } = await supabase.auth.signUp({
+                        const { data, error } = await supabase.auth.signUp({
                           email: authEmail,
                           password: authPassword,
                         });
                         if (error) throw error;
-                        alert(t('common.auth_success_signup'));
+                        if (data?.session) {
+                          setAuthMessage(t('common.auth_success_signup'));
+                          setAuthEmail('');
+                          setAuthPassword('');
+                          setShowAuthModal(false);
+                        } else {
+                          setAuthMessage(
+                            t(
+                              'common.auth_confirm_email',
+                              'Ton compte est créé. Vérifie ta boîte mail pour activer ton accès.'
+                            )
+                          );
+                          setAuthPassword('');
+                          setAuthMode('signin');
+                        }
                       }
-                      setShowAuthModal(false);
                     } catch (err: any) {
-                      setAuthError(err.message || "Une erreur s'est produite lors de l'authentification.");
+                      setAuthError(err.message || t('common.auth_error_generic'));
                     } finally {
                       setAuthLoading(false);
                     }
@@ -2156,6 +2186,11 @@ export default function App() {
                     <div className="p-3 bg-rose-50 border border-rose-100 text-rose-700 text-xs rounded-xl flex items-center gap-2">
                       <AlertTriangle className="w-4 h-4 text-rose-500 shrink-0" />
                       <p>{authError}</p>
+                    </div>
+                  )}
+                  {authMessage && (
+                    <div className="p-3 bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs rounded-xl">
+                      {authMessage}
                     </div>
                   )}
 
@@ -2209,6 +2244,7 @@ export default function App() {
                         playSelectSound();
                         setAuthMode(authMode === 'signin' ? 'signup' : 'signin');
                         setAuthError(null);
+                        setAuthMessage(null);
                       }}
                       className="text-stone-500 hover:text-[#004D40] text-xs font-bold transition-all underline cursor-pointer"
                     >
@@ -2221,7 +2257,11 @@ export default function App() {
               {/* Close Button */}
               <button
                 type="button"
-                onClick={() => setShowAuthModal(false)}
+                onClick={() => {
+                  setShowAuthModal(false);
+                  setAuthError(null);
+                  setAuthMessage(null);
+                }}
                 className="absolute top-2 right-2 p-1 text-stone-400 hover:text-stone-600 rounded-full hover:bg-stone-100 transition-colors"
               >
                 <X className="w-4 h-4" />

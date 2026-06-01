@@ -284,6 +284,8 @@ export default {
   auth_error_empty: "Veuillez remplir tous les champs.",
   auth_error_generic: "Une erreur s'est produite lors de l'authentification.",
   auth_success_signup: "Macha'Allah ! Ton compte d'aventurier a bien été créé. Amuse-toi bien et progresse sur le chemin du savoir ! ✨",
+  auth_success_signin: "Connexion réussie ! Bienvenue à nouveau.",
+  auth_confirm_email: "Ton compte est créé. Vérifie ta boîte mail pour activer ton accès.",
 
   // Hero mobile keys
   app_title: "Al-Mouyassar",

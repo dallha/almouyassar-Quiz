@@ -284,6 +284,8 @@ export default {
   auth_error_empty: "يرجى ملء جميع الحقول.",
   auth_error_generic: "حدث خطأ أثناء المصادقة.",
   auth_success_signup: "تم إنشاء حسابك بنجاح. مرحبًا بك في رحلتك التعليمية ✨",
+  auth_success_signin: "تم تسجيل الدخول بنجاح! مرحبًا بعودتك.",
+  auth_confirm_email: "تم إنشاء حسابك. تحقق من بريدك الإلكتروني لتفعيل الدخول.",
 
   // Session end text
   session_end_desc: "أنهيت هذه الجلسة بنجاح. راجع النتائج والشرح لتثبيت الفهم.",
