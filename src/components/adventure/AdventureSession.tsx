@@ -1,11 +1,12 @@
-import { useState, useMemo, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { useState, useEffect } from 'react';
+import { motion } from 'motion/react';
 import { AdventureNode, Question, getLocalizedQuestion } from '../../types';
 import QuizCard from '../QuizCard';
 import { Trophy, ArrowRight, Sparkles, AlertCircle, Heart, Shield } from 'lucide-react';
 import { QUESTIONS } from '../../data';
 import { playSuccessSound, playErrorSound } from '../SoundEngine';
 import { useLanguage } from '../../LanguageContext';
+import { pickRandomQuestions } from '../../store';
 
 interface AdventureSessionProps {
   node: AdventureNode;
@@ -33,8 +34,12 @@ export default function AdventureSession({ node, onComplete, onClose }: Adventur
     if (node.categoryFilter) {
       filtered = filtered.filter(q => q.categorie === node.categoryFilter);
     }
-    // Pick 3 random questions for the duel/session
-    setSessionQuestions(filtered.sort(() => 0.5 - Math.random()).slice(0, 3));
+    // Pick 3 random questions for the duel/session using shared history to avoid repeats
+    const savedRecentIds = localStorage.getItem('mouyassar_recent_question_ids');
+    const recentIds: number[] = savedRecentIds ? JSON.parse(savedRecentIds) : [];
+    const { selected, updatedRecentIds } = pickRandomQuestions(filtered, 3, recentIds, 100);
+    setSessionQuestions(selected);
+    localStorage.setItem('mouyassar_recent_question_ids', JSON.stringify(updatedRecentIds));
   }, [node]);
 
   useEffect(() => {

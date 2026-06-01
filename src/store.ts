@@ -1,9 +1,47 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { UserStats, AdventureState, DailyQuest } from './types';
+import { UserStats, AdventureState, DailyQuest, Question } from './types';
 import { DailyRewardData } from './components/ui/DailyReward';
 import { BadgeData } from './components/ui/BadgeGallery';
 import { BADGES, QUESTIONS } from './data';
+
+/**
+ * Sélectionne des questions aléatoires avec un historique pour éviter les répétitions.
+ * Les questions vues récemment sont exclues du pool de sélection.
+ * Si le pool restant est trop petit, on utilise toutes les questions disponibles.
+ */
+export function pickRandomQuestions(
+  pool: Question[],
+  count: number,
+  recentIds: number[] = [],
+  maxRecentHistory: number = 50
+): { selected: Question[]; updatedRecentIds: number[] } {
+  if (pool.length === 0) return { selected: [], updatedRecentIds: recentIds };
+
+  // Filtrer les questions récentes pour éviter les répétitions
+  const recentSet = new Set(recentIds);
+  let available = pool.filter(q => !recentSet.has(q.id));
+
+  // Si le pool disponible est trop petit, on prend toutes les questions
+  if (available.length < count) {
+    available = [...pool];
+  }
+
+  // Fisher-Yates shuffle pour un mélange vraiment aléatoire
+  const shuffled = [...available];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  const selected = shuffled.slice(0, Math.min(count, shuffled.length));
+
+  // Mettre à jour l'historique des IDs récents
+  const selectedIds = selected.map(q => q.id);
+  const updatedRecentIds = [...recentIds, ...selectedIds].slice(-maxRecentHistory);
+
+  return { selected, updatedRecentIds };
+}
 
 const defaultStats: UserStats = {
   xp: 0,

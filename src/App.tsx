@@ -34,7 +34,7 @@ import QuizRecommender from './components/QuizRecommender';
 import DailyReward, { DailyRewardData } from './components/ui/DailyReward';
 import BadgeGallery, { BadgeData } from './components/ui/BadgeGallery';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
-import { useAppStore } from './store';
+import { useAppStore, pickRandomQuestions } from './store';
 
 /* ── STATIC DATA ── */
 const DAILY_REWARDS: DailyRewardData[] = [
@@ -481,6 +481,16 @@ export default function App() {
   const [latestSessionBadges, setLatestSessionBadges] = useState<Badge[]>([]);
   const [showSessionBadgeBanner, setShowSessionBadgeBanner] = useState(false);
 
+  // Historique des IDs de questions vues récemment (pour éviter les répétitions)
+  const [recentQuestionIds, setRecentQuestionIds] = useState<number[]>(() => {
+    try {
+      const saved = localStorage.getItem('mouyassar_recent_question_ids');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
   // --- Cache de Traduction IA et États ---
   const [aiTranslationsCache, setAiTranslationsCache] = useState<Record<string, any>>(() => {
     const saved = localStorage.getItem('mouyassar_ai_translations_cache');
@@ -725,19 +735,23 @@ export default function App() {
       )
     );
 
-    // Shuffle questions for engagement
-    filtered.sort(() => Math.random() - 0.5);
-
-    // Limit to 7 questions max per session to keep children engaged and digestible
-    const finalSelection = filtered.slice(0, 7);
-
-    if (finalSelection.length === 0) {
+    if (filtered.length === 0) {
       alert(t('common.alert_no_question_match_filters'));
       return;
     }
 
+    // Utiliser pickRandomQuestions avec l'historique pour éviter les répétitions
+    const { selected, updatedRecentIds } = pickRandomQuestions(
+      filtered,
+      10, // Augmenté de 7 à 10 questions par session
+      recentQuestionIds,
+      100 // Historique des 100 dernières questions vues
+    );
+    setRecentQuestionIds(updatedRecentIds);
+    localStorage.setItem('mouyassar_recent_question_ids', JSON.stringify(updatedRecentIds));
+
     launchSessionWithTransition(
-      finalSelection,
+      selected,
       t('common.transition_compile_quiz'),
     );
   };
@@ -751,19 +765,23 @@ export default function App() {
       (!levels || levels.includes(q.niveau))
     );
 
-    // Shuffle
-    const shuffled = [...filtered].sort(() => Math.random() - 0.5);
-
-    // Limit to 7 questions max per session to keep it digestible
-    const finalSelection = shuffled.slice(0, 7);
-
-    if (finalSelection.length === 0) {
+    if (filtered.length === 0) {
       alert(t('common.alert_no_question_for_subject_levels'));
       return;
     }
 
+    // Utiliser pickRandomQuestions avec l'historique pour éviter les répétitions
+    const { selected, updatedRecentIds } = pickRandomQuestions(
+      filtered,
+      10, // Augmenté de 7 à 10 questions
+      recentQuestionIds,
+      100
+    );
+    setRecentQuestionIds(updatedRecentIds);
+    localStorage.setItem('mouyassar_recent_question_ids', JSON.stringify(updatedRecentIds));
+
     launchSessionWithTransition(
-      finalSelection,
+      selected,
       t('common.transition_search_theme').replace('{category}', category),
       () => setActiveTab('quiz')
     );
@@ -777,14 +795,17 @@ export default function App() {
       return;
     }
 
-    // Shuffle the matching inputs
-    const shuffled = [...questionsList].sort(() => Math.random() - 0.5);
-
-    // Limit to standard length 7 questions per session to keep learning digestible
-    const finalSelection = shuffled.slice(0, 7);
+    // Utiliser pickRandomQuestions avec l'historique pour éviter les répétitions
+    const { selected, updatedRecentIds } = pickRandomQuestions(
+      questionsList,
+      7,
+      recentQuestionIds,
+      100
+    );
+    setRecentQuestionIds(updatedRecentIds);
 
     launchSessionWithTransition(
-      finalSelection,
+      selected,
       t('common.transition_calculating_interests').replace('{title}', title),
       () => setActiveTab('quiz')
     );
