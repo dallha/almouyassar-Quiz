@@ -37,7 +37,7 @@ export default function AdventureSession({ node, onComplete, onClose }: Adventur
     // Pick 3 random questions for the duel/session using shared history to avoid repeats
     const savedRecentIds = localStorage.getItem('mouyassar_recent_question_ids');
     const recentIds: number[] = savedRecentIds ? JSON.parse(savedRecentIds) : [];
-    const { selected, updatedRecentIds } = pickRandomQuestions(filtered, 3, recentIds, 100);
+    const { selected, updatedRecentIds } = pickRandomQuestions(filtered, 3, recentIds, 300);
     setSessionQuestions(selected);
     localStorage.setItem('mouyassar_recent_question_ids', JSON.stringify(updatedRecentIds));
   }, [node]);

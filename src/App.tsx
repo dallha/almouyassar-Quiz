@@ -351,6 +351,10 @@ export default function App() {
           if (data.username) {
             setUsername(data.username);
           }
+          // Load adventure state if available
+          if (data.adventure_state) {
+            setAdventureState(data.adventure_state);
+          }
         } else {
           const defaultUsername = currentUser.email?.split('@')[0] || 'Apprenti Ansar';
           setUsername(defaultUsername);
@@ -374,7 +378,7 @@ export default function App() {
   }, [currentUser]);
 
   // Helper function to sync stats to Supabase immediately
-  const syncStatsToSupabase = async (statsToSync: UserStats) => {
+  const syncStatsToSupabase = async (statsToSync: UserStats, advStateToSync?: typeof adventureState) => {
     if (!isSupabaseConfigured() || !currentUser) return;
     try {
       const { error } = await supabase.rpc('update_user_stats_secure', {
@@ -386,18 +390,25 @@ export default function App() {
         new_completed: statsToSync.completedQuizzesCount,
         new_badges: statsToSync.unlockedBadgeIds
       });
-      if (error && (error.code === 'PGRST202' || error.message.includes('function "update_user_stats_secure" does not exist'))) {
-        await supabase.from('profiles').update({
-          xp: statsToSync.xp,
-          total_answered: statsToSync.totalAnswered,
-          correct_answers_count: statsToSync.correctAnswersCount,
-          streak: statsToSync.streak,
-          highest_streak: statsToSync.highestStreak,
-          completed_quizzes_count: statsToSync.completedQuizzesCount,
-          unlocked_badge_ids: statsToSync.unlockedBadgeIds,
-          updated_at: new Date().toISOString(),
-        }).eq('id', currentUser.id);
+      
+      // Update the profiles table with stats and optionally adventure_state
+      const updateData: any = {
+        xp: statsToSync.xp,
+        total_answered: statsToSync.totalAnswered,
+        correct_answers_count: statsToSync.correctAnswersCount,
+        streak: statsToSync.streak,
+        highest_streak: statsToSync.highestStreak,
+        completed_quizzes_count: statsToSync.completedQuizzesCount,
+        unlocked_badge_ids: statsToSync.unlockedBadgeIds,
+        updated_at: new Date().toISOString(),
+      };
+      
+      if (advStateToSync) {
+        updateData.adventure_state = advStateToSync;
       }
+      
+      await supabase.from('profiles').update(updateData).eq('id', currentUser.id);
+
     } catch (err) {
       console.error('Erreur sync stats Supabase:', err);
     }
@@ -407,11 +418,11 @@ export default function App() {
   useEffect(() => {
     if (isSupabaseConfigured() && currentUser) {
       const timeoutId = setTimeout(() => {
-        syncStatsToSupabase(stats);
+        syncStatsToSupabase(stats, adventureState);
       }, 800);
       return () => clearTimeout(timeoutId);
     }
-  }, [stats, currentUser]);
+  }, [stats, adventureState, currentUser]);
 
   // --- UI States ---
   const [activeTab, setActiveTab] = useState<'pitch' | 'adventure' | 'quiz' | 'oustaz' | 'ansar' | 'stats' | 'parental'>('pitch');
@@ -745,7 +756,7 @@ export default function App() {
       filtered,
       10, // Augmenté de 7 à 10 questions par session
       recentQuestionIds,
-      100 // Historique des 100 dernières questions vues
+      300 // Historique des 300 dernières questions vues
     );
     setRecentQuestionIds(updatedRecentIds);
     localStorage.setItem('mouyassar_recent_question_ids', JSON.stringify(updatedRecentIds));
@@ -775,7 +786,7 @@ export default function App() {
       filtered,
       10, // Augmenté de 7 à 10 questions
       recentQuestionIds,
-      100
+      300
     );
     setRecentQuestionIds(updatedRecentIds);
     localStorage.setItem('mouyassar_recent_question_ids', JSON.stringify(updatedRecentIds));
@@ -800,7 +811,7 @@ export default function App() {
       questionsList,
       7,
       recentQuestionIds,
-      100
+      300
     );
     setRecentQuestionIds(updatedRecentIds);
 
@@ -917,7 +928,7 @@ export default function App() {
     }
     
     // Sync progress to Supabase immediately after each answer
-    syncStatsToSupabase(updatedStats);
+    syncStatsToSupabase(updatedStats, adventureState);
   };
 
   const handleFinishSession = () => {
@@ -988,7 +999,7 @@ export default function App() {
       ...stats,
       xp: stats.xp + bonusXp,
       completedQuizzesCount: stats.completedQuizzesCount + 1
-    });
+    }, adventureState);
   };
 
   const handleQuitQuizSession = () => {
