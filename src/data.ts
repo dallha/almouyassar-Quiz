@@ -4087,48 +4087,6 @@ export const QUESTIONS: Question[] = [
     }
   },
   {
-    "id": 393,
-    "categorie": "Aqidah",
-    "niveau": "Avancé",
-    "question": "Quel est le jugement de l'invocation des morts et de la demande d'aide auprès d'eux ?",
-    "options": [
-      "C'est une bonne action.",
-      "C'est une innovation (Bid'ah) sans gravité.",
-      "C'est un Shirk majeur qui fait sortir de l'Islam.",
-      "C'est permis si on a une bonne intention."
-    ],
-    "reponse_correcte": "C'est un Shirk majeur qui fait sortir de l'Islam.",
-    "explication": "Demander de l'aide aux morts ou les invoquer est un Shirk majeur, car seul Allah peut exaucer les invocations et apporter l'aide dans l'invisible.",
-    "source": "100 questions/réponses sur la lecture Hafs du Coran (Tajwid)",
-    "tags": [
-      "coran"
-    ],
-    "translations": {
-      "ar": {
-        "question": "مَا حُكْمُ دُعَاءِ الْأَمْوَاتِ وَالِاسْتِغَاثَةِ بِهِمْ؟",
-        "options": [
-          "هِيَ حَسَنَةٌ.",
-          "هِيَ بِدْعَةٌ غَيْرُ خَطِيرَةٍ.",
-          "هُوَ شِرْكٌ أَكْبَرُ يُخْرِجُ مِنَ الْمِلَّةِ.",
-          "هُوَ جَائِزٌ إِذَا كَانَتِ النِّيَّةُ حَسَنَةً."
-        ],
-        "reponse_correcte": "هُوَ شِرْكٌ أَكْبَرُ يُخْرِجُ مِنَ الْمِلَّةِ.",
-        "explication": "طَلَبُ الْمُسَاعَدَةِ مِنَ الْأَمْوَاتِ أَوْ دُعَاؤُهُمْ هُوَ شِرْكٌ أَكْبَرُ، لِأَنَّ اللَّهَ وَحْدَهُ هُوَ الَّذِي يَسْتَجِيبُ الدُّعَاءَ وَيُقَدِّمُ الْعَوْنَ فِي الْغَيْبِ."
-      },
-      "wo": {
-        "question": "Lan mooy àttey ñaanu dee yi ak ñaan leen ndimbal?",
-        "options": [
-          "Li mooy jëf ju baax.",
-          "Li mooy bid'a bu amul solo.",
-          "Li mooy shirk bu mag bu génne ci Lislaam.",
-          "Li baax na su fekkee ni yéene ji baax na."
-        ],
-        "reponse_correcte": "Li mooy shirk bu mag bu génne ci Lislaam.",
-        "explication": "Ñaan ndimbal ci dee yi walla ñaan leen mooy shirk bu mag, ndaxte Yàlla Képp moo mën a tontu ñaan yi tey indil ndimbal ci gannaaw gu nit mënul gis."
-      }
-    }
-  },
-  {
     "id": 394,
     "categorie": "Sirah",
     "niveau": "Intermédiaire",
