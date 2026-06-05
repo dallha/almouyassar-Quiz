@@ -1305,5 +1305,333 @@ export const EXTRA_QUESTIONS: Question[] = [
         explication: "Yonnant bi (PSL) jàngal na nuyu bu ñuy ñëw ak bu ñuy dem. Nuyu bu njëkk bi gënul a war nuyu bu mujj bi."
       }
     }
+  },
+  // ============================================================
+  // Nouvelles questions extraites des PDFs :
+  // "فرائض الطفل المسلم" & "صفة الصلاة للأطفال"
+  // ============================================================
+  {
+    id: 420,
+    categorie: "Akhlaq",
+    niveau: "Débutant",
+    question: "Que doit dire le musulman lorsqu'il éternue, et que doit répondre son frère ?",
+    options: [
+      "Il dit Alhamdulillah, et son frère répond Yarhamukallah",
+      "Il dit Bismillah, et son frère répond Amin",
+      "Il dit Subhanallah, et son frère dit MashaAllah",
+      "Il s'excuse simplement"
+    ],
+    reponse_correcte: "Il dit Alhamdulillah, et son frère répond Yarhamukallah",
+    explication: "Le Prophète (PSL) a dit : 'Si l'un de vous éternue, qu'il dise : Al-Hamdulillah, et que son frère lui dise : Yarhamukallah.'",
+    source: "فرائض الطفل المسلم",
+    tags: ["akhlaq", "adab", "eternuement"],
+    translations: {
+      ar: {
+        question: "مَاذَا يَقُولُ الْمُسْلِمُ إِذَا عَطَسَ، وَمَاذَا يَرُدُّ عَلَيْهِ أَخُوهُ؟",
+        options: [
+          "يَقُولُ الْحَمْدُ للهِ، وَيَرُدُّ أَخُوهُ يَرْحَمُكَ اللهُ",
+          "يَقُولُ بِسْمِ اللهِ، وَيَرُدُّ أَخُوهُ آمِين",
+          "يَقُولُ سُبْحَانَ اللهِ، وَيَرُدُّ أَخُوهُ مَا شَاءَ اللهُ",
+          "يَعْتَذِرُ فَقَطْ"
+        ],
+        reponse_correcte: "يَقُولُ الْحَمْدُ للهِ، وَيَرُدُّ أَخُوهُ يَرْحَمُكَ اللهُ",
+        explication: "قَالَ النَّبِيُّ ﷺ: 'إِذَا عَطَسَ أَحَدُكُمْ فَلْيَقُلْ: الْحَمْدُ لِلَّهِ، وَلْيَقُلْ لَهُ أَخُوهُ يَرْحَمُكَ اللَّهُ.' (صَحِيحُ الْبُخَارِيِّ)."
+      },
+      wo: {
+        question: "Lan la jullit bi war a wax bu tisóolee, te lan la ko mbokkam war a tontu?",
+        options: [
+          "Dafay wax Alhamdulillah, mbokkam tontu ko Yarhamukallah",
+          "Dafay wax Bismillah, mbokkam tontu ko Amin",
+          "Dafay wax Subhanallah, mbokkam tontu MashaAllah",
+          "Da lay jéggalu rekk"
+        ],
+        reponse_correcte: "Dafay wax Alhamdulillah, mbokkam tontu ko Yarhamukallah",
+        explication: "Yonnant bi (PSL) nee na: 'Ku ci tisóoli na wax Alhamdulillah, na ko mbokkam tontu Yarhamukallah.'"
+      }
+    }
+  },
+  {
+    id: 421,
+    categorie: "Sirah",
+    niveau: "Débutant",
+    question: "Comment s'appelle la mère du Prophète Muhammad (PSL) ?",
+    options: [
+      "Aminah bint Wahb",
+      "Khadijah bint Khuwaylid",
+      "Halimah As-Sa'diyyah",
+      "Fatimah bint Asad"
+    ],
+    reponse_correcte: "Aminah bint Wahb",
+    explication: "Le père du Prophète (PSL) est 'Abdullah, et sa mère est Aminah bint Wahb. Sa nourrice fut Halimah As-Sa'diyyah.",
+    source: "فرائض الطفل المسلم",
+    tags: ["sirah", "prophete", "naissance"],
+    translations: {
+      ar: {
+        question: "مَا اسْمُ أُمِّ النَّبِيِّ مُحَمَّدٍ ﷺ؟",
+        options: [
+          "آمِنَةُ بِنْتُ وَهْبٍ",
+          "خَدِيجَةُ بِنْتُ خُوَيْلِدٍ",
+          "حَلِيمَةُ السَّعْدِيَّةُ",
+          "فَاطِمَةُ بِنْتُ أَسَدٍ"
+        ],
+        reponse_correcte: "آمِنَةُ بِنْتُ وَهْبٍ",
+        explication: "أَبُو النَّبِيِّ ﷺ هُوَ عَبْدُ اللهِ، وَأُمُّهُ هِيَ آمِنَةُ بِنْتُ وَهْبٍ، وَمُرْضِعَتُهُ حَلِيمَةُ السَّعْدِيَّةُ."
+      },
+      wo: {
+        question: "Naka la yaayu Yonnant bi Muhammad (PSL) tudd?",
+        options: [
+          "Aminah bint Wahb",
+          "Khadijah bint Khuwaylid",
+          "Halimah As-Sa'diyyah",
+          "Fatimah bint Asad"
+        ],
+        reponse_correcte: "Aminah bint Wahb",
+        explication: "Baayu Yonnant bi (PSL) moy 'Abdullah, yaayam di Aminah bint Wahb. Ki ko nàmpal mooy Halimah As-Sa'diyyah."
+      }
+    }
+  },
+  {
+    id: 422,
+    categorie: "Fiqh",
+    niveau: "Débutant",
+    question: "Pendant la prière (Salat), vers où le croyant doit-il diriger son regard lorsqu'il est debout ?",
+    options: [
+      "Vers l'endroit où il va se prosterner (Sujoud)",
+      "Vers le ciel en haut",
+      "Vers ses mains croisées",
+      "Droit devant lui"
+    ],
+    reponse_correcte: "Vers l'endroit où il va se prosterner (Sujoud)",
+    explication: "Il est recommandé au prieur de regarder vers l'endroit de sa prosternation, selon la Sunnah, pour favoriser la concentration (Khushu').",
+    source: "صفة الصلاة للأطفال",
+    tags: ["fiqh", "salat", "regard"],
+    translations: {
+      ar: {
+        question: "إِلَى أَيْنَ يُوَجِّهُ الْمُصَلِّي بَصَرَهُ أَثْنَاءَ وُقُوفِهِ فِي الصَّلَاةِ؟",
+        options: [
+          "إِلَى مَوْضِعِ سُجُودِهِ",
+          "إِلَى السَّمَاءِ",
+          "إِلَى يَدَيْهِ",
+          "إِلَى الْأَمَامِ مُبَاشَرَةً"
+        ],
+        reponse_correcte: "إِلَى مَوْضِعِ سُجُودِهِ",
+        explication: "يُسَنُّ لِلْمُصَلِّي أَنْ يُصَوِّبَ بَصَرَهُ إِلَى مَوْضِعِ السُّجُودِ، كَمَا وَرَدَ فِي السُّنَّةِ عَنْ صِفَةِ صَلَاةِ النَّبِيِّ ﷺ."
+      },
+      wo: {
+        question: "Ci biir julli gi, fan la jullit bi war a xool bu taxaa?",
+        options: [
+          "Fa muy sujjóote",
+          "Ci kaw asamaan si",
+          "Ci loxoom yi",
+          "Ci kanamam rekk"
+        ],
+        reponse_correcte: "Fa muy sujjóote",
+        explication: "Sunnah la nga xool fa nga wara sujjóot ngir mën a am concentration (Khushu') ci sa julli."
+      }
+    }
+  },
+  {
+    id: 423,
+    categorie: "Fiqh",
+    niveau: "Débutant",
+    question: "Que dit-on lorsque l'on est incliné (Roukou') pendant la prière ?",
+    options: [
+      "Subhana Rabbiyal 'Adheem (3 fois)",
+      "Subhana Rabbiyal A'la (3 fois)",
+      "Allahu Akbar",
+      "Sami'a Allahu liman hamidah"
+    ],
+    reponse_correcte: "Subhana Rabbiyal 'Adheem (3 fois)",
+    explication: "Lors du Roukou' (inclinaison), la Sunnah est de dire 'Subhana Rabbiyal 'Adheem' (Gloire à mon Seigneur l'Immense) trois fois.",
+    source: "صفة الصلاة للأطفال",
+    tags: ["fiqh", "salat", "roukou"],
+    translations: {
+      ar: {
+        question: "مَاذَا نَقُولُ أَثْنَاءَ الرُّكُوعِ فِي الصَّلَاةِ؟",
+        options: [
+          "سُبْحَانَ رَبِّيَ الْعَظِيمِ (ثلاثاً)",
+          "سُبْحَانَ رَبِّيَ الْأَعْلَى (ثلاثاً)",
+          "اللهُ أَكْبَرُ",
+          "سَمِعَ اللهُ لِمَنْ حَمِدَهُ"
+        ],
+        reponse_correcte: "سُبْحَانَ رَبِّيَ الْعَظِيمِ (ثلاثاً)",
+        explication: "مِنَ السُّنَّةِ عِنْدَ الرُّكُوعِ أَنْ يَقُولَ الْمُصَلِّي: 'سُبْحَانَ رَبِّيَ الْعَظِيمِ' ثَلَاثَ مَرَّاتٍ."
+      },
+      wo: {
+        question: "Lan lañuy wax bu ñuy ruku ci biir julli?",
+        options: [
+          "Subhana Rabbiyal 'Adheem (ñatti yoon)",
+          "Subhana Rabbiyal A'la (ñatti yoon)",
+          "Allahu Akbar",
+          "Sami'a Allahu liman hamidah"
+        ],
+        reponse_correcte: "Subhana Rabbiyal 'Adheem (ñatti yoon)",
+        explication: "Sunnah la bu ñuy ruku ñu wax 'Subhana Rabbiyal 'Adheem' ñatti yoon."
+      }
+    }
+  },
+  {
+    id: 424,
+    categorie: "Fiqh",
+    niveau: "Débutant",
+    question: "En se relevant de l'inclinaison (Roukou'), que doit dire le musulman ?",
+    options: [
+      "Sami'a Allahu liman hamidah",
+      "Subhana Rabbiyal A'la",
+      "Astaghfirullah",
+      "As-salamu alaykum"
+    ],
+    reponse_correcte: "Sami'a Allahu liman hamidah",
+    explication: "En se redressant du Roukou', on dit 'Sami'a Allahu liman hamidah' (Allah entend celui qui Le loue), puis 'Rabbana wa lakal hamd'.",
+    source: "صفة الصلاة للأطفال",
+    tags: ["fiqh", "salat", "releve"],
+    translations: {
+      ar: {
+        question: "مَاذَا يَقُولُ الْمُسْلِمُ حِينَ يَرْفَعُ رَأْسَهُ مِنَ الرُّكُوعِ؟",
+        options: [
+          "سَمِعَ اللهُ لِمَنْ حَمِدَهُ",
+          "سُبْحَانَ رَبِّيَ الْأَعْلَى",
+          "أَسْتَغْفِرُ اللهَ",
+          "السَّلَامُ عَلَيْكُمْ"
+        ],
+        reponse_correcte: "سَمِعَ اللهُ لِمَنْ حَمِدَهُ",
+        explication: "يَقُولُ الْمُصَلِّي حِينَ يَرْفَعُ مِنَ الرُّكُوعِ: 'سَمِعَ اللهُ لِمَنْ حَمِدَهُ'، ثُمَّ يَقُولُ عِنْدَ اسْتِوَائِهِ: 'رَبَّنَا وَلَكَ الْحَمْدُ'."
+      },
+      wo: {
+        question: "Bu jullit bi di jóg ci ruku gi, lan lay wax?",
+        options: [
+          "Sami'a Allahu liman hamidah",
+          "Subhana Rabbiyal A'la",
+          "Astaghfirullah",
+          "As-salamu alaykum"
+        ],
+        reponse_correcte: "Sami'a Allahu liman hamidah",
+        explication: "Bu ñuy jóg ci ruku gi dañuy wax 'Sami'a Allahu liman hamidah', su ñu taxawate ñu wax 'Rabbana wa lakal hamd'."
+      }
+    }
+  },
+  // ============================================================
+  // Nouvelles questions extraites du PDF :
+  // "الكنوز الأثرية الرمضانية للأطفال"
+  // ============================================================
+  {
+    id: 425,
+    categorie: "Fiqh",
+    niveau: "Débutant",
+    question: "En quelle année le jeûne du mois de Ramadan a-t-il été prescrit aux musulmans ?",
+    options: [
+      "La première année de l'Hégire",
+      "La deuxième année de l'Hégire",
+      "La troisième année de l'Hégire",
+      "La quatrième année de l'Hégire"
+    ],
+    reponse_correcte: "La deuxième année de l'Hégire",
+    explication: "Le jeûne du mois de Ramadan a été rendu obligatoire (Fard) lors de la deuxième année de l'Hégire (après l'émigration du Prophète à Médine).",
+    source: "الكنوز الأثرية الرمضانية للأطفال",
+    tags: ["fiqh", "ramadan", "jeune"],
+    translations: {
+      ar: {
+        question: "فِي أَيِّ سَنَةٍ فُرِضَ صِيَامُ شَهْرِ رَمَضَانَ عَلَى الْمُسْلِمِينَ؟",
+        options: [
+          "فِي السَّنَةِ الْأُولَى مِنَ الْهِجْرَةِ",
+          "فِي السَّنَةِ الثَّانِيَةِ مِنَ الْهِجْرَةِ",
+          "فِي السَّنَةِ الثَّالِثَةِ مِنَ الْهِجْرَةِ",
+          "فِي السَّنَةِ الرَّابِعَةِ مِنَ الْهِجْرَةِ"
+        ],
+        reponse_correcte: "فِي السَّنَةِ الثَّانِيَةِ مِنَ الْهِجْرَةِ",
+        explication: "فُرِضَ صِيَامُ شَهْرِ رَمَضَانَ فِي السَّنَةِ الثَّانِيَةِ مِنَ الْهِجْرَةِ."
+      },
+      wo: {
+        question: "Ban at la worum wéeru koor farata ci jullit ñi?",
+        options: [
+          "Atum njëkk bi ñu gàddaayee",
+          "Ñaareelu at bi ñu gàddaayee (Hégire)",
+          "Ñatteelu at bi ñu gàddaayee",
+          "Ñeenteelu at bi ñu gàddaayee"
+        ],
+        reponse_correcte: "Ñaareelu at bi ñu gàddaayee (Hégire)",
+        explication: "Worum wéeru koor dafa farata ci ñaareelu at gannaaw bi Yonnant bi (PSL) gàddaayee (Hijrah) dem Madinah."
+      }
+    }
+  },
+  {
+    id: 426,
+    categorie: "Fiqh",
+    niveau: "Débutant",
+    question: "Quel est le statut du repas de la fin de nuit (le S'hour) pour le jeûneur ?",
+    options: [
+      "C'est une obligation (Fard)",
+      "C'est une Sunnah recommandée",
+      "C'est déconseillé (Makrouh)",
+      "C'est interdit (Haram)"
+    ],
+    reponse_correcte: "C'est une Sunnah recommandée",
+    explication: "Prendre le S'hour est une Sunnah très recommandée. Le Prophète (PSL) a dit : 'Prenez le S'hour, car il y a une bénédiction (Barakah) dans le S'hour.'",
+    source: "الكنوز الأثرية الرمضانية للأطفال",
+    tags: ["fiqh", "ramadan", "suhoor", "sunnah"],
+    translations: {
+      ar: {
+        question: "مَا حُكْمُ تَنَاوُلِ وَجْبَةِ السَّحُورِ لِلصَّائِمِ؟",
+        options: [
+          "فَرِيضَةٌ وَاجِبَةٌ",
+          "سُنَّةٌ مُسْتَحَبَّةٌ",
+          "مَكْرُوهٌ",
+          "حَرَامٌ"
+        ],
+        reponse_correcte: "سُنَّةٌ مُسْتَحَبَّةٌ",
+        explication: "السَّحُورُ سُنَّةٌ مُؤَكَّدَةٌ، لِقَوْلِ النَّبِيِّ ﷺ: 'تَسَحَّرُوا؛ فَإِنَّ فِي السَّحُورِ بَرَكَةً.' (مُتَّفَقٌ عَلَيْهِ)."
+      },
+      wo: {
+        question: "Lan mooy àtte xëdd ngir ki bëgg a woor?",
+        options: [
+          "Farata la, ku ko deful dumu woor",
+          "Sunnah la bu ñu sopp",
+          "Lu ñu sib la (Makrouh)",
+          "Lu haram la"
+        ],
+        reponse_correcte: "Sunnah la bu ñu sopp",
+        explication: "Xëdd dafa bokk ci Sunnah yi ñu sopp lool. Yonnant bi (PSL) nee na: 'Xëddleen, ndax xëdd am na barke.'"
+      }
+    }
+  },
+  {
+    id: 427,
+    categorie: "Fiqh",
+    niveau: "Débutant",
+    question: "À qui la Zakat Al-Fitr (l'aumône de la fin du jeûne) doit-elle être donnée ?",
+    options: [
+      "Uniquement aux savants",
+      "Aux pauvres et aux nécessiteux",
+      "À n'importe quelle personne de la famille",
+      "Pour la construction d'une mosquée"
+    ],
+    reponse_correcte: "Aux pauvres et aux nécessiteux",
+    explication: "La Zakat Al-Fitr a été prescrite comme une nourriture pour les pauvres et les nécessiteux (Masâkin), afin de les aider à fêter l'Aïd dans la joie.",
+    source: "الكنوز الأثرية الرمضانية للأطفال",
+    tags: ["fiqh", "zakat", "ramadan", "eid"],
+    translations: {
+      ar: {
+        question: "لِمَنْ تُعْطَى زَكَاةُ الْفِطْرِ؟",
+        options: [
+          "لِلْعُلَمَاءِ فَقَطْ",
+          "لِلْفُقَرَاءِ وَالْمَسَاكِينِ",
+          "لِأَيِّ شَخْصٍ مِنَ الْعَائِلَةِ",
+          "لِبِنَاءِ مَسْجِدٍ"
+        ],
+        reponse_correcte: "لِلْفُقَرَاءِ وَالْمَسَاكِينِ",
+        explication: "زَكَاةُ الْفِطْرِ فُرِضَتْ طُعْمَةً لِلْمَسَاكِينِ وَالْفُقَرَاءِ لِيَفْرَحُوا مَعَ الْمُسْلِمِينَ يَوْمَ الْعِيدِ."
+      },
+      wo: {
+        question: "Ñan lañu war a jox Zakat Al-Fitr (Muru koor)?",
+        options: [
+          "Borr yi ak borom xam-xam yi rekk",
+          "Ñi ñàkk ak miskiin yi",
+          "Képp ku bokk ci njaboot gi",
+          "Ngir tabax jàkka"
+        ],
+        reponse_correcte: "Ñi ñàkk ak miskiin yi",
+        explication: "Muru koor (Zakat al-Fitr) dafa farata ngir dundal miskiin yi ak ñi ñàkk, ba ñu mën a am mbegté ci bisu korité bi."
+      }
+    }
   }
 ];
