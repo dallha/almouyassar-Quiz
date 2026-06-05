@@ -1076,5 +1076,234 @@ export const EXTRA_QUESTIONS: Question[] = [
         explication: "Yonent bi (PSL) jàngal na ni ñu def ak bëx: nëbb, toog su dee tog, nelaw su dee toog, te def abdu ndax bëx dafa joge ci Iblis."
       }
     }
+  },
+  // ============================================================
+  // Questions Akhlaq - هيّا نتعلم الآداب النبوية
+  // Source : PDF "هيّا نتعلم الآداب النبوية"
+  // ============================================================
+  {
+    id: 410,
+    categorie: "Akhlaq",
+    niveau: "Débutant",
+    question: "Quelle est la meilleure façon de remercier quelqu'un qui nous a rendu service selon la Sunnah ?",
+    options: ["Lui donner de l'argent", "Dire 'Jazak Allah Khayran' (Que Dieu te récompense en bien)", "Ne rien dire", "Dire simplement 'Merci'"],
+    reponse_correcte: "Dire 'Jazak Allah Khayran' (Que Dieu te récompense en bien)",
+    explication: "Le Prophète (PSL) a dit : 'Celui à qui l'on a fait un bien et qui dit à son bienfaiteur : 'Jazak Allah Khayran' a été on ne peut plus élogieux.'",
+    source: "هيّا نتعلم الآداب النبوية",
+    tags: ["akhlaq", "remerciement", "sunnah"],
+    translations: {
+      ar: {
+        question: "مَا هِيَ أَفْضَلُ طَرِيقَةٍ لِشُكْرِ مَنْ أَسْدَى إِلَيْنَا مَعْرُوفًا حَسَبَ السُّنَّةِ؟",
+        options: ["إِعْطَاؤُهُ مَالًا", "قَوْلُ 'جَزَاكَ اللَّهُ خَيْرًا'", "عَدَمُ قَوْلِ شَيْءٍ", "قَوْلُ 'شُكْرًا' فَقَطْ"],
+        reponse_correcte: "قَوْلُ 'جَزَاكَ اللَّهُ خَيْرًا'",
+        explication: "قَالَ النَّبِيُّ ﷺ: 'مَنْ صُنِعَ إِلَيْهِ مَعْرُوفٌ فَقَالَ لِفَاعِلِهِ: جَزَاكَ اللَّهُ خَيْرًا فَقَدْ أَبْلَغَ فِي الثَّنَاءِ.' (رَوَاهُ التِّرْمِذِيُّ)."
+      },
+      wo: {
+        question: "Lan mooy anam bi gën a baax ngir sant ku la defal lu baax ci Sunna bi?",
+        options: ["Jox ko xaalis", "Wax 'Jazak Allah Khayran' (Yalla na la Yalla fay ci lu baax)", "Bul wax dara", "Wax 'Jërëjëf' rekk"],
+        reponse_correcte: "Wax 'Jazak Allah Khayran' (Yalla na la Yalla fay ci lu baax)",
+        explication: "Yonnant bi (PSL) nee na: 'Ku ñu defal lu baax te mu wax ki ko defal: Jazak Allah Khayran, kooku sant na sant gu mat sëkk.'"
+      }
+    }
+  },
+  {
+    id: 411,
+    categorie: "Akhlaq",
+    niveau: "Intermédiaire",
+    question: "Quelle est l'attitude du Prophète (PSL) envers la nourriture qu'on lui présentait ?",
+    options: ["Il se plaignait souvent", "Il ne critiquait jamais la nourriture ; s'il l'aimait, il mangeait, sinon il la laissait", "Il exigeait qu'on lui prépare autre chose", "Il forçait tout le monde à en manger"],
+    reponse_correcte: "Il ne critiquait jamais la nourriture ; s'il l'aimait, il mangeait, sinon il la laissait",
+    explication: "Selon le hadith d'Abou Hourayra : 'Le Prophète n'a jamais critiqué une nourriture. S'il en avait envie, il la mangeait, sinon il la délaissait.'",
+    source: "هيّا نتعلم الآداب النبوية",
+    tags: ["akhlaq", "nourriture", "sunnah"],
+    translations: {
+      ar: {
+        question: "كَيْفَ كَانَ تَعَامُلُ النَّبِيِّ ﷺ مَعَ الطَّعَامِ الَّذِي يُقَدَّمُ لَهُ؟",
+        options: ["كَانَ يَشْتَكِي كَثِيرًا", "مَا عَابَ طَعَامًا قَطُّ، إِنِ اشْتَهَاهُ أَكَلَهُ، وَإِلَّا تَرَكَهُ", "كَانَ يَطْلُبُ إِعْدَادَ طَعَامٍ آخَرَ", "كَانَ يُجْبِرُ الْجَمِيعَ عَلَى أَكْلِهِ"],
+        reponse_correcte: "مَا عَابَ طَعَامًا قَطُّ، إِنِ اشْتَهَاهُ أَكَلَهُ، وَإِلَّا تَرَكَهُ",
+        explication: "عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ قَالَ: 'مَا عَابَ النَّبِيُّ ﷺ طَعَامًا قَطُّ، إِنِ اشْتَهَاهُ أَكَلَهُ وَإِلَّا تَرَكَهُ.' (رَوَاهُ الْبُخَارِيُّ)."
+      },
+      wo: {
+        question: "Naka la Yonnant bi (PSL) daan def ak ñam wu ñu ko jox?",
+        options: ["Daan na ñaawlu lu bari", "Mësul ñaawlu ñam; su ko soobé mu lekk, su ko soobul mu bàyyi", "Daan na sàkku ñu toggal ko leneen", "Daan na fòrse ñépp ñu lekk"],
+        reponse_correcte: "Mësul ñaawlu ñam; su ko soobé mu lekk, su ko soobul mu bàyyi",
+        explication: "Abu Hurayra nee na: 'Yonnant bi mësul ñaawlu ñam. Su ko yëgee mu lekk, su ko yëgul mu bàyyi.' (Bukhari)."
+      }
+    }
+  },
+  {
+    id: 412,
+    categorie: "Akhlaq",
+    niveau: "Débutant",
+    question: "Que nous enseigne l'Islam à propos des obstacles ou de la saleté sur le chemin ?",
+    options: ["Les laisser pour que les autres nettoient", "Éloigner les nuisances (déchets, épines, etc.) du chemin est une aumône (Sadaqah)", "Les enjamber sans y prêter attention", "Les pousser devant la maison du voisin"],
+    reponse_correcte: "Éloigner les nuisances (déchets, épines, etc.) du chemin est une aumône (Sadaqah)",
+    explication: "Le Prophète (PSL) a enseigné que le fait d'écarter ce qui nuit (imâtat al-adhâ) du chemin des gens est considéré comme une aumône (Sadaqah).",
+    source: "هيّا نتعلم الآداب النبوية",
+    tags: ["akhlaq", "chemin", "sadaqah"],
+    translations: {
+      ar: {
+        question: "مَاذَا يُعَلِّمُنَا الْإِسْلَامُ حَوْلَ وُجُودِ الْعَوَائِقِ أَوِ الْأَذَى فِي الطَّرِيقِ؟",
+        options: ["تَرْكُهَا لِيُنَظِّفَهَا الْآخَرُونَ", "إِمَاطَةُ الْأَذَى عَنِ الطَّرِيقِ صَدَقَةٌ", "تَخَطِّيهَا دُونَ الِاهْتِمَامِ بِهَا", "دَفْعُهَا أَمَامَ بَيْتِ الْجَارِ"],
+        reponse_correcte: "إِمَاطَةُ الْأَذَى عَنِ الطَّرِيقِ صَدَقَةٌ",
+        explication: "قَالَ النَّبِيُّ ﷺ: 'وَإِمَاطَتُكَ الْأَذَى عَنِ الطَّرِيقِ صَدَقَةٌ.' (صَحِيحُ أَبِي دَاوُدَ)."
+      },
+      wo: {
+        question: "Lan la nu Lislaam jàngal ci lu bon walla mbalit mu nekk ci yoon wi?",
+        options: ["Bàyyi ko foofu ñeneen ñi dindi", "Dindi lu bon ci yoon wi sarax la (Sadaqah)", "Jéggi ko rekk te bul ci yegg", "Xëcc ko ci kaw buntu mbokk mi"],
+        reponse_correcte: "Dindi lu bon ci yoon wi sarax la (Sadaqah)",
+        explication: "Yonnant bi (PSL) jàngal na nu ne dindi lu bon (imâtat al-adhâ) ci yoonu nit ñi sarax la (Sadaqah)."
+      }
+    }
+  },
+  {
+    id: 414,
+    categorie: "Akhlaq",
+    niveau: "Intermédiaire",
+    question: "Comment est considéré le fait d'aider une personne malvoyante ou aveugle à se diriger ?",
+    options: ["Une simple perte de temps", "Une aumône (Sadaqah) pour laquelle on est récompensé", "Une obligation légale passible de prison", "Un acte réservé uniquement à sa famille"],
+    reponse_correcte: "Une aumône (Sadaqah) pour laquelle on est récompensé",
+    explication: "Le Prophète (PSL) a dit : 'Ton aide à diriger une personne malvoyante est une aumône pour toi.' Aider les personnes faibles ou en situation de handicap fait partie des nobles caractères en Islam.",
+    source: "هيّا نتعلم الآداب النبوية",
+    tags: ["akhlaq", "entraide", "sadaqah"],
+    translations: {
+      ar: {
+        question: "كَيْفَ يُعْتَبَرُ فِعْلُ مُسَاعَدَةِ شَخْصٍ ضَعِيفِ الْبَصَرِ عَلَى إِرْشَادِهِ فِي الطَّرِيقِ؟",
+        options: ["مُجَرَّدُ مَضْيَعَةٍ لِلْوَقْتِ", "صَدَقَةٌ يُؤْجَرُ عَلَيْهَا الْإِنْسَانُ", "فَرِيضَةٌ قَانُونِيَّةٌ يُعَاقَبُ تَارِكُهَا", "عَمَلٌ مُخَصَّصٌ لِعَائِلَتِهِ فَقَطْ"],
+        reponse_correcte: "صَدَقَةٌ يُؤْجَرُ عَلَيْهَا الْإِنْسَانُ",
+        explication: "قَالَ النَّبِيُّ ﷺ: 'وَبَصَرُكَ لِلرَّجُلِ الرَّدِيءِ الْبَصَرِ لَكَ صَدَقَةٌ.' مُسَاعَدَةُ الضُّعَفَاءِ وَذَوِي الِاحْتِيَاجَاتِ مِنْ مَكَارِمِ الْأَخْلَاقِ فِي الْإِسْلَامِ."
+      },
+      wo: {
+        question: "Naka lañuy wàllee jàppale nit ku gëstu walla ku xoolam bon ci yoon wi?",
+        options: ["Yaq waxtu rekk la", "Sarax la (Sadaqah) boo ciy am yool", "Lu war ci yoon bu ci mën a am kaso", "Lu ñu defal sa mbokk rekk la"],
+        reponse_correcte: "Sarax la (Sadaqah) boo ciy am yool",
+        explication: "Yonnant bi (PSL) nee na: 'Sa jàppale nit ku xoolam bon ci yoon wi, sarax la ci yaw.' Jàppale ñi néew doole ak ñi lajj, dafa bokk ci jikko yu rafet ci Lislaam."
+      }
+    }
+  },
+  {
+    id: 415,
+    categorie: "Akhlaq",
+    niveau: "Débutant",
+    question: "Quel est l'enseignement du Prophète (PSL) concernant la triche ?",
+    options: ["C'est permis pour réussir", "Celui qui triche ne fait pas partie de nous", "C'est un petit péché sans gravité", "C'est autorisé si personne ne le voit"],
+    reponse_correcte: "Celui qui triche ne fait pas partie de nous",
+    explication: "Le Prophète (PSL) a dit : 'Celui qui nous trompe (triche) n'est pas des nôtres.' (Mouslim). L'honnêteté est une base de la foi.",
+    source: "هيّا نتعلم الآداب النبوية",
+    tags: ["akhlaq", "triche", "honnetete", "sunnah"],
+    translations: {
+      ar: {
+        question: "مَا هُوَ تَوْجِيهُ النَّبِيِّ ﷺ بِشَأْنِ الْغِشِّ؟",
+        options: ["مَسْمُوحٌ بِهِ لِلنَّجَاحِ", "مَنْ غَشَّ فَلَيْسَ مِنِّي", "هُوَ ذَنْبٌ صَغِيرٌ غَيْرُ خَطِيرٍ", "مُبَاحٌ إِذَا لَمْ يَرَكَ أَحَدٌ"],
+        reponse_correcte: "مَنْ غَشَّ فَلَيْسَ مِنِّي",
+        explication: "قَالَ النَّبِيُّ ﷺ: 'مَنْ غَشَّ فَلَيْسَ مِنِّي.' (رَوَاهُ مُسْلِمٌ). الْأَمَانَةُ مِنْ أَسَاسِيَّاتِ الْإِيمَانِ."
+      },
+      wo: {
+        question: "Lan la Yonnant bi (PSL) jàngal ci njuuj-njaaj (tricher)?",
+        options: ["Dagan na ngir am ndam", "Ku njuuj-njaaj bokkul ci ñun", "Bàkkaar bu ndaw la", "Dagan na su kenn gisul"],
+        reponse_correcte: "Ku njuuj-njaaj bokkul ci ñun",
+        explication: "Yonnant bi (PSL) nee na: 'Kuy njuuj-njaaj (tricher) bokkul ci ñun.' (Muslim). Nguur te sell dafa bokk ci iimaan."
+      }
+    }
+  },
+  {
+    id: 416,
+    categorie: "Akhlaq",
+    niveau: "Intermédiaire",
+    question: "Comment un musulman doit-il se comporter avec son invité selon la Sunnah ?",
+    options: ["Il peut l'ignorer", "Il doit l'honorer et le bien traiter", "Il ne doit pas lui offrir à manger", "Il doit lui demander de partir vite"],
+    reponse_correcte: "Il doit l'honorer et le bien traiter",
+    explication: "Le Prophète (PSL) a dit : 'Celui qui croit en Allah et au Jour Dernier, qu'il honore son invité.'",
+    source: "هيّا نتعلم الآداب النبوية",
+    tags: ["akhlaq", "invite", "hospitalite", "sunnah"],
+    translations: {
+      ar: {
+        question: "كَيْفَ يَجِبُ عَلَى الْمُسْلِمِ أَنْ يَتَعَامَلَ مَعَ ضَيْفِهِ حَسَبَ السُّنَّةِ؟",
+        options: ["يُمْكِنُهُ تَجَاهُلُهُ", "يَجِبُ أَنْ يُكْرِمَهُ وَيُحْسِنَ إِلَيْهِ", "لَا يَجِبُ أَنْ يُقَدِّمَ لَهُ الطَّعَامَ", "يَطْلُبُ مِنْهُ الْمُغَادَرَةَ بِسُرْعَةٍ"],
+        reponse_correcte: "يَجِبُ أَنْ يُكْرِمَهُ وَيُحْسِنَ إِلَيْهِ",
+        explication: "قَالَ النَّبِيُّ ﷺ: 'وَمَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيُكْرِمْ ضَيْفَهُ.'"
+      },
+      wo: {
+        question: "Naka la jullit bi war a jëflante ak gan gi ci Sunna bi?",
+        options: ["Mën na ko nabb", "War na ko teral te jëflante ak moom ci lu rafet", "Warul ko may ñam", "War na ko sàkku mu gaaw a dem"],
+        reponse_correcte: "War na ko teral te jëflante ak moom ci lu rafet",
+        explication: "Yonnant bi (PSL) nee na: 'Ku gëm Yàlla ak bésub Alxira, na teral ganam.'"
+      }
+    }
+  },
+  {
+    id: 417,
+    categorie: "Akhlaq",
+    niveau: "Débutant",
+    question: "Par qui un musulman a-t-il le droit de jurer ?",
+    options: ["Par le Prophète", "Par la tête de ses parents", "Uniquement par Allah", "Par sa propre vie"],
+    reponse_correcte: "Uniquement par Allah",
+    explication: "Le Prophète (PSL) a dit : 'Que celui qui veut jurer, jure par Allah ou qu'il se taise.' Jurer par autre qu'Allah est une forme de Shirk mineur.",
+    source: "هيّا نتعلم الآداب النبوية",
+    tags: ["akhlaq", "jurer", "shirk", "sunnah"],
+    translations: {
+      ar: {
+        question: "بِمَنْ يَحِقُّ لِلْمُسْلِمِ أَنْ يَحْلِفَ؟",
+        options: ["بِالنَّبِيِّ", "بِرَأْسِ وَالِدَيْهِ", "بِاللَّهِ فَقَطْ", "بِحَيَاتِهِ الشَّخْصِيَّةِ"],
+        reponse_correcte: "بِاللَّهِ فَقَطْ",
+        explication: "قَالَ النَّبِيُّ ﷺ: 'أَلَا مَنْ كَانَ حَالِفًا فَلَا يَحْلِفْ إِلَّا بِاللَّهِ.' الْحَلِفُ بِغَيْرِ اللَّهِ نَوْعٌ مِنَ الشِّرْكِ الْأَصْغَرِ."
+      },
+      wo: {
+        question: "Ci kan la jullit bi am sañ-sañ u wàt?",
+        options: ["Ci Yonnant bi", "Ci boppu waajuram", "Ci Yàlla rekk", "Ci bakkanam"],
+        reponse_correcte: "Ci Yàlla rekk",
+        explication: "Yonnant bi (PSL) nee na: 'Ku bëgg wàt, na wàt ci Yàlla walla mu noppi.' Wàt ci lu dul Yàlla dafa bokk ci Shirk bu ndaw."
+      }
+    }
+  },
+  {
+    id: 418,
+    categorie: "Akhlaq",
+    niveau: "Intermédiaire",
+    question: "Qu'est-ce que le 'Qaza'' qui a été interdit par le Prophète (PSL) ?",
+    options: ["Se peigner les cheveux", "Raser une partie de la tête et laisser l'autre", "Se laver les cheveux tous les jours", "Se teindre les cheveux"],
+    reponse_correcte: "Raser une partie de la tête et laisser l'autre",
+    explication: "Le Prophète (PSL) a interdit le 'Qaza', qui consiste à raser certaines parties de la tête et d'en laisser d'autres.",
+    source: "هيّا نتعلم الآداب النبوية",
+    tags: ["akhlaq", "qaza", "coiffure", "sunnah"],
+    translations: {
+      ar: {
+        question: "مَا هُوَ 'الْقَزَعُ' الَّذِي نَهَى عَنْهُ النَّبِيُّ ﷺ؟",
+        options: ["تَمْشِيطُ الشَّعْرِ", "حَلْقُ بَعْضِ الرَّأْسِ وَتَرْكُ بَعْضِهِ", "غَسْلُ الشَّعْرِ يَوْمِيًّا", "صَبْغُ الشَّعْرِ"],
+        reponse_correcte: "حَلْقُ بَعْضِ الرَّأْسِ وَتَرْكُ بَعْضِهِ",
+        explication: "نَهَى النَّبِيُّ ﷺ عَنِ الْقَزَعِ، وَهُوَ حَلْقُ بَعْضِ رَأْسِ الصَّبِيِّ وَتَرْكُ بَعْضِهِ."
+      },
+      wo: {
+        question: "Lan mooy 'Qaza' bi Yonnant bi (PSL) teree?",
+        options: ["Xàlat kawar gi", "Wàtt wàllu bopp bi te bàyyi beneen wàll bi", "Raxas kawar gi bés bu nekk", "Xiin kawar gi"],
+        reponse_correcte: "Wàtt wàllu bopp bi te bàyyi beneen wàll bi",
+        explication: "Yonnant bi (PSL) tere na 'Qaza', muy wàtt wàllu bopp bi (walla yenn barab yi ci bopp bi) te bàyyi beneen wàll bi mu des."
+      }
+    }
+  },
+  {
+    id: 419,
+    categorie: "Akhlaq",
+    niveau: "Débutant",
+    question: "Que doit faire un musulman lorsqu'il quitte une assemblée ou un groupe de personnes ?",
+    options: ["Partir en silence", "Dire le Salam (Assalamu Alaykum) comme à son arrivée", "Crier pour dire au revoir", "Faire un signe de la main sans parler"],
+    reponse_correcte: "Dire le Salam (Assalamu Alaykum) comme à son arrivée",
+    explication: "Le Prophète (PSL) a enseigné de saluer en arrivant et en partant. 'Le premier salut n'est pas plus un droit que le dernier.'",
+    source: "هيّا نتعلم الآداب النبوية",
+    tags: ["akhlaq", "salam", "assemblee", "sunnah"],
+    translations: {
+      ar: {
+        question: "مَاذَا يَجِبُ عَلَى الْمُسْلِمِ أَنْ يَفْعَلَ عِنْدَ مُغَادَرَةِ الْمَجْلِسِ؟",
+        options: ["الْمُغَادَرَةُ فِي صَمْتٍ", "إِلْقَاءُ السَّلَامِ كَمَا فَعَلَ عِنْدَ قُدُومِهِ", "الصُّرَاخُ لِتَوْدِيعِهِمْ", "الْإِشَارَةُ بِالْيَدِ دُونَ كَلَامٍ"],
+        reponse_correcte: "إِلْقَاءُ السَّلَامِ كَمَا فَعَلَ عِنْدَ قُدُومِهِ",
+        explication: "قَالَ النَّبِيُّ ﷺ: 'إِذَا انْتَهَى أَحَدُكُمْ إِلَى الْمَجْلِسِ فَلْيُسَلِّمْ، فَإِذَا أَرَادَ أَنْ يَقُومَ فَلْيُسَلِّمْ؛ فَلَيْسَتِ الْأُولَى بِأَحَقَّ مِنَ الْآخِرَةِ.' (صَحِيحُ أَبِي دَاوُدَ)."
+      },
+      wo: {
+        question: "Lan la jullit bi war a def su bëggee joge ci mbooloo walla ndaje?",
+        options: ["Dem ci noppi", "Nuyu (Assalamu Alaykum) niki bi muy ñëw", "Wax ndong ngir tàggu", "Wone loxo te bul wax dara"],
+        reponse_correcte: "Nuyu (Assalamu Alaykum) niki bi muy ñëw",
+        explication: "Yonnant bi (PSL) jàngal na nuyu bu ñuy ñëw ak bu ñuy dem. Nuyu bu njëkk bi gënul a war nuyu bu mujj bi."
+      }
+    }
   }
 ];
