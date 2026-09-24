@@ -10,11 +10,13 @@ import {
 } from 'lucide-react';
 import { UserStats, Badge } from '../types';
 import { BADGES } from '../data';
+import type { ProgressSnapshot } from '../services/learningService';
 
 import { useLanguage } from '../LanguageContext';
 
 interface StatsCardProps {
   stats: UserStats;
+  learningSnapshot?: ProgressSnapshot;
 }
 
 // Map string representation of badge icons to Lucide components safely
@@ -43,7 +45,7 @@ const getBadgeIcon = (iconName: string, className: string) => {
   }
 };
 
-export default function StatsCard({ stats }: StatsCardProps) {
+export default function StatsCard({ stats, learningSnapshot }: StatsCardProps) {
   const { t, dir } = useLanguage();
   const accuracy = stats.totalAnswered > 0 
     ? Math.round((stats.correctAnswersCount / stats.totalAnswered) * 100) 
@@ -51,6 +53,27 @@ export default function StatsCard({ stats }: StatsCardProps) {
 
   return (
     <div className="space-y-6">
+      {learningSnapshot && (
+        <div className="rounded-2xl border border-emerald-500/20 bg-gradient-to-r from-emerald-900/20 to-slate-900 p-4">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-300">Progression V2</p>
+              <p className="text-sm font-bold text-white">{learningSnapshot.summary}</p>
+            </div>
+            <span className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-1 text-[10px] font-black text-emerald-200">
+              {learningSnapshot.reviewPlan.dueItems.length} à revoir
+            </span>
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            {learningSnapshot.masterySummary.slice(0, 4).map((entry) => (
+              <span key={entry.category} className="rounded-full border border-slate-700 bg-slate-950/40 px-2 py-1 text-[9px] font-bold text-slate-200">
+                {entry.category}: {entry.progress}%
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
       {/* Visual Statistics Dashboard Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Metric Card: XP */}

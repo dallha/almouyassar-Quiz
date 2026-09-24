@@ -83,6 +83,7 @@ export interface UserStats {
   lastDailyReset: string | null;
   preferredCategories: string[];
   averageAccuracy: number;
+  claimedMissionIds?: string[];
 }
 
 export interface QuizSession {

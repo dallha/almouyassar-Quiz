@@ -2,7 +2,7 @@ import express from "express";
 import path from "path";
 import fs from "fs";
 import { createServer as createViteServer } from "vite";
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, HarmBlockThreshold, HarmCategory } from "@google/genai";
 import dotenv from "dotenv";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
@@ -123,13 +123,22 @@ function hasInappropriateContent(text: string): boolean {
 
 app.post("/api/oustaz", oustazRateLimiter, async (req, res) => {
   try {
-    const { message, history, language } = req.body;
+    const { message, history, language, context } = req.body;
 
     if (typeof message !== "string" || !message.trim()) {
       return res.status(400).json({ error: "Le message fourni doit être une chaîne." });
     }
     if (history !== undefined && !Array.isArray(history)) {
       return res.status(400).json({ error: "L'historique fourni doit être un tableau valide." });
+    }
+    if (message.length > 1200) {
+      return res.status(413).json({ error: "Le message est trop long pour cet assistant pédagogique." });
+    }
+    if (language !== undefined && !['fr', 'ar', 'wo'].includes(language)) {
+      return res.status(400).json({ error: "Langue invalide." });
+    }
+    if (context !== undefined && (typeof context !== 'object' || context.audience !== 'child')) {
+      return res.status(400).json({ error: "Contexte pédagogique invalide." });
     }
 
     // Aseptisation rigoureuse de l'historique
@@ -161,10 +170,10 @@ app.post("/api/oustaz", oustazRateLimiter, async (req, res) => {
         systemInstruction,
         temperature: 0.7,
         safetySettings: [
-          { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_LOW_AND_ABOVE' },
-          { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_LOW_AND_ABOVE' },
-          { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_LOW_AND_ABOVE' },
-          { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_LOW_AND_ABOVE' }
+          { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE },
+          { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE },
+          { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE },
+          { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE }
         ]
       },
       history: safeHistory
@@ -220,10 +229,10 @@ Assure-toi que "reponse_correcte" correspond exactement à la traduction de l'op
         responseMimeType: "application/json",
         temperature: 0.1,
         safetySettings: [
-          { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_LOW_AND_ABOVE' },
-          { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_LOW_AND_ABOVE' },
-          { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_LOW_AND_ABOVE' },
-          { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_LOW_AND_ABOVE' }
+          { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE },
+          { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE },
+          { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE },
+          { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE }
         ]
       }
     });

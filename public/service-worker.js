@@ -1,11 +1,12 @@
 // Progressive Web App Service Worker for Almouyassar Play & Learn
-const CACHE_NAME = 'mouyassar-pwa-cache-v1';
+const CACHE_NAME = 'mouyassar-pwa-cache-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
   '/logo.png',
   '/manifest.json'
 ];
+
 
 // Install Event
 self.addEventListener('install', (event) => {

@@ -501,7 +501,8 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
         body: JSON.stringify({
           message: textToSend,
           history: chatHistory,
-          language: language
+          language: language,
+          context: { audience: 'child', purpose: 'pedagogical-explanation' }
         })
       });
 

@@ -35,6 +35,31 @@ import DailyReward, { DailyRewardData } from './components/ui/DailyReward';
 import BadgeGallery, { BadgeData } from './components/ui/BadgeGallery';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
 import { useAppStore, pickRandomQuestions } from './store';
+import { summarizeLearningPath } from './features/learning';
+import { applyAnswerToProgress } from './features/quiz/sessionService';
+import { getProgressSnapshot, getRecommendedReviewQueue } from './services/learningService';
+import { loadChildProgressFromSupabase, syncChildProgressToSupabase, syncProgressEventsToSupabase } from './services/supabaseProgressService';
+import { listProgressEvents, recordProgressEvent } from './services/progressRepository';
+import { trackAnalyticsEvent } from './services/analyticsService';
+import { getPublishedLearningPath } from './services/contentRepository';
+import LearningPathPanel from './components/LearningPathPanel';
+
+const createDefaultUserStats = (): UserStats => ({
+  xp: 0,
+  totalAnswered: 0,
+  correctAnswersCount: 0,
+  streak: 0,
+  highestStreak: 0,
+  lastPlayedDate: null,
+  completedQuizzesCount: 0,
+  unlockedBadgeIds: [],
+  masteryLevels: {},
+  totalXpEarned: 0,
+  quizzesToday: 0,
+  lastDailyReset: null,
+  preferredCategories: [],
+  averageAccuracy: 0,
+});
 
 /* ── STATIC DATA ── */
 const DAILY_REWARDS: DailyRewardData[] = [
@@ -157,6 +182,36 @@ function StarryBackground() {
 export default function App() {
   const { t, language, dir } = useLanguage();
 
+  const pedagogicalSummary = summarizeLearningPath(
+    QUESTIONS.slice(0, 4).map((question) => {
+      const mappedLevel = question.niveau === 'Avancé'
+        ? 'Avancé'
+        : question.niveau === 'Intermédiaire'
+        ? 'Intermédiaire'
+        : 'Débutant';
+
+      return {
+        id: `pedag-${question.id}`,
+        domain: question.categorie === 'Fiqh' ? 'fiqh' : question.categorie === 'Aqidah' ? 'aqidah' : 'general',
+        category: question.categorie,
+        chapter: 'Fondations',
+        lesson: 'Leçon active',
+        level: mappedLevel,
+        difficulty: question.niveau === 'Avancé' ? 3 : question.niveau === 'Intermédiaire' ? 2 : 1,
+        skill: 'Maîtrise',
+        objective: 'Renforcer la compréhension du contenu',
+        tags: [question.categorie],
+        language: language === 'ar' ? 'ar' : language === 'wo' ? 'wo' : 'fr',
+        workflow: 'PUBLISHED',
+        version: 1,
+        question: question.question,
+        options: question.options,
+        correctAnswer: question.reponse_correcte,
+        explanation: question.explication,
+      } as const;
+    })
+  );
+
   const getCategoryKey = (c: string) => {
     if (c === 'Institut Al-Mouyassar') return 'quiz.cat_mouyassar';
     return `quiz.cat_${c.toLowerCase().replace('saint ', '')}`;
@@ -168,6 +223,10 @@ export default function App() {
     if (l === 'Avancé') return 'quiz.lvl_advanced';
     return l;
   };
+
+  // --- Supabase Auth and Sync States ---
+  // currentUser : known authenticated Supabase user session
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   // --- Zustand Store (Premium Architecture) ---
   const {
@@ -186,6 +245,20 @@ export default function App() {
     claimDailyReward: handleClaimDailyReward,
     checkAndResetDailies
   } = useAppStore();
+
+  const progressHistory = currentUser
+    ? listProgressEvents(currentUser.id).map(({ questionId, result, responseTimeMs, difficulty, attempts, lastReviewedAt }) => ({
+      questionId,
+      result,
+      responseTimeMs,
+      difficulty,
+      attempts,
+      lastReviewedAt,
+    }))
+    : [];
+  const learningSnapshot = getProgressSnapshot(stats, QUESTIONS, progressHistory);
+  const recommendedReviewQueue = getRecommendedReviewQueue(QUESTIONS, stats, 5);
+  const learningPath = getPublishedLearningPath();
 
   useEffect(() => {
     checkAndResetDailies();
@@ -219,8 +292,6 @@ export default function App() {
   }, [handleProgressQuest]);
 
   // --- Supabase Auth and Sync States ---
-  // currentUser : known authenticated Supabase user session
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
   // showAuthModal : controls whether the auth modal is visible
   const [showAuthModal, setShowAuthModal] = useState(false);
   // authEmail/authPassword : values bound to the auth form inputs
@@ -293,7 +364,11 @@ export default function App() {
 
       const verifyRecoveryToken = async () => {
         try {
-          const { data, error } = await supabase.auth.verifyOtp({ type: 'recovery', token });
+          const { data, error } = await supabase.auth.verifyOtp({
+            type: 'recovery',
+            email: authEmail || '',
+            token,
+          });
           if (error) throw error;
           setAuthMessage(t('common.auth_recovery_verified'));
           if (data?.user?.email) {
@@ -331,22 +406,25 @@ export default function App() {
           return;
         }
         if (data) {
-          setStats({
-            xp: data.xp ?? 0,
+          const savedProgress = await loadChildProgressFromSupabase(currentUser.id);
+          setStats(prev => ({
+            ...createDefaultUserStats(),
+            ...prev,
+            xp: savedProgress?.xp ?? data.xp ?? 0,
             totalAnswered: data.total_answered ?? 0,
             correctAnswersCount: data.correct_answers_count ?? 0,
-            streak: data.streak ?? 0,
+            streak: savedProgress?.streak ?? data.streak ?? 0,
             highestStreak: data.highest_streak ?? 0,
             lastPlayedDate: data.last_played_date ?? null,
-            completedQuizzesCount: data.completed_quizzes_count ?? 0,
+            completedQuizzesCount: savedProgress?.completed_quizzes ?? data.completed_quizzes_count ?? 0,
             unlockedBadgeIds: data.unlocked_badge_ids ?? [],
-            masteryLevels: stats.masteryLevels || {},
-            totalXpEarned: stats.totalXpEarned || 0,
-            quizzesToday: stats.quizzesToday || 0,
-            lastDailyReset: stats.lastDailyReset || null,
-            preferredCategories: stats.preferredCategories || [],
-            averageAccuracy: stats.averageAccuracy || 0
-          });
+            masteryLevels: prev.masteryLevels || {},
+            totalXpEarned: prev.totalXpEarned || 0,
+            quizzesToday: prev.quizzesToday || 0,
+            lastDailyReset: prev.lastDailyReset || null,
+            preferredCategories: prev.preferredCategories || [],
+            averageAccuracy: prev.averageAccuracy || 0,
+          }));
           // Set username from profile if available
           if (data.username) {
             setUsername(data.username);
@@ -390,6 +468,9 @@ export default function App() {
         new_completed: statsToSync.completedQuizzesCount,
         new_badges: statsToSync.unlockedBadgeIds
       });
+
+      await syncChildProgressToSupabase(currentUser.id, statsToSync);
+      await syncProgressEventsToSupabase(currentUser.id);
       
       // Update the profiles table with stats and optionally adventure_state
       const updateData: any = {
@@ -423,6 +504,15 @@ export default function App() {
       return () => clearTimeout(timeoutId);
     }
   }, [stats, adventureState, currentUser]);
+
+  useEffect(() => {
+    if (!currentUser) return;
+    const flushProgress = () => {
+      if (navigator.onLine) void syncStatsToSupabase(stats, adventureState);
+    };
+    window.addEventListener('online', flushProgress);
+    return () => window.removeEventListener('online', flushProgress);
+  }, [currentUser, stats, adventureState]);
 
   // --- UI States ---
   const [activeTab, setActiveTab] = useState<'pitch' | 'adventure' | 'quiz' | 'oustaz' | 'ansar' | 'stats' | 'parental'>('pitch');
@@ -659,16 +749,7 @@ export default function App() {
   // Reset progress confirmation
   const handleResetProgress = (forceDefault = false) => {
     const performReset = () => {
-      const resetStats = {
-        xp: 0,
-        totalAnswered: 0,
-        correctAnswersCount: 0,
-        streak: 0,
-        highestStreak: 0,
-        lastPlayedDate: null,
-        completedQuizzesCount: 0,
-        unlockedBadgeIds: [],
-      };
+      const resetStats: UserStats = createDefaultUserStats();
       const resetCats = {
         'Fiqh': 0,
         'Aqidah': 0,
@@ -856,54 +937,39 @@ export default function App() {
       };
     });
 
-    // Award XP instantly
-    const xpGained = isCorrect ? 15 : 2; // Encourage attempt with small XP
-    const newStreak = isCorrect ? stats.streak + 1 : 0;
-    const newHighestStreak = Math.max(stats.highestStreak, newStreak);
-
-    // Update Category Statistics
-    const updatedCategoryCount = { ...categoryStats };
     if (isCorrect) {
       handleProgressQuest('quiz_questions', 1);
-      const qCat = currentQuestion.categorie;
-      updatedCategoryCount[qCat] = (updatedCategoryCount[qCat] || 0) + 1;
     }
 
-    // Accumulate stats
-    const updatedStats: UserStats = {
-      ...stats,
-      xp: stats.xp + xpGained,
-      totalAnswered: stats.totalAnswered + 1,
-      correctAnswersCount: isCorrect ? stats.correctAnswersCount + 1 : stats.correctAnswersCount,
-      streak: newStreak,
-      highestStreak: newHighestStreak,
-    };
-
-    // Calculate Badges that are newly unlocked
-    const newUnlockedBadgeIds: string[] = [];
-    const checkBadgeIfUnlocked = (badge: Badge) => {
-      if (stats.unlockedBadgeIds.includes(badge.id)) return false;
-
-      if (badge.requirementType === 'xp' && updatedStats.xp >= badge.requirementValue) {
-        return true;
-      }
-      if (badge.requirementType === 'streak' && updatedStats.highestStreak >= badge.requirementValue) {
-        return true;
-      }
-      if (badge.requirementType === 'category') {
-        const valueMatched = updatedCategoryCount[badge.requirementDetail || ''] || 0;
-        if (valueMatched >= badge.requirementValue) {
-          return true;
-        }
-      }
-      return false;
-    };
-
-    BADGES.forEach(badge => {
-      if (checkBadgeIfUnlocked(badge)) {
-        newUnlockedBadgeIds.push(badge.id);
-      }
+    const progressResult = applyAnswerToProgress({
+      stats,
+      categoryStats,
+      currentQuestion,
+      isCorrect,
+      timeSpent,
+      badgeDefinitions: BADGES,
     });
+
+    const { updatedStats, updatedCategoryStats, newUnlockedBadgeIds, xpGained } = progressResult;
+
+    if (currentUser) {
+      recordProgressEvent({
+        childId: currentUser.id,
+        questionId: String(currentQuestion.id),
+        category: currentQuestion.categorie,
+        result: isCorrect ? 'correct' : 'incorrect',
+        responseTimeMs: timeSpent,
+        difficulty: currentQuestion.niveau === 'Avancé' ? 3 : currentQuestion.niveau === 'Intermédiaire' ? 2 : 1,
+        attempts: 1,
+        lastReviewedAt: new Date().toISOString(),
+      });
+      trackAnalyticsEvent('question_answered', {
+        questionId: currentQuestion.id,
+        isCorrect,
+        responseTimeMs: timeSpent,
+        xpGained,
+      }, currentUser.id);
+    }
 
     if (newUnlockedBadgeIds.length > 0) {
       // Unlocked new badges! Trigger audio play and banner overlays
@@ -924,7 +990,7 @@ export default function App() {
     }
 
     if (isCorrect) {
-      setCategoryStats(updatedCategoryCount);
+      setCategoryStats(updatedCategoryStats);
     }
     
     // Sync progress to Supabase immediately after each answer
@@ -1044,6 +1110,7 @@ export default function App() {
       ? 'bg-[#070b19] text-slate-100 dark'
       : 'bg-[#FCF8F2] text-stone-850'
       }`}>
+      <span className="sr-only">{pedagogicalSummary}</span>
       {theme === 'dark' && <StarryBackground />}
 
       {/* 🚀 INITIALIZING SYSTEM LOADER MASK */}
@@ -1559,7 +1626,18 @@ export default function App() {
                     className="w-full"
                   >
                     {activeTab === 'pitch' && (
-                      <VisionPitch onStartAdventure={() => { playSelectSound(); setActiveTab('adventure'); }} />
+                      <div className="space-y-4">
+                        <VisionPitch onStartAdventure={() => { playSelectSound(); setActiveTab('adventure'); }} />
+                        <LearningPathPanel
+                          path={learningPath}
+                          theme={theme}
+                          onStartQuestion={(questionId) => {
+                            const question = QUESTIONS.find((item) => item.id === questionId);
+                            if (!question) return;
+                            launchSessionWithTransition([question], 'Parcours pédagogique', () => setActiveTab('quiz'));
+                          }}
+                        />
+                      </div>
                     )}
 
                     {activeTab === 'oustaz' && !isOustazBlocked && (
@@ -1620,6 +1698,29 @@ export default function App() {
                             </div>
 
                             {/* Quiz Recommender Engine - suggestions based on levels and interests */}
+                            <div className={`p-4 rounded-2xl border ${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-emerald-50/60 border-emerald-100'}`}>
+                              <div className="flex items-center justify-between gap-3 mb-2">
+                                <div>
+                                  <p className={`text-[10px] font-black uppercase tracking-[0.2em] ${theme === 'dark' ? 'text-amber-400' : 'text-emerald-700'}`}>
+                                    {t('common.progression_v2', 'Progression V2')}
+                                  </p>
+                                  <p className={`text-xs ${theme === 'dark' ? 'text-slate-300' : 'text-stone-700'}`}>
+                                    {learningSnapshot.summary}
+                                  </p>
+                                </div>
+                                <span className={`rounded-full px-2 py-1 text-[10px] font-black ${theme === 'dark' ? 'bg-emerald-500/10 text-emerald-300' : 'bg-emerald-600/10 text-emerald-700'}`}>
+                                  {learningSnapshot.reviewPlan.dueItems.length} à revoir
+                                </span>
+                              </div>
+                              <div className="flex flex-wrap gap-2">
+                                {recommendedReviewQueue.slice(0, 3).map((question) => (
+                                  <span key={question.id} className={`rounded-full border px-2 py-1 text-[9px] ${theme === 'dark' ? 'border-slate-700 text-slate-300' : 'border-emerald-200 text-emerald-700'}`}>
+                                    {question.categorie}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+
                             <QuizRecommender
                               onStartCustomQuizList={handleStartRecommendedQuizList}
                               userStatsXp={stats.xp}
@@ -2007,7 +2108,7 @@ export default function App() {
                     )}
 
                     {activeTab === 'stats' && (
-                      <StatsCard stats={stats} />
+                      <StatsCard stats={stats} learningSnapshot={learningSnapshot} />
                     )}
                   </motion.div>
                 </AnimatePresence>
