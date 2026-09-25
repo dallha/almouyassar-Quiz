@@ -21,7 +21,7 @@ Dédiée à l'**Institut Coranique Al-Mouyassar**, fondé en **2007** par le vé
 - [🏗️ Architecture & Structure du Projet](#-architecture--structure-du-projet)
 - [🛠️ Stack Technique](#️-stack-technique)
 - [🛡️ Sécurité & Proxy API](#️-sécurité--proxy-api)
-- [💾 Schéma de Base de Données Supabase (PostgreSQL)](#-schéma-de-base-de-données-supabase-postgresql)
+- [💾 Base de Données Neon (PostgreSQL & Auth)](#-base-de-données-neon-postgresql--auth)
 - [🚀 Guide d'Installation Local](#-guide-dinstallation-local)
 - [⚡ Guide de Déploiement Cloud](#-guide-de-déploiement-cloud)
   - [Option A : Déploiement sur Vercel (Serverless)](#option-a--déploiement-sur-vercel-serverless)
@@ -44,7 +44,7 @@ Dédiée à l'**Institut Coranique Al-Mouyassar**, fondé en **2007** par le vé
 ### 3. L'Oustaz Virtuel Intelligent (IA Gemini 3.5 Flash)
 * **Compagnon d'Apprentissage** : Un assistant IA bienveillant dialogue avec l'élève pour le féliciter avec des expressions valorisantes (*Macha'Allah*, *Barakallahou fik*) ou lui expliquer calmement ses erreurs de Fiqh ou d'histoire islamique.
 * **Sécurité & Modération** : Un filtre de modération automatique analyse et intercepte instantanément les questions inappropriées ou impolies pour protéger les jeunes élèves.
-* **Persistance Supabase** : L'historique complet des discussions est synchronisé dans le Cloud via Supabase pour chaque élève connecté.
+* **Persistance Neon** : L'historique complet des discussions est synchronisé dans le Cloud via Neon pour chaque élève connecté.
 
 ### 4. Espace Parental Sécurisé (Anti-Force Brute & Défi Mathématique)
 * **Code PIN Secret Personnalisable** : Pour empêcher les enfants de contourner les règles ou de réinitialiser leur progression, le parent configure un **code PIN à 4 chiffres** persistant lors de son premier accès.
@@ -64,7 +64,7 @@ Dédiée à l'**Institut Coranique Al-Mouyassar**, fondé en **2007** par le vé
 
 ## 🩹 Correctifs récents
 - Correction du flux de progression du mode Aventure : le niveau suivant est dorénavant déverrouillé automatiquement et le joueur est déplacé vers le nœud suivant à la fin d’un niveau.
-- Correction du flux de récupération de mot de passe Supabase : le lien de réinitialisation affiche maintenant un formulaire de nouveau mot de passe, au lieu de connecter automatiquement l’utilisateur.
+- Correction du flux de récupération de mot de passe Neon : le lien de réinitialisation affiche maintenant un formulaire de nouveau mot de passe, au lieu de connecter automatiquement l’utilisateur.
 - Mise à jour du texte localisé pour la récupération de mot de passe en français, arabe et wolof.
 
 ---
@@ -129,99 +129,17 @@ Pour protéger l'intégrité de l'application et éviter toute fuite de secret i
 
 ---
 
-## 💾 Schéma de Base de Données Supabase (PostgreSQL)
+## 💾 Base de Données Neon (PostgreSQL & Auth)
 
-Pour initialiser votre instance Supabase, ouvrez le **SQL Editor** sur votre tableau de bord Supabase et exécutez le script ci-dessous. Il configure les tables requises, leurs contraintes, et les politiques de sécurité (RLS) associées.
+L'application utilise **Neon** pour l'authentification (Neon Auth), la base de données Serverless Postgres, et le stockage de fichiers (Neon Object Storage). 
+Les schémas, les fonctions et les tables sont automatiquement gérés via la CLI Neon et l'intégration continue.
 
-```sql
--- 1. Table des Profils Élèves (scores, progression, badges)
-create table public.profiles (
-  id uuid references auth.users on delete cascade primary key,
-  username text,
-  xp integer default 0,
-  total_answered integer default 0,
-  correct_answers_count integer default 0,
-  streak integer default 0,
-  highest_streak integer default 0,
-  completed_quizzes_count integer default 0,
-  unlocked_badge_ids text[] default '{}'::text[],
-  last_played_date date,
-  updated_at timestamp with time zone default timezone('utc'::text, now())
-);
-
--- Activer la sécurité RLS (Row Level Security) sur profiles
-alter table public.profiles enable row level security;
-
--- Créer les politiques de sécurité pour profiles
-create policy "Les utilisateurs lisent leur propre profil."
-  on public.profiles for select using ( auth.uid() = id );
-
-create policy "Les utilisateurs créent leur propre profil."
-  on public.profiles for insert with check ( auth.uid() = id );
-
-create policy "Les utilisateurs mettent à jour leur propre profil."
-  on public.profiles for update using ( auth.uid() = id );
-
-
--- 2. Table des Salons de Discussion de l'Oustaz (oustaz_chats)
-create table public.oustaz_chats (
-  id text primary key,
-  user_id uuid references auth.users on delete cascade not null,
-  title text not null,
-  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
-  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
-);
-
--- Activer la sécurité RLS sur oustaz_chats
-alter table public.oustaz_chats enable row level security;
-
--- Créer les politiques de sécurité pour oustaz_chats
-create policy "Les utilisateurs lisent leurs salons de discussion."
-  on public.oustaz_chats for select using ( auth.uid() = user_id );
-
-create policy "Les utilisateurs créent leurs salons."
-  on public.oustaz_chats for insert with check ( auth.uid() = user_id );
-
-create policy "Les utilisateurs modifient leurs salons."
-  on public.oustaz_chats for update using ( auth.uid() = user_id );
-
-create policy "Les utilisateurs suppriment leurs salons."
-  on public.oustaz_chats for delete using ( auth.uid() = user_id );
-
-
--- 3. Table des Messages de Discussion (oustaz_messages)
-create table public.oustaz_messages (
-  id bigint generated always as identity primary key,
-  chat_id text references public.oustaz_chats(id) on delete cascade not null,
-  role text not null check (role in ('user', 'model')),
-  content text not null,
-  created_at timestamp with time zone default timezone('utc'::text, now()) not null
-);
-
--- Activer la sécurité RLS sur oustaz_messages
-alter table public.oustaz_messages enable row level security;
-
--- Créer les politiques de sécurité pour oustaz_messages
-create policy "Les utilisateurs lisent les messages de leurs salons."
-  on public.oustaz_messages for select
-  using (
-    exists (
-      select 1 from public.oustaz_chats
-      where public.oustaz_chats.id = oustaz_messages.chat_id
-      and public.oustaz_chats.user_id = auth.uid()
-    )
-  );
-
-create policy "Les utilisateurs ajoutent des messages dans leurs salons."
-  on public.oustaz_messages for insert
-  with check (
-    exists (
-      select 1 from public.oustaz_chats
-      where public.oustaz_chats.id = oustaz_messages.chat_id
-      and public.oustaz_chats.user_id = auth.uid()
-    )
-  );
+Pour configurer votre projet Neon :
+```bash
+npx neon config init
+npx neon deploy
 ```
+*(Cela déploiera la branche `production` en accord avec la définition dans `neon.ts`)*
 
 ---
 
@@ -244,9 +162,10 @@ Créez un fichier `.env` à la racine du projet (ou copiez `.env.example`) :
 # Clé API Google Gemini (Obtenue sur Google AI Studio)
 GEMINI_API_KEY="votre_cle_api_gemini"
 
-# Variables Supabase (côté client web)
-VITE_SUPABASE_URL="https://votre-projet-id.supabase.co"
-VITE_SUPABASE_ANON_KEY="votre-cle-publique-anonyme-supabase"
+# Variables Neon (Auth & Base de données)
+VITE_NEON_AUTH_URL="https://votre-projet-auth.neon.build"
+NEON_AUTH_JWKS_URL="https://votre-projet-auth.neon.build/.well-known/jwks.json"
+DATABASE_URL="postgres://user:pass@ep-host.neon.tech/neondb"
 ```
 
 ### 3. Lancer le serveur de développement
@@ -293,8 +212,9 @@ Vercel prend nativement en charge les applications React générées par Vite, m
    ```
 2. **Ajouter les Variables d'Environnement** sur le tableau de bord Vercel :
    - `GEMINI_API_KEY`
-   - `VITE_SUPABASE_URL`
-   - `VITE_SUPABASE_ANON_KEY`
+   - `VITE_NEON_AUTH_URL`
+   - `DATABASE_URL`
+   - `NEON_AUTH_JWKS_URL`
    - `NODE_ENV` = `production`
 3. **Lancer le déploiement** en liant votre dépôt GitHub `dallha/almouyassar-Quiz` !
 
@@ -315,8 +235,9 @@ Il s'agit de la méthode la plus simple et robuste pour notre architecture unifi
    *Ce script lance le serveur Node qui sert l'API et distribue l'application React.*
 4. **Définir les Variables d'Environnement** de production dans les paramètres du service :
    - `GEMINI_API_KEY`
-   - `VITE_SUPABASE_URL`
-   - `VITE_SUPABASE_ANON_KEY`
+   - `VITE_NEON_AUTH_URL`
+   - `DATABASE_URL`
+   - `NEON_AUTH_JWKS_URL`
    - `NODE_ENV` = `production`
 5. Déployer l'application. Elle sera accessible publiquement avec une gestion dynamique du routage et de la mémoire !
 
