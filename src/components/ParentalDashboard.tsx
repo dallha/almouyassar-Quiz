@@ -612,7 +612,7 @@ export default function ParentalDashboard({
                   </span>
                   <div className="space-y-3">
                     {Object.entries(stats.masteryLevels).map(([cat, mastery]) => {
-                      const percentage = Math.min(100, Math.round(((mastery.level - 1) / 5) * 100) || 0);
+                      const percentage = Math.min(100, Math.round(((Number(mastery.level) - 1) / 5) * 100) || 0);
                       return (
                         <div key={cat} className="space-y-1">
                           <div className="flex justify-between items-center text-[10px] font-bold">
