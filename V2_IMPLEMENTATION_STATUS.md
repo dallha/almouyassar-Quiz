@@ -152,3 +152,14 @@
 - les fondations V2 sont maintenant intégrées au quiz réel, au parcours publié, à l’historique de révision, aux missions, à Oustaz, à la synchronisation et à la PWA ;
 - aucun sprint n’est déclaré DONE sans interface et validation correspondantes ;
 - les travaux restants sont explicitement identifiés : extraction complète du shell, validation RLS réelle, complétude multilingue et analytics serveur.
+
+## Migration Neon
+### Implémenté
+- projet `steep-silence-28823593` lié à la branche `production` ;
+- Neon Auth activé avec `neon.ts` et authentification navigateur via [src/neonAuthClient.ts](src/neonAuthClient.ts) ;
+- schéma applicatif déployé par [db/neon-schema.sql](db/neon-schema.sql) ;
+- APIs Neon authentifiées pour progression, profil, CMS et dashboard parent dans [server](server) ;
+- frontend progression, CMS et parent routés vers les APIs Neon.
+### Problèmes restants
+- l’adaptateur `SupabaseAuthAdapter` reste utilisé uniquement comme compatibilité d’API fournie par Neon Auth ; le SDK Supabase et les anciens services d’accès ont été retirés ;
+- `VITE_NEON_AUTH_URL` doit être configurée dans l’environnement Vercel.

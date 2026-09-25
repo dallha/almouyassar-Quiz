@@ -6,6 +6,10 @@ import { GoogleGenAI, HarmBlockThreshold, HarmCategory } from "@google/genai";
 import dotenv from "dotenv";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import { registerNeonProgressRoutes } from "./server/neonProgressRoutes";
+import { registerNeonContentRoutes } from "./server/neonContentRoutes";
+import { registerNeonParentRoutes } from "./server/neonParentRoutes";
+import { registerNeonOustazRoutes } from "./server/neonOustazRoutes";
 
 dotenv.config();
 
@@ -13,6 +17,10 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+registerNeonProgressRoutes(app);
+registerNeonContentRoutes(app);
+registerNeonParentRoutes(app);
+registerNeonOustazRoutes(app);
 
 // Upstash Rate Limiter (Lazy initialization)
 let upstashRedis: Redis | null = null;

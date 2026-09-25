@@ -1,9 +1,9 @@
-import { supabase, isSupabaseConfigured } from '../supabaseClient';
-import type { ChildProgressRecord } from './supabaseProgressService';
+import type { NeonChildProgressRecord } from './neonProgressService';
+import { neonApiFetch } from './neonApiClient';
 
 export interface ParentChildSnapshot {
   childId: string;
-  progress: ChildProgressRecord | null;
+  progress: NeonChildProgressRecord | null;
   answered: number;
   correct: number;
   reviewDue: number;
@@ -11,32 +11,32 @@ export interface ParentChildSnapshot {
 }
 
 export async function loadParentChildSnapshots(parentId: string): Promise<ParentChildSnapshot[]> {
-  if (!isSupabaseConfigured()) return [];
-  const { data: links, error: linkError } = await supabase
-    .from('parent_child_links')
-    .select('child_id')
-    .eq('parent_id', parentId);
-  if (linkError) throw linkError;
-
-  const childIds = (links || []).map((link) => link.child_id as string);
-  if (childIds.length === 0) return [];
-
-  const [{ data: progressRows, error: progressError }, { data: events, error: eventsError }] = await Promise.all([
-    supabase.from('children_progress').select('*').in('child_id', childIds),
-    supabase.from('learning_progress_events').select('child_id, result, last_reviewed_at, created_at').in('child_id', childIds).order('created_at', { ascending: false }),
-  ]);
-  if (progressError) throw progressError;
-  if (eventsError) throw eventsError;
-
-  return childIds.map((childId) => {
-    const childEvents = (events || []).filter((event) => event.child_id === childId);
-    return {
-      childId,
-      progress: (progressRows || []).find((row) => row.child_id === childId) as ChildProgressRecord | null,
-      answered: childEvents.length,
-      correct: childEvents.filter((event) => event.result === 'correct').length,
-      reviewDue: childEvents.filter((event) => event.result === 'incorrect').length,
-      lastActivity: childEvents[0]?.created_at || null,
-    };
-  });
+  void parentId;
+  const { snapshots } = await neonApiFetch<{ snapshots: Array<{
+    child_id: string;
+    xp: number;
+    streak: number;
+    mastery_levels: Record<string, unknown>;
+    completed_quizzes: number;
+    last_sync: string;
+    answered: number;
+    correct: number;
+    review_due: number;
+    last_activity: string | null;
+  }> }>('/api/parent/dashboard');
+  return snapshots.map((snapshot) => ({
+    childId: snapshot.child_id,
+    progress: {
+      child_id: snapshot.child_id,
+      xp: snapshot.xp || 0,
+      streak: snapshot.streak || 0,
+      mastery_levels: snapshot.mastery_levels || {},
+      completed_quizzes: snapshot.completed_quizzes || 0,
+      last_sync: snapshot.last_sync,
+    },
+    answered: snapshot.answered || 0,
+    correct: snapshot.correct || 0,
+    reviewDue: snapshot.review_due || 0,
+    lastActivity: snapshot.last_activity,
+  }));
 }

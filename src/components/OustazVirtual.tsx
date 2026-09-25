@@ -8,9 +8,9 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Send, Sparkles, AlertCircle, Compass, MessageSquareCode, HelpCircle, GraduationCap, RotateCcw, Save, Trash2, FolderOpen, Plus, FileText, Volume2, Square } from 'lucide-react';
 import { playSelectSound } from './SoundEngine';
 import SchoolLogo from './SchoolLogo';
-import { User } from '@supabase/supabase-js';
-import { supabase, isSupabaseConfigured } from '../supabaseClient';
+import { isNeonAuthConfigured, type AuthUser } from '../neonAuthClient';
 import { useLanguage } from '../LanguageContext';
+import { clearNeonOustazMessages, deleteNeonOustazChat, listNeonOustazChats, loadNeonOustazMessages, renameNeonOustazChat, saveNeonOustazMessage } from '../services/neonOustazService';
 
 interface Message {
   role: 'user' | 'model';
@@ -38,7 +38,7 @@ const getWelcomeMessage = (lang: string): Message[] => [
 ];
 
 interface OustazVirtualProps {
-  currentUser: User | null;
+  currentUser: AuthUser | null;
 }
 
 export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
@@ -102,9 +102,9 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
 
   const [currentlySpeakingIdx, setCurrentlySpeakingIdx] = useState<number | null>(null);
 
-  // Sync with Supabase on login/change of currentUser
+  // Sync with Neon Auth on login/change of currentUser
   useEffect(() => {
-    if (!isSupabaseConfigured() || !currentUser) {
+    if (!isNeonAuthConfigured() || !currentUser) {
       // Fallback local complet : recharger du localStorage
       const saved = localStorage.getItem('oustaz_saved_chats_v2');
       let localChats: SavedChat[] = [];
@@ -138,19 +138,13 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
       return;
     }
 
-    // Si connecté : charger depuis Supabase
-    const loadSupabaseData = async () => {
+    // Si connecté : charger depuis Neon
+    const loadNeonData = async () => {
       try {
-        const { data: chats, error: chatsErr } = await supabase
-          .from('oustaz_chats')
-          .select('*')
-          .eq('user_id', currentUser.id)
-          .order('updated_at', { ascending: false });
-
-        if (chatsErr) throw chatsErr;
+        const { chats } = await listNeonOustazChats();
 
         let mappedChats: SavedChat[] = [];
-        if (chats && chats.length > 0) {
+        if (chats.length > 0) {
           mappedChats = chats.map(c => ({
             id: c.id,
             title: c.title,
@@ -173,13 +167,7 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
 
           setActiveChatId(activeId);
 
-          const { data: dbMessages, error: msgErr } = await supabase
-            .from('oustaz_messages')
-            .select('role, content')
-            .eq('chat_id', activeId)
-            .order('created_at', { ascending: true });
-
-          if (msgErr) throw msgErr;
+          const { messages: dbMessages } = await loadNeonOustazMessages(activeId);
 
           if (dbMessages && dbMessages.length > 0) {
             const mappedMessages: Message[] = dbMessages.map(m => ({
@@ -198,76 +186,21 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
           setMessages(defaultWelcome);
         }
       } catch (err) {
-        console.error("Erreur lors de la récupération des données Supabase de l'Oustaz :", err);
+        console.error("Erreur lors de la récupération des données Neon de l'Oustaz :", err);
       }
     };
 
-    loadSupabaseData();
+    loadNeonData();
   }, [currentUser]);
 
-  // Helper function to save messages asynchronously to Supabase
-  const saveMessageToSupabase = async (chatId: string, role: 'user' | 'model', content: string) => {
-    if (!isSupabaseConfigured() || !currentUser) return;
+  // Helper function to save messages asynchronously to Neon
+  const saveMessageToNeon = async (chatId: string, role: 'user' | 'model', content: string) => {
+    if (!isNeonAuthConfigured() || !currentUser) return;
 
     try {
-      const { data: existingChat, error: checkErr } = await supabase
-        .from('oustaz_chats')
-        .select('id')
-        .eq('id', chatId)
-        .single();
-
-      if (checkErr && checkErr.code === 'PGRST116') {
-        const queryMsg = messages.find(m => m.role === 'user');
-        const firstMessageText = queryMsg ? queryMsg.parts[0].text : content;
-        const defaultTitle = firstMessageText.length > 28 ? firstMessageText.slice(0, 25) + '...' : firstMessageText;
-
-        const { error: insertChatErr } = await supabase
-          .from('oustaz_chats')
-          .insert({
-            id: chatId,
-            user_id: currentUser.id,
-            title: role === 'user' ? (content.length > 28 ? content.slice(0, 25) + '...' : content) : defaultTitle
-          });
-
-        if (insertChatErr) throw insertChatErr;
-
-        const timestampLabel = new Date().toLocaleString('fr-FR', {
-          day: 'numeric',
-          month: 'short',
-          hour: '2-digit',
-          minute: '2-digit'
-        });
-        setSavedChats(prev => [
-          {
-            id: chatId,
-            title: role === 'user' ? (content.length > 28 ? content.slice(0, 25) + '...' : content) : defaultTitle,
-            timestamp: timestampLabel,
-            messages: []
-          },
-          ...prev
-        ]);
-      } else if (checkErr) {
-        throw checkErr;
-      }
-
-      const { error: insertMsgErr } = await supabase
-        .from('oustaz_messages')
-        .insert({
-          chat_id: chatId,
-          role,
-          content
-        });
-
-      if (insertMsgErr) throw insertMsgErr;
-
-      const { error: updateChatErr } = await supabase
-        .from('oustaz_chats')
-        .update({ updated_at: new Date().toISOString() })
-        .eq('id', chatId);
-
-      if (updateChatErr) throw updateChatErr;
+      await saveNeonOustazMessage(chatId, role, content, content);
     } catch (err) {
-      console.error("Erreur lors de la sauvegarde du message dans Supabase :", err);
+      console.error("Erreur lors de la sauvegarde du message dans Neon :", err);
     }
   };
 
@@ -336,7 +269,7 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
 
   // Save/Update current active thread in the list whenever messages or activeChatId changes
   useEffect(() => {
-    if (isSupabaseConfigured() && currentUser) {
+    if (isNeonAuthConfigured() && currentUser) {
       localStorage.setItem('oustaz_active_chat_id_v2', activeChatId);
       return;
     }
@@ -431,8 +364,8 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
       setIsLoading(true);
       setErrorStatus(null);
 
-      if (isSupabaseConfigured() && currentUser) {
-        saveMessageToSupabase(activeChatId, 'user', textToSend);
+      if (isNeonAuthConfigured() && currentUser) {
+        saveMessageToNeon(activeChatId, 'user', textToSend);
       }
       
       setTimeout(() => {
@@ -452,8 +385,8 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
         setIsLoading(false);
         setFinishedGenerating(true);
 
-        if (isSupabaseConfigured() && currentUser) {
-          saveMessageToSupabase(activeChatId, 'model', responseText);
+        if (isNeonAuthConfigured() && currentUser) {
+          saveMessageToNeon(activeChatId, 'model', responseText);
         }
 
         setTimeout(() => setFinishedGenerating(false), 2500);
@@ -474,8 +407,8 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
     setIsLoading(true);
     setErrorStatus(null);
 
-    if (isSupabaseConfigured() && currentUser) {
-      saveMessageToSupabase(activeChatId, 'user', textToSend);
+    if (isNeonAuthConfigured() && currentUser) {
+      saveMessageToNeon(activeChatId, 'user', textToSend);
     }
 
     if (isFirstUserMessage) {
@@ -521,8 +454,8 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
           }
         ]);
 
-        if (isSupabaseConfigured() && currentUser) {
-          saveMessageToSupabase(activeChatId, 'model', data.text);
+        if (isNeonAuthConfigured() && currentUser) {
+          saveMessageToNeon(activeChatId, 'model', data.text);
         }
 
         window.dispatchEvent(new CustomEvent('oustaz_message_sent'));
@@ -562,15 +495,9 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
     setActiveChatId(chat.id);
     setShowHistoryDrawer(false);
 
-    if (isSupabaseConfigured() && currentUser) {
+    if (isNeonAuthConfigured() && currentUser) {
       try {
-        const { data: dbMessages, error: msgErr } = await supabase
-          .from('oustaz_messages')
-          .select('role, content')
-          .eq('chat_id', chat.id)
-          .order('created_at', { ascending: true });
-
-        if (msgErr) throw msgErr;
+        const { messages: dbMessages } = await loadNeonOustazMessages(chat.id);
 
         if (dbMessages && dbMessages.length > 0) {
           const mappedMessages: Message[] = dbMessages.map(m => ({
@@ -597,16 +524,11 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
       const remaining = savedChats.filter(c => c.id !== id);
       setSavedChats(remaining);
 
-      if (isSupabaseConfigured() && currentUser) {
+      if (isNeonAuthConfigured() && currentUser) {
         try {
-          const { error } = await supabase
-            .from('oustaz_chats')
-            .delete()
-            .eq('id', id);
-
-          if (error) throw error;
+          await deleteNeonOustazChat(id);
         } catch (err) {
-          console.error("Erreur lors de la suppression de la discussion dans Supabase:", err);
+          console.error("Erreur lors de la suppression de la discussion dans Neon:", err);
         }
       } else {
         localStorage.setItem('oustaz_saved_chats_v2', JSON.stringify(remaining));
@@ -616,7 +538,7 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
         const fallbackId = 'session-' + Date.now();
         setActiveChatId(fallbackId);
         
-        if (isSupabaseConfigured() && currentUser) {
+        if (isNeonAuthConfigured() && currentUser) {
           setMessages(defaultWelcome);
         } else {
           const matchingConvo = remaining.find(c => c.id === fallbackId);
@@ -648,16 +570,11 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
       return list;
     });
 
-    if (isSupabaseConfigured() && currentUser) {
+    if (isNeonAuthConfigured() && currentUser) {
       try {
-        const { error } = await supabase
-          .from('oustaz_chats')
-          .update({ title: renameValue })
-          .eq('id', id);
-
-        if (error) throw error;
+        await renameNeonOustazChat(id, renameValue);
       } catch (err) {
-        console.error("Erreur lors de la mise à jour du titre dans Supabase:", err);
+        console.error("Erreur lors de la mise à jour du titre dans Neon:", err);
       }
     }
     
@@ -673,16 +590,11 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
       setCurrentlySpeakingIdx(null);
       setMessages(defaultWelcome);
 
-      if (isSupabaseConfigured() && currentUser) {
+      if (isNeonAuthConfigured() && currentUser) {
         try {
-          const { error } = await supabase
-            .from('oustaz_messages')
-            .delete()
-            .eq('chat_id', activeChatId);
-
-          if (error) throw error;
+          await clearNeonOustazMessages(activeChatId);
         } catch (err) {
-          console.error("Erreur lors de la réinitialisation de l'historique dans Supabase:", err);
+          console.error("Erreur lors de la réinitialisation de l'historique dans Neon:", err);
         }
       }
     }

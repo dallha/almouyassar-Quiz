@@ -18,8 +18,7 @@ import StatsCard from './components/StatsCard';
 import SchoolInfo from './components/SchoolInfo';
 import { setMuteState, playBadgeSound, playSelectSound } from './components/SoundEngine';
 import { useLanguage } from './LanguageContext';
-import { supabase, isSupabaseConfigured } from './supabaseClient';
-import { User } from '@supabase/supabase-js';
+import { neonAuth, isNeonAuthConfigured, type AuthUser } from './neonAuthClient';
 
 // New Modular Subsystems
 import VisionPitch from './components/VisionPitch';
@@ -38,7 +37,8 @@ import { useAppStore, pickRandomQuestions } from './store';
 import { summarizeLearningPath } from './features/learning';
 import { applyAnswerToProgress } from './features/quiz/sessionService';
 import { getProgressSnapshot, getRecommendedReviewQueue } from './services/learningService';
-import { loadChildProgressFromSupabase, syncChildProgressToSupabase, syncProgressEventsToSupabase } from './services/supabaseProgressService';
+import { loadChildProgressFromNeon, syncChildProgressToNeon } from './services/neonProgressService';
+import { neonApiFetch } from './services/neonApiClient';
 import { listProgressEvents, recordProgressEvent } from './services/progressRepository';
 import { trackAnalyticsEvent } from './services/analyticsService';
 import { getPublishedLearningPath } from './services/contentRepository';
@@ -225,9 +225,9 @@ export default function App() {
     return l;
   };
 
-  // --- Supabase Auth and Sync States ---
-  // currentUser : known authenticated Supabase user session
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  // --- Neon Auth and Sync States ---
+  // currentUser : authenticated Neon user session
+  const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
 
   // --- Zustand Store (Premium Architecture) ---
   const {
@@ -290,7 +290,7 @@ export default function App() {
     };
   }, [handleProgressQuest]);
 
-  // --- Supabase Auth and Sync States ---
+  // --- Neon Auth and Sync States ---
   // showAuthModal : controls whether the auth modal is visible
   const [showAuthModal, setShowAuthModal] = useState(false);
   // authEmail/authPassword : values bound to the auth form inputs
@@ -302,9 +302,9 @@ export default function App() {
   // - signin : login
   // - signup : registration
   // - forgot : request password reset email
-  // - recovery : update password after clicking Supabase recovery link
+  // - recovery : update password after clicking the Neon recovery link
   const [authMode, setAuthMode] = useState<'signin' | 'signup' | 'forgot' | 'recovery'>('signin');
-  // authRecoveryToken: stores the Supabase recovery token from the URL
+  // authRecoveryToken: stores the Neon recovery token from the URL
   const [authRecoveryToken, setAuthRecoveryToken] = useState<string | null>(null);
   // authRecoveryFlow: keeps the UI in recovery mode even if a session exists
   const [authRecoveryFlow, setAuthRecoveryFlow] = useState(false);
@@ -313,11 +313,11 @@ export default function App() {
   const [authLoading, setAuthLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
 
-  // Listen for Supabase Authentication status
+  // Listen for Neon Authentication status
   useEffect(() => {
-    if (!isSupabaseConfigured()) return;
-    supabase.auth.getSession().then(({ data: { session } }) => setCurrentUser(session?.user ?? null));
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => setCurrentUser(session?.user ?? null));
+    if (!isNeonAuthConfigured()) return;
+    neonAuth.getSession().then(({ data: { session } }) => setCurrentUser(session?.user ?? null));
+    const { data: { subscription } } = neonAuth.onAuthStateChange((_event, session) => setCurrentUser(session?.user ?? null));
     return () => subscription.unsubscribe();
   }, []);
 
@@ -333,7 +333,7 @@ export default function App() {
     setResendLoading(true);
 
     try {
-      const { error } = await supabase.auth.resend({ email: authEmail, type: 'signup' });
+      const { error } = await neonAuth.resend({ email: authEmail, type: 'signup' });
       if (error) throw error;
       setAuthMessage(t('common.auth_confirmation_resent'));
     } catch (err: any) {
@@ -344,7 +344,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    if (!isSupabaseConfigured() || typeof window === 'undefined') return;
+    if (!isNeonAuthConfigured() || typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
     const type = params.get('type');
     const token = params.get('token');
@@ -363,7 +363,7 @@ export default function App() {
 
       const verifyRecoveryToken = async () => {
         try {
-          const { data, error } = await supabase.auth.verifyOtp({
+          const { data, error } = await neonAuth.verifyOtp({
             type: 'recovery',
             email: authEmail || '',
             token,
@@ -394,29 +394,19 @@ export default function App() {
     }
   }, [authMode, currentUser]);
 
-  // Fetch profile stats on successful login
+  // Fetch Neon progress on successful login
   useEffect(() => {
-    if (!isSupabaseConfigured() || !currentUser) return;
+    if (!isNeonAuthConfigured() || !currentUser) return;
     const loadProfile = async () => {
       try {
-        const { data, error } = await supabase.from('profiles').select('*').eq('id', currentUser.id).maybeSingle();
-        if (error) {
-          console.error('Erreur Supabase profiles:', error);
-          return;
-        }
-        if (data) {
-          const savedProgress = await loadChildProgressFromSupabase(currentUser.id);
+        const savedProgress = await loadChildProgressFromNeon();
+        if (savedProgress) {
           setStats(prev => ({
             ...createDefaultUserStats(),
             ...prev,
-            xp: savedProgress?.xp ?? data.xp ?? 0,
-            totalAnswered: data.total_answered ?? 0,
-            correctAnswersCount: data.correct_answers_count ?? 0,
-            streak: savedProgress?.streak ?? data.streak ?? 0,
-            highestStreak: data.highest_streak ?? 0,
-            lastPlayedDate: data.last_played_date ?? null,
-            completedQuizzesCount: savedProgress?.completed_quizzes ?? data.completed_quizzes_count ?? 0,
-            unlockedBadgeIds: data.unlocked_badge_ids ?? [],
+            xp: savedProgress.xp ?? 0,
+            streak: savedProgress.streak ?? 0,
+            completedQuizzesCount: savedProgress.completed_quizzes ?? 0,
             masteryLevels: prev.masteryLevels || {},
             totalXpEarned: prev.totalXpEarned || 0,
             quizzesToday: prev.quizzesToday || 0,
@@ -424,81 +414,32 @@ export default function App() {
             preferredCategories: prev.preferredCategories || [],
             averageAccuracy: prev.averageAccuracy || 0,
           }));
-          // Set username from profile if available
-          if (data.username) {
-            setUsername(data.username);
-          }
-          // Load adventure state if available
-          if (data.adventure_state) {
-            setAdventureState(data.adventure_state);
-          }
         } else {
           const defaultUsername = currentUser.email?.split('@')[0] || 'Apprenti Ansar';
           setUsername(defaultUsername);
-          await supabase.from('profiles').insert({
-            id: currentUser.id,
-            username: defaultUsername,
-            xp: stats.xp,
-            total_answered: stats.totalAnswered,
-            correct_answers_count: stats.correctAnswersCount,
-            streak: stats.streak,
-            highest_streak: stats.highestStreak,
-            completed_quizzes_count: stats.completedQuizzesCount,
-            unlocked_badge_ids: stats.unlockedBadgeIds,
-          });
         }
       } catch (err) {
-        console.error('Erreur chargement profil Supabase:', err);
+        console.error('Erreur chargement progression Neon:', err);
       }
     };
     loadProfile();
   }, [currentUser]);
 
-  // Helper function to sync stats to Supabase immediately
-  const syncStatsToSupabase = async (statsToSync: UserStats, advStateToSync?: typeof adventureState) => {
-    if (!isSupabaseConfigured() || !currentUser) return;
+  // Helper function to sync stats to Neon immediately
+  const syncStatsToNeon = async (statsToSync: UserStats, _advStateToSync?: typeof adventureState) => {
+    if (!isNeonAuthConfigured() || !currentUser) return;
     try {
-      const { error } = await supabase.rpc('update_user_stats_secure', {
-        new_xp: statsToSync.xp,
-        new_total_answered: statsToSync.totalAnswered,
-        new_correct: statsToSync.correctAnswersCount,
-        new_streak: statsToSync.streak,
-        new_highest_streak: statsToSync.highestStreak,
-        new_completed: statsToSync.completedQuizzesCount,
-        new_badges: statsToSync.unlockedBadgeIds
-      });
-
-      await syncChildProgressToSupabase(currentUser.id, statsToSync);
-      await syncProgressEventsToSupabase(currentUser.id);
-      
-      // Update the profiles table with stats and optionally adventure_state
-      const updateData: any = {
-        xp: statsToSync.xp,
-        total_answered: statsToSync.totalAnswered,
-        correct_answers_count: statsToSync.correctAnswersCount,
-        streak: statsToSync.streak,
-        highest_streak: statsToSync.highestStreak,
-        completed_quizzes_count: statsToSync.completedQuizzesCount,
-        unlocked_badge_ids: statsToSync.unlockedBadgeIds,
-        updated_at: new Date().toISOString(),
-      };
-      
-      if (advStateToSync) {
-        updateData.adventure_state = advStateToSync;
-      }
-      
-      await supabase.from('profiles').update(updateData).eq('id', currentUser.id);
-
+      await syncChildProgressToNeon(currentUser.id, statsToSync);
     } catch (err) {
-      console.error('Erreur sync stats Supabase:', err);
+      console.error('Erreur sync stats Neon:', err);
     }
   };
 
-  // Push updates to Supabase (debounced) - sauvegarde périodique
+  // Push updates to Neon (debounced) - sauvegarde périodique
   useEffect(() => {
-    if (isSupabaseConfigured() && currentUser) {
+    if (isNeonAuthConfigured() && currentUser) {
       const timeoutId = setTimeout(() => {
-        syncStatsToSupabase(stats, adventureState);
+        syncStatsToNeon(stats, adventureState);
       }, 800);
       return () => clearTimeout(timeoutId);
     }
@@ -507,7 +448,7 @@ export default function App() {
   useEffect(() => {
     if (!currentUser) return;
     const flushProgress = () => {
-      if (navigator.onLine) void syncStatsToSupabase(stats, adventureState);
+      if (navigator.onLine) void syncStatsToNeon(stats, adventureState);
     };
     window.addEventListener('online', flushProgress);
     return () => window.removeEventListener('online', flushProgress);
@@ -992,8 +933,8 @@ export default function App() {
       setCategoryStats(updatedCategoryStats);
     }
     
-    // Sync progress to Supabase immediately after each answer
-    syncStatsToSupabase(updatedStats, adventureState);
+    // Sync progress to Neon immediately after each answer
+    syncStatsToNeon(updatedStats, adventureState);
   };
 
   const handleFinishSession = () => {
@@ -1059,8 +1000,8 @@ export default function App() {
       };
     });
     
-    // Sync progress to Supabase immediately after finishing a session
-    syncStatsToSupabase({
+    // Sync progress to Neon immediately after finishing a session
+    syncStatsToNeon({
       ...stats,
       xp: stats.xp + bonusXp,
       completedQuizzesCount: stats.completedQuizzesCount + 1
@@ -2319,7 +2260,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* AUTH MODAL SYSTEM (SUPABASE) */}
+      {/* AUTH MODAL SYSTEM (NEON) */}
       <AnimatePresence>
         {showAuthModal && (
           <div className="fixed inset-0 z-55 flex items-center justify-center p-4">
@@ -2398,11 +2339,10 @@ export default function App() {
                             setAuthError(null);
                             setAuthMessage(null);
                             try {
-                              const { error } = await supabase
-                                .from('profiles')
-                                .update({ username, updated_at: new Date().toISOString() })
-                                .eq('id', currentUser.id);
-                              if (error) throw error;
+                              await neonApiFetch('/api/profile', {
+                                method: 'PATCH',
+                                body: JSON.stringify({ username }),
+                              });
                               setAuthMessage(t('common.auth_profile_updated', 'Profil mis à jour !'));
                             } catch (err: any) {
                               setAuthError(err.message || t('common.auth_error_generic'));
@@ -2443,7 +2383,7 @@ export default function App() {
                     onClick={async () => {
                       playSelectSound();
                       setAuthLoading(true);
-                      await supabase.auth.signOut();
+                      await neonAuth.signOut();
                       setAuthLoading(false);
                       setShowAuthModal(false);
                     }}
@@ -2471,7 +2411,7 @@ export default function App() {
 
                     try {
                       if (authMode === 'forgot') {
-                        const { error } = await supabase.auth.resetPasswordForEmail(authEmail);
+                        const { error } = await neonAuth.resetPasswordForEmail(authEmail);
                         if (error) throw error;
                         setAuthMessage(t('common.auth_reset_password_sent'));
                         setAuthPassword('');
@@ -2480,7 +2420,7 @@ export default function App() {
                       }
 
                       if (authMode === 'signin') {
-                        const { data, error } = await supabase.auth.signInWithPassword({
+                        const { data, error } = await neonAuth.signInWithPassword({
                           email: authEmail,
                           password: authPassword,
                         });
@@ -2491,7 +2431,7 @@ export default function App() {
                         setShowAuthModal(false);
                       } else if (authMode === 'recovery') {
                         // Update the user's password after a valid recovery token was verified.
-                        const { data, error } = await supabase.auth.updateUser({ password: authPassword });
+                        const { data, error } = await neonAuth.updateUser({ password: authPassword });
                         if (error) throw error;
                         setAuthMessage(t('common.auth_password_changed_success'));
                         setAuthPassword('');
@@ -2499,27 +2439,14 @@ export default function App() {
                         setAuthRecoveryFlow(false);
                         setShowAuthModal(true);
                       } else {
-                        const { data, error } = await supabase.auth.signUp({
+                        const { data, error } = await neonAuth.signUp({
                           email: authEmail,
                           password: authPassword,
                         });
                         if (error) throw error;
                         
-                        // Save username to profile on signup
                         const finalUsername = authUsername.trim() || currentUser?.email?.split('@')[0] || 'Explorateur';
-                        if (data?.user) {
-                          await supabase.from('profiles').upsert({
-                            id: data.user.id,
-                            username: finalUsername,
-                            xp: 0,
-                            total_answered: 0,
-                            correct_answers_count: 0,
-                            streak: 0,
-                            highest_streak: 0,
-                            completed_quizzes_count: 0,
-                            unlocked_badge_ids: [],
-                          });
-                        }
+                        if (data?.user) setUsername(finalUsername);
                         
                         if (data?.session) {
                           setAuthMessage(t('common.auth_success_signup'));
