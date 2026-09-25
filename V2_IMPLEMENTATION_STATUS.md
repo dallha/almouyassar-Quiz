@@ -118,8 +118,7 @@
 ### Implémenté
 - [src/components/ParentalDashboard.tsx](src/components/ParentalDashboard.tsx) conservé et renforcé
 ### Problèmes restants
-- lecture réelle des données d’enfant depuis Supabase non finalisée par table de relation propre
-- le dashboard doit encore charger le snapshot parent depuis un service Supabase dédié
+- les tests de lecture croisée doivent encore être exécutés contre une instance Supabase de test
 
 ## Sprint 11 — CMS pédagogique
 ### Prévu
@@ -128,9 +127,9 @@
 - [src/services/contentRepository.ts](src/services/contentRepository.ts) pour un accès structuré au contenu
 - workflow versionné et audité dans [src/features/cms/contentWorkflow.ts](src/features/cms/contentWorkflow.ts)
 - chaîne pédagogique utilisable dans [src/features/learning/learningPath.ts](src/features/learning/learningPath.ts) et [src/components/LearningPathPanel.tsx](src/components/LearningPathPanel.tsx)
+- CRUD Supabase et transitions versionnées dans [src/services/cmsService.ts](src/services/cmsService.ts) et [src/components/CmsDashboard.tsx](src/components/CmsDashboard.tsx)
 ### Problèmes restants
-- interface CMS d’édition non développée
-- les mutations CRUD institutionnelles doivent encore être exposées par une interface protégée
+- le rôle institutionnel doit encore être formalisé dans Supabase au-delà des policies auteur
 
 ## Sprint 12 — IA + PWA + analytics
 ### Prévu
@@ -140,8 +139,9 @@
 - enregistrement PWA depuis [src/main.tsx](src/main.tsx) et cache versionné dans [public/service-worker.js](public/service-worker.js)
 - événements produit et pédagogiques dans [src/services/analyticsService.ts](src/services/analyticsService.ts)
 - file de synchronisation offline dans [src/services/offlineSyncService.ts](src/services/offlineSyncService.ts)
+- scénario navigateur production dans [tests/e2e/offline-reconnect.spec.ts](tests/e2e/offline-reconnect.spec.ts)
 ### Statut
-- les tableaux de bord analytics et le flush serveur restent à brancher
+- les tableaux de bord analytics serveur restent à brancher
 
 ## Validation globale
 - `npm run lint` ✅
@@ -151,4 +151,4 @@
 ## Conclusion honnête
 - les fondations V2 sont maintenant intégrées au quiz réel, au parcours publié, à l’historique de révision, aux missions, à Oustaz, à la synchronisation et à la PWA ;
 - aucun sprint n’est déclaré DONE sans interface et validation correspondantes ;
-- les travaux restants sont explicitement identifiés : extraction complète du shell, CRUD CMS institutionnel, dashboard parent Supabase, validation RLS réelle, complétude multilingue et analytics serveur.
+- les travaux restants sont explicitement identifiés : extraction complète du shell, validation RLS réelle, complétude multilingue et analytics serveur.

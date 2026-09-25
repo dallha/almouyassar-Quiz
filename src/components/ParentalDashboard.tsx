@@ -9,6 +9,7 @@ import { Shield, Check, Lock, Unlock, RefreshCw, BarChart2, Eye, EyeOff, VolumeX
 import { playSelectSound } from './SoundEngine';
 import { UserStats } from '../types';
 import { useLanguage } from '../LanguageContext';
+import { loadParentChildSnapshots, type ParentChildSnapshot } from '../services/parentDashboardService';
 
 interface ParentalDashboardProps {
   stats: UserStats;
@@ -19,6 +20,7 @@ interface ParentalDashboardProps {
   isOustazBlocked: boolean;
   onToggleOustazBlocked: (val: boolean) => void;
   onResetProgress: () => void;
+  currentUserId?: string | null;
   theme?: 'light' | 'dark';
 }
 
@@ -31,6 +33,7 @@ export default function ParentalDashboard({
   isOustazBlocked,
   onToggleOustazBlocked,
   onResetProgress,
+  currentUserId = null,
   theme = 'light'
 }: ParentalDashboardProps) {
   const { t, dir } = useLanguage();
@@ -56,6 +59,8 @@ export default function ParentalDashboard({
 
   // UI Confirms
   const [showConfirmReset, setShowConfirmReset] = useState(false);
+  const [childSnapshots, setChildSnapshots] = useState<ParentChildSnapshot[]>([]);
+  const [childSnapshotError, setChildSnapshotError] = useState<string | null>(null);
 
   // Load PIN and lockout status from localStorage
   useEffect(() => {
@@ -92,6 +97,13 @@ export default function ParentalDashboard({
       return () => clearInterval(interval);
     }
   }, [lockoutUntil]);
+
+  useEffect(() => {
+    if (!isUnlocked || !currentUserId) return;
+    loadParentChildSnapshots(currentUserId)
+      .then(setChildSnapshots)
+      .catch(() => setChildSnapshotError('Les données des enfants autorisés ne sont pas accessibles.'));
+  }, [currentUserId, isUnlocked]);
 
   // Shake effect helper
   const triggerErrorShake = () => {
@@ -589,6 +601,28 @@ export default function ParentalDashboard({
                   <p className={`text-[9px] ${theme === 'dark' ? 'text-slate-500' : 'text-stone-500'} leading-none`}>{t('parental.total_answered_desc')}</p>
                 </div>
               </div>
+            </div>
+
+            <div className={`space-y-3 border-t pt-4 ${theme === 'dark' ? 'border-slate-800/80' : 'border-stone-200/60'}`}>
+              <div className="flex items-center justify-between">
+                <span className={`uppercase tracking-tight text-xs font-bold ${theme === 'dark' ? 'text-slate-300' : 'text-[#004D40]'}`}>Enfants autorisés</span>
+                <span className="text-[10px] opacity-60">{childSnapshots.length}</span>
+              </div>
+              {childSnapshotError && <p className="text-[10px] text-rose-500">{childSnapshotError}</p>}
+              {childSnapshots.map((child) => (
+                <div key={child.childId} className={`rounded-xl border p-3 ${theme === 'dark' ? 'border-slate-800 bg-slate-900/50' : 'border-stone-150 bg-white'}`}>
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="truncate text-xs font-bold">{child.childId}</span>
+                    <span className="text-xs font-black text-amber-500">{child.progress?.xp || 0} XP</span>
+                  </div>
+                  <div className="mt-2 grid grid-cols-3 gap-2 text-center text-[9px] opacity-70">
+                    <span>{child.answered} réponses</span>
+                    <span>{child.correct} réussites</span>
+                    <span>{child.reviewDue} à revoir</span>
+                  </div>
+                </div>
+              ))}
+              {!childSnapshotError && childSnapshots.length === 0 && <p className="text-[10px] opacity-60">Aucun enfant lié à ce compte.</p>}
             </div>
 
             {/* Sub-Section 2: Interactive Filters & Blocks */}

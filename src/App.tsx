@@ -43,6 +43,7 @@ import { listProgressEvents, recordProgressEvent } from './services/progressRepo
 import { trackAnalyticsEvent } from './services/analyticsService';
 import { getPublishedLearningPath } from './services/contentRepository';
 import LearningPathPanel from './components/LearningPathPanel';
+import CmsDashboard from './components/CmsDashboard';
 
 const createDefaultUserStats = (): UserStats => ({
   xp: 0,
@@ -246,16 +247,14 @@ export default function App() {
     checkAndResetDailies
   } = useAppStore();
 
-  const progressHistory = currentUser
-    ? listProgressEvents(currentUser.id).map(({ questionId, result, responseTimeMs, difficulty, attempts, lastReviewedAt }) => ({
+  const progressHistory = listProgressEvents(currentUser?.id || 'local-child').map(({ questionId, result, responseTimeMs, difficulty, attempts, lastReviewedAt }) => ({
       questionId,
       result,
       responseTimeMs,
       difficulty,
       attempts,
       lastReviewedAt,
-    }))
-    : [];
+    }));
   const learningSnapshot = getProgressSnapshot(stats, QUESTIONS, progressHistory);
   const recommendedReviewQueue = getRecommendedReviewQueue(QUESTIONS, stats, 5);
   const learningPath = getPublishedLearningPath();
@@ -515,7 +514,7 @@ export default function App() {
   }, [currentUser, stats, adventureState]);
 
   // --- UI States ---
-  const [activeTab, setActiveTab] = useState<'pitch' | 'adventure' | 'quiz' | 'oustaz' | 'ansar' | 'stats' | 'parental'>('pitch');
+  const [activeTab, setActiveTab] = useState<'pitch' | 'adventure' | 'quiz' | 'oustaz' | 'ansar' | 'stats' | 'parental' | 'cms'>('pitch');
   const [showSchoolModal, setShowSchoolModal] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [isQuizActive, setIsQuizActive] = useState(false);
@@ -952,17 +951,17 @@ export default function App() {
 
     const { updatedStats, updatedCategoryStats, newUnlockedBadgeIds, xpGained } = progressResult;
 
+    recordProgressEvent({
+      childId: currentUser?.id || 'local-child',
+      questionId: String(currentQuestion.id),
+      category: currentQuestion.categorie,
+      result: isCorrect ? 'correct' : 'incorrect',
+      responseTimeMs: timeSpent,
+      difficulty: currentQuestion.niveau === 'Avancé' ? 3 : currentQuestion.niveau === 'Intermédiaire' ? 2 : 1,
+      attempts: 1,
+      lastReviewedAt: new Date().toISOString(),
+    });
     if (currentUser) {
-      recordProgressEvent({
-        childId: currentUser.id,
-        questionId: String(currentQuestion.id),
-        category: currentQuestion.categorie,
-        result: isCorrect ? 'correct' : 'incorrect',
-        responseTimeMs: timeSpent,
-        difficulty: currentQuestion.niveau === 'Avancé' ? 3 : currentQuestion.niveau === 'Intermédiaire' ? 2 : 1,
-        attempts: 1,
-        lastReviewedAt: new Date().toISOString(),
-      });
       trackAnalyticsEvent('question_answered', {
         questionId: currentQuestion.id,
         isCorrect,
@@ -1595,6 +1594,7 @@ export default function App() {
                     { key: 'ansar', icon: Sparkles, label: t('common.nav_karaoke', 'Karaoké') },
                     { key: 'stats', icon: Award, label: t('common.nav_trophies', 'Trophées') },
                     { key: 'parental', icon: Settings, label: t('common.nav_parents', 'Parents') },
+                    { key: 'cms', icon: BookOpenCheck, label: 'CMS' },
                   ].map(({ key, icon: Icon, label, disabled }) => (
                     <button
                       key={key}
@@ -1655,6 +1655,7 @@ export default function App() {
                     {activeTab === 'parental' && (
                       <ParentalDashboard
                         stats={stats}
+                        currentUserId={currentUser?.id || null}
                         timerEnabled={timerEnabled}
                         onToggleTimer={setTimerEnabled}
                         isMuted={isMuted}
@@ -1664,6 +1665,10 @@ export default function App() {
                         onResetProgress={handleResetProgress}
                         theme={theme}
                       />
+                    )}
+
+                    {activeTab === 'cms' && (
+                      <CmsDashboard userId={currentUser?.id || null} theme={theme} />
                     )}
 
                     {activeTab === 'quiz' && (
