@@ -187,11 +187,33 @@ app.post("/api/oustaz", oustazRateLimiter, async (req, res) => {
       history: safeHistory
     });
 
-    const response = await chat.sendMessage({ message });
-    res.json({ text: response.text });
+    if (req.body.stream) {
+      // Mode streaming (Server-Sent Events)
+      res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+
+      const responseStream = await chat.sendMessageStream({ message });
+      for await (const chunk of responseStream) {
+        if (chunk.text) {
+          res.write(`data: ${JSON.stringify({ text: chunk.text })}\n\n`);
+        }
+      }
+      res.write(`data: [DONE]\n\n`);
+      res.end();
+    } else {
+      // Mode standard
+      const response = await chat.sendMessage({ message });
+      res.json({ text: response.text });
+    }
   } catch (error: any) {
     console.error("Gemini Oustaz API error:", error);
-    res.status(500).json({ error: "Impossible de joindre l'Oustaz Virtuel en ce moment." });
+    if (!res.headersSent) {
+      res.status(500).json({ error: "Impossible de joindre l'Oustaz Virtuel en ce moment." });
+    } else {
+      res.write(`data: ${JSON.stringify({ error: "Interruption de la connexion AI." })}\n\n`);
+      res.end();
+    }
   }
 });
 

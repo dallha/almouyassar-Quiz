@@ -428,6 +428,12 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
         parts: [{ text: msg.parts[0].text }]
       }));
 
+      // Initialisation du message vide pour le streaming
+      setMessages(prev => [
+        ...prev, 
+        { role: 'model', parts: [{ text: '' }] }
+      ]);
+
       const res = await fetch('/api/oustaz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -435,7 +441,8 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
           message: textToSend,
           history: chatHistory,
           language: language,
-          context: { audience: 'child', purpose: 'pedagogical-explanation' }
+          context: { audience: 'child', purpose: 'pedagogical-explanation' },
+          stream: true
         })
       });
 
@@ -443,19 +450,51 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
         throw new Error("L'Oustaz Virtuel est temporairement indisponible.");
       }
 
-      const data = await res.json();
-      
-      if (data && data.text) {
-        setMessages(prev => [
-          ...prev, 
-          { 
-            role: 'model', 
-            parts: [{ text: data.text }] 
-          }
-        ]);
+      const reader = res.body?.getReader();
+      const decoder = new TextDecoder('utf-8');
+      let accumulatedText = '';
 
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          
+          const chunk = decoder.decode(value, { stream: true });
+          const lines = chunk.split('\n');
+          
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const dataStr = line.slice(6).trim();
+              if (dataStr === '[DONE]') continue;
+              try {
+                const data = JSON.parse(dataStr);
+                if (data.text) {
+                  accumulatedText += data.text;
+                  setMessages(prev => {
+                    const newMessages = [...prev];
+                    const lastIdx = newMessages.length - 1;
+                    if (newMessages[lastIdx].role === 'model') {
+                      newMessages[lastIdx] = {
+                        ...newMessages[lastIdx],
+                        parts: [{ text: accumulatedText }]
+                      };
+                    }
+                    return newMessages;
+                  });
+                } else if (data.error) {
+                  setErrorStatus(data.error);
+                }
+              } catch (e) {
+                // ignore invalid json from incomplete chunks
+              }
+            }
+          }
+        }
+      }
+      
+      if (accumulatedText) {
         if (isNeonAuthConfigured() && currentUser) {
-          saveMessageToNeon(activeChatId, 'model', data.text);
+          saveMessageToNeon(activeChatId, 'model', accumulatedText);
         }
 
         window.dispatchEvent(new CustomEvent('oustaz_message_sent'));

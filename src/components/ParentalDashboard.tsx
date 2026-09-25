@@ -601,6 +601,40 @@ export default function ParentalDashboard({
                   <p className={`text-[9px] ${theme === 'dark' ? 'text-slate-500' : 'text-stone-500'} leading-none`}>{t('parental.total_answered_desc')}</p>
                 </div>
               </div>
+
+              {/* Nouveau Bloc : Visualisation des performances par catégorie */}
+              {stats.masteryLevels && Object.keys(stats.masteryLevels).length > 0 && (
+                <div className={`mt-4 p-4 rounded-xl border shadow-sm ${
+                  theme === 'dark' ? 'bg-slate-900/50 border-slate-850' : 'bg-white border-stone-150'
+                }`}>
+                  <span className={`text-[9px] uppercase font-bold mb-3 block ${theme === 'dark' ? 'text-slate-500' : 'text-gray-400'}`}>
+                    Détail par domaine
+                  </span>
+                  <div className="space-y-3">
+                    {Object.entries(stats.masteryLevels).map(([cat, mastery]) => {
+                      const percentage = Math.min(100, Math.round(((mastery.level - 1) / 5) * 100) || 0);
+                      return (
+                        <div key={cat} className="space-y-1">
+                          <div className="flex justify-between items-center text-[10px] font-bold">
+                            <span className={theme === 'dark' ? 'text-slate-300' : 'text-stone-700'}>{cat}</span>
+                            <span className={theme === 'dark' ? 'text-amber-400' : 'text-emerald-600'}>Niveau {mastery.level}</span>
+                          </div>
+                          <div className={`h-1.5 w-full rounded-full overflow-hidden ${
+                            theme === 'dark' ? 'bg-slate-800' : 'bg-stone-100'
+                          }`}>
+                            <motion.div 
+                              initial={{ width: 0 }}
+                              animate={{ width: `${percentage}%` }}
+                              transition={{ duration: 1.5, ease: "easeOut" }}
+                              className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-[#D0A21C]"
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className={`space-y-3 border-t pt-4 ${theme === 'dark' ? 'border-slate-800/80' : 'border-stone-200/60'}`}>
