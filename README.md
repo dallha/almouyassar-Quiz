@@ -88,8 +88,8 @@ AlMouyassar Islamic Quiz/
 │   ├── data.ts              # Base de données locale de quiz de base (Aventure & Libre)
 │   ├── questions_extra.ts   # Base de données de questions additionnelles
 │   ├── types.ts             # Définitions de types TypeScript
-│   ├── supabaseClient.ts    # Initialisation du client Supabase
-│   ├── LanguageContext.tsx  # Contexte de gestion bilingue (Français/Arabe)
+│   ├── neonAuthClient.ts    # Initialisation de l'authentification Neon
+│   ├── LanguageContext.tsx  # Contexte de gestion multilingue (Français/Arabe/Wolof)
 │   ├── locales/             # Dictionnaires de traduction pour l'internationalisation
 │   └── components/          # Composants modulaires de l'interface utilisateur
 │       ├── AdventureMode.tsx     # Module de progression pas-à-pas (Mode Aventure)
@@ -114,8 +114,8 @@ AlMouyassar Islamic Quiz/
 * **Frontend** : React 19, TypeScript, Vite, Vanilla CSS (pour le design sur-mesure premium en relief 3D), Framer Motion (animations fluides), Lucide React (icônes).
 * **Backend** : Node.js, Express (serveur proxy pour sécuriser la clé Gemini & servir le client).
 * **Base de données / Services** : 
-  - **Supabase** (Authentification des utilisateurs, base PostgreSQL, politiques de sécurité RLS).
-  - **Google Gemini 3.5 Flash** (Moteur d'intelligence artificielle).
+  - **Neon** (Base de données PostgreSQL serverless, Neon Managed Auth, politiques de sécurité et branches).
+  - **Google Gemini** (Moteur d'intelligence artificielle).
 
 ---
 

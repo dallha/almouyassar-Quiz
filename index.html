@@ -49,20 +49,5 @@
   <body class="bg-[#FCF8F2] text-[#004D40] select-none antialiased">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-
-    <!-- Native Service Worker execution pipeline -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/service-worker.js')
-            .then((reg) => {
-              console.log('Almouyassar Service Worker registered with scope: ', reg.scope);
-            })
-            .catch((err) => {
-              console.warn('Almouyassar Service Worker registration failed: ', err);
-            });
-        });
-      }
-    </script>
   </body>
 </html>
