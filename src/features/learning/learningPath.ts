@@ -6,7 +6,7 @@ export interface LearningPathNode {
   kind: 'domain' | 'category' | 'chapter' | 'lesson' | 'activity' | 'quiz' | 'evaluation' | 'review';
   title: string;
   parentId: string | null;
-  questionIds: number[];
+  questionIds: (string | number)[];
   order: number;
 }
 
@@ -19,7 +19,7 @@ const slug = (value: string) => value.toLowerCase().trim().replace(/[^a-z0-9]+/g
 
 export function buildLearningPathTree(questions: Question[]): LearningPathTree {
   const nodes = new Map<string, LearningPathNode>();
-  const add = (kind: LearningPathNode['kind'], title: string, parentId: string | null, questionId: number) => {
+  const add = (kind: LearningPathNode['kind'], title: string, parentId: string | null, questionId: string | number) => {
     const id = `${kind}:${parentId || 'root'}:${slug(title)}`;
     const existing = nodes.get(id);
     if (existing) {

@@ -8,7 +8,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Sparkles, Compass, Library, BookOpen, Scroll, Award, Check, PlayCircle } from 'lucide-react';
 import { Question } from '../types';
 import { QUESTIONS } from '../data';
-import { EXTRA_QUESTIONS } from '../questions_extra';
 import { playSelectSound } from './SoundEngine';
 import { useLanguage } from '../LanguageContext';
 
@@ -43,9 +42,9 @@ export default function QuizRecommender({ onStartCustomQuizList, userStatsXp, th
   // 2. Active interest tags selection (Let user customize their focus)
   const [activeInterests, setActiveInterests] = useState<string[]>(['prière', 'prophètes', 'sirah']);
 
-  // Combine standard and extra question pools for deep filtering
+  // Unified question pool
   const allAvailableQuestions = useMemo(() => {
-    return [...QUESTIONS, ...EXTRA_QUESTIONS];
+    return QUESTIONS;
   }, []);
 
   // Filter interest toggle

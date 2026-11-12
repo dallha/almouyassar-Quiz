@@ -13,9 +13,9 @@ import { BADGES, QUESTIONS } from './data';
 export function pickRandomQuestions(
   pool: Question[],
   count: number,
-  recentIds: number[] = [],
+  recentIds: (string | number)[] = [],
   maxRecentHistory: number = 50
-): { selected: Question[]; updatedRecentIds: number[] } {
+): { selected: Question[]; updatedRecentIds: (string | number)[] } {
   if (pool.length === 0) return { selected: [], updatedRecentIds: recentIds };
 
   // Filtrer les questions récentes pour éviter les répétitions

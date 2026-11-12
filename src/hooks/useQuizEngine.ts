@@ -165,7 +165,7 @@ export function useQuizEngine(initialStats: UserStats) {
 
     /* ── VALIDER UNE RÉPONSE ── */
     const validateAnswer = useCallback((
-        questionId: number,
+        questionId: string | number,
         selectedAnswer: string,
         timeSpent: number
     ): { isCorrect: boolean; xpGained: number; newMastery: CategoryMastery | null } => {

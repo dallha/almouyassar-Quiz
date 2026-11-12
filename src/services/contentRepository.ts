@@ -2,6 +2,7 @@ import type { Question } from '../types';
 import { QUESTIONS } from '../data';
 import { buildLearningPathTree } from '../features/learning/learningPath';
 import type { LearningPathTree } from '../features/learning/learningPath';
+import { normalizeQuestionId } from './questionMigrationService';
 
 export interface ContentVersionRecord {
   id: string;
@@ -17,8 +18,9 @@ export function listPublishedQuestions(): Question[] {
   return QUESTIONS.filter((question) => question.verification_status === 'verified');
 }
 
-export function getQuestionById(questionId: number): Question | undefined {
-  return QUESTIONS.find((question) => question.id === questionId);
+export function getQuestionById(questionId: string | number): Question | undefined {
+  const canonicalId = normalizeQuestionId(questionId);
+  return QUESTIONS.find((question) => question.id === canonicalId || question.id === questionId);
 }
 
 export function getPublishedContentSnapshot(): ContentVersionRecord[] {

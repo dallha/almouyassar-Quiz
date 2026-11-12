@@ -3,7 +3,7 @@ import { Question } from './types';
 export const EXTRA_QUESTIONS: Question[] = [
   // Hadith & Sunnah - Débutant (60 questions)
   ...Array.from({ length: 60 }, (_, idx) => {
-    const id = 181 + idx;
+    const id = `extra-hadith-deb-${String(idx + 1).padStart(3, "0")}`;
     const questionsAndAnswers = [
       {
         q: "Quel compresseur ou livre de Hadith est considéré comme le plus authentique après le Coran ?",
@@ -81,7 +81,7 @@ export const EXTRA_QUESTIONS: Question[] = [
 
   // Hadith & Sunnah - Intermédiaire / Avancé (45 questions)
   ...Array.from({ length: 45 }, (_, idx) => {
-    const id = 241 + idx;
+    const id = `extra-hadith-adv-${String(idx + 1).padStart(3, "0")}`;
     const questionsAndAnswers = [
       {
         q: "Qui a rapporté le plus grand nombre de Hadiths parmi les compagnons du Prophète (PSL) ?",
@@ -129,7 +129,7 @@ export const EXTRA_QUESTIONS: Question[] = [
 
   // Fiqh - Débutant (55 questions)
   ...Array.from({ length: 55 }, (_, idx) => {
-    const id = 286 + idx;
+    const id = `extra-fiqh-deb-${String(idx + 1).padStart(3, "0")}`;
     const questionsAndAnswers = [
       {
         q: "Sur quoi porte la science du Fiqh ?",
@@ -189,7 +189,7 @@ export const EXTRA_QUESTIONS: Question[] = [
 
   // Fiqh - Intermédiaire / Avancé (40 questions)
   ...Array.from({ length: 40 }, (_, idx) => {
-    const id = 341 + idx;
+    const id = `extra-fiqh-adv-${String(idx + 1).padStart(3, "0")}`;
     const questionsAndAnswers = [
       {
         q: "Qu'est-ce que le Nisab en matière de Zakat ?",
@@ -233,112 +233,6 @@ export const EXTRA_QUESTIONS: Question[] = [
       reponse_correcte: qItem.ans,
       explication: qItem.exp
     } as Question;
-  }),
-  ...Array.from({ length: 55 }, (_, idx) => {
-    const id = 286 + idx;
-    const questionsAndAnswers = [
-      {
-        q: "Sur quoi porte la science du Fiqh ?",
-        options: ["La jurisprudence et les règles pratiques de l'Islam", "L'histoire des batailles", "La grammaire arabe", "La poésie nationale"],
-        ans: "La jurisprudence et les règles pratiques de l'Islam",
-        exp: "Le Fiqh définit comment accomplir de façon valide nos actes de culte et transactions."
-      },
-      {
-        q: "Quel est le statut obligatoire de la prière en Islam ?",
-        options: ["Fard (Obligatoire)", "Sunnah (Recommandé)", "Mubah (Permis)", "Makrouh (Déconseillé)"],
-        ans: "Fard (Obligatoire)",
-        exp: "Accomplir la Salah fait partie des obligations fondamentales de tout croyant pubère."
-      },
-      {
-        q: "Quelle matière solide naturelle peut être utilisée pour faire le Tayammum ?",
-        options: ["De la terre pure ou du sable", "Du bois sec", "Des feuilles d'arbres", "Du fer poli"],
-        ans: "De la terre pure ou du sable",
-        exp: "L'ablution sèche (Tayammum) se pratique avec de la terre pure en l'absence d'eau."
-      },
-      {
-        q: "Combien d'unités (Rak'ats) y a-t-il dans la prière de l'Isha ?",
-        options: ["4 Rak'ats", "3 Rak'ats", "2 Rak'ats", "5 Rak'ats"],
-        ans: "4 Rak'ats",
-        exp: "La prière de l'Isha, célébrée pendant la nuit noire, compte 4 unités obligatoires."
-      },
-      {
-        q: "Quel acte invalide le jeûne du Ramadan de manière évidente ?",
-        options: ["Manger ou boire volontairement", "Se brosser les dents doucement", "Dormir l'après-midi", "Oublier de saluer"],
-        ans: "Manger ou boire volontairement",
-        exp: "L'introduction volontaire de nourriture ou boisson dans le tube digestif rompt le jeûne immédiatement."
-      },
-      {
-        q: "Quelles ablutions sont nécessaires après un état de grande impureté ?",
-        options: ["Le Ghusl (le grand lavage)", "Le Wudu ordinaire", "Le simple lavage des mains", "Le brossage des dents"],
-        ans: "Le Ghusl (le grand lavage)",
-        exp: "Le grand bain rituel purifie le croyant de tout état d'impureté rituelle majeure."
-      },
-      {
-        q: "Quelle prière collective remplace celle de Dhuhr le vendredi ?",
-        options: ["Salat Al-Jumu'ah", "Salat Al-Eid", "Salat Al-Witr", "Salat Al-Kousouf"],
-        ans: "Salat Al-Jumu'ah",
-        exp: "Le sermon et la congrégation de la prière du Vendredi remplacent la prière classique du Dhuhr."
-      }
-    ];
-
-    const qItem = questionsAndAnswers[idx % questionsAndAnswers.length];
-    return {
-      id,
-      categorie: "Fiqh",
-      niveau: "Débutant",
-      question: `${qItem.q} (Pratique D-${idx + 1})`,
-      options: qItem.options,
-      reponse_correcte: qItem.ans,
-      explication: qItem.exp
-    };
-  }),
-
-  // Fiqh - Intermédiaire / Avancé (40 questions)
-  ...Array.from({ length: 40 }, (_, idx) => {
-    const id = 341 + idx;
-    const questionsAndAnswers = [
-      {
-        q: "Qu'est-ce que le Nisab en matière de Zakat ?",
-        options: ["Le seuil minimum de richesse pour être imposable", "Le nombre de prières perdues", "Le nom d'une charité volontaire", "Le tarif d'entrée au Daara"],
-        ans: "Le seuil minimum de richesse pour être imposable",
-        exp: "La Zakat n'est obligatoire que si les biens dépassent ce seuil durant un an lunaire entier."
-      },
-      {
-        q: "Quel est le statut de l'intention (Niyyah) dans les ablutions (Wudu) selon l'école de l'Imam Malik ?",
-        options: ["Un pilier obligatoire (Fard)", "Un acte simplement déconseillé", "Un acte facultatif", "Une innovation interdite"],
-        ans: "Un pilier obligatoire (Fard)",
-        exp: "Toute adoration requiert une intention consciente dès son commencement pour être valide."
-      },
-      {
-        q: "Lors du pèlerinage à La Mecque (Hajj), comment appelle-t-on le vêtement blanc sacré du pèlerin ?",
-        options: ["L'Ihram", "La Jellaba", "Le Burnous", "Le Caftan"],
-        ans: "L'Ihram",
-        exp: "L'Ihram désigne l'état de sacralisation ainsi que l'habit composé de deux pièces de tissu blanc sans couture."
-      },
-      {
-        q: "Quelle prière s'accomplit afin de solliciter la guidance divine pour faire un choix important ?",
-        options: ["Salat Al-Istikharah (prière de consultation)", "Salat Al-Kousouf", "Salat Al-Janazah", "Salat Al-Istisqa"],
-        ans: "Salat Al-Istikharah (prière de consultation)",
-        exp: "C'est la prière enseignée par le Prophète pour demander à Allah de faciliter la meilleure option."
-      },
-      {
-        q: "Quel pourcentage exact d'épargne annuelle cumulée au-dessus du Nisab doit être versé au titre de la Zakat Al-Maal ?",
-        options: ["2.5 %", "5 %", "10 %", "1.5 %"],
-        ans: "2.5 %",
-        exp: "La Zakat de l'argent et de l'or épargnés correspond au quart de la dîme, soit exactement 2,5%."
-      }
-    ];
-
-    const qItem = questionsAndAnswers[idx % questionsAndAnswers.length];
-    return {
-      id,
-      categorie: "Fiqh",
-      niveau: idx % 2 === 0 ? "Intermédiaire" : "Avancé",
-      question: `${qItem.q} (Profondeur P-${idx + 1})`,
-      options: qItem.options,
-      reponse_correcte: qItem.ans,
-      explication: qItem.exp
-    };
   }),
 
   // ============================================================
@@ -346,7 +240,7 @@ export const EXTRA_QUESTIONS: Question[] = [
   // ============================================================
   // Akhlaq - Débutant (6 questions)
   {
-    id: 381,
+    id: "extra-pdf-001",
     categorie: "Akhlaq",
     niveau: "Débutant",
     question: "Que doit-on dire avant de commencer à manger selon la Sunnah ?",
@@ -371,7 +265,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 382,
+    id: "extra-pdf-002",
     categorie: "Akhlaq",
     niveau: "Débutant",
     question: "Avec quelle main doit-on manger et boire selon la Sunnah ?",
@@ -396,7 +290,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 383,
+    id: "extra-pdf-003",
     categorie: "Akhlaq",
     niveau: "Débutant",
     question: "Que doit-on faire après avoir fini de manger ?",
@@ -421,7 +315,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 384,
+    id: "extra-pdf-004",
     categorie: "Akhlaq",
     niveau: "Débutant",
     question: "Comment doit-on frapper à la porte selon les bonnes manières islamiques ?",
@@ -446,7 +340,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 385,
+    id: "extra-pdf-005",
     categorie: "Akhlaq",
     niveau: "Débutant",
     question: "Que doit-on dire quand on éternue ?",
@@ -471,7 +365,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 386,
+    id: "extra-pdf-006",
     categorie: "Akhlaq",
     niveau: "Débutant",
     question: "Comment doit-on saluer en entrant dans une maison ?",
@@ -497,7 +391,7 @@ export const EXTRA_QUESTIONS: Question[] = [
   },
   // Akhlaq - Intermédiaire (3 questions)
   {
-    id: 387,
+    id: "extra-pdf-007",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Que doit-on faire si quelqu'un nous invite chez lui ?",
@@ -522,7 +416,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 388,
+    id: "extra-pdf-008",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Comment doit-on traiter ses voisins en Islam ?",
@@ -547,7 +441,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 389,
+    id: "extra-pdf-009",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Quelle est l'attitude du musulman envers les animaux ?",
@@ -573,7 +467,7 @@ export const EXTRA_QUESTIONS: Question[] = [
   },
   // Akhlaq - Avancé (1 question)
   {
-    id: 390,
+    id: "extra-pdf-010",
     categorie: "Akhlaq",
     niveau: "Avancé",
     question: "Que signifie le terme 'Husn al-Khuluq' (le bon caractère) en Islam ?",
@@ -599,7 +493,7 @@ export const EXTRA_QUESTIONS: Question[] = [
   },
   // Fiqh - Débutant (3 questions)
   {
-    id: 391,
+    id: "extra-pdf-011",
     categorie: "Fiqh",
     niveau: "Débutant",
     question: "Quel est le premier mois du calendrier islamique (Hijri) ?",
@@ -624,7 +518,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 392,
+    id: "extra-pdf-012",
     categorie: "Fiqh",
     niveau: "Débutant",
     question: "Combien de fois par jour un musulman prie-t-il ?",
@@ -649,7 +543,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 393,
+    id: "extra-pdf-013",
     categorie: "Fiqh",
     niveau: "Débutant",
     question: "Qu'est-ce qui annule le jeûne du Ramadan ?",
@@ -674,7 +568,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 394,
+    id: "extra-pdf-014",
     categorie: "Fiqh",
     niveau: "Intermédiaire",
     question: "Quelle est la différence entre la Zakat (aumône obligatoire) et la Sadaqah (aumône volontaire) ?",
@@ -703,7 +597,7 @@ export const EXTRA_QUESTIONS: Question[] = [
   // Source : PDF "المختصر في الاخلاق" - Éthique islamique
   // ============================================================
   {
-    id: 395,
+    id: "extra-pdf-015",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Que signifie 'Akhlaq' en terminologie islamique ?",
@@ -728,7 +622,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 396,
+    id: "extra-pdf-016",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Quel est le but principal de la mission prophétique selon le Coran ?",
@@ -753,7 +647,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 397,
+    id: "extra-pdf-017",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Quelle est la base de toutes les bonnes mœurs en Islam ?",
@@ -778,7 +672,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 398,
+    id: "extra-pdf-018",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Qu'est-ce que la sincérité (Al-Ikhlas) dans les actes ?",
@@ -803,7 +697,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 399,
+    id: "extra-pdf-019",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Comment le musulman doit-il traiter ses parents ?",
@@ -828,7 +722,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 400,
+    id: "extra-pdf-020",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Qu'est-ce que la patience (As-Sabr) en Islam ?",
@@ -853,7 +747,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 401,
+    id: "extra-pdf-021",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Quel comportement est considéré comme le pire des péchés majeurs après l'association (Shirk) ?",
@@ -878,7 +772,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 402,
+    id: "extra-pdf-022",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Qu'est-ce que la modestie et la pudeur (Al-Haya) ?",
@@ -903,7 +797,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 403,
+    id: "extra-pdf-023",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Comment le musulman doit-il traiter son voisin ?",
@@ -928,7 +822,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 404,
+    id: "extra-pdf-024",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Qu'est-ce que l'orgueil (Al-Kibr) et pourquoi est-il interdit ?",
@@ -953,7 +847,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 405,
+    id: "extra-pdf-025",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Qu'est-ce que la calomnie (Al-Ghibah) ?",
@@ -978,7 +872,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 406,
+    id: "extra-pdf-026",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Quelle est la meilleure des vertus après la foi en Allah ?",
@@ -1003,7 +897,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 407,
+    id: "extra-pdf-027",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Qu'est-ce que la véracité (As-Sidq) et pourquoi est-elle importante ?",
@@ -1028,7 +922,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 408,
+    id: "extra-pdf-028",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Qu'est-ce que la gratitude (Ash-Shukr) envers Allah ?",
@@ -1053,7 +947,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 409,
+    id: "extra-pdf-029",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Comment le musulman doit-il gérer sa colère ?",
@@ -1082,7 +976,7 @@ export const EXTRA_QUESTIONS: Question[] = [
   // Source : PDF "هيّا نتعلم الآداب النبوية"
   // ============================================================
   {
-    id: 410,
+    id: "extra-pdf-030",
     categorie: "Akhlaq",
     niveau: "Débutant",
     question: "Quelle est la meilleure façon de remercier quelqu'un qui nous a rendu service selon la Sunnah ?",
@@ -1107,7 +1001,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 411,
+    id: "extra-pdf-031",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Quelle est l'attitude du Prophète (PSL) envers la nourriture qu'on lui présentait ?",
@@ -1132,7 +1026,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 412,
+    id: "extra-pdf-032",
     categorie: "Akhlaq",
     niveau: "Débutant",
     question: "Que nous enseigne l'Islam à propos des obstacles ou de la saleté sur le chemin ?",
@@ -1157,7 +1051,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 414,
+    id: "extra-pdf-033",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Comment est considéré le fait d'aider une personne malvoyante ou aveugle à se diriger ?",
@@ -1182,7 +1076,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 415,
+    id: "extra-pdf-034",
     categorie: "Akhlaq",
     niveau: "Débutant",
     question: "Quel est l'enseignement du Prophète (PSL) concernant la triche ?",
@@ -1207,7 +1101,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 416,
+    id: "extra-pdf-035",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Comment un musulman doit-il se comporter avec son invité selon la Sunnah ?",
@@ -1232,7 +1126,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 417,
+    id: "extra-pdf-036",
     categorie: "Akhlaq",
     niveau: "Débutant",
     question: "Par qui un musulman a-t-il le droit de jurer ?",
@@ -1257,7 +1151,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 418,
+    id: "extra-pdf-037",
     categorie: "Akhlaq",
     niveau: "Intermédiaire",
     question: "Qu'est-ce que le 'Qaza'' qui a été interdit par le Prophète (PSL) ?",
@@ -1282,7 +1176,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 419,
+    id: "extra-pdf-038",
     categorie: "Akhlaq",
     niveau: "Débutant",
     question: "Que doit faire un musulman lorsqu'il quitte une assemblée ou un groupe de personnes ?",
@@ -1311,7 +1205,7 @@ export const EXTRA_QUESTIONS: Question[] = [
   // "فرائض الطفل المسلم" & "صفة الصلاة للأطفال"
   // ============================================================
   {
-    id: 420,
+    id: "extra-pdf-039",
     categorie: "Akhlaq",
     niveau: "Débutant",
     question: "Que doit dire le musulman lorsqu'il éternue, et que doit répondre son frère ?",
@@ -1351,7 +1245,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 421,
+    id: "extra-pdf-040",
     categorie: "Sirah",
     niveau: "Débutant",
     question: "Comment s'appelle la mère du Prophète Muhammad (PSL) ?",
@@ -1391,7 +1285,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 422,
+    id: "extra-pdf-041",
     categorie: "Fiqh",
     niveau: "Débutant",
     question: "Pendant la prière (Salat), vers où le croyant doit-il diriger son regard lorsqu'il est debout ?",
@@ -1431,7 +1325,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 423,
+    id: "extra-pdf-042",
     categorie: "Fiqh",
     niveau: "Débutant",
     question: "Que dit-on lorsque l'on est incliné (Roukou') pendant la prière ?",
@@ -1471,7 +1365,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 424,
+    id: "extra-pdf-043",
     categorie: "Fiqh",
     niveau: "Débutant",
     question: "En se relevant de l'inclinaison (Roukou'), que doit dire le musulman ?",
@@ -1515,7 +1409,7 @@ export const EXTRA_QUESTIONS: Question[] = [
   // "الكنوز الأثرية الرمضانية للأطفال"
   // ============================================================
   {
-    id: 425,
+    id: "extra-pdf-044",
     categorie: "Fiqh",
     niveau: "Débutant",
     question: "En quelle année le jeûne du mois de Ramadan a-t-il été prescrit aux musulmans ?",
@@ -1555,7 +1449,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 426,
+    id: "extra-pdf-045",
     categorie: "Fiqh",
     niveau: "Débutant",
     question: "Quel est le statut du repas de la fin de nuit (le S'hour) pour le jeûneur ?",
@@ -1595,7 +1489,7 @@ export const EXTRA_QUESTIONS: Question[] = [
     }
   },
   {
-    id: 427,
+    id: "extra-pdf-046",
     categorie: "Fiqh",
     niveau: "Débutant",
     question: "À qui la Zakat Al-Fitr (l'aumône de la fin du jeûne) doit-elle être donnée ?",

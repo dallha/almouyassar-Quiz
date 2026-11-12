@@ -3,7 +3,7 @@ import type { LearningPathTree } from '../features/learning/learningPath';
 
 interface LearningPathPanelProps {
   path: LearningPathTree;
-  onStartQuestion: (questionId: number) => void;
+  onStartQuestion: (questionId: string | number) => void;
   theme?: 'light' | 'dark';
 }
 

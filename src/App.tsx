@@ -44,6 +44,7 @@ import { trackAnalyticsEvent } from './services/analyticsService';
 import { getPublishedLearningPath } from './services/contentRepository';
 import LearningPathPanel from './components/LearningPathPanel';
 import CmsDashboard from './components/CmsDashboard';
+import { migratePersistedQuestionIds } from './services/questionMigrationService';
 
 const createDefaultUserStats = (): UserStats => ({
   xp: 0,
@@ -260,6 +261,7 @@ export default function App() {
   const learningPath = getPublishedLearningPath();
 
   useEffect(() => {
+    migratePersistedQuestionIds();
     checkAndResetDailies();
   }, [checkAndResetDailies]);
 

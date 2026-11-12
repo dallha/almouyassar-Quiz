@@ -11,7 +11,7 @@ export interface QuestionTranslation {
 }
 
 export interface Question {
-  id: number;
+  id: string | number;
   categorie: 'Fiqh' | 'Aqidah' | 'Sirah' | 'Coran' | 'Akhlaq' | 'Institut Al-Mouyassar' | string;
   niveau: 'Débutant' | 'Intermédiaire' | 'Avancé' | string;
   question: string;
@@ -31,7 +31,7 @@ export interface Question {
 }
 
 export function getLocalizedQuestion(q: Question, lang: string): {
-  id: number;
+  id: string | number;
   categorie: string;
   niveau: string;
   question: string;
@@ -91,7 +91,7 @@ export interface QuizSession {
   currentIndex: number;
   score: number;
   answers: {
-    questionId: number;
+    questionId: string | number;
     selectedAnswer: string;
     isCorrect: boolean;
     timeSpent: number;
@@ -153,7 +153,7 @@ export interface AdventureNode {
   description?: string;
   
   // Gameplay
-  questionIds?: number[]; // IDs des questions associées
+  questionIds?: (string | number)[]; // IDs des questions associées
   categoryFilter?: string; // S'il faut piocher au hasard dans une catégorie
   requiredAccuracy?: number; // 0-100%
   timeLimit?: number; // en secondes
@@ -191,7 +191,7 @@ export interface AdventureState {
 /* ── Système de Révision Intelligente ── */
 
 export interface ReviewItem {
-  questionId: number;
+  questionId: string | number;
   lastReviewed: string | null;
   nextReview: string | null;
   interval: number;           // Jours avant prochaine révision
@@ -201,7 +201,7 @@ export interface ReviewItem {
 }
 
 export interface SpacedRepetitionSystem {
-  items: Record<number, ReviewItem>;
+  items: Record<string | number, ReviewItem>;
   nextReviewDate: string | null;
   reviewsDue: number;
 }

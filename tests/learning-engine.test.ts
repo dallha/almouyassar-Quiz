@@ -8,6 +8,37 @@ import {
   computeAdaptiveReviewInterval,
   resolveMasteryStatus,
 } from '../src/features/progression';
+import { QUESTIONS } from '../src/data';
+import { normalizeQuestionId, LEGACY_ID_MAPPINGS } from '../src/services/questionMigrationService';
+import { getQuestionById } from '../src/services/contentRepository';
+
+test('QUESTIONS catalogue contains strictly unique IDs with 0 collisions', () => {
+  const ids = QUESTIONS.map((q) => q.id);
+  const duplicates = ids.filter((id, i, arr) => arr.indexOf(id) !== i);
+  assert.deepEqual(duplicates, [], `Found duplicate question IDs: ${duplicates.join(', ')}`);
+  assert.equal(new Set(ids).size, QUESTIONS.length);
+  assert.ok(QUESTIONS.length > 500, 'Expected at least 500 unique questions in the unified catalog');
+});
+
+test('questionMigrationService correctly maps legacy IDs and preserves base IDs', () => {
+  // Base IDs remain untouched
+  assert.equal(normalizeQuestionId(1), 1);
+  assert.equal(normalizeQuestionId(381), 381);
+  assert.equal(normalizeQuestionId(538), 538);
+
+  // Legacy extra IDs are mapped to stable canonical strings
+  assert.equal(normalizeQuestionId(181), 'extra-hadith-deb-001');
+  assert.equal(normalizeQuestionId(241), 'extra-hadith-adv-001');
+  assert.equal(normalizeQuestionId(286), 'extra-fiqh-deb-001');
+  assert.equal(normalizeQuestionId(341), 'extra-fiqh-adv-001');
+
+  // getQuestionById resolves both canonical and legacy IDs
+  const resolvedByCanonical = getQuestionById('extra-hadith-deb-001');
+  assert.ok(resolvedByCanonical, 'Should find question by canonical ID');
+  const resolvedByLegacy = getQuestionById(181);
+  assert.ok(resolvedByLegacy, 'Should find question by legacy mapped ID');
+  assert.equal(resolvedByCanonical?.id, resolvedByLegacy?.id);
+});
 
 test('computeQuestionDifficulty increases with teaching level and tags', () => {
   const beginner = computeQuestionDifficulty({ level: 'Débutant', tags: ['aqida'], difficulty: 1 });
