@@ -1,5 +1,7 @@
 import { neon } from '@neondatabase/serverless';
 import { createRemoteJWKSet, jwtVerify } from 'jose';
+import { getUserRole, canPerformCmsTransition } from '../server/neonAuthRoles';
+import { validateAndCalculateProgressBatch, type ProgressEventPayload } from '../server/neonXpSecurity';
 
 const db = () => neon(process.env.DATABASE_URL || '');
 const jwks = () => process.env.NEON_AUTH_JWKS_URL ? createRemoteJWKSet(new URL(process.env.NEON_AUTH_JWKS_URL)) : null;
@@ -44,46 +46,168 @@ export default async function handler(req: any, res: any) {
       if (req.method === 'POST') {
         const stats = req.body?.stats;
         if (!stats || typeof stats !== 'object') return res.status(400).json({ error: 'Stats invalides.' });
-        await db()`INSERT INTO public.profiles (id, username, xp, total_answered, correct_answers_count, streak, highest_streak, completed_quizzes_count, unlocked_badge_ids) VALUES (${id}, 'Explorateur', ${Number(stats.xp) || 0}, ${Number(stats.totalAnswered) || 0}, ${Number(stats.correctAnswersCount) || 0}, ${Number(stats.streak) || 0}, ${Number(stats.highestStreak) || 0}, ${Number(stats.completedQuizzesCount) || 0}, ${stats.unlockedBadgeIds || []}) ON CONFLICT (id) DO UPDATE SET xp=EXCLUDED.xp, total_answered=EXCLUDED.total_answered, correct_answers_count=EXCLUDED.correct_answers_count, streak=EXCLUDED.streak, highest_streak=EXCLUDED.highest_streak, completed_quizzes_count=EXCLUDED.completed_quizzes_count, unlocked_badge_ids=EXCLUDED.unlocked_badge_ids, updated_at=NOW()`;
-        await db()`INSERT INTO public.children_progress (child_id, xp, streak, mastery_levels, completed_quizzes) VALUES (${id}, ${Number(stats.xp) || 0}, ${Number(stats.streak) || 0}, ${JSON.stringify(stats.masteryLevels || {})}::jsonb, ${Number(stats.completedQuizzesCount) || 0}) ON CONFLICT (child_id) DO UPDATE SET xp=EXCLUDED.xp, streak=EXCLUDED.streak, mastery_levels=EXCLUDED.mastery_levels, completed_quizzes=EXCLUDED.completed_quizzes, last_sync=NOW(), updated_at=NOW()`;
+
+        // 1. Lire les XP actuels en base
+        const existingProfile = await db()`SELECT xp FROM public.profiles WHERE id = ${id} LIMIT 1`;
+        const currentDbXp = Number(existingProfile[0]?.xp) || 0;
+
+        // 2. Traitement autoritaire des événements et validation anti-rejeu
+        const rawEvents: ProgressEventPayload[] = Array.isArray(req.body?.events) ? req.body.events.slice(0, 100) : [];
+        const batch = validateAndCalculateProgressBatch(
+          Number(stats.xp) || 0,
+          currentDbXp,
+          rawEvents
+        );
+
+        if (batch.isSuspicious) {
+          console.warn(`[SECURITY][XP_AUDIT_VERCEL] Discrepancy detected for user ${id}: ${batch.suspiciousReason}`);
+        }
+
+        const authorizedXp = currentDbXp > 0
+          ? currentDbXp + batch.legitimateDeltaXp
+          : Math.min(Number(stats.xp) || 0, batch.legitimateDeltaXp + 50);
+
+        // 3. Insertion des événements avec protection anti-rejeu
         const syncedEventIds: string[] = [];
-        for (const event of Array.isArray(req.body?.events) ? req.body.events.slice(0, 100) : []) {
-          if (!event?.id || !event.questionId || !['correct', 'incorrect'].includes(event.result)) continue;
-          await db()`INSERT INTO public.learning_progress_events (id, child_id, question_id, category, result, response_time_ms, difficulty, attempts, last_reviewed_at, created_at) VALUES (${String(event.id)}, ${id}, ${String(event.questionId)}, ${String(event.category || 'general')}, ${event.result}, ${Math.max(0, Number(event.responseTimeMs) || 0)}, ${Math.min(5, Math.max(1, Number(event.difficulty) || 1))}, ${Math.max(1, Number(event.attempts) || 1)}, ${event.lastReviewedAt || null}, ${event.createdAt || new Date().toISOString()}) ON CONFLICT (id) DO NOTHING`;
+        for (const event of batch.validEvents) {
+          await db()`
+            INSERT INTO public.learning_progress_events (
+              id, child_id, question_id, category, result, response_time_ms,
+              difficulty, attempts, last_reviewed_at, created_at
+            ) VALUES (
+              ${String(event.id)}, ${id}, ${String(event.questionId)}, ${String(event.category || 'general')},
+              ${event.result}, ${Math.max(0, Number(event.responseTimeMs) || 0)},
+              ${Math.min(5, Math.max(1, Number(event.difficulty) || 1))}, ${Math.max(1, Number(event.attempts) || 1)},
+              ${event.lastReviewedAt || null}, ${event.createdAt || new Date().toISOString()}
+            ) ON CONFLICT (id) DO NOTHING
+          `;
           syncedEventIds.push(String(event.id));
         }
-        return res.json({ syncedEventIds });
+
+        // 4. Mises à jour atomiques des profils
+        await db()`
+          INSERT INTO public.profiles (
+            id, username, xp, total_answered, correct_answers_count, streak,
+            highest_streak, completed_quizzes_count, unlocked_badge_ids, updated_at
+          ) VALUES (
+            ${id}, 'Explorateur', ${authorizedXp}, ${Number(stats.totalAnswered) || 0},
+            ${Number(stats.correctAnswersCount) || 0}, ${Number(stats.streak) || 0},
+            ${Number(stats.highestStreak) || 0}, ${Number(stats.completedQuizzesCount) || 0},
+            ${stats.unlockedBadgeIds || []}, NOW()
+          ) ON CONFLICT (id) DO UPDATE SET
+            xp = ${authorizedXp},
+            total_answered = GREATEST(profiles.total_answered, EXCLUDED.total_answered),
+            correct_answers_count = GREATEST(profiles.correct_answers_count, EXCLUDED.correct_answers_count),
+            streak = EXCLUDED.streak,
+            highest_streak = GREATEST(profiles.highest_streak, EXCLUDED.highest_streak),
+            completed_quizzes_count = GREATEST(profiles.completed_quizzes_count, EXCLUDED.completed_quizzes_count),
+            unlocked_badge_ids = EXCLUDED.unlocked_badge_ids,
+            updated_at = NOW()
+        `;
+
+        await db()`
+          INSERT INTO public.children_progress (
+            child_id, xp, streak, mastery_levels, completed_quizzes, last_sync, updated_at
+          ) VALUES (
+            ${id}, ${authorizedXp}, ${Number(stats.streak) || 0},
+            ${JSON.stringify(stats.masteryLevels || {})}::jsonb, ${Number(stats.completedQuizzesCount) || 0}, NOW(), NOW()
+          ) ON CONFLICT (child_id) DO UPDATE SET
+            xp = ${authorizedXp},
+            streak = EXCLUDED.streak,
+            mastery_levels = EXCLUDED.mastery_levels,
+            completed_quizzes = GREATEST(children_progress.completed_quizzes, EXCLUDED.completed_quizzes),
+            last_sync = NOW(),
+            updated_at = NOW()
+        `;
+
+        return res.json({ syncedEventIds, verifiedXp: authorizedXp });
       }
     }
 
     if (parts[0] === 'parent' && parts[1] === 'dashboard' && req.method === 'GET') {
-      const snapshots = await db()`SELECT l.child_id, p.xp, p.streak, p.mastery_levels, p.completed_quizzes, p.last_sync, COUNT(e.id)::int AS answered, COUNT(e.id) FILTER (WHERE e.result='correct')::int AS correct, COUNT(e.id) FILTER (WHERE e.result='incorrect')::int AS review_due, MAX(e.created_at) AS last_activity FROM public.parent_child_links l LEFT JOIN public.children_progress p ON p.child_id=l.child_id LEFT JOIN public.learning_progress_events e ON e.child_id=l.child_id WHERE l.parent_id=${id} GROUP BY l.child_id,p.xp,p.streak,p.mastery_levels,p.completed_quizzes,p.last_sync ORDER BY MAX(e.created_at) DESC NULLS LAST`;
+      const snapshots = await db()`
+        SELECT l.child_id, p.xp, p.streak, p.mastery_levels, p.completed_quizzes, p.last_sync,
+               COUNT(e.id)::int AS answered,
+               COUNT(e.id) FILTER (WHERE e.result='correct')::int AS correct,
+               COUNT(e.id) FILTER (WHERE e.result='incorrect')::int AS review_due,
+               MAX(e.created_at) AS last_activity
+        FROM public.parent_child_links l
+        LEFT JOIN public.children_progress p ON p.child_id=l.child_id
+        LEFT JOIN public.learning_progress_events e ON e.child_id=l.child_id
+        WHERE l.parent_id=${id}
+        GROUP BY l.child_id,p.xp,p.streak,p.mastery_levels,p.completed_quizzes,p.last_sync
+        ORDER BY MAX(e.created_at) DESC NULLS LAST
+      `;
       return res.json({ snapshots });
     }
 
     if (parts[0] === 'cms') {
       const contentId = parts[1];
+      const role = await getUserRole(id);
+
       if (req.method === 'GET') {
-        const records = await db()`SELECT * FROM public.pedagogical_content WHERE workflow='PUBLISHED' OR author_id=${id} ORDER BY updated_at DESC`;
-        return res.json({ records });
+        const records = (role === 'admin' || role === 'validator')
+          ? await db()`SELECT * FROM public.pedagogical_content ORDER BY updated_at DESC`
+          : await db()`SELECT * FROM public.pedagogical_content WHERE workflow='PUBLISHED' OR author_id=${id} ORDER BY updated_at DESC`;
+        return res.json({ records, userRole: role });
       }
+
       if (req.method === 'POST' && !contentId) {
         const content = req.body?.content;
         if (!content?.id || !content.question) return res.status(400).json({ error: 'Contenu pédagogique invalide.' });
-        const rows = await db()`INSERT INTO public.pedagogical_content (id,kind,payload,workflow,version,author_id) VALUES (${String(content.id)},'question',${JSON.stringify(content)}::jsonb,'DRAFT',1,${id}) RETURNING *`;
+        const rows = await db()`
+          INSERT INTO public.pedagogical_content (id,kind,payload,workflow,version,author_id)
+          VALUES (${String(content.id)},'question',${JSON.stringify(content)}::jsonb,'DRAFT',1,${id})
+          RETURNING *
+        `;
         return res.status(201).json({ record: rows[0] });
       }
+
       if (req.method === 'PATCH' && contentId && parts[2] !== 'transition') {
-        const rows = await db()`UPDATE public.pedagogical_content SET payload=${JSON.stringify(req.body?.content)}::jsonb, updated_at=NOW(), version=version+1 WHERE id=${contentId} AND author_id=${id} RETURNING *`;
-        return rows[0] ? res.json({ record: rows[0] }) : res.status(404).json({ error: 'Contenu introuvable.' });
+        const rows = await db()`
+          UPDATE public.pedagogical_content
+          SET payload=${JSON.stringify(req.body?.content)}::jsonb, updated_at=NOW(), version=version+1
+          WHERE id=${contentId} AND author_id=${id}
+          RETURNING *
+        `;
+        return rows[0] ? res.json({ record: rows[0] }) : res.status(404).json({ error: 'Contenu introuvable ou non autorisé.' });
       }
+
       if (req.method === 'POST' && contentId && parts[2] === 'transition') {
         const { from, to } = req.body || {};
-        const allowed: Record<string, string[]> = { DRAFT: ['REVIEW'], REVIEW: ['DRAFT', 'VALIDATED'], VALIDATED: ['REVIEW', 'PUBLISHED'], PUBLISHED: ['ARCHIVED'], ARCHIVED: ['DRAFT'] };
-        if (!allowed[from]?.includes(to)) return res.status(400).json({ error: 'Transition interdite.' });
-        const rows = await db()`UPDATE public.pedagogical_content SET workflow=${to}, validator_id=CASE WHEN ${to} IN ('VALIDATED','PUBLISHED') THEN ${id} ELSE validator_id END, version=version+1, updated_at=NOW() WHERE id=${contentId} AND workflow=${from} AND (author_id=${id} OR ${to} IN ('VALIDATED','PUBLISHED')) RETURNING *`;
+
+        const existingRows = await db()`
+          SELECT id, author_id, workflow FROM public.pedagogical_content WHERE id=${contentId} LIMIT 1
+        `;
+        if (!existingRows[0]) {
+          return res.status(404).json({ error: 'Contenu introuvable.' });
+        }
+
+        const item = existingRows[0];
+        if (item.workflow !== from) {
+          return res.status(409).json({ error: `Statut actuel (${item.workflow}) incompatible avec la transition depuis (${from}).` });
+        }
+
+        const authCheck = canPerformCmsTransition(role, id, item.author_id, from, to);
+        if (!authCheck.allowed) {
+          return res.status(403).json({ error: authCheck.reason || 'Transition non autorisée.' });
+        }
+
+        const rows = await db()`
+          UPDATE public.pedagogical_content
+          SET workflow=${to},
+              validator_id=CASE WHEN ${to} IN ('VALIDATED','PUBLISHED') THEN ${id} ELSE validator_id END,
+              version=version+1,
+              updated_at=NOW()
+          WHERE id=${contentId} AND workflow=${from}
+          RETURNING *
+        `;
         if (!rows[0]) return res.status(403).json({ error: 'Transition non autorisée.' });
-        await db()`INSERT INTO public.pedagogical_content_audit (content_id,from_workflow,to_workflow,actor_id) VALUES (${contentId},${from},${to},${id})`;
+
+        await db()`
+          INSERT INTO public.pedagogical_content_audit (content_id,from_workflow,to_workflow,actor_id)
+          VALUES (${contentId},${from},${to},${id})
+        `;
         return res.json({ record: rows[0] });
       }
     }

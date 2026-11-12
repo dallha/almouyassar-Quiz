@@ -1,24 +1,26 @@
 import type { Express } from 'express';
 import { neon } from '@neondatabase/serverless';
 import { requireNeonUser } from './neonProgressRoutes';
+import { getUserRole, canPerformCmsTransition } from './neonAuthRoles';
 
 const db = () => neon(process.env.DATABASE_URL || '');
-const transitions: Record<string, string[]> = {
-  DRAFT: ['REVIEW'],
-  REVIEW: ['DRAFT', 'VALIDATED'],
-  VALIDATED: ['REVIEW', 'PUBLISHED'],
-  PUBLISHED: ['ARCHIVED'],
-  ARCHIVED: ['DRAFT'],
-};
 
 export function registerNeonContentRoutes(app: Express): void {
   app.get('/api/cms', requireNeonUser, async (req, res) => {
     try {
       const workflow = typeof req.query.workflow === 'string' ? req.query.workflow : null;
-      const rows = workflow
-        ? await db()`SELECT * FROM public.pedagogical_content WHERE workflow = ${workflow} OR author_id = ${res.locals.neonUserId} ORDER BY updated_at DESC`
-        : await db()`SELECT * FROM public.pedagogical_content WHERE workflow = 'PUBLISHED' OR author_id = ${res.locals.neonUserId} ORDER BY updated_at DESC`;
-      return res.json({ records: rows });
+      const role = await getUserRole(res.locals.neonUserId);
+
+      // Les validateurs et administrateurs peuvent tout inspecter; les auteurs voient le publié et leurs brouillons
+      const rows = (role === 'admin' || role === 'validator')
+        ? (workflow
+            ? await db()`SELECT * FROM public.pedagogical_content WHERE workflow = ${workflow} ORDER BY updated_at DESC`
+            : await db()`SELECT * FROM public.pedagogical_content ORDER BY updated_at DESC`)
+        : (workflow
+            ? await db()`SELECT * FROM public.pedagogical_content WHERE (workflow = ${workflow} AND workflow = 'PUBLISHED') OR author_id = ${res.locals.neonUserId} ORDER BY updated_at DESC`
+            : await db()`SELECT * FROM public.pedagogical_content WHERE workflow = 'PUBLISHED' OR author_id = ${res.locals.neonUserId} ORDER BY updated_at DESC`);
+
+      return res.json({ records: rows, userRole: role });
     } catch (error) {
       console.error('Neon CMS list failed:', error);
       return res.status(500).json({ error: 'Chargement du CMS impossible.' });
@@ -61,21 +63,47 @@ export function registerNeonContentRoutes(app: Express): void {
 
   app.post('/api/cms/:id/transition', requireNeonUser, async (req, res) => {
     const { from, to } = req.body || {};
-    if (!transitions[from]?.includes(to)) return res.status(400).json({ error: 'Transition éditoriale interdite.' });
+    const userId = res.locals.neonUserId as string;
+
     try {
+      // 1. Récupération du contenu actuel pour vérifier l'auteur
+      const existingRows = await db()`
+        SELECT id, author_id, workflow FROM public.pedagogical_content WHERE id = ${req.params.id} LIMIT 1
+      `;
+      if (!existingRows[0]) {
+        return res.status(404).json({ error: 'Contenu introuvable.' });
+      }
+
+      const item = existingRows[0];
+      if (item.workflow !== from) {
+        return res.status(409).json({ error: `Statut actuel (${item.workflow}) incompatible avec la transition depuis (${from}).` });
+      }
+
+      // 2. Contrôle strict RBAC et règle des 4 yeux
+      const role = await getUserRole(userId);
+      const authCheck = canPerformCmsTransition(role, userId, item.author_id, from, to);
+      if (!authCheck.allowed) {
+        return res.status(403).json({ error: authCheck.reason || 'Transition non autorisée.' });
+      }
+
+      // 3. Exécution de la transition avec enregistrement d'audit
       const rows = await db()`
         UPDATE public.pedagogical_content
-        SET workflow = ${to}, validator_id = CASE WHEN ${to} IN ('VALIDATED', 'PUBLISHED') THEN ${res.locals.neonUserId} ELSE validator_id END,
-            version = version + 1, updated_at = NOW()
+        SET workflow = ${to},
+            validator_id = CASE WHEN ${to} IN ('VALIDATED', 'PUBLISHED') THEN ${userId} ELSE validator_id END,
+            version = version + 1,
+            updated_at = NOW()
         WHERE id = ${req.params.id} AND workflow = ${from}
-          AND (author_id = ${res.locals.neonUserId} OR ${to} IN ('VALIDATED', 'PUBLISHED'))
         RETURNING *
       `;
+
       if (!rows[0]) return res.status(403).json({ error: 'Transition non autorisée.' });
+
       await db()`
         INSERT INTO public.pedagogical_content_audit (content_id, from_workflow, to_workflow, actor_id)
-        VALUES (${req.params.id}, ${from}, ${to}, ${res.locals.neonUserId})
+        VALUES (${req.params.id}, ${from}, ${to}, ${userId})
       `;
+
       return res.json({ record: rows[0] });
     } catch (error) {
       console.error('Neon CMS transition failed:', error);
