@@ -17,6 +17,16 @@ interface AdventureModeProps {
   onExitAdventure?: () => void;
 }
 
+export function calculateAdventureNodeRewards(
+  isAlreadyCompleted: boolean,
+  nodeType: string,
+  rawXpEarned: number
+): { starsDelta: number; effectiveXp: number } {
+  const starsDelta = isAlreadyCompleted ? 0 : (nodeType === 'boss' ? 3 : 1);
+  const effectiveXp = isAlreadyCompleted ? Math.min(50, Math.round(rawXpEarned * 0.1)) : rawXpEarned;
+  return { starsDelta, effectiveXp };
+}
+
 export default function AdventureMode({ adventureState, onUpdateState, onRewardUnlocked, onOpenProfile, onExitAdventure }: AdventureModeProps) {
   const [selectedNode, setSelectedNode] = useState<AdventureNode | null>(null);
   const [selectedZone, setSelectedZone] = useState<AdventureZone | null>(null);
@@ -86,15 +96,26 @@ export default function AdventureMode({ adventureState, onUpdateState, onRewardU
         }
       }
 
+      const { starsDelta, effectiveXp } = calculateAdventureNodeRewards(
+        isAlreadyCompleted,
+        selectedNode.type,
+        xpEarned
+      );
+
       onUpdateState({
         ...adventureState,
         unlockedZones,
         completedNodes: isAlreadyCompleted ? adventureState.completedNodes : [...adventureState.completedNodes, selectedNode.id],
         currentNodeId: nextNodeId,
-        starsEarned: adventureState.starsEarned + (selectedNode.type === 'boss' ? 3 : 1),
+        starsEarned: adventureState.starsEarned + starsDelta,
       });
 
-      onRewardUnlocked(xpEarned, selectedNode.emotionalReward?.type === 'title' ? selectedNode.emotionalReward.name : undefined);
+      if (effectiveXp > 0) {
+        onRewardUnlocked(
+          effectiveXp,
+          !isAlreadyCompleted && selectedNode.emotionalReward?.type === 'title' ? selectedNode.emotionalReward.name : undefined
+        );
+      }
     }
     
     // Return to map
