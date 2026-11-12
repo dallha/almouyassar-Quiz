@@ -1,4 +1,5 @@
 import type { Badge, CategoryMastery, Question, UserStats } from '../../types';
+import { updateSpacedRepetitionItem } from '../progression';
 
 export interface AnswerProgressInput {
   stats: UserStats;
@@ -45,10 +46,26 @@ export function applyAnswerToProgress({
   const newHighestStreak = Math.max(stats.highestStreak, newStreak);
 
   const updatedCategoryStats = { ...categoryStats };
+  const qCat = currentQuestion.categorie;
   if (isCorrect) {
-    const qCat = currentQuestion.categorie;
     updatedCategoryStats[qCat] = (updatedCategoryStats[qCat] || 0) + 1;
   }
+
+  // Mise à jour de la maîtrise réelle par catégorie
+  const existingMastery = stats.masteryLevels?.[qCat];
+  const updatedCategoryMastery = deriveMasteryEntry(qCat, existingMastery, isCorrect);
+  const updatedMasteryLevels = {
+    ...(stats.masteryLevels || {}),
+    [qCat]: updatedCategoryMastery,
+  };
+
+  // Mise à jour individuelle SM-2 de la question
+  const existingReviewItem = stats.reviewItems?.[currentQuestion.id];
+  const updatedReviewItem = updateSpacedRepetitionItem(existingReviewItem, currentQuestion.id, isCorrect);
+  const updatedReviewItems = {
+    ...(stats.reviewItems || {}),
+    [currentQuestion.id]: updatedReviewItem,
+  };
 
   const updatedStats: UserStats = {
     ...stats,
@@ -57,6 +74,8 @@ export function applyAnswerToProgress({
     correctAnswersCount: isCorrect ? stats.correctAnswersCount + 1 : stats.correctAnswersCount,
     streak: newStreak,
     highestStreak: newHighestStreak,
+    masteryLevels: updatedMasteryLevels,
+    reviewItems: updatedReviewItems,
   };
 
   const newUnlockedBadgeIds = badgeDefinitions.reduce<string[]>((result, badge) => {

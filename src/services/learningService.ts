@@ -4,6 +4,7 @@ import {
   buildReviewPlan,
   calculateXpAward,
   resolveMasteryStatus,
+  getDueReviewQuestions,
 } from '../features/progression';
 
 export interface ProgressSnapshot {
@@ -47,15 +48,25 @@ export function getRecommendedReviewQueue(
   stats: UserStats,
   limit = 5,
 ): Question[] {
-  return [...questions]
+  // 1. Priorité aux questions dont l'échéance SM-2 est atteinte
+  const dueQuestions = getDueReviewQuestions(stats.reviewItems || {}, questions);
+  if (dueQuestions.length >= limit) {
+    return dueQuestions.slice(0, limit);
+  }
+
+  // 2. Compléter avec les questions des catégories de plus faible maîtrise
+  const dueSet = new Set(dueQuestions.map((q) => q.id));
+  const remaining = [...questions]
+    .filter((q) => !dueSet.has(q.id))
     .sort((left, right) => {
-      const leftMastery = stats.masteryLevels[left.categorie]?.progress ?? 0;
-      const rightMastery = stats.masteryLevels[right.categorie]?.progress ?? 0;
+      const leftMastery = stats.masteryLevels?.[left.categorie]?.progress ?? 0;
+      const rightMastery = stats.masteryLevels?.[right.categorie]?.progress ?? 0;
       const leftPriority = leftMastery + (left.niveau === 'Avancé' ? 5 : left.niveau === 'Intermédiaire' ? 2 : 0);
       const rightPriority = rightMastery + (right.niveau === 'Avancé' ? 5 : right.niveau === 'Intermédiaire' ? 2 : 0);
       return leftPriority - rightPriority;
-    })
-    .slice(0, limit);
+    });
+
+  return [...dueQuestions, ...remaining].slice(0, limit);
 }
 
 export function awardXpForAnswer(

@@ -53,6 +53,7 @@ const defaultStats: UserStats = {
   completedQuizzesCount: 0,
   unlockedBadgeIds: [],
   masteryLevels: {},
+  reviewItems: {},
   totalXpEarned: 0,
   quizzesToday: 0,
   lastDailyReset: null,

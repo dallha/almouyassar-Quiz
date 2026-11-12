@@ -78,6 +78,7 @@ export interface UserStats {
   completedQuizzesCount: number;
   unlockedBadgeIds: string[];
   masteryLevels: Record<string, CategoryMastery>; // Par catégorie
+  reviewItems?: Record<string | number, ReviewItem>; // Suivi individuel SM-2 par question
   totalXpEarned: number;
   quizzesToday: number;
   lastDailyReset: string | null;

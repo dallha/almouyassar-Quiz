@@ -3,6 +3,7 @@ import type {
   LearningProgressState,
   PedagogicalMetadata,
   PedagogicalQuestion,
+  ReviewOutcome,
   ReviewPlan,
 } from '../../types/pedagogy';
 
@@ -73,31 +74,49 @@ export function computeQuestionDifficulty(question: Partial<PedagogicalQuestion>
 
 export function buildLearningPath(
   questions: Array<Partial<PedagogicalQuestion>> = [],
+  history: ReviewOutcome[] = [],
 ): LearningDashboardSnapshot {
   const normalized = questions.map((question) => defaultQuestion(question));
+  const historyByQuestion = new Map<string, ReviewOutcome>();
+  history.forEach((h) => historyByQuestion.set(String(h.questionId), h));
 
   const groups = new Map<string, LearningProgressState>();
 
   normalized.forEach((question) => {
     const key = `${question.domain}:${question.category}:${question.lesson}`;
     const previous = groups.get(key);
-    const mastery = previous ? Math.min(100, previous.mastery + 10) : 35 + (question.difficulty * 12);
+    const outcome = historyByQuestion.get(String(question.id));
+
+    let correctCount = previous?.correctCount ?? 0;
+    let totalAnswered = previous?.totalAnswered ?? 0;
+
+    if (outcome) {
+      totalAnswered += 1;
+      if (outcome.result === 'correct') {
+        correctCount += 1;
+      }
+    }
+
+    const calculatedMastery = totalAnswered > 0
+      ? Math.round((correctCount / totalAnswered) * 100)
+      : Math.min(40, 20 + question.difficulty * 5);
 
     groups.set(key, {
       domain: question.domain,
       category: question.category,
       chapter: question.chapter,
       lesson: question.lesson,
-      mastery: Math.min(100, Math.max(10, mastery)),
-      status: mastery >= 80 ? 'Maîtrisé' : mastery >= 60 ? 'En cours' : mastery >= 40 ? 'À revoir' : 'À apprendre',
-      totalAnswered: (previous?.totalAnswered ?? 0) + 1,
-      correctCount: (previous?.correctCount ?? 0) + 1,
+      mastery: Math.min(100, Math.max(0, calculatedMastery)),
+      status: calculatedMastery >= 85 ? 'Maîtrisé' : calculatedMastery >= 65 ? 'En cours' : calculatedMastery >= 40 ? 'À revoir' : 'À apprendre',
+      totalAnswered,
+      correctCount,
       nextReviewAt: new Date(Date.now() + 86400000).toISOString(),
     });
   });
 
   const domains = Array.from(groups.values());
-  const dueItems = normalized.slice(0, 3).map((question) => question.id);
+  const incorrectIds = history.filter((h) => h.result === 'incorrect').map((h) => String(h.questionId));
+  const dueItems = incorrectIds.length > 0 ? incorrectIds : normalized.slice(0, 3).map((question) => question.id);
 
   return {
     totalDomains: new Set(normalized.map((question) => question.domain)).size,
