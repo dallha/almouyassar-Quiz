@@ -10,6 +10,12 @@ import { playSelectSound } from './SoundEngine';
 import { UserStats } from '../types';
 import { useLanguage } from '../LanguageContext';
 import { loadParentChildSnapshots, type ParentChildSnapshot } from '../services/parentDashboardService';
+import {
+  hasParentPinConfigured,
+  saveParentPin,
+  verifyStoredParentPin,
+  clearParentPin,
+} from '../services/parentSecurityService';
 
 interface ParentalDashboardProps {
   stats: UserStats;
@@ -53,20 +59,17 @@ export default function ParentalDashboard({
 
   // Recovery States
   const [recoveryMode, setRecoveryMode] = useState(false);
-  const [recoveryChallenge, setRecoveryChallenge] = useState({ first: 0, second: 0, answer: 0 });
-  const [recoveryInput, setRecoveryInput] = useState('');
-  const [recoveryError, setRecoveryError] = useState(false);
 
   // UI Confirms
   const [showConfirmReset, setShowConfirmReset] = useState(false);
   const [childSnapshots, setChildSnapshots] = useState<ParentChildSnapshot[]>([]);
   const [childSnapshotError, setChildSnapshotError] = useState<string | null>(null);
 
-  // Load PIN and lockout status from localStorage
+  // Load PIN and lockout status from localStorage (via PBKDF2 service)
   useEffect(() => {
-    const savedPin = localStorage.getItem('almouyassar_parental_pin');
-    setPinCode(savedPin);
-    if (!savedPin) {
+    const isConfigured = hasParentPinConfigured();
+    setPinCode(isConfigured ? 'configured' : null);
+    if (!isConfigured) {
       setSetupStep('enter');
     }
 
@@ -121,16 +124,17 @@ export default function ParentalDashboard({
         setEnteredPin('');
         setSetupStep('confirm');
       } else if (setupStep === 'confirm') {
-        // Confirmation of PIN setup
+        // Confirmation of PIN setup with PBKDF2 hashing
         playSelectSound();
         if (enteredPin === tempPin) {
-          localStorage.setItem('almouyassar_parental_pin', enteredPin);
-          setPinCode(enteredPin);
-          setSetupStep(null);
-          setIsUnlocked(true);
-          setEnteredPin('');
-          setTempPin('');
-          setIsChangingPin(false);
+          saveParentPin(enteredPin).then(() => {
+            setPinCode('configured');
+            setSetupStep(null);
+            setIsUnlocked(true);
+            setEnteredPin('');
+            setTempPin('');
+            setIsChangingPin(false);
+          });
         } else {
           // Mismatch, reset to step 1
           triggerErrorShake();
@@ -139,30 +143,32 @@ export default function ParentalDashboard({
           setSetupStep('enter');
         }
       } else {
-        // Standard unlock
-        if (enteredPin === pinCode) {
-          playSelectSound();
-          setIsUnlocked(true);
-          setEnteredPin('');
-          setFailedAttempts(0);
-        } else {
-          // Incorrect PIN
-          playSelectSound();
-          triggerErrorShake();
-          const newFailed = failedAttempts + 1;
-          setFailedAttempts(newFailed);
-          setEnteredPin('');
-          
-          if (newFailed >= 3) {
-            // Lock out parent for 30 seconds to prevent brute-force
-            const blockTime = Date.now() + 30000;
-            setLockoutUntil(blockTime);
-            localStorage.setItem('almouyassar_parental_lockout', blockTime.toString());
+        // Standard unlock with cryptographic verification
+        verifyStoredParentPin(enteredPin).then((isValid) => {
+          if (isValid) {
+            playSelectSound();
+            setIsUnlocked(true);
+            setEnteredPin('');
+            setFailedAttempts(0);
+          } else {
+            // Incorrect PIN
+            playSelectSound();
+            triggerErrorShake();
+            const newFailed = failedAttempts + 1;
+            setFailedAttempts(newFailed);
+            setEnteredPin('');
+            
+            if (newFailed >= 3) {
+              // Lock out parent for 30 seconds to prevent brute-force
+              const blockTime = Date.now() + 30000;
+              setLockoutUntil(blockTime);
+              localStorage.setItem('almouyassar_parental_lockout', blockTime.toString());
+            }
           }
-        }
+        });
       }
     }
-  }, [enteredPin, setupStep, pinCode, tempPin, failedAttempts]);
+  }, [enteredPin, setupStep, tempPin, failedAttempts]);
 
   // Handle number click on key pad
   const handleNumberInput = (num: number) => {
@@ -180,39 +186,21 @@ export default function ParentalDashboard({
     }
   };
 
-  // Set up recovery challenge (hard math multiplication)
+  // Secure PIN Recovery
   const handleInitiateRecovery = () => {
     playSelectSound();
-    const first = Math.floor(Math.random() * 12) + 12; // 12 to 23
-    const second = Math.floor(Math.random() * 8) + 12; // 12 to 19
-    setRecoveryChallenge({
-      first,
-      second,
-      answer: first * second
-    });
-    setRecoveryInput('');
-    setRecoveryError(false);
     setRecoveryMode(true);
   };
 
-  const handleVerifyRecovery = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleConfirmResetPin = () => {
     playSelectSound();
-    if (parseInt(recoveryInput) === recoveryChallenge.answer) {
-      // Recovery success: purge old PIN and force set new PIN
-      localStorage.removeItem('almouyassar_parental_pin');
-      setPinCode(null);
-      setSetupStep('enter');
-      setIsUnlocked(false);
-      setRecoveryMode(false);
-      setFailedAttempts(0);
-      setLockoutUntil(null);
-      localStorage.removeItem('almouyassar_parental_lockout');
-    } else {
-      setRecoveryError(true);
-      setRecoveryInput('');
-      triggerErrorShake();
-    }
+    clearParentPin();
+    setPinCode(null);
+    setSetupStep('enter');
+    setIsUnlocked(false);
+    setRecoveryMode(false);
+    setFailedAttempts(0);
+    setLockoutUntil(null);
   };
 
   const handleMuteToggle = () => {
@@ -298,48 +286,19 @@ export default function ParentalDashboard({
 
             <div className="space-y-1">
               <span className={`text-[9px] font-mono font-bold tracking-widest uppercase ${theme === 'dark' ? 'text-amber-400' : 'text-[#D0A21C]'}`}>
-                {t('parental.math_sec')}
+                Sécurité Parentale
               </span>
               <h3 className={`text-sm font-black uppercase tracking-wide ${theme === 'dark' ? 'text-white' : 'text-[#004D40]'}`}>
-                {t('parental.math_val')}
+                Réinitialisation du PIN
               </h3>
               <p className={`text-[11px] leading-relaxed ${theme === 'dark' ? 'text-slate-400' : 'text-stone-500'}`}>
-                {t('parental.math_desc')}
+                {currentUserId
+                  ? "Votre compte parent Neon est authentifié. Vous pouvez réinitialiser le code de sécurité local pour en définir un nouveau."
+                  : "Aucun compte parent Neon n'est connecté. La réinitialisation effacera le verrouillage local de cet appareil."}
               </p>
             </div>
 
-            <form onSubmit={handleVerifyRecovery} className="space-y-4">
-              <motion.div 
-                animate={shake ? { x: [-8, 8, -8, 8, -4, 4, 0] } : {}}
-                transition={{ duration: 0.4 }}
-                className={`p-4 rounded-xl border ${
-                  theme === 'dark' ? 'bg-slate-900/60 border-slate-800' : 'bg-stone-50 border-stone-200'
-                }`}
-              >
-                <span className={`text-sm font-mono font-extrabold block mb-2 ${theme === 'dark' ? 'text-slate-200' : 'text-[#004D40]'}`}>
-                  {t('parental.math_q').replace('{first}', String(recoveryChallenge.first)).replace('{second}', String(recoveryChallenge.second))}
-                </span>
-                
-                <input
-                  type="number"
-                  placeholder={t('parental.math_placeholder')}
-                  value={recoveryInput}
-                  onChange={(e) => setRecoveryInput(e.target.value)}
-                  className={`w-full text-center px-3 py-2 border rounded-lg text-sm font-bold focus:outline-none ${
-                    theme === 'dark'
-                      ? 'bg-slate-950 border-slate-800 text-white focus:border-amber-450'
-                      : 'bg-white border-stone-200 text-stone-850 focus:border-[#D0A21C]'
-                  }`}
-                  autoFocus
-                />
-              </motion.div>
-
-              {recoveryError && (
-                <p className="text-[10px] font-bold text-rose-500">
-                  {t('parental.math_error')}
-                </p>
-              )}
-
+            <div className="space-y-4">
               <div className="flex gap-2">
                 <button
                   type="button"
@@ -353,17 +312,18 @@ export default function ParentalDashboard({
                   {t('common.back')}
                 </button>
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={handleConfirmResetPin}
                   className={`flex-1 py-2 text-[10px] font-extrabold rounded-lg uppercase tracking-wider shadow-sm transition-all duration-300 ${
                     theme === 'dark'
                       ? 'bg-amber-500 hover:bg-amber-600 text-slate-950 btn-3d-amber'
                       : 'bg-[#004D40] hover:bg-[#004D40]/90 text-[#FCF8F2] btn-3d-emerald'
                   }`}
                 >
-                  {t('parental.math_submit')}
+                  Confirmer la réinitialisation
                 </button>
               </div>
-            </form>
+            </div>
           </motion.div>
         ) : !isUnlocked ? (
           
