@@ -830,7 +830,12 @@ export default function App() {
   };
 
   const handleLaunchQuiz = (overrideCategories?: string[], overrideCount?: number) => {
-    const activeCats = overrideCategories && overrideCategories.length > 0 ? overrideCategories : selectedCategories;
+    const isNewEnrichedSpecial = overrideCategories?.includes('Nouveautés');
+    const activeCats = isNewEnrichedSpecial
+      ? allCategories
+      : overrideCategories && overrideCategories.length > 0
+      ? overrideCategories
+      : selectedCategories;
     const countToPick = overrideCount ?? quizQuestionCount;
 
     if (activeCats.length === 0 || selectedLevels.length === 0) {
@@ -841,7 +846,7 @@ export default function App() {
     playSelectSound();
 
     // Filter questions based on configuration
-    const filtered = QUESTIONS.filter(q =>
+    let filtered = QUESTIONS.filter(q =>
       activeCats.includes(q.categorie) &&
       selectedLevels.includes(q.niveau) &&
       (
@@ -850,6 +855,11 @@ export default function App() {
         q.options.some(opt => opt.toLowerCase().includes(quizSearchQuery.toLowerCase()))
       )
     );
+
+    // If "Nouveautés (Zâd & Coran)" preset was selected, target the 166 newly enriched questions (id >= 6000)
+    if (isNewEnrichedSpecial) {
+      filtered = QUESTIONS.filter(q => Number(q.id) >= 6000);
+    }
 
     if (filtered.length === 0) {
       alert(t('common.alert_no_question_match_filters'));

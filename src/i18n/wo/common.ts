@@ -316,6 +316,9 @@ export default {
   avatar_crescent: "Weeru Asamaan",
   auth_profile_updated: "Sa jëmm ak sa nataal yeesal nañu ko bu baax! ✨",
   auth_save_profile_btn: "Denc sama jëmm",
+  quiz_preset_new_eyebrow: "Laajt yu bees",
+  quiz_preset_new_title: "Li bees (Zâd & Alxuraan)",
+  quiz_preset_new_desc: "166 laajti xam-xam yu bees jogé ci Zâd al-Muslim ak Alxuraan.",
 
   // Hero mobile keys
   app_title: "Al-Mouyassar",

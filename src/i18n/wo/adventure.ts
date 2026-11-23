@@ -54,6 +54,34 @@ export default {
     zone3: {
       title: "Yoonu Yonent yi",
       description: "Weil sa yoon ci guinaw gni nga xamni gno ubbil humanité bi yoonu leer."
+    },
+    zone4: {
+      title: "Géej u Fiqh",
+      description: "Dugg ci xam-xam u sariya ak natt u julli ak sellal."
+    },
+    zone5: {
+      title: "Tat u Aaya ak Saara yi",
+      description: "Gëstu Alxuraanul Kariim, saara yu Makka ak yu Madiina."
+    },
+    zone6: {
+      title: "Yoonu Xam-xam (Zâd al-Muslim)",
+      description: "Dundeel sa xol ak jàngale yu Zâd al-Muslim : Asaka, Ajj ak jikko yu rafet."
+    },
+    zone7: {
+      title: "Yoonu Sunna ak Xadiis",
+      description: "Moot sa bakkan ci wax yu teey yu Yonent bi (PSL) ak sunna."
+    },
+    zone8: {
+      title: "Kër u Càmmite yi (Tawxiid)",
+      description: "Selli sa ngëm ci bennal Yàlla ak turam yu tedd yi."
+    },
+    zone9: {
+      title: "Seetu Taarixu Lislaam",
+      description: "Jang taarixu Sahaba yi ak dundin u daara Al-Mouyassar."
+    },
+    zone10: {
+      title: "Koom-koom u Al-Mouyassar",
+      description: "Nattoog mujj bi ngir génn jàngalekat bu ràññeeku ci Al-Mouyassar."
     }
   },
 

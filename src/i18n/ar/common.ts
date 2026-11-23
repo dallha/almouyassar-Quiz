@@ -316,6 +316,9 @@ export default {
   avatar_crescent: "الهلال المنير",
   auth_profile_updated: "تم تحديث الملف الشخصي والصورة بنجاح! ✨",
   auth_save_profile_btn: "حفظ الملف الشخصي",
+  quiz_preset_new_eyebrow: "أسئلة جديدة",
+  quiz_preset_new_title: "الجديد (زاد المسلم والقرآن)",
+  quiz_preset_new_desc: "166 سؤالاً حصرياً من زاد المسلم وموسوعة القرآن الكريم.",
 
   // Session end text
   session_end_desc: "أنهيت هذه الجلسة بنجاح. راجع النتائج والشرح لتثبيت الفهم.",

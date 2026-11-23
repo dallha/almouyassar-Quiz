@@ -6,7 +6,7 @@ import { Trophy, ArrowRight, Sparkles, AlertCircle, Heart, Shield } from 'lucide
 import { QUESTIONS } from '../../data';
 import { playSuccessSound, playErrorSound } from '../SoundEngine';
 import { useLanguage } from '../../LanguageContext';
-import { pickRandomQuestions } from '../../store';
+import { pickSmartQuestions } from '../../store';
 
 interface AdventureSessionProps {
   node: AdventureNode;
@@ -34,13 +34,31 @@ export default function AdventureSession({ node, onComplete, onClose }: Adventur
     if (node.categoryFilter) {
       filtered = filtered.filter(q => q.categorie === node.categoryFilter);
     }
-    // Pick 3 random questions for the duel/session using shared history to avoid repeats
-    const savedRecentIds = localStorage.getItem('mouyassar_recent_question_ids');
-    const recentIds: number[] = savedRecentIds ? JSON.parse(savedRecentIds) : [];
-    const { selected, updatedRecentIds } = pickRandomQuestions(filtered, 3, recentIds, 300);
+    // Target question count: 7 for boss challenges, 5 for normal learning nodes
+    const targetCount = isBoss ? 7 : 5;
+
+    // Load persistent LRU history for zero repetition
+    let seenTimestamps: Record<string, number> = {};
+    try {
+      const savedV2 = localStorage.getItem('mouyassar_question_seen_v2');
+      if (savedV2) {
+        seenTimestamps = JSON.parse(savedV2) || {};
+      }
+    } catch {
+      seenTimestamps = {};
+    }
+
+    const { selected, updatedSeenTimestamps } = pickSmartQuestions(
+      filtered,
+      Math.min(targetCount, filtered.length),
+      seenTimestamps
+    );
+
     setSessionQuestions(selected);
-    localStorage.setItem('mouyassar_recent_question_ids', JSON.stringify(updatedRecentIds));
-  }, [node]);
+    try {
+      localStorage.setItem('mouyassar_question_seen_v2', JSON.stringify(updatedSeenTimestamps));
+    } catch {}
+  }, [node, isBoss]);
 
   useEffect(() => {
     if (sessionQuestions.length === 0 || currentIndex >= sessionQuestions.length) return;

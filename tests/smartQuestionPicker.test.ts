@@ -4,6 +4,8 @@ import test from 'node:test';
 import { pickSmartQuestions } from '../src/store';
 import { ENRICHED_QUESTIONS } from '../src/data/questions_enriched';
 import { getLocalizedQuestion, Question } from '../src/types';
+import { ADVENTURE_ZONES } from '../src/adventureData';
+import { QUESTIONS } from '../src/data';
 
 function makeMockPool(size: number): Question[] {
   return Array.from({ length: size }, (_, i) => ({
@@ -72,4 +74,46 @@ test('getLocalizedQuestion returns localized hint for ar and fr', () => {
 
   assert.equal(frQ.hint, sample.hint);
   assert.equal(arQ.hint, sample.translations?.ar?.hint);
+});
+
+test('ADVENTURE_ZONES contains 10 epic zones with progressive nodes and boss duels', () => {
+  assert.equal(ADVENTURE_ZONES.length, 10, 'Expected exactly 10 adventure zones');
+
+  ADVENTURE_ZONES.forEach((zone, idx) => {
+    assert.equal(zone.order, idx + 1, `Zone ${zone.id} must have order ${idx + 1}`);
+    assert.ok(zone.title && zone.title.length > 0, `Zone ${zone.id} must have a title`);
+    assert.ok(zone.description && zone.description.length > 0, `Zone ${zone.id} must have a description`);
+    assert.ok(zone.nodes.length >= 3, `Zone ${zone.id} must have at least 3 nodes`);
+
+    const hasBoss = zone.nodes.some((n) => n.type === 'boss');
+    assert.ok(hasBoss, `Zone ${zone.id} must include a boss node`);
+  });
+});
+
+test('Adventure question scaling: picks 5 questions for standard nodes and 7 for boss challenges', () => {
+  const pool = QUESTIONS.filter((q) => q.categorie === 'Coran');
+  assert.ok(pool.length >= 20, 'Pool must have enough questions');
+
+  // Standard node (5 questions)
+  const standard = pickSmartQuestions(pool, 5, {});
+  assert.equal(standard.selected.length, 5);
+  assert.equal(new Set(standard.selected.map((q) => q.id)).size, 5);
+
+  // Boss node (7 questions)
+  const boss = pickSmartQuestions(pool, 7, {});
+  assert.equal(boss.selected.length, 7);
+  assert.equal(new Set(boss.selected.map((q) => q.id)).size, 7);
+});
+
+test('Enriched questions discovery preset filters all 166 questions correctly', () => {
+  const enriched = QUESTIONS.filter((q) => Number(q.id) >= 6000);
+  assert.equal(enriched.length, 166, 'Expected exactly 166 enriched questions with id >= 6000');
+  
+  // Selection of 15 questions for quick discovery preset
+  const quickPick = pickSmartQuestions(enriched, 15, {});
+  assert.equal(quickPick.selected.length, 15);
+  assert.equal(new Set(quickPick.selected.map((q) => q.id)).size, 15);
+  for (const q of quickPick.selected) {
+    assert.ok(Number(q.id) >= 6000, `Expected enriched question ID, got ${q.id}`);
+  }
 });

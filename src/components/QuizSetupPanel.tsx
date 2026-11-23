@@ -38,6 +38,16 @@ export default function QuizSetupPanel({
 
   const quickPresets = [
     {
+      cat: 'Nouveautés',
+      icon: 'auto_awesome',
+      iconBg: 'bg-amber-100 text-amber-900',
+      eyebrow: t('common.quiz_preset_new_eyebrow'),
+      title: t('common.quiz_preset_new_title'),
+      desc: t('common.quiz_preset_new_desc'),
+      xp: 60,
+      count: 15,
+    },
+    {
       cat: 'Fiqh',
       icon: 'water_drop',
       iconBg: 'bg-primary-fixed text-primary',
@@ -308,7 +318,7 @@ export default function QuizSetupPanel({
                 <span>{t('common.quiz_count_label')}</span>
               </label>
               <div className="grid grid-cols-4 gap-2">
-                {[5, 10, 20, 50].map((val) => {
+                {[5, 10, 15, 20].map((val) => {
                   const isSelected = questionCount === val;
                   return (
                     <button

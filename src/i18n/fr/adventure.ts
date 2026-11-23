@@ -45,15 +45,43 @@ export default {
   zones: {
     zone1: {
       title: "La Vallée de la Pureté",
-      description: "Ton voyage commence ici. Purifie ton cœur et apprends les fondements de la foi."
+      description: "Ton voyage commence ici. Purifie ton cœur et apprends les fondements de la foi et des ablutions."
     },
     zone2: {
       title: "Le Jardin des Invocations",
-      description: "Un lieu paisible où les mots s'envolent vers les cieux."
+      description: "Un lieu paisible où les paroles de rappel et le noble caractère s'épanouissent."
     },
     zone3: {
       title: "Le Voyage des Prophètes",
-      description: "Marche sur les traces de ceux qui ont guidé l'humanité."
+      description: "Marche sur les traces des envoyés d'Allah et découvre l'histoire sainte."
+    },
+    zone4: {
+      title: "L'Océan du Fiqh",
+      description: "Plonge dans les profondeurs de la jurisprudence islamique et des règles cultuelles."
+    },
+    zone5: {
+      title: "La Citadelle des Versets et Sourates",
+      description: "Explore les mystères et la beauté du Livre Sacré, ses révélations mecquoises et médinoises."
+    },
+    zone6: {
+      title: "Les Chemins de la Sagesse (Zâd al-Muslim)",
+      description: "Nourris ton âme des enseignements de Zâd al-Muslim : Zakat, Hajj, piété et noblesse d'âme."
+    },
+    zone7: {
+      title: "La Voie de la Sunnah et des Hadiths",
+      description: "Imprègne-toi des paroles d'or du Messager d'Allah et des chaînes de transmission authentiques."
+    },
+    zone8: {
+      title: "Le Refuge des Croyants",
+      description: "Contemple la majesté du Créateur et fortifie ton Aqidah dans l'Unicité absolue (Tawhid)."
+    },
+    zone9: {
+      title: "Les Miroirs de l'Histoire Islamique",
+      description: "Rencontre les grandes figures de la communauté, les Compagnons et l'héritage d'Al-Mouyassar."
+    },
+    zone10: {
+      title: "Le Sommet d'Al-Mouyassar",
+      description: "L'ascension finale. Démontre ta maîtrise de l'ensemble des sciences sacrées pour décrocher la dignité d'Alim."
     }
   },
 

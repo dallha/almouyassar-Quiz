@@ -316,6 +316,9 @@ export default {
   avatar_crescent: "Croissant Céleste",
   auth_profile_updated: "Profil et avatar mis à jour avec succès ! ✨",
   auth_save_profile_btn: "Sauvegarder mon profil",
+  quiz_preset_new_eyebrow: "Questions Inédites",
+  quiz_preset_new_title: "Nouveautés (Zâd & Coran)",
+  quiz_preset_new_desc: "166 questions exclusives issues de Zâd al-Muslim et du Noble Coran.",
 
   // Hero mobile keys
   app_title: "Al-Mouyassar",
