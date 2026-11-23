@@ -99,6 +99,7 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
   const [renameValue, setRenameValue] = useState('');
 
   const listEndRef = useRef<HTMLDivElement | null>(null);
+  const lastPromptRef = useRef<string>('');
 
   const [currentlySpeakingIdx, setCurrentlySpeakingIdx] = useState<number | null>(null);
 
@@ -347,6 +348,7 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
   const handleSendMessage = async (textToSend: string) => {
     if (!textToSend.trim() || isLoading) return;
 
+    lastPromptRef.current = textToSend;
     playSelectSound();
 
     // Advance daily quest if available
@@ -422,6 +424,7 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
       });
     }
 
+    let modelPlaceholderAdded = false;
     try {
       const chatHistory = messages.map(msg => ({
         role: msg.role,
@@ -433,6 +436,7 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
         ...prev, 
         { role: 'model', parts: [{ text: '' }] }
       ]);
+      modelPlaceholderAdded = true;
 
       const res = await fetch('/api/oustaz', {
         method: 'POST',
@@ -447,48 +451,78 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
       });
 
       if (!res.ok) {
-        throw new Error("L'Oustaz Virtuel est temporairement indisponible.");
+        const errJson = await res.json().catch(() => null);
+        const errMsg = errJson?.error || '';
+        if (errMsg.includes('GEMINI_API_KEY')) {
+          throw new Error(t('oustaz.oustaz_error_missing_key'));
+        }
+        throw new Error(errMsg || t('oustaz.oustaz_error_unavailable'));
       }
 
-      const reader = res.body?.getReader();
-      const decoder = new TextDecoder('utf-8');
+      const contentType = res.headers.get('content-type') || '';
       let accumulatedText = '';
 
-      if (reader) {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          
-          const chunk = decoder.decode(value, { stream: true });
-          const lines = chunk.split('\n');
-          
-          for (const line of lines) {
-            if (line.startsWith('data: ')) {
-              const dataStr = line.slice(6).trim();
-              if (dataStr === '[DONE]') continue;
-              try {
-                const data = JSON.parse(dataStr);
-                if (data.text) {
-                  accumulatedText += data.text;
-                  setMessages(prev => {
-                    const newMessages = [...prev];
-                    const lastIdx = newMessages.length - 1;
-                    if (newMessages[lastIdx].role === 'model') {
-                      newMessages[lastIdx] = {
-                        ...newMessages[lastIdx],
-                        parts: [{ text: accumulatedText }]
-                      };
-                    }
-                    return newMessages;
-                  });
-                } else if (data.error) {
-                  setErrorStatus(data.error);
+      if (contentType.includes('text/event-stream')) {
+        const reader = res.body?.getReader();
+        const decoder = new TextDecoder('utf-8');
+
+        if (reader) {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            
+            const chunk = decoder.decode(value, { stream: true });
+            const lines = chunk.split('\n');
+            
+            for (const line of lines) {
+              if (line.startsWith('data: ')) {
+                const dataStr = line.slice(6).trim();
+                if (dataStr === '[DONE]') continue;
+                try {
+                  const data = JSON.parse(dataStr);
+                  if (data.text) {
+                    accumulatedText += data.text;
+                    setMessages(prev => {
+                      const newMessages = [...prev];
+                      const lastIdx = newMessages.length - 1;
+                      if (newMessages[lastIdx].role === 'model') {
+                        newMessages[lastIdx] = {
+                          ...newMessages[lastIdx],
+                          parts: [{ text: accumulatedText }]
+                        };
+                      }
+                      return newMessages;
+                    });
+                  } else if (data.error) {
+                    setErrorStatus(data.error);
+                  }
+                } catch (e) {
+                  // ignore invalid json from incomplete chunks
                 }
-              } catch (e) {
-                // ignore invalid json from incomplete chunks
               }
             }
           }
+        }
+      }
+
+      // Fallback universel si non-streaming ou si le buffer est en JSON
+      if (!accumulatedText) {
+        const rawJson = await res.json().catch(() => null);
+        if (rawJson?.text) {
+          accumulatedText = rawJson.text;
+          setMessages(prev => {
+            const newMessages = [...prev];
+            const lastIdx = newMessages.length - 1;
+            if (newMessages[lastIdx].role === 'model') {
+              newMessages[lastIdx] = {
+                ...newMessages[lastIdx],
+                parts: [{ text: accumulatedText }]
+              };
+            }
+            return newMessages;
+          });
+        } else if (rawJson?.error) {
+          throw new Error(rawJson.error);
         }
       }
       
@@ -503,11 +537,20 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
           setFinishedGenerating(false);
         }, 2500);
       } else {
-        throw new Error("Impossible de décoder la réponse de l'Oustaz Virtuel.");
+        throw new Error(t('oustaz.oustaz_error_decode'));
       }
     } catch (err: any) {
       console.error(err);
-      setErrorStatus(err.message || "Impossible de joindre l'Oustaz AI.");
+      if (modelPlaceholderAdded) {
+        setMessages(prev => {
+          const last = prev[prev.length - 1];
+          if (last && last.role === 'model' && !last.parts[0].text) {
+            return prev.slice(0, -1);
+          }
+          return prev;
+        });
+      }
+      setErrorStatus(err.message || t('oustaz.oustaz_error_generic'));
     } finally {
       setIsLoading(false);
     }
@@ -955,8 +998,12 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
             <p className="flex-1 font-medium">{errorStatus}</p>
             <button
               type="button"
-              onClick={() => handleSendMessage(messages[messages.length - 1]?.parts[0].text || '')}
-              className="px-3 py-1.5 bg-error text-on-error rounded-full text-label-sm font-bold shrink-0 cursor-pointer"
+              onClick={() => {
+                if (lastPromptRef.current) {
+                  handleSendMessage(lastPromptRef.current);
+                }
+              }}
+              className="px-3 py-1.5 bg-error text-on-error rounded-full text-label-sm font-bold shrink-0 cursor-pointer hover:opacity-90 active:scale-95 transition-all"
             >
               {t('oustaz.oustaz_retry')}
             </button>

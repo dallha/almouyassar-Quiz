@@ -21,5 +21,9 @@ export default {
   oustaz_suggested_3: "Naka la gniy amé Sabr ?",
   oustaz_suggested_3_q: "Naka la gniy amé Sabr (mounou) bou may jang sama leçon yi ?",
   oustaz_suggested_4: "Kan moy ki ko taxawal ?",
-  oustaz_suggested_4_q: "Kan moy Cheikh El Hadji Abdallah Niasse te naka la taxawalé Daara Al-Mouyassar ?"
+  oustaz_suggested_4_q: "Kan moy Cheikh El Hadji Abdallah Niasse te naka la taxawalé Daara Al-Mouyassar ?",
+  oustaz_error_unavailable: "Oustaz bi amna lou ko jàppal léegi. Nan ko séet ci kanam tuuti insha'Allah. 😊",
+  oustaz_error_decode: "Tontu Oustaz bi jàllul bu baax. Nan ko baamtu waat. 😊",
+  oustaz_error_missing_key: "Clé API Gemini bi baaxul ci serveur bi. Dangako wara denc ci paramètres Vercel.",
+  oustaz_error_generic: "Amna luy tèye waxtaan bi tuuti. Baamtul sa laaj ci anam bou yomb. 😊"
 };

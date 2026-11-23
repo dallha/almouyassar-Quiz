@@ -21,5 +21,9 @@ export default {
   oustaz_suggested_3: "Comment faire le Sabr ?",
   oustaz_suggested_3_q: "Comment faire preuve de patience (Sabr) quand j'apprends mes leçons ?",
   oustaz_suggested_4: "Qui est le fondateur ?",
-  oustaz_suggested_4_q: "Qui était Cheikh El Hadji Abdallah Niasse et comment a-t-il créé l'Institut ?"
+  oustaz_suggested_4_q: "Qui était Cheikh El Hadji Abdallah Niasse et comment a-t-il créé l'Institut ?",
+  oustaz_error_unavailable: "L'Oustaz Virtuel est momentanément indisponible. Réessayons dans un instant, incha'Allah. 😊",
+  oustaz_error_decode: "Impossible de décoder la réponse de l'Oustaz. Réessayons ensemble. 😊",
+  oustaz_error_missing_key: "Clé API Gemini non configurée sur le serveur. Veuillez configurer GEMINI_API_KEY dans vos paramètres Vercel.",
+  oustaz_error_generic: "Une petite interruption est survenue. N'hésite pas à reposer ta question. 😊"
 };

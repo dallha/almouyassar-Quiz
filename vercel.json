@@ -3,6 +3,7 @@
   "rewrites": [
     { "source": "/api/oustaz", "destination": "/api/oustaz" },
     { "source": "/api/translate", "destination": "/api/translate" },
+    { "source": "/api/:path*", "destination": "/api/[...path]" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

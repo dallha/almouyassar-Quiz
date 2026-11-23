@@ -178,7 +178,7 @@ export default async function handler(req: any, res: any) {
     }
 
     const chat = ai.chats.create({
-      model: "gemini-2.5-flash",
+      model: "gemini-1.5-flash",
       config: {
         systemInstruction,
         temperature: 0.7,
@@ -192,12 +192,37 @@ export default async function handler(req: any, res: any) {
       history: safeHistory
     });
 
-    const response = await chat.sendMessage({ message });
-    return res.status(200).json({ text: response.text });
+    if (req.body?.stream) {
+      res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
+      res.setHeader('Cache-Control', 'no-cache, no-transform');
+      res.setHeader('Connection', 'keep-alive');
+      res.setHeader('X-Accel-Buffering', 'no');
+
+      const responseStream = await chat.sendMessageStream({ message });
+      for await (const chunk of responseStream) {
+        if (chunk.text) {
+          res.write(`data: ${JSON.stringify({ text: chunk.text })}\n\n`);
+          if (typeof (res as any).flush === 'function') {
+            (res as any).flush();
+          }
+        }
+      }
+      res.write(`data: [DONE]\n\n`);
+      res.end();
+      return;
+    } else {
+      const response = await chat.sendMessage({ message });
+      return res.status(200).json({ text: response.text });
+    }
   } catch (error: any) {
     console.error("Gemini Serverless API Error:", error);
-    return res.status(500).json({ 
-      error: "Impossible de joindre l'Oustaz Virtuel en ce moment."
-    });
+    if (!res.headersSent) {
+      return res.status(500).json({ 
+        error: error?.message || "Impossible de joindre l'Oustaz Virtuel en ce moment."
+      });
+    } else {
+      res.write(`data: ${JSON.stringify({ error: "Interruption de la connexion AI." })}\n\n`);
+      res.end();
+    }
   }
 }

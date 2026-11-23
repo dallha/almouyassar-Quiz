@@ -21,5 +21,9 @@ export default {
   oustaz_suggested_3: "كيف أصبر؟",
   oustaz_suggested_3_q: "كيف أتحلى بالصبر (السبيل) عندما أدرس وأحفظ دروسي؟",
   oustaz_suggested_4: "من هو المؤسس؟",
-  oustaz_suggested_4_q: "من هو الشيخ الشيخ الحاج عبد الله نياس وكيف أسس معهد الميسر؟"
+  oustaz_suggested_4_q: "من هو الشيخ الشيخ الحاج عبد الله نياس وكيف أسس معهد الميسر؟",
+  oustaz_error_unavailable: "الأستاذ الافتراضي غير متاح مؤقتاً. فلنحاول مرة أخرى بعد قليل إن شاء الله. 😊",
+  oustaz_error_decode: "تعذر فك تشفير إجابة الأستاذ. فلنحاول معاً مجدداً. 😊",
+  oustaz_error_missing_key: "مفتاح Gemini API غير مهيأ على الخادم. يرجى إعداد GEMINI_API_KEY في إعدادات Vercel.",
+  oustaz_error_generic: "حدث انقطاع بسيط في الاتصال. لا تتردد في طرح سؤالك مجدداً. 😊"
 };

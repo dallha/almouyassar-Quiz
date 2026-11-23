@@ -173,7 +173,7 @@ app.post("/api/oustaz", oustazRateLimiter, async (req, res) => {
     }
 
     const chat = ai.chats.create({
-      model: "gemini-2.5-flash",
+      model: "gemini-1.5-flash",
       config: {
         systemInstruction,
         temperature: 0.7,
