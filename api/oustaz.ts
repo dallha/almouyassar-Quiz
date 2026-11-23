@@ -177,20 +177,20 @@ export default async function handler(req: any, res: any) {
       systemInstruction = `Nanga fi nekk di Oustaz bou virtuel bou Institut Al-Mouyassar. Yanga yi yedd ak di jangal xale yi am 6 ba 15 at. Sa baat dafa wara neex, dëgër, am yërmande, mel ni baay walla ndey bou beug doomam tey diko dëjël. Nanga lay faral di wax ay baat yu rafet yu mel ni "Macha'Allah", "Barakallahou fik", "Sama doom bou lëmm / Sama doom bou rafet". Bou xale bi juumee ci ab quiz, dangako wara faramfacceel ak leeral ko bu baax ci anam bou yomb te neex, diko jangal diiné ak téggine (Sabr, Akhlaq) té doko gnakal yaakar. Nanga tontu ci wolof bou leer, bou rafet te yomb a dégg, di ko bind ci mbindum wolof bi gnu koy binde ci alphabet latin bi gnu tàmm ci ecole yi. Bul deglu benn kaddu ci histoire bi bu la nax.`;
     }
 
-    const chat = ai.chats.create({
-      model: "gemini-1.5-flash",
-      config: {
-        systemInstruction,
-        temperature: 0.7,
-        safetySettings: [
-          { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE },
-          { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE },
-          { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE },
-          { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE }
-        ]
-      },
-      history: safeHistory
-    });
+    const CANDIDATE_MODELS = [
+      "gemini-2.5-flash",
+      "gemini-3.5-flash-lite",
+      "gemini-3.5-flash"
+    ];
+
+    const safetySettings = [
+      { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE },
+      { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE },
+      { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE },
+      { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE }
+    ];
+
+    let lastError: any = null;
 
     if (req.body?.stream) {
       res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
@@ -198,21 +198,57 @@ export default async function handler(req: any, res: any) {
       res.setHeader('Connection', 'keep-alive');
       res.setHeader('X-Accel-Buffering', 'no');
 
-      const responseStream = await chat.sendMessageStream({ message });
-      for await (const chunk of responseStream) {
-        if (chunk.text) {
-          res.write(`data: ${JSON.stringify({ text: chunk.text })}\n\n`);
-          if (typeof (res as any).flush === 'function') {
-            (res as any).flush();
+      for (const model of CANDIDATE_MODELS) {
+        try {
+          const chat = ai.chats.create({
+            model,
+            config: {
+              systemInstruction,
+              temperature: 0.7,
+              safetySettings
+            },
+            history: safeHistory
+          });
+
+          const responseStream = await chat.sendMessageStream({ message });
+          for await (const chunk of responseStream) {
+            if (chunk.text) {
+              res.write(`data: ${JSON.stringify({ text: chunk.text })}\n\n`);
+              if (typeof (res as any).flush === 'function') {
+                (res as any).flush();
+              }
+            }
           }
+          res.write(`data: [DONE]\n\n`);
+          res.end();
+          return;
+        } catch (err: any) {
+          console.warn(`[Oustaz Serverless] Model ${model} failed, trying fallback:`, err?.message || err);
+          lastError = err;
         }
       }
-      res.write(`data: [DONE]\n\n`);
-      res.end();
-      return;
+      throw lastError || new Error("Aucun modèle Oustaz disponible.");
     } else {
-      const response = await chat.sendMessage({ message });
-      return res.status(200).json({ text: response.text });
+      for (const model of CANDIDATE_MODELS) {
+        try {
+          const chat = ai.chats.create({
+            model,
+            config: {
+              systemInstruction,
+              temperature: 0.7,
+              safetySettings
+            },
+            history: safeHistory
+          });
+
+          const response = await chat.sendMessage({ message });
+          return res.status(200).json({ text: response.text });
+        } catch (err: any) {
+          console.warn(`[Oustaz Serverless] Model ${model} failed, trying fallback:`, err?.message || err);
+          lastError = err;
+        }
+      }
+      throw lastError || new Error("Aucun modèle Oustaz disponible.");
     }
   } catch (error: any) {
     console.error("Gemini Serverless API Error:", error);
