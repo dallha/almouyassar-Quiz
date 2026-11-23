@@ -33,8 +33,16 @@ export default async function handler(req: any, res: any) {
   try {
     if (parts[0] === 'profile' && req.method === 'PATCH') {
       const username = typeof req.body?.username === 'string' ? req.body.username.trim().slice(0, 80) : '';
-      if (!username) return res.status(400).json({ error: 'Nom utilisateur invalide.' });
-      await db()`INSERT INTO public.profiles (id, username) VALUES (${id}, ${username}) ON CONFLICT (id) DO UPDATE SET username = EXCLUDED.username, updated_at = NOW()`;
+      const avatarUrl = typeof req.body?.avatar_url === 'string' ? req.body.avatar_url.trim().slice(0, 500) : null;
+      if (!username && !avatarUrl) return res.status(400).json({ error: 'Données de profil invalides.' });
+      await db()`
+        INSERT INTO public.profiles (id, username, avatar_url)
+        VALUES (${id}, ${username || 'Explorateur'}, ${avatarUrl})
+        ON CONFLICT (id) DO UPDATE SET 
+          username = COALESCE(NULLIF(${username}, ''), public.profiles.username),
+          avatar_url = COALESCE(${avatarUrl}, public.profiles.avatar_url),
+          updated_at = NOW()
+      `;
       return res.json({ ok: true });
     }
 

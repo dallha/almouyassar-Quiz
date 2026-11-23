@@ -7,8 +7,9 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Compass, Award, Trophy, Play, Settings, RefreshCw, Eye, BookOpen,
-  ChevronRight, AlertTriangle, Users, BookOpenCheck, Flame, Medal, Check, X, Sparkles, Search, LogOut
+  ChevronRight, AlertTriangle, Users, BookOpenCheck, Flame, Medal, Check, X, Sparkles, Search, LogOut, Camera
 } from 'lucide-react';
+import AvatarBadge, { AVATAR_PRESETS } from './components/ui/AvatarBadge';
 
 import { Question, UserStats, QuizSession, Badge, DailyQuest, getLocalizedQuestion, AdventureState } from './types';
 import { QUESTIONS, BADGES } from './data';
@@ -246,11 +247,18 @@ export default function App() {
     dailyRewardsState, setDailyRewardsState, dailyRewardDay, dailyRewardDate,
     badgesState, setBadgesState,
     username, setUsername,
+    avatar, setAvatar,
     progressQuest: handleProgressQuest,
     claimQuestReward: handleClaimQuestReward,
     claimDailyReward: handleClaimDailyReward,
     checkAndResetDailies
   } = useAppStore();
+
+  const [isAdventureSessionActive, setIsAdventureSessionActive] = useState(false);
+  const [tempUsername, setTempUsername] = useState(username);
+  const [tempAvatar, setTempAvatar] = useState(avatar);
+  const [customPhotoUrl, setCustomPhotoUrl] = useState('');
+  const [showCustomPhotoInput, setShowCustomPhotoInput] = useState(false);
 
   const progressHistory = listProgressEvents(currentUser?.id || 'local-child').map(({ questionId, result, responseTimeMs, difficulty, attempts, lastReviewedAt }) => ({
       questionId,
@@ -319,6 +327,20 @@ export default function App() {
   const [authLoading, setAuthLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
 
+  useEffect(() => {
+    if (showAuthModal) {
+      setTempUsername(username);
+      setTempAvatar(avatar);
+      if (avatar && (avatar.startsWith('http://') || avatar.startsWith('https://') || avatar.startsWith('data:image'))) {
+        setCustomPhotoUrl(avatar);
+        setShowCustomPhotoInput(true);
+      } else {
+        setCustomPhotoUrl('');
+        setShowCustomPhotoInput(false);
+      }
+    }
+  }, [showAuthModal, username, avatar]);
+
   // Listen for Neon Authentication status
   useEffect(() => {
     if (!isNeonAuthConfigured()) return;
@@ -329,6 +351,10 @@ export default function App() {
       if (name && (!username || username === 'Explorateur')) {
         setUsername(name);
       }
+      const img = (user as any)?.image || (user as any)?.user_metadata?.avatar_url || (user as any)?.user_metadata?.picture;
+      if (img && (!avatar || avatar === 'mosque')) {
+        setAvatar(img);
+      }
     });
     const { data: { subscription } } = neonAuth.onAuthStateChange((_event, session) => {
       const user = session?.user ?? null;
@@ -337,9 +363,13 @@ export default function App() {
       if (name && (!username || username === 'Explorateur')) {
         setUsername(name);
       }
+      const img = (user as any)?.image || (user as any)?.user_metadata?.avatar_url || (user as any)?.user_metadata?.picture;
+      if (img && (!avatar || avatar === 'mosque')) {
+        setAvatar(img);
+      }
     });
     return () => subscription.unsubscribe();
-  }, [username, setUsername]);
+  }, [username, setUsername, avatar, setAvatar]);
 
   const handleResendConfirmationEmail = async () => {
     // Resend the email verification for users who have signed up but not yet confirmed.
@@ -1096,12 +1126,8 @@ export default function App() {
     return `${catStr} • ${lvlStr}`;
   };
 
-  const isAdventureFullscreen = false;
-
   return (
-    <div className={`min-h-screen transition-colors duration-500 flex flex-col font-sans antialiased selection:bg-[#004D40]/25 ${isAdventureFullscreen
-      ? 'bg-[#04110b] text-white'
-      : theme === 'dark'
+    <div className={`min-h-screen transition-colors duration-500 flex flex-col font-sans antialiased selection:bg-[#004D40]/25 ${theme === 'dark'
       ? 'bg-[#070b19] text-slate-100 dark'
       : 'bg-[#FCF8F2] text-stone-850'
       }`}>
@@ -1244,7 +1270,7 @@ export default function App() {
       </AnimatePresence>
 
       {/* Smart Install Prompt — contextuel, badge flottant après 3 interactions */}
-      {!isAdventureFullscreen && <SmartInstallPrompt />}
+      <SmartInstallPrompt />
 
       {/* Main Core View Area wrapped in Responsive Neo-Heritage AppShell */}
       <AppShell
@@ -1253,17 +1279,15 @@ export default function App() {
         level={Math.floor(stats.xp / 200) + 1}
         xp={stats.xp}
         streak={stats.streak}
+        avatar={avatar}
         isOustazBlocked={isOustazBlocked}
         isLoggedIn={currentUser !== null}
-        isQuizActive={isQuizActive}
-        isFullscreen={isAdventureFullscreen}
+        isQuizActive={isQuizActive || isAdventureSessionActive}
+        isFullscreen={false}
         onAvatarClick={() => setShowAuthModal(true)}
         onSearchClick={() => setShowSearchModal(true)}
       >
-        <div className={`flex-1 w-full mx-auto flex flex-col justify-start transition-all duration-300 ${isAdventureFullscreen
-          ? 'h-[100dvh] max-w-none p-0'
-          : 'w-full'
-          }`}>
+        <div className="flex-1 w-full mx-auto flex flex-col justify-start transition-all duration-300">
         <AnimatePresence mode="wait">
 
           {/* SCREEN 1: Active Gameplay Screen */}
@@ -1467,35 +1491,6 @@ export default function App() {
                 </motion.div>
               )}
             </motion.div>
-          ) : isAdventureFullscreen ? (
-            <motion.div
-              key="adventure-fullscreen"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="h-full w-full"
-            >
-              <AdventureMode
-                adventureState={adventureState}
-                onUpdateState={setAdventureState}
-                onOpenProfile={() => setShowAuthModal(true)}
-                onExitAdventure={() => setActiveTab('pitch')}
-                onRewardUnlocked={(xp, title) => {
-                  if (xp > 0) {
-                    setStats(prev => ({
-                      ...prev,
-                      xp: prev.xp + xp,
-                    }));
-                  }
-                  if (title && !adventureState.unlockedTitles.includes(title)) {
-                    setAdventureState(prev => ({
-                      ...prev,
-                      unlockedTitles: [...prev.unlockedTitles, title]
-                    }));
-                  }
-                }}
-              />
-            </motion.div>
           ) : (
 
             /* SCREEN 2: Main Home Dashboard with Tabs */
@@ -1546,6 +1541,32 @@ export default function App() {
                           }}
                         />
                       </div>
+                    )}
+
+                    {activeTab === 'adventure' && (
+                      <ErrorBoundary>
+                        <AdventureMode
+                          adventureState={adventureState}
+                          onUpdateState={setAdventureState}
+                          onOpenProfile={() => setShowAuthModal(true)}
+                          onExitAdventure={() => setActiveTab('pitch')}
+                          onSessionActiveChange={setIsAdventureSessionActive}
+                          onRewardUnlocked={(xp, title) => {
+                            if (xp > 0) {
+                              setStats((prev) => ({
+                                ...prev,
+                                xp: prev.xp + xp,
+                              }));
+                            }
+                            if (title && !adventureState.unlockedTitles.includes(title)) {
+                              setAdventureState((prev) => ({
+                                ...prev,
+                                unlockedTitles: [...prev.unlockedTitles, title],
+                              }));
+                            }
+                          }}
+                        />
+                      </ErrorBoundary>
                     )}
 
                     {activeTab === 'oustaz' && !isOustazBlocked && (
@@ -1906,60 +1927,155 @@ export default function App() {
               </div>
 
               {currentUser && !authRecoveryFlow ? (
-                // Logged In UI with editable profile
+                // Logged In UI with editable profile & avatar
                 <div className="space-y-4">
-                  <div className="p-4 bg-white border border-stone-200 rounded-xl space-y-3">
-                    {/* Email (read-only) */}
-                    <div className="flex justify-between items-center text-xs text-stone-700">
-                      <span className="text-stone-400 font-semibold uppercase">{t('common.auth_email_label')}</span>
-                      <span className="font-extrabold text-[#004D40]">{currentUser.email}</span>
-                    </div>
-                    
-                    {/* Editable Username */}
-                    <div className="space-y-1.5">
-                      <label className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">
-                        {t('common.user_profile', "Nom d'utilisateur")}
-                      </label>
-                      <div className="flex gap-2">
-                        <input
-                          type="text"
-                          value={username}
-                          onChange={(e) => setUsername(e.target.value)}
-                          placeholder="Explorateur"
-                          className="flex-1 px-3 py-2 border border-stone-200 bg-white text-stone-850 text-xs rounded-lg focus:outline-none focus:border-[#D0A21C]"
-                        />
-                        <button
-                          type="button"
-                          onClick={async () => {
-                            if (!currentUser) return;
-                            setAuthLoading(true);
-                            setAuthError(null);
-                            setAuthMessage(null);
-                            try {
-                              await neonApiFetch('/api/profile', {
-                                method: 'PATCH',
-                                body: JSON.stringify({ username }),
-                              });
-                              setAuthMessage(t('common.auth_profile_updated', 'Profil mis à jour !'));
-                            } catch (err: any) {
-                              setAuthError(err.message || t('common.auth_error_generic'));
-                            } finally {
-                              setAuthLoading(false);
-                            }
-                          }}
-                          disabled={authLoading}
-                          className="px-3 py-2 bg-[#004D40] hover:bg-[#004D40]/90 text-white font-bold text-xs rounded-lg transition-all cursor-pointer disabled:opacity-50 shrink-0"
-                        >
-                          {authLoading ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : t('common.save', 'Sauvegarder')}
-                        </button>
+                  <div className="p-4 bg-white border border-stone-200 rounded-2xl space-y-4 shadow-sm">
+                    {/* Header: Avatar preview + Email & XP */}
+                    <div className="flex items-center gap-3.5 pb-3 border-b border-stone-100">
+                      <div className="relative shrink-0">
+                        <AvatarBadge avatar={tempAvatar} size="lg" />
+                        <span className="absolute -bottom-1 -end-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center">
+                          <Check className="w-2.5 h-2.5 text-white stroke-[3]" />
+                        </span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">
+                          {t('common.auth_email_label')}
+                        </span>
+                        <p className="text-xs font-bold text-stone-800 truncate">{currentUser.email}</p>
+                        <span className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 font-extrabold text-[10px]">
+                          ⭐ {stats.xp} XP
+                        </span>
                       </div>
                     </div>
-                    
-                    {/* XP (read-only) */}
-                    <div className="flex justify-between items-center text-xs text-stone-700 pt-1 border-t border-stone-100">
-                      <span className="text-stone-400 font-semibold uppercase">{t('common.auth_xp_label')}</span>
-                      <span className="font-extrabold text-[#D0A21C]">{stats.xp} XP</span>
+
+                    {/* Editable Username */}
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-bold text-stone-500 uppercase tracking-wider block">
+                        {t('common.user_profile', "Nom d'utilisateur")}
+                      </label>
+                      <input
+                        type="text"
+                        value={tempUsername}
+                        onChange={(e) => setTempUsername(e.target.value)}
+                        placeholder="Explorateur"
+                        className="w-full px-3 py-2 border border-stone-200 bg-white text-stone-850 text-xs rounded-lg focus:outline-none focus:border-[#004D40] transition-colors"
+                      />
                     </div>
+
+                    {/* Avatar Presets Grid */}
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-stone-500 uppercase tracking-wider block">
+                        {t('common.profile_choose_avatar')}
+                      </label>
+                      <div className="grid grid-cols-4 gap-2">
+                        {AVATAR_PRESETS.map((preset) => {
+                          const isSelected = tempAvatar === preset.id;
+                          return (
+                            <button
+                              key={preset.id}
+                              type="button"
+                              onClick={() => {
+                                playSelectSound();
+                                setTempAvatar(preset.id);
+                              }}
+                              className={`flex flex-col items-center justify-center p-2 rounded-xl border transition-all cursor-pointer ${
+                                isSelected
+                                  ? 'border-[#004D40] bg-emerald-50/60 ring-2 ring-[#004D40]/20 shadow-sm scale-105'
+                                  : 'border-stone-200 hover:border-stone-300 hover:bg-stone-50'
+                              }`}
+                              title={t(preset.labelKey)}
+                            >
+                              <span className="text-2xl select-none">{preset.emoji}</span>
+                              <span className="text-[9px] font-bold text-stone-600 truncate max-w-[55px] mt-1 text-center">
+                                {t(preset.labelKey)}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Custom Photo URL Input */}
+                    <div className="pt-2 border-t border-stone-100">
+                      <button
+                        type="button"
+                        onClick={() => setShowCustomPhotoInput(!showCustomPhotoInput)}
+                        className="text-[11px] font-bold text-[#004D40] hover:underline flex items-center gap-1 cursor-pointer"
+                      >
+                        <Camera className="w-3.5 h-3.5" />
+                        <span>{t('common.profile_custom_photo_label')}</span>
+                      </button>
+
+                      {showCustomPhotoInput && (
+                        <div className="mt-2 space-y-2">
+                          <input
+                            type="url"
+                            value={customPhotoUrl}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setCustomPhotoUrl(val);
+                              if (val.trim()) setTempAvatar(val.trim());
+                            }}
+                            placeholder={t('common.profile_custom_photo_placeholder')}
+                            className="w-full px-3 py-1.5 border border-stone-200 bg-white text-stone-850 text-xs rounded-lg focus:outline-none focus:border-[#004D40]"
+                          />
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Save Button */}
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        if (!currentUser) return;
+                        playSelectSound();
+                        setAuthLoading(true);
+                        setAuthError(null);
+                        setAuthMessage(null);
+                        const finalName = tempUsername.trim() || 'Explorateur';
+                        const finalAvatar = tempAvatar || 'mosque';
+                        try {
+                          setUsername(finalName);
+                          setAvatar(finalAvatar);
+
+                          // Update Neon Auth user metadata
+                          await neonAuth.updateUser({
+                            data: {
+                              name: finalName,
+                              image: finalAvatar,
+                            },
+                          });
+
+                          // Update Postgres profiles record
+                          try {
+                            await neonApiFetch('/api/profile', {
+                              method: 'PATCH',
+                              body: JSON.stringify({
+                                username: finalName,
+                                avatar_url: finalAvatar,
+                              }),
+                            });
+                          } catch (apiErr) {
+                            console.warn('Neon profile API sync note:', apiErr);
+                          }
+
+                          setAuthMessage(t('common.auth_profile_updated'));
+                        } catch (err: any) {
+                          setAuthError(err.message || t('common.auth_error_generic'));
+                        } finally {
+                          setAuthLoading(false);
+                        }
+                      }}
+                      disabled={authLoading}
+                      className="w-full py-2.5 bg-[#004D40] hover:bg-[#004D40]/90 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-md disabled:opacity-50 flex items-center justify-center gap-2"
+                    >
+                      {authLoading ? (
+                        <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                      ) : (
+                        <span>{t('common.auth_save_profile_btn')}</span>
+                      )}
+                    </button>
                   </div>
 
                   {/* Success/Error messages */}

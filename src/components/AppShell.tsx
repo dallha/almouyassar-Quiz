@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLanguage } from '../LanguageContext';
 import { playSelectSound } from './SoundEngine';
+import AvatarBadge from './ui/AvatarBadge';
 
 export type AppTab = 'pitch' | 'adventure' | 'quiz' | 'oustaz' | 'ansar' | 'stats' | 'parental' | 'cms';
 
@@ -10,6 +11,7 @@ interface AppShellProps {
   level: number;
   xp: number;
   streak: number;
+  avatar?: string;
   isOustazBlocked?: boolean;
   isLoggedIn?: boolean;
   isQuizActive?: boolean;
@@ -25,6 +27,7 @@ export default function AppShell({
   level,
   xp,
   streak,
+  avatar,
   isOustazBlocked = false,
   isLoggedIn = false,
   isQuizActive = false,
@@ -207,11 +210,11 @@ export default function AppShell({
             type="button"
             onClick={onAvatarClick}
             aria-label={t('common.shell_account_aria')}
-            className="relative w-9 h-9 rounded-full bg-primary flex items-center justify-center shadow-[0_2px_0_0_#072d27] active:translate-y-0.5 transition-transform cursor-pointer shrink-0"
+            className="relative w-9 h-9 rounded-full flex items-center justify-center shadow-[0_2px_0_0_#072d27] active:translate-y-0.5 transition-transform cursor-pointer shrink-0"
           >
-            <span className="material-symbols-outlined text-on-primary text-[18px]">person</span>
+            <AvatarBadge avatar={avatar} size="md" />
             {isLoggedIn && (
-              <span className="absolute -bottom-0.5 -end-0.5 w-2.5 h-2.5 rounded-full bg-tertiary-fixed border-2 border-surface" />
+              <span className="absolute -bottom-0.5 -end-0.5 w-2.5 h-2.5 rounded-full bg-tertiary-fixed border-2 border-surface z-10" />
             )}
           </button>
         </div>
@@ -255,11 +258,11 @@ export default function AppShell({
               type="button"
               onClick={onAvatarClick}
               aria-label={t('common.shell_account_aria')}
-              className="relative w-9 h-9 rounded-full bg-primary flex items-center justify-center shadow-[0_2px_0_0_#072d27] active:translate-y-0.5 transition-transform cursor-pointer"
+              className="relative w-9 h-9 rounded-full flex items-center justify-center shadow-[0_2px_0_0_#072d27] active:translate-y-0.5 transition-transform cursor-pointer"
             >
-              <span className="material-symbols-outlined text-on-primary text-[18px]">person</span>
+              <AvatarBadge avatar={avatar} size="md" />
               {isLoggedIn && (
-                <span className="absolute -bottom-0.5 -end-0.5 w-2.5 h-2.5 rounded-full bg-tertiary-fixed border-2 border-surface" />
+                <span className="absolute -bottom-0.5 -end-0.5 w-2.5 h-2.5 rounded-full bg-tertiary-fixed border-2 border-surface z-10" />
               )}
             </button>
           </div>

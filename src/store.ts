@@ -209,6 +209,8 @@ interface AppState {
   // User Profile
   username: string;
   setUsername: (username: string) => void;
+  avatar: string;
+  setAvatar: (avatar: string) => void;
   
   // Settings
   theme: 'light' | 'dark';
@@ -259,6 +261,9 @@ export const useAppStore = create<AppState>()(
 
       username: 'Explorateur',
       setUsername: (username) => set({ username }),
+
+      avatar: 'mosque',
+      setAvatar: (avatar) => set({ avatar }),
 
       theme: (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light',
 
@@ -377,7 +382,8 @@ export const useAppStore = create<AppState>()(
         dailyRewardDay: state.dailyRewardDay,
         dailyRewardDate: state.dailyRewardDate,
         badgesState: state.badgesState,
-        username: state.username
+        username: state.username,
+        avatar: state.avatar,
       })
     }
   )

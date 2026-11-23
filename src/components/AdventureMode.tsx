@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { AdventureState, AdventureNode, AdventureZone } from '../types';
 import { ADVENTURE_ZONES } from '../adventureData';
@@ -15,6 +15,7 @@ interface AdventureModeProps {
   onRewardUnlocked: (xp: number, title?: string) => void;
   onOpenProfile?: () => void;
   onExitAdventure?: () => void;
+  onSessionActiveChange?: (isActive: boolean) => void;
 }
 
 export function calculateAdventureNodeRewards(
@@ -27,12 +28,27 @@ export function calculateAdventureNodeRewards(
   return { starsDelta, effectiveXp };
 }
 
-export default function AdventureMode({ adventureState, onUpdateState, onRewardUnlocked, onOpenProfile, onExitAdventure }: AdventureModeProps) {
+export default function AdventureMode({
+  adventureState,
+  onUpdateState,
+  onRewardUnlocked,
+  onOpenProfile,
+  onExitAdventure,
+  onSessionActiveChange,
+}: AdventureModeProps) {
   const [selectedNode, setSelectedNode] = useState<AdventureNode | null>(null);
   const [selectedZone, setSelectedZone] = useState<AdventureZone | null>(null);
   const { t } = useLanguage();
 
   const [view, setView] = useState<'map' | 'modal' | 'pre-dialogue' | 'session' | 'post-dialogue'>('map');
+
+  useEffect(() => {
+    const isImmersive = view === 'session' || view === 'pre-dialogue' || view === 'post-dialogue';
+    onSessionActiveChange?.(isImmersive);
+    return () => {
+      onSessionActiveChange?.(false);
+    };
+  }, [view, onSessionActiveChange]);
 
   const handleNodeClick = (node: AdventureNode, zone: AdventureZone) => {
     setSelectedNode(node);

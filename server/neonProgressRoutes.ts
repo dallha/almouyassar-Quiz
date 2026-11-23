@@ -30,12 +30,16 @@ export async function requireNeonUser(req: Request, res: Response, next: NextFun
 export function registerNeonProgressRoutes(app: Express): void {
   app.patch('/api/profile', requireNeonUser, async (req, res) => {
     const username = typeof req.body?.username === 'string' ? req.body.username.trim().slice(0, 80) : '';
-    if (!username) return res.status(400).json({ error: 'Nom utilisateur invalide.' });
+    const avatarUrl = typeof req.body?.avatar_url === 'string' ? req.body.avatar_url.trim().slice(0, 500) : null;
+    if (!username && !avatarUrl) return res.status(400).json({ error: 'Données de profil invalides.' });
     try {
       await db()`
-        INSERT INTO public.profiles (id, username)
-        VALUES (${res.locals.neonUserId}, ${username})
-        ON CONFLICT (id) DO UPDATE SET username = EXCLUDED.username, updated_at = NOW()
+        INSERT INTO public.profiles (id, username, avatar_url)
+        VALUES (${res.locals.neonUserId}, ${username || 'Explorateur'}, ${avatarUrl})
+        ON CONFLICT (id) DO UPDATE SET 
+          username = COALESCE(NULLIF(${username}, ''), public.profiles.username),
+          avatar_url = COALESCE(${avatarUrl}, public.profiles.avatar_url),
+          updated_at = NOW()
       `;
       return res.json({ ok: true });
     } catch (error) {
