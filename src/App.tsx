@@ -13,6 +13,9 @@ import {
 import { Question, UserStats, QuizSession, Badge, DailyQuest, getLocalizedQuestion, AdventureState } from './types';
 import { QUESTIONS, BADGES } from './data';
 import Header from './components/Header';
+import AppShell from './components/AppShell';
+import HomeDashboard from './components/HomeDashboard';
+import QuizSetupPanel from './components/QuizSetupPanel';
 import QuizCard from './components/QuizCard';
 import StatsCard from './components/StatsCard';
 import SchoolInfo from './components/SchoolInfo';
@@ -459,6 +462,7 @@ export default function App() {
 
   // --- UI States ---
   const [activeTab, setActiveTab] = useState<'pitch' | 'adventure' | 'quiz' | 'oustaz' | 'ansar' | 'stats' | 'parental' | 'cms'>('pitch');
+  const [showSearchModal, setShowSearchModal] = useState(false);
   const [showSchoolModal, setShowSchoolModal] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [isQuizActive, setIsQuizActive] = useState(false);
@@ -517,6 +521,7 @@ export default function App() {
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>(allCategories);
   const [selectedLevels, setSelectedLevels] = useState<string[]>(allLevels);
+  const [quizQuestionCount, setQuizQuestionCount] = useState<number>(10);
   const [timerEnabled, setTimerEnabled] = useState(true);
   const [timerMinutes, setTimerMinutes] = useState(25); // seconds per question
   const [quizSearchQuery, setQuizSearchQuery] = useState('');
@@ -751,8 +756,11 @@ export default function App() {
     }, 120);
   };
 
-  const handleLaunchQuiz = () => {
-    if (selectedCategories.length === 0 || selectedLevels.length === 0) {
+  const handleLaunchQuiz = (overrideCategories?: string[], overrideCount?: number) => {
+    const activeCats = overrideCategories && overrideCategories.length > 0 ? overrideCategories : selectedCategories;
+    const countToPick = overrideCount ?? quizQuestionCount;
+
+    if (activeCats.length === 0 || selectedLevels.length === 0) {
       alert(t('common.alert_select_category_level'));
       return;
     }
@@ -761,7 +769,7 @@ export default function App() {
 
     // Filter questions based on configuration
     const filtered = QUESTIONS.filter(q =>
-      selectedCategories.includes(q.categorie) &&
+      activeCats.includes(q.categorie) &&
       selectedLevels.includes(q.niveau) &&
       (
         quizSearchQuery === '' ||
@@ -778,7 +786,7 @@ export default function App() {
     // Utiliser pickRandomQuestions avec l'historique pour éviter les répétitions
     const { selected, updatedRecentIds } = pickRandomQuestions(
       filtered,
-      10, // Augmenté de 7 à 10 questions par session
+      countToPick,
       recentQuestionIds,
       300 // Historique des 300 dernières questions vues
     );
@@ -1044,7 +1052,7 @@ export default function App() {
     return `${catStr} • ${lvlStr}`;
   };
 
-  const isAdventureFullscreen = !isQuizActive && activeTab === 'adventure';
+  const isAdventureFullscreen = false;
 
   return (
     <div className={`min-h-screen transition-colors duration-500 flex flex-col font-sans antialiased selection:bg-[#004D40]/25 ${isAdventureFullscreen
@@ -1191,48 +1199,27 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {!isAdventureFullscreen && (
-        <Header
-          level={Math.floor(stats.xp / 200) + 1}
-          xp={stats.xp}
-          xpToNextLevel={200}
-          streak={stats.streak}
-          highestStreak={stats.highestStreak}
-          username={username}
-          unlockedBadgeCount={badgesState.filter(b => b.unlocked).length}
-          totalBadgeCount={badgesState.length}
-          dailyRewardAvailable={dailyRewardsState.some(r => !r.claimed && r.day === dailyRewardDay)}
-          isLoggedIn={currentUser !== null}
-          isQuizActive={isQuizActive}
-          onDailyRewardClick={() => setShowDailyReward(true)}
-          onBadgeGalleryClick={() => setShowBadgeGallery(true)}
-          onAvatarClick={() => setShowAuthModal(true)}
-          onQuitQuiz={() => setQuitConfirmModal(true)}
-          onNavigate={(action) => {
-            if (action === 'adventure') setActiveTab('adventure');
-            else if (action === 'quiz') setActiveTab('quiz');
-            else if (action === 'revisions') setShowBadgeGallery(true);
-            else if (action === 'trophies') setShowBadgeGallery(true);
-            else if (action === 'parental') setActiveTab('parental');
-            else if (action === 'settings') setShowSettingsModal(true);
-            else if (action === 'about') setShowSchoolModal(true);
-            else if (action === 'support') window.location.href = 'mailto:mrniass@gmail.com';
-            else if (action === 'install') alert(t('common.install_alert'));
-          }}
-        />
-      )}
-
       {/* Smart Install Prompt — contextuel, badge flottant après 3 interactions */}
       {!isAdventureFullscreen && <SmartInstallPrompt />}
 
-      {/* Main Core View Area */}
-      <main className={`flex-1 w-full mx-auto flex flex-col justify-start transition-all duration-300 ${isAdventureFullscreen
-        ? 'h-[100dvh] max-w-none p-0'
-        : `pt-[var(--header-height)] ${activeTab === 'adventure'
-          ? 'max-w-5xl px-2 py-4 md:px-6 md:py-8'
-          : 'max-w-4xl px-4 py-6 md:py-10'
-        }`
-        }`}>
+      {/* Main Core View Area wrapped in Responsive Neo-Heritage AppShell */}
+      <AppShell
+        activeTab={activeTab}
+        onSelectTab={(tab) => setActiveTab(tab)}
+        level={Math.floor(stats.xp / 200) + 1}
+        xp={stats.xp}
+        streak={stats.streak}
+        isOustazBlocked={isOustazBlocked}
+        isLoggedIn={currentUser !== null}
+        isQuizActive={isQuizActive}
+        isFullscreen={isAdventureFullscreen}
+        onAvatarClick={() => setShowAuthModal(true)}
+        onSearchClick={() => setShowSearchModal(true)}
+      >
+        <div className={`flex-1 w-full mx-auto flex flex-col justify-start transition-all duration-300 ${isAdventureFullscreen
+          ? 'h-[100dvh] max-w-none p-0'
+          : 'w-full'
+          }`}>
         <AnimatePresence mode="wait">
 
           {/* SCREEN 1: Active Gameplay Screen */}
@@ -1475,89 +1462,6 @@ export default function App() {
               exit={{ opacity: 0, y: -15 }}
               className="space-y-6"
             >
-
-              {/* HERO MOBILE COMPACT — progression + CTA */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: 'easeOut' }}
-                className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#004D40] to-[#00695C] p-5 md:p-6 mb-3"
-              >
-                {/* Glow ambiant */}
-                <div className="absolute -top-20 -right-20 w-60 h-60 bg-[#D0A21C]/10 rounded-full blur-3xl pointer-events-none" />
-                <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-white/5 rounded-full blur-3xl pointer-events-none" />
-
-                <div className="relative z-10 space-y-3">
-                  {/* Titre + sous-titre */}
-                  <div>
-                    <h1 className="text-lg md:text-xl font-black text-white tracking-tight">
-                      {t('common.app_title', 'Al-Mouyassar')}
-                    </h1>
-                    <p className="text-[10px] text-emerald-200/60 font-medium mt-0.5">
-                      {t('common.app_subtitle', 'Apprends l\'Islam en jouant')}
-                    </p>
-                  </div>
-
-                  {/* Progression utilisateur compacte */}
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-7 h-7 rounded-full bg-[#D0A21C]/20 border border-[#D0A21C]/30 flex items-center justify-center">
-                        <span className="text-[11px] font-black text-[#D0A21C]">{Math.floor(stats.xp / 200) + 1}</span>
-                      </div>
-                      <span className="text-[9px] text-emerald-100/50 font-medium">{stats.xp} XP</span>
-                    </div>
-                    {stats.streak > 0 && (
-                      <div className="flex items-center gap-1 text-[9px] text-amber-300/70">
-                        <Flame className="w-2.5 h-2.5" />
-                        <span className="font-bold">{stats.streak}</span>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* CTA principal — micro-animation premium */}
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={() => { playSelectSound(); setActiveTab('adventure'); }}
-                    className="w-full py-2.5 bg-[#D0A21C] hover:bg-[#C4961A] text-[#004D40] text-[11px] font-black uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#D0A21C]/20 cursor-pointer"
-                  >
-                    <Play className="w-3.5 h-3.5 fill-current" />
-                    {t('common.hero_cta', 'Reprendre l\'aventure')}
-                  </motion.button>
-                </div>
-              </motion.div>
-
-              {/* NAVIGATION MODES — pills horizontales */}
-              <div className="overflow-x-auto scrollbar-none -mx-4 px-4 mb-4">
-                <div className="flex gap-1.5 min-w-max pb-1">
-                  {[
-                    { key: 'pitch', icon: Compass, label: t('common.nav_presentation', 'Présentation') },
-                    { key: 'adventure', icon: BookOpen, label: t('common.nav_adventure', 'Aventure') },
-                    { key: 'quiz', icon: Play, label: t('common.nav_quiz_free', 'Quiz Libre') },
-                    { key: 'oustaz', icon: Users, label: t('common.nav_oustaz', 'Oustaz AI'), disabled: isOustazBlocked },
-                    { key: 'ansar', icon: Sparkles, label: t('common.nav_karaoke', 'Karaoké') },
-                    { key: 'stats', icon: Award, label: t('common.nav_trophies', 'Trophées') },
-                    { key: 'parental', icon: Settings, label: t('common.nav_parents', 'Parents') },
-                    { key: 'cms', icon: BookOpenCheck, label: 'CMS' },
-                  ].map(({ key, icon: Icon, label, disabled }) => (
-                    <button
-                      key={key}
-                      onClick={() => { if (!disabled) { playSelectSound(); setActiveTab(key as any); } }}
-                      disabled={disabled}
-                      className={`shrink-0 px-3.5 py-2 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${disabled
-                        ? 'opacity-30 cursor-not-allowed bg-stone-100/50 text-stone-400'
-                        : activeTab === key
-                          ? 'bg-[#004D40] text-white shadow-md shadow-emerald-950/20'
-                          : 'bg-white/70 text-[#004D40]/70 hover:bg-white hover:text-[#004D40] border border-[#004D40]/10'
-                        }`}
-                    >
-                      <Icon className="w-3.5 h-3.5 shrink-0" />
-                      <span>{label}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
               {/* RENDER ACTIVE TAB WITH CAROUSEL TRANSITION */}
               <div className="relative w-full">
                 <AnimatePresence mode="wait">
@@ -1570,15 +1474,31 @@ export default function App() {
                     className="w-full"
                   >
                     {activeTab === 'pitch' && (
-                      <div className="space-y-4">
-                        <VisionPitch onStartAdventure={() => { playSelectSound(); setActiveTab('adventure'); }} />
+                      <div className="space-y-6">
+                        <HomeDashboard
+                          stats={stats}
+                          adventureState={adventureState}
+                          dailyQuests={dailyQuests}
+                          categoryStats={categoryStats}
+                          isOustazBlocked={isOustazBlocked}
+                          onStartAdventure={() => setActiveTab('adventure')}
+                          onNavigateTab={(tab) => setActiveTab(tab)}
+                          onStartCategoryQuiz={(category) => {
+                            if (category) {
+                              handleStartQuizWithCategory(category);
+                            } else {
+                              handleLaunchQuiz(allCategories, 10);
+                            }
+                          }}
+                          onClaimQuest={(questId) => handleClaimQuestReward(questId)}
+                        />
                         <LearningPathPanel
                           path={learningPath}
                           theme={theme}
                           onStartQuestion={(questionId) => {
                             const question = QUESTIONS.find((item) => item.id === questionId);
                             if (!question) return;
-                            launchSessionWithTransition([question], 'Parcours pédagogique', () => setActiveTab('quiz'));
+                            launchSessionWithTransition([question], t('common.transition_compile_quiz'), () => setActiveTab('quiz'));
                           }}
                         />
                       </div>
@@ -1616,448 +1536,33 @@ export default function App() {
                     )}
 
                     {activeTab === 'quiz' && (
-                      <>
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                          <div className="lg:col-span-2 space-y-6">
-                            {/* Welcome Banner */}
-                            <div className={`p-5 rounded-2xl border space-y-2 transition-all duration-300 ${theme === 'dark'
-                              ? 'bg-gradient-to-br from-[#0c2340]/40 via-[#0f172a]/70 to-[#0f172a]/70 border-[#D0A21C]/20 backdrop-blur-md text-slate-200 shadow-md shadow-black/20'
-                              : 'bg-gradient-to-br from-emerald-50/60 via-white to-white border-emerald-950/10 text-stone-850 shadow-md shadow-emerald-950/5'
-                              }`}>
-                              <span className={`text-[9px] font-black px-2.5 py-1 rounded-full border uppercase tracking-widest font-mono inline-block transition-colors duration-300 ${theme === 'dark'
-                                ? 'text-amber-400 bg-amber-500/10 border-amber-500/20'
-                                : 'text-emerald-700 bg-emerald-50 border-emerald-250/20'
-                                }`}>
-                                {t('common.educational_platform', 'Plateforme Éducative')}
-                              </span>
-                              <h2 className={`text-xl font-black tracking-tight transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-stone-900'
-                                }`}>
-                                {t('common.learn_islamic_sciences', 'Apprenez les Sciences Islamiques !')}
-                              </h2>
-                              <p className={`text-xs leading-relaxed transition-colors duration-300 ${theme === 'dark' ? 'text-slate-350' : 'text-stone-600'
-                                }`}>
-                                {language === 'ar' ? (
-                                  <>تدرب وحسّن معرفتك في <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>الفقه</strong>، و<strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>العقيدة</strong>، و<strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>السيرة</strong>، و<strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>القرآن</strong>، و<strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>الأخلاق</strong> واكتشف التاريخ النبيل لـ<strong className={theme === 'dark' ? 'text-amber-450 font-bold' : 'text-emerald-800 font-bold'}>معهد الميسر للقرآن الكريم</strong>.</>
-                                ) : language === 'wo' ? (
-                                  <>Mën nga fi jàng, yok sa xam-xam ci <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Fiqh</strong>, <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Aqidah</strong>, <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Sirah</strong>, <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Alquran</strong>, <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Akhlaq</strong> ak dundug daara <strong className={theme === 'dark' ? 'text-amber-450 font-bold' : 'text-emerald-800 font-bold'}>Al-Mouyassar</strong>.</>
-                                ) : (
-                                  <>Entraînez-vous, améliorez vos connaissances sur le <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Fiqh</strong>, la <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Aqidah</strong>, la <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Sirah</strong>, le <strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Coran</strong>, l&apos;<strong className={theme === 'dark' ? 'text-emerald-400 font-bold' : 'text-emerald-700 font-bold'}>Akhlaq</strong> et découvrez la noble histoire de l&apos;<strong className={theme === 'dark' ? 'text-amber-450 font-bold' : 'text-emerald-800 font-bold'}>Institut Coranique Al-Mouyassar</strong>.</>
-                                )}
-                              </p>
-                            </div>
-
-                            {/* Quiz Recommender Engine - suggestions based on levels and interests */}
-                            <div className={`p-4 rounded-2xl border ${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-emerald-50/60 border-emerald-100'}`}>
-                              <div className="flex items-center justify-between gap-3 mb-2">
-                                <div>
-                                  <p className={`text-[10px] font-black uppercase tracking-[0.2em] ${theme === 'dark' ? 'text-amber-400' : 'text-emerald-700'}`}>
-                                    {t('common.progression_v2', 'Progression V2')}
-                                  </p>
-                                  <p className={`text-xs ${theme === 'dark' ? 'text-slate-300' : 'text-stone-700'}`}>
-                                    {learningSnapshot.summary}
-                                  </p>
-                                </div>
-                                <span className={`rounded-full px-2 py-1 text-[10px] font-black ${theme === 'dark' ? 'bg-emerald-500/10 text-emerald-300' : 'bg-emerald-600/10 text-emerald-700'}`}>
-                                  {learningSnapshot.reviewPlan.dueItems.length} à revoir
-                                </span>
-                              </div>
-                              <div className="flex flex-wrap gap-2">
-                                {recommendedReviewQueue.slice(0, 3).map((question) => (
-                                  <span key={question.id} className={`rounded-full border px-2 py-1 text-[9px] ${theme === 'dark' ? 'border-slate-700 text-slate-300' : 'border-emerald-200 text-emerald-700'}`}>
-                                    {question.categorie}
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
-
-                            <QuizRecommender
-                              onStartCustomQuizList={handleStartRecommendedQuizList}
-                              userStatsXp={stats.xp}
-                              theme={theme}
-                            />
-
-                            {/* Configuration Form wrapper */}
-                            <div className={`p-5 rounded-2xl border space-y-5 transition-all duration-300 ${theme === 'dark'
-                              ? 'bg-[#0f172a]/70 border-[#D0A21C]/15 backdrop-blur-md text-slate-200 shadow-lg shadow-black/25'
-                              : 'bg-white border-emerald-950/10 text-stone-850 shadow-md shadow-emerald-950/5'
-                              }`}>
-                              <h3 className={`text-sm font-extrabold uppercase tracking-wide border-b pb-2 transition-colors duration-300 ${theme === 'dark'
-                                ? 'text-slate-300 border-slate-800/80'
-                                : 'text-stone-700 border-stone-200'
-                                }`}>
-                                {t('quiz.exercise_config', "Configuration de l'exercice :")}
-                              </h3>
-
-                              {/* Search Bar filter */}
-                              <div className="space-y-2">
-                                <label className={`text-xs font-bold uppercase tracking-wider block transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-stone-500'
-                                  }`}>
-                                  {t('quiz.search_keyword', 'Rechercher par mot-clé :')}
-                                </label>
-                                <div className="relative">
-                                  <input
-                                    type="text"
-                                    placeholder={t('quiz.quiz_search_placeholder', 'Hadith, ablution, prière, pureté, intention, etc.')}
-                                    value={quizSearchQuery}
-                                    onChange={(e) => setQuizSearchQuery(e.target.value)}
-                                    className={`w-full pl-10 pr-10 py-3 rounded-xl text-xs transition-all duration-300 font-medium ${theme === 'dark'
-                                      ? 'bg-slate-950 text-slate-200 border-slate-850 placeholder:text-slate-600 focus:border-emerald-500/50 focus:outline-none'
-                                      : 'bg-stone-50 text-stone-850 border-stone-250 placeholder:text-stone-400 focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-emerald-400/30'
-                                      }`}
-                                  />
-                                  <div className={`absolute left-3.5 top-1/2 -translate-y-1/2 transition-colors duration-305 ${theme === 'dark' ? 'text-slate-500' : 'text-stone-400'
-                                    }`}>
-                                    <Search className="w-4 h-4" />
-                                  </div>
-                                  {quizSearchQuery && (
-                                    <button
-                                      onClick={() => { playSelectSound(); setQuizSearchQuery(''); }}
-                                      className={`absolute right-3.5 top-1/2 -translate-y-1/2 transition-colors font-bold cursor-pointer ${theme === 'dark' ? 'text-slate-500 hover:text-slate-300' : 'text-stone-400 hover:text-stone-600'
-                                        }`}
-                                      title="Effacer"
-                                    >
-                                      <X className="w-4 h-4" />
-                                    </button>
-                                  )}
-                                </div>
-                              </div>
-
-                              {/* Select Category */}
-                              <div className="space-y-2">
-                                <div className="flex items-center justify-between">
-                                  <label className={`text-xs font-bold uppercase tracking-wider transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-stone-500'
-                                    }`}>
-                                    {t('quiz.categories', "Sujets d'étude (Sélection multiple) :")}
-                                  </label>
-                                  <button
-                                    onClick={handleSelectAllCategories}
-                                    className="text-[10px] font-black text-emerald-500 hover:text-emerald-600 transition-colors uppercase cursor-pointer"
-                                  >
-                                    {selectedCategories.length === allCategories.length ? t('quiz.deselect_all', 'Tout décocher') : t('quiz.select_all', 'Tout cocher')}
-                                  </button>
-                                </div>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pb-1">
-                                  {allCategories.map(cat => {
-                                    const isSelected = selectedCategories.includes(cat);
-
-                                    const activeClass = theme === 'dark'
-                                      ? 'btn-3d-emerald bg-emerald-500/10 text-emerald-400 border-emerald-500/45 font-bold shadow-xs'
-                                      : 'btn-3d-emerald bg-emerald-50 text-emerald-800 border-emerald-500/50 font-bold shadow-sm';
-                                    const inactiveClass = theme === 'dark'
-                                      ? 'btn-3d-slate bg-slate-955 text-slate-400 border-slate-850 hover:border-slate-800'
-                                      : 'btn-3d-slate bg-stone-50 text-stone-500 border-stone-200 hover:border-stone-300';
-
-                                    return (
-                                      <button
-                                        key={cat}
-                                        onClick={() => handleToggleCategory(cat)}
-                                        className={`p-3 rounded-xl text-xs font-semibold text-left border transition-all cursor-pointer flex items-center justify-between gap-2 ${isSelected ? activeClass : inactiveClass
-                                          }`}
-                                      >
-                                        <span className="truncate">{t(getCategoryKey(cat), cat)}</span>
-                                        <div className={`w-4 h-4 rounded-md border flex items-center justify-center shrink-0 transition-all ${isSelected
-                                          ? 'bg-emerald-500 border-emerald-500 text-slate-950'
-                                          : (theme === 'dark' ? 'border-slate-800 bg-slate-950' : 'border-stone-300 bg-stone-100')
-                                          }`}>
-                                          {isSelected && <Check className={`w-3 h-3 stroke-[3] ${theme === 'dark' ? 'text-slate-950' : 'text-white'}`} />}
-                                        </div>
-                                      </button>
-                                    );
-                                  })}
-                                </div>
-                              </div>
-
-                              {/* Select Difficulty Level */}
-                              <div className="space-y-2">
-                                <div className="flex items-center justify-between">
-                                  <label className={`text-xs font-bold uppercase tracking-wider transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-stone-500'
-                                    }`}>
-                                    {t('quiz.difficulty', "Niveaux de difficulté (Sélection multiple) :")}
-                                  </label>
-                                  <button
-                                    onClick={handleSelectAllLevels}
-                                    className="text-[10px] font-black text-emerald-500 hover:text-emerald-600 transition-colors uppercase cursor-pointer"
-                                  >
-                                    {selectedLevels.length === allLevels.length ? t('quiz.deselect_all', 'Tout décocher') : t('quiz.select_all', 'Tout cocher')}
-                                  </button>
-                                </div>
-                                <div className="grid grid-cols-3 gap-2.5 pb-1">
-                                  {allLevels.map(lvl => {
-                                    const isSelected = selectedLevels.includes(lvl);
-
-                                    const activeClass = theme === 'dark'
-                                      ? 'btn-3d-emerald bg-emerald-500/10 text-emerald-400 border-emerald-500/45 font-bold shadow-xs'
-                                      : 'btn-3d-emerald bg-emerald-55 text-emerald-800 border-emerald-500/50 font-bold shadow-sm';
-                                    const inactiveClass = theme === 'dark'
-                                      ? 'btn-3d-slate bg-slate-955 text-slate-400 border-slate-850 hover:border-slate-800'
-                                      : 'btn-3d-slate bg-stone-50 text-stone-500 border-stone-200 hover:border-stone-300';
-
-                                    return (
-                                      <button
-                                        key={lvl}
-                                        onClick={() => handleToggleLevel(lvl)}
-                                        className={`p-3 rounded-xl text-xs font-semibold text-center border transition-all cursor-pointer flex items-center justify-center gap-1.5 ${isSelected ? activeClass : inactiveClass
-                                          }`}
-                                      >
-                                        <span>{t(getLevelKey(lvl), lvl)}</span>
-                                        <div className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center shrink-0 transition-all ${isSelected
-                                          ? 'bg-emerald-500 border-emerald-500 text-slate-950'
-                                          : (theme === 'dark' ? 'border-slate-800 bg-slate-950' : 'border-stone-300 bg-stone-100')
-                                          }`}>
-                                          {isSelected && <Check className={`w-2.5 h-2.5 stroke-[3.5] ${theme === 'dark' ? 'text-slate-950' : 'text-white'}`} />}
-                                        </div>
-                                      </button>
-                                    );
-                                  })}
-                                </div>
-                              </div>
-
-                              {/* Timer Toggles */}
-                              <div className="space-y-3 pt-2">
-                                <div className={`flex items-center justify-between p-3.5 rounded-xl border transition-all duration-300 ${theme === 'dark'
-                                  ? 'bg-slate-955 border-slate-855'
-                                  : 'bg-stone-50 border-stone-200'
-                                  }`}>
-                                  <div className="space-y-0.5">
-                                    <label className={`text-xs font-bold flex items-center gap-1.5 font-sans transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-stone-850'
-                                      }`}>
-                                      <span>{t('quiz.activate_timer', 'Activer le Chronomètre')}</span>
-                                    </label>
-                                    <p className={`text-[10px] leading-tight transition-colors duration-300 ${theme === 'dark' ? 'text-slate-450' : 'text-stone-450'
-                                      }`}>
-                                      {t('quiz.timer_desc', 'Limite le temps de réflexion pour pimenter le défi')}
-                                    </p>
-                                  </div>
-
-                                  <button
-                                    onClick={() => { playSelectSound(); setTimerEnabled(!timerEnabled); }}
-                                    className={`w-11 h-6 rounded-full p-1 transition-all cursor-pointer ${timerEnabled ? 'bg-emerald-600' : (theme === 'dark' ? 'bg-slate-850' : 'bg-stone-250')
-                                      }`}
-                                  >
-                                    <div className={`w-4 h-4 bg-white rounded-full transition-transform ${timerEnabled ? 'translate-x-5' : 'translate-x-0'
-                                      }`} />
-                                  </button>
-                                </div>
-
-                                {timerEnabled && (
-                                  <div className={`flex items-center justify-between px-3.5 py-2.5 border rounded-xl transition-all duration-300 ${theme === 'dark'
-                                    ? 'bg-slate-950 border-slate-850'
-                                    : 'bg-stone-50 border-stone-200'
-                                    }`}>
-                                    <span className={`text-xs font-semibold transition-colors duration-300 ${theme === 'dark' ? 'text-slate-450' : 'text-stone-500'
-                                      }`}>{t('common.duration_per_question')}</span>
-                                    <div className="flex items-center gap-2 pb-1">
-                                      {[15, 25, 45].map((sec) => {
-                                        const active = timerMinutes === sec;
-                                        const activeClass = theme === 'dark'
-                                          ? 'btn-3d-emerald bg-emerald-600/10 text-emerald-400 border-emerald-500/35 font-bold'
-                                          : 'btn-3d-emerald bg-emerald-50 text-emerald-800 border-emerald-500/50 font-bold';
-                                        const inactiveClass = theme === 'dark'
-                                          ? 'btn-3d-slate bg-slate-900 text-slate-500 border-slate-850'
-                                          : 'btn-3d-slate bg-stone-100 text-stone-500 border-stone-200';
-
-                                        return (
-                                          <button
-                                            key={sec}
-                                            onClick={() => { playSelectSound(); setTimerMinutes(sec); }}
-                                            className={`px-3 py-1 text-xs font-bold font-mono rounded-lg border transition-all cursor-pointer ${active ? activeClass : inactiveClass
-                                              }`}
-                                          >
-                                            {sec}s
-                                          </button>
-                                        );
-                                      })}
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-
-                            {/* Launch CTA Trigger */}
-                            <button
-                              onClick={handleLaunchQuiz}
-                              disabled={matchedQuestionsCount === 0}
-                              className={`w-full py-4 text-xs font-black uppercase tracking-widest rounded-2xl transition-all flex items-center justify-center gap-2 cursor-pointer ${matchedQuestionsCount > 0
-                                ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg btn-3d-emerald'
-                                : (theme === 'dark'
-                                  ? 'bg-slate-800 text-slate-500 border border-slate-700/50 cursor-not-allowed opacity-40 shadow-none'
-                                  : 'bg-stone-200 text-stone-400 border border-stone-300 cursor-not-allowed opacity-50 shadow-none')
-                                }`}
-                            >
-                              <Play className="w-4 h-4 text-white fill-white" />
-                              <span>
-                                {matchedQuestionsCount > 0
-                                  ? t('common.start_quiz_now')
-                                  : t('common.no_question_available')
-                                }
-                              </span>
-                            </button>
-                          </div>
-
-                          {/* Right panel: Sidebar quick summary stats */}
-                          <div className="space-y-6">
-
-                            {/* Daily Quests Card */}
-                            <div className={`p-4 rounded-2xl border space-y-3.5 shadow transition-all duration-300 ${theme === 'dark'
-                              ? 'bg-[#0f172a]/70 border-[#D0A21C]/15 text-slate-200 shadow-md shadow-black/20'
-                              : 'bg-white border-emerald-950/10 text-stone-850 shadow-md shadow-emerald-950/5'
-                              }`}>
-                              <div className={`flex items-center justify-between border-b pb-2 transition-colors duration-300 ${theme === 'dark' ? 'border-slate-800/80' : 'border-stone-150'
-                                }`}>
-                                <h4 className={`text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 font-mono transition-colors duration-305 ${theme === 'dark' ? 'text-amber-400' : 'text-emerald-700'
-                                  }`}>
-                                  <Flame className={`w-3.5 h-3.5 animate-pulse ${theme === 'dark' ? 'text-amber-500' : 'text-emerald-600'}`} />
-                                  {t('common.daily_quests')}
-                                </h4>
-                                <span className={`text-[8px] border font-mono font-bold px-1.5 py-0.5 rounded uppercase transition-colors duration-305 ${theme === 'dark'
-                                  ? 'bg-slate-800 border-[#475569]/40 text-slate-400'
-                                  : 'bg-stone-50 border-stone-200 text-stone-500'
-                                  }`}>
-                                  {t('common.today')}
-                                </span>
-                              </div>
-
-                              <div className="space-y-3">
-                                {dailyQuests.map((quest) => {
-                                  const progressPercent = Math.min(100, (quest.currentValue / quest.targetValue) * 100);
-
-                                  return (
-                                    <div key={quest.id} className={`p-2.5 rounded-xl border space-y-2 transition-all duration-300 ${theme === 'dark'
-                                      ? 'bg-slate-955/70 border-slate-850'
-                                      : 'bg-stone-50 border-stone-150/70'
-                                      }`}>
-                                      <div className="flex justify-between items-start gap-1">
-                                        <div>
-                                          <h5 className={`text-[11px] font-black leading-tight flex items-center gap-1 transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-stone-850'
-                                            }`}>
-                                            {t(`common.quest_${quest.type === 'quiz_questions' ? 'quiz' : quest.type === 'oustaz_chat' ? 'oustaz' : quest.type === 'karaoke_vocal' ? 'karaoke' : 'accuracy'}_title`, quest.title)}
-                                            {quest.isCompleted && <Check className="w-3 h-3 text-emerald-500 stroke-[3]" />}
-                                          </h5>
-                                          <p className={`text-[10px] leading-snug transition-colors duration-300 ${theme === 'dark' ? 'text-slate-400' : 'text-stone-500'
-                                            }`}>{t(`common.quest_${quest.type === 'quiz_questions' ? 'quiz' : quest.type === 'oustaz_chat' ? 'oustaz' : quest.type === 'karaoke_vocal' ? 'karaoke' : 'accuracy'}_desc`, quest.description)}</p>
-                                        </div>
-                                        <div className="text-right shrink-0">
-                                          <span className={`text-[9px] font-black transition-colors duration-300 ${theme === 'dark' ? 'text-amber-400' : 'text-emerald-700'
-                                            }`}>+{quest.xpReward} XP</span>
-                                        </div>
-                                      </div>
-
-                                      {/* Progress bar */}
-                                      <div className="space-y-1">
-                                        <div className={`w-full h-1.5 rounded-full overflow-hidden transition-colors duration-300 ${theme === 'dark' ? 'bg-slate-900' : 'bg-stone-200'
-                                          }`}>
-                                          <div
-                                            className={`h-full transition-all duration-300 ${quest.isCompleted ? 'bg-emerald-500' : 'bg-emerald-600'}`}
-                                            style={{ width: `${progressPercent}%` }}
-                                          />
-                                        </div>
-                                        <div className={`flex justify-between text-[9px] font-mono transition-colors duration-300 ${theme === 'dark' ? 'text-slate-500' : 'text-stone-400'
-                                          }`}>
-                                          <span>{quest.currentValue} / {quest.targetValue}</span>
-                                          {quest.isCompleted && !quest.isClaimed && (
-                                            <button
-                                              onClick={() => handleClaimQuestReward(quest.id)}
-                                              className={`font-black uppercase tracking-wider cursor-pointer font-sans transition-colors duration-300 ${theme === 'dark' ? 'text-amber-400 hover:text-amber-300' : 'text-emerald-600 hover:text-emerald-700'
-                                                }`}
-                                            >
-                                              {t('common.claim')}
-                                            </button>
-                                          )}
-                                          {quest.isClaimed && (
-                                            <span className="text-stone-500 font-extrabold uppercase">{t('common.claimed')}</span>
-                                          )}
-                                        </div>
-                                      </div>
-                                    </div>
-                                  );
-                                })}
-                              </div>
-                            </div>
-
-                            {/* Pupil card profile */}
-                            <div className={`p-4 rounded-2xl border text-center space-y-4 shadow transition-all duration-300 ${theme === 'dark'
-                              ? 'bg-[#0f172a]/70 border-[#D0A21C]/15 text-slate-200 shadow-md shadow-black/20'
-                              : 'bg-white border-emerald-950/10 text-stone-850 shadow-md shadow-emerald-950/5'
-                              }`}>
-                              <div className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto shadow-inner transition-all duration-300 ${theme === 'dark' ? 'bg-slate-950 border border-slate-850' : 'bg-emerald-50 border border-emerald-100 shadow-xs'
-                                }`}>
-                                <Medal className={`w-6 h-6 ${theme === 'dark' ? 'text-amber-400' : 'text-emerald-600'}`} />
-                              </div>
-
-                              <div>
-                                <h4 className={`text-xs font-black uppercase tracking-wider transition-colors duration-300 ${theme === 'dark' ? 'text-slate-450' : 'text-stone-500'
-                                  }`}>{t('common.home_stats_title', 'Vos Statistiques')}</h4>
-                                <p className={`text-lg font-black font-mono mt-1 transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-stone-900'
-                                  }`}>{stats.xp} <span className={`text-xs font-normal ${theme === 'dark' ? 'text-slate-450' : 'text-stone-400'}`}>XP</span></p>
-                              </div>
-
-                              <div className={`grid grid-cols-2 gap-2 border-t pt-3 transition-colors duration-300 ${theme === 'dark' ? 'border-slate-800/60' : 'border-stone-150'
-                                }`}>
-                                <div className="text-center">
-                                  <p className={`text-[9px] uppercase font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-slate-450' : 'text-stone-500'
-                                    }`}>{t('common.home_stats_correct', 'Réussies')}</p>
-                                  <p className={`text-sm font-bold font-mono ${theme === 'dark' ? 'text-emerald-400' : 'text-emerald-600'}`}>{stats.correctAnswersCount}</p>
-                                </div>
-                                <div className="text-center">
-                                  <p className={`text-[9px] uppercase font-bold transition-colors duration-300 ${theme === 'dark' ? 'text-slate-455' : 'text-stone-500'
-                                    }`}>{t('common.home_stats_quizzes', 'Quiz Finis')}</p>
-                                  <p className={`text-sm font-bold font-mono ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`}>{stats.completedQuizzesCount}</p>
-                                </div>
-                              </div>
-
-                              <div className="pt-2 pb-1">
-                                <button
-                                  onClick={() => { playSelectSound(); setActiveTab('stats'); }}
-                                  className={`w-full p-2 rounded-xl text-[10px] font-bold transition-all cursor-pointer border ${theme === 'dark'
-                                    ? 'bg-slate-950 border-slate-850 hover:bg-slate-900 text-slate-400 hover:text-white btn-3d-slate'
-                                    : 'bg-stone-50 border-stone-200 hover:bg-stone-100 text-stone-600 hover:text-stone-850 btn-3d-slate'
-                                    }`}
-                                >
-                                  {t('common.home_stats_details', 'Détails des badges →')}
-                                </button>
-                              </div>
-                            </div>
-
-                            {/* Quick values guide details about the school */}
-                            <div className={`p-4 rounded-2xl border space-y-3.5 transition-all duration-300 ${theme === 'dark'
-                              ? 'bg-neutral-950/40 border-slate-850/80 text-slate-200'
-                              : 'bg-emerald-50/20 border-emerald-950/5 shadow-xs text-stone-800'
-                              }`}>
-                              <h4 className={`text-[10px] font-black uppercase tracking-widest font-mono flex items-center gap-1.5 transition-colors duration-300 ${theme === 'dark' ? 'text-emerald-400' : 'text-emerald-700'
-                                }`}>
-                                <Compass className="w-3.5 h-3.5" />
-                                {t('common.home_school_title', "L'Institut Al-Mouyassar")}
-                              </h4>
-                              <p className={`text-[11px] leading-relaxed transition-colors duration-305 ${theme === 'dark' ? 'text-slate-400' : 'text-stone-600'
-                                }`}>
-                                {t('common.home_school_desc')}
-                              </p>
-                              <button
-                                onClick={() => { playSelectSound(); setShowSchoolModal(true); }}
-                                className={`text-[10px] font-black flex items-center gap-0.5 tracking-tight cursor-pointer transition-colors duration-300 ${theme === 'dark' ? 'text-amber-400 hover:text-amber-300' : 'text-emerald-600 hover:text-emerald-700'
-                                  }`}
-                              >
-                                {t('common.home_school_history_btn', "Consulter l'histoire complète d'Al-Mouyassar →")}
-                              </button>
-                            </div>
-
-                            {/* Reset button hidden at the bottom */}
-                            <div className="pt-2.5 text-center">
-                              <button
-                                onClick={handleResetProgress}
-                                className={`text-[9px] font-bold uppercase hover:underline cursor-pointer transition-colors duration-300 ${theme === 'dark' ? 'text-rose-500/70 hover:text-rose-500/95' : 'text-rose-600/70 hover:text-rose-600/95'
-                                  }`}
-                              >
-                                {t('common.reset_progress_btn')}
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </>
+                      <QuizSetupPanel
+                        allCategories={allCategories}
+                        allLevels={allLevels}
+                        selectedCategories={selectedCategories}
+                        selectedLevels={selectedLevels}
+                        questionCount={quizQuestionCount}
+                        timerEnabled={timerEnabled}
+                        streak={stats.streak}
+                        onChangeCategories={setSelectedCategories}
+                        onChangeLevels={setSelectedLevels}
+                        onChangeQuestionCount={setQuizQuestionCount}
+                        onToggleTimer={setTimerEnabled}
+                        onStartQuiz={(overrideCats, overrideCount) => handleLaunchQuiz(overrideCats, overrideCount)}
+                      />
                     )}
 
+
                     {activeTab === 'stats' && (
-                      <StatsCard stats={stats} learningSnapshot={learningSnapshot} />
+                      <StatsCard
+                        stats={stats}
+                        learningSnapshot={learningSnapshot}
+                        username={username}
+                        isMuted={isMuted}
+                        onToggleMute={setIsMuted}
+                        onNavigateTab={(tab) => setActiveTab(tab)}
+                        onOpenSchool={() => setShowSchoolModal(true)}
+                      />
                     )}
                   </motion.div>
                 </AnimatePresence>
@@ -2066,7 +1571,52 @@ export default function App() {
           )}
 
         </AnimatePresence>
-      </main>
+        </div>
+      </AppShell>
+
+      {/* Global Search Modal */}
+      <AnimatePresence>
+        {showSearchModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-primary/40 backdrop-blur-sm flex items-start justify-center p-4 pt-20"
+            onClick={() => setShowSearchModal(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: -12, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -12, scale: 0.98 }}
+              className="w-full max-w-2xl bg-surface-container-lowest rounded-2xl p-4 shadow-2xl max-h-[80vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-end mb-2">
+                <button
+                  type="button"
+                  onClick={() => setShowSearchModal(false)}
+                  className="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-primary cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+              <GlobalSearch
+                activeTab={activeTab}
+                onNavigateTab={(tab) => {
+                  setActiveTab(tab);
+                  setShowSearchModal(false);
+                }}
+                onStartCustomQuiz={(category, levels) => {
+                  setSelectedCategories([category]);
+                  if (levels && levels.length > 0) setSelectedLevels(levels);
+                  setShowSearchModal(false);
+                  setActiveTab('quiz');
+                }}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* About Creator — accessible depuis le footer */}
       {!isQuizActive && <AboutCreator onClose={() => { }} />}

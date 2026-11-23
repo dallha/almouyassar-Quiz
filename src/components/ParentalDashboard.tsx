@@ -489,259 +489,249 @@ export default function ParentalDashboard({
           </motion.div>
         ) : (
           
-          /* UNLOCKED PARENTAL SETTINGS PANEL */
+          /* UNLOCKED PARENTAL SETTINGS PANEL (Neo-Heritage) */
           <motion.div
             key="unlocked-dashboard"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className={`p-5 sm:p-6 rounded-2xl border space-y-6 shadow-xl transition-all duration-300 ${
-              theme === 'dark'
-                ? 'bg-slate-950/70 border-slate-850/60 text-slate-200'
-                : 'bg-[#FCF8F2] border-[#004D40]/25 text-stone-850'
-            }`}
+            className="flex flex-col w-full max-w-4xl mx-auto gap-space-xl pb-8"
           >
-            <div className={`flex items-center justify-between border-b pb-3 ${
-              theme === 'dark' ? 'border-slate-800/80' : 'border-stone-200/60'
-            }`}>
-              <div className="flex items-center gap-2">
-                <Shield className={`w-5 h-5 ${theme === 'dark' ? 'text-amber-400' : 'text-[#D0A21C]'}`} />
-                <h3 className={`text-sm font-black uppercase tracking-wide ${theme === 'dark' ? 'text-white' : 'text-[#004D40]'}`}>
-                  {t('parental.dashboard_title')}
-                </h3>
-              </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={handleStartPinChange}
-                  className={`text-[9px] font-black uppercase cursor-pointer flex items-center gap-1.5 border px-2.5 py-1.5 rounded-lg transition-all duration-200 active:translate-y-0.5 btn-3d-slate ${
-                    theme === 'dark'
-                      ? 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:bg-slate-855 shadow-sm'
-                      : 'bg-white border-stone-200 text-stone-650 hover:bg-stone-50 shadow-sm'
-                  }`}
-                >
-                  <Key className="w-2.5 h-2.5" />
-                  <span>{t('parental.change_pin')}</span>
-                </button>
-                <button
-                  onClick={() => { playSelectSound(); setIsUnlocked(false); }}
-                  className={`text-[9px] font-black uppercase cursor-pointer flex items-center gap-1.5 border px-2.5 py-1.5 rounded-lg transition-all duration-200 active:translate-y-0.5 btn-3d-slate ${
-                    theme === 'dark'
-                      ? 'bg-slate-900 border-slate-800 text-amber-400 hover:text-amber-300 hover:bg-slate-855 shadow-sm'
-                      : 'bg-white border-stone-200 text-stone-650 hover:bg-stone-50 shadow-sm'
-                  }`}
-                >
-                  <Unlock className="w-2.5 h-2.5 text-emerald-500" />
-                  <span>{t('parental.lock')}</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Sub-Section 1: Progression Stats */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-1 text-xs font-bold">
-                <BarChart2 className={`w-4 h-4 ${theme === 'dark' ? 'text-amber-400' : 'text-[#D0A21C]'}`} />
-                <span className={`uppercase tracking-tight ${theme === 'dark' ? 'text-slate-350' : 'text-[#004D40]'}`}>
-                  {t('parental.perf_section')}
-                </span>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div className={`p-3 rounded-xl border text-center space-y-0.5 shadow-sm ${
-                  theme === 'dark' ? 'bg-slate-900/50 border-slate-850' : 'bg-white border-stone-150'
-                }`}>
-                  <span className={`text-[9px] uppercase font-bold ${theme === 'dark' ? 'text-slate-500' : 'text-gray-400'}`}>{t('parental.success_rate')}</span>
-                  <p className={`text-lg font-black ${theme === 'dark' ? 'text-amber-400' : 'text-[#004D40]'}`}>{successPercentage}%</p>
-                  <p className={`text-[9px] ${theme === 'dark' ? 'text-slate-500' : 'text-stone-500'} leading-none`}>{t('parental.success_rate_desc')}</p>
+            {/* En-tête & Actions PIN */}
+            <section className="flex flex-col gap-space-md">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <div className="flex items-center gap-space-xs">
+                  <span className="material-symbols-outlined text-primary text-[20px]">verified_user</span>
+                  <span className="text-label-caps text-primary uppercase">{t('parental.dashboard_title')}</span>
                 </div>
-                <div className={`p-3 rounded-xl border text-center space-y-0.5 shadow-sm ${
-                  theme === 'dark' ? 'bg-slate-900/50 border-slate-850' : 'bg-white border-stone-150'
-                }`}>
-                  <span className={`text-[9px] uppercase font-bold ${theme === 'dark' ? 'text-slate-500' : 'text-gray-400'}`}>{t('parental.total_answered')}</span>
-                  <p className={`text-lg font-black ${theme === 'dark' ? 'text-amber-400' : 'text-[#004D40]'}`}>{stats.totalAnswered}</p>
-                  <p className={`text-[9px] ${theme === 'dark' ? 'text-slate-500' : 'text-stone-500'} leading-none`}>{t('parental.total_answered_desc')}</p>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handleStartPinChange}
+                    className="px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant hover:text-primary text-label-sm flex items-center gap-1 cursor-pointer"
+                  >
+                    <Key className="w-3.5 h-3.5" />
+                    <span>{t('parental.change_pin')}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { playSelectSound(); setIsUnlocked(false); }}
+                    className="px-3 py-1.5 rounded-full bg-primary text-on-primary text-label-sm flex items-center gap-1 cursor-pointer"
+                  >
+                    <Unlock className="w-3.5 h-3.5" />
+                    <span>{t('parental.lock')}</span>
+                  </button>
                 </div>
               </div>
 
-              {/* Nouveau Bloc : Visualisation des performances par catégorie */}
-              {stats.masteryLevels && Object.keys(stats.masteryLevels).length > 0 && (
-                <div className={`mt-4 p-4 rounded-xl border shadow-sm ${
-                  theme === 'dark' ? 'bg-slate-900/50 border-slate-850' : 'bg-white border-stone-150'
-                }`}>
-                  <span className={`text-[9px] uppercase font-bold mb-3 block ${theme === 'dark' ? 'text-slate-500' : 'text-gray-400'}`}>
-                    Détail par domaine
-                  </span>
-                  <div className="space-y-3">
-                    {Object.entries(stats.masteryLevels).map(([cat, mastery]) => {
-                      const percentage = Math.min(100, Math.round(((Number(mastery.level) - 1) / 5) * 100) || 0);
-                      return (
-                        <div key={cat} className="space-y-1">
-                          <div className="flex justify-between items-center text-[10px] font-bold">
-                            <span className={theme === 'dark' ? 'text-slate-300' : 'text-stone-700'}>{cat}</span>
-                            <span className={theme === 'dark' ? 'text-amber-400' : 'text-emerald-600'}>Niveau {mastery.level}</span>
-                          </div>
-                          <div className={`h-1.5 w-full rounded-full overflow-hidden ${
-                            theme === 'dark' ? 'bg-slate-800' : 'bg-stone-100'
-                          }`}>
-                            <motion.div 
-                              initial={{ width: 0 }}
-                              animate={{ width: `${percentage}%` }}
-                              transition={{ duration: 1.5, ease: "easeOut" }}
-                              className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-[#D0A21C]"
-                            />
-                          </div>
-                        </div>
-                      );
-                    })}
+              {/* Sélecteur d'enfant / profil actif */}
+              <div className="flex items-center justify-between gap-space-sm bg-surface-container-lowest p-space-md rounded-2xl shadow-[0_4px_20px_-2px_rgba(13,77,67,0.04)]">
+                <div className="flex items-center gap-space-md min-w-0 flex-1">
+                  <div className="w-11 h-11 rounded-full bg-secondary-container flex items-center justify-center shrink-0 shadow-sm">
+                    <span className="text-title-md text-on-secondary-container">
+                      {(childSnapshots[0]?.name?.[0] || 'E').toUpperCase()}
+                    </span>
+                  </div>
+                  <div className="flex flex-col min-w-0">
+                    <span className="text-title-md text-on-surface truncate">
+                      {childSnapshots[0]?.name || t('common.shell_nav_profile')} · {t('common.home_stat_level').replace('{level}', String(Math.floor(stats.xp / 200) + 1))}
+                    </span>
+                    <span className="text-body-sm text-on-surface-variant truncate">
+                      {t('common.parent_badge_benevolent')}
+                    </span>
                   </div>
                 </div>
-              )}
-            </div>
+                <span className="text-body-sm text-on-surface-variant bg-surface-container-low px-space-sm py-1 rounded-full shrink-0">
+                  {stats.xp} {t('common.shell_xp_unit')}
+                </span>
+              </div>
+            </section>
 
-            <div className={`space-y-3 border-t pt-4 ${theme === 'dark' ? 'border-slate-800/80' : 'border-stone-200/60'}`}>
+            {/* Carte résumé hebdomadaire */}
+            <section className="bg-primary-container text-on-primary rounded-2xl p-space-lg shadow-md relative overflow-hidden">
+              <div className="absolute -end-6 -top-6 w-28 h-28 rounded-full bg-on-primary/5 pointer-events-none" />
+              <div className="relative z-10 flex flex-col gap-space-lg">
+                <div className="flex items-center justify-between gap-space-sm">
+                  <div className="flex flex-col">
+                    <span className="text-label-caps text-on-primary-container uppercase">{t('common.parent_weekly_eyebrow')}</span>
+                    <h2 className="text-headline-sm text-on-primary">{t('common.parent_weekly_title')}</h2>
+                  </div>
+                  <div className="flex items-center gap-1.5 bg-secondary-container text-on-secondary-container px-space-md py-1.5 rounded-full shadow-sm shrink-0">
+                    <span className="material-symbols-outlined text-[16px]">local_fire_department</span>
+                    <span className="text-label-sm">{t('common.home_stat_streak_days').replace('{count}', String(stats.streak))}</span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-space-md">
+                  <div className="bg-primary/60 rounded-xl p-space-md flex flex-col gap-1">
+                    <div className="flex items-center gap-1.5 text-primary-fixed">
+                      <span className="material-symbols-outlined text-[18px]">fact_check</span>
+                      <span className="text-body-sm">{t('common.parent_weekly_quizzes')}</span>
+                    </div>
+                    <span className="text-headline-lg text-on-primary">{stats.completedQuizzesCount}</span>
+                  </div>
+
+                  <div className="bg-primary/60 rounded-xl p-space-md flex flex-col gap-1">
+                    <div className="flex items-center gap-1.5 text-secondary-fixed">
+                      <span className="material-symbols-outlined text-[18px]">task_alt</span>
+                      <span className="text-body-sm">{t('common.parent_weekly_questions')}</span>
+                    </div>
+                    <span className="text-headline-lg text-on-primary">{stats.correctAnswersCount}</span>
+                    <span className="text-body-sm text-tertiary-fixed">
+                      {t('common.parent_weekly_accuracy').replace('{pct}', String(stats.totalAnswered > 0 ? Math.round((stats.correctAnswersCount / stats.totalAnswered) * 100) : 0))}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Progression par matière */}
+            <section className="bg-surface-container-lowest rounded-2xl p-space-lg shadow-[0_4px_20px_-2px_rgba(13,77,67,0.04)] flex flex-col gap-space-lg">
               <div className="flex items-center justify-between">
-                <span className={`uppercase tracking-tight text-xs font-bold ${theme === 'dark' ? 'text-slate-300' : 'text-[#004D40]'}`}>Enfants autorisés</span>
-                <span className="text-[10px] opacity-60">{childSnapshots.length}</span>
+                <div className="flex items-center gap-space-sm">
+                  <span className="material-symbols-outlined text-primary text-[20px]">auto_graph</span>
+                  <h2 className="text-headline-sm text-on-surface">{t('common.parent_subject_progress')}</h2>
+                </div>
               </div>
-              {childSnapshotError && <p className="text-[10px] text-rose-500">{childSnapshotError}</p>}
-              {childSnapshots.map((child) => (
-                <div key={child.childId} className={`rounded-xl border p-3 ${theme === 'dark' ? 'border-slate-800 bg-slate-900/50' : 'border-stone-150 bg-white'}`}>
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="truncate text-xs font-bold">{child.childId}</span>
-                    <span className="text-xs font-black text-amber-500">{child.progress?.xp || 0} XP</span>
+              <div className="flex flex-col gap-space-md">
+                {[
+                  { key: 'Fiqh', label: t('common.home_disc_fiqh_title'), color: 'bg-primary' },
+                  { key: 'Sirah', label: t('common.home_disc_sirah_title'), color: 'bg-secondary' },
+                  { key: 'Coran', label: t('common.home_disc_coran_title'), color: 'bg-tertiary-container' },
+                ].map((subj) => {
+                  const raw = stats.masteryLevels?.[subj.key];
+                  const pct = typeof raw === 'number' ? Math.min(100, raw) : Math.min(100, Math.round((stats.correctAnswersCount / Math.max(1, stats.totalAnswered)) * 100));
+                  return (
+                    <div key={subj.key} className="flex flex-col gap-1.5">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-space-sm">
+                          <span className={`w-2.5 h-2.5 rounded-full ${subj.color}`} />
+                          <span className="text-body-md text-on-surface">{subj.label}</span>
+                        </div>
+                        <span className="text-label-sm text-primary font-bold">{pct}%</span>
+                      </div>
+                      <div className="w-full h-3 bg-surface-container-high rounded-full overflow-hidden">
+                        <div className={`h-full ${subj.color} rounded-full transition-all duration-500`} style={{ width: `${pct}%` }} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+
+            {/* Conseils de l'Oustaz */}
+            <section className="flex flex-col gap-space-md">
+              <div className="flex items-center gap-space-sm">
+                <span className="material-symbols-outlined text-secondary text-[20px]">psychology</span>
+                <h2 className="text-headline-sm text-on-surface">{t('common.parent_oustaz_advice_title')}</h2>
+              </div>
+              <div className="bg-secondary-fixed/40 rounded-2xl p-space-lg flex flex-col gap-space-md shadow-[0_4px_20px_-2px_rgba(13,77,67,0.04)]">
+                <div className="flex items-center gap-space-md">
+                  <div className="w-12 h-12 rounded-full bg-primary text-secondary-fixed flex items-center justify-center shrink-0 shadow-sm">
+                    <span className="material-symbols-outlined text-[24px]">school</span>
                   </div>
-                  <div className="mt-2 grid grid-cols-3 gap-2 text-center text-[9px] opacity-70">
-                    <span>{child.answered} réponses</span>
-                    <span>{child.correct} réussites</span>
-                    <span>{child.reviewDue} à revoir</span>
+                  <div className="flex flex-col min-w-0">
+                    <span className="text-title-md text-on-secondary-fixed truncate">{t('common.home_pitch_title')}</span>
+                    <span className="text-body-sm text-on-secondary-fixed-variant">{t('common.parent_oustaz_ref')}</span>
                   </div>
                 </div>
-              ))}
-              {!childSnapshotError && childSnapshots.length === 0 && <p className="text-[10px] opacity-60">Aucun enfant lié à ce compte.</p>}
-            </div>
+                <p className="text-body-md text-on-secondary-fixed leading-relaxed">
+                  {t('common.pitch_text')}
+                </p>
+              </div>
+            </section>
 
-            {/* Sub-Section 2: Interactive Filters & Blocks */}
-            <div className={`space-y-3 border-t pt-4 ${theme === 'dark' ? 'border-slate-800/80' : 'border-stone-200/60'}`}>
-              <div className="flex items-center gap-1 text-xs font-bold">
-                <Shield className={`w-4 h-4 ${theme === 'dark' ? 'text-amber-400' : 'text-[#D0A21C]'}`} />
-                <span className={`uppercase tracking-tight ${theme === 'dark' ? 'text-slate-355' : 'text-[#004D40]'}`}>
-                  {t('parental.permissions_sec')}
-                </span>
+            {/* Contrôle & Objectifs */}
+            <section className="flex flex-col gap-space-md">
+              <div className="flex items-center gap-space-sm">
+                <span className="material-symbols-outlined text-primary text-[20px]">tune</span>
+                <h2 className="text-headline-sm text-on-surface">{t('common.parent_controls_title')}</h2>
               </div>
 
-              <div className="space-y-2">
-                
-                {/* Rule 1: Timer control */}
-                <div className={`flex items-center justify-between p-3.5 border rounded-xl shadow-sm ${
-                  theme === 'dark' ? 'bg-slate-900/40 border-slate-850' : 'bg-white border-stone-150'
-                }`}>
-                  <div className="flex gap-2 items-center">
-                    <Timer className={`w-4 h-4 ${theme === 'dark' ? 'text-slate-400' : 'text-[#004D40]'}`} />
-                    <div>
-                      <span className={`text-xs font-bold block leading-none ${theme === 'dark' ? 'text-white' : 'text-stone-850'}`}>{t('parental.timer_title')}</span>
-                      <span className={`text-[9px] ${theme === 'dark' ? 'text-slate-500' : 'text-stone-400'}`}>{t('parental.timer_desc')}</span>
+              <div className="bg-surface-container-lowest rounded-2xl p-space-lg shadow-[0_4px_20px_-2px_rgba(13,77,67,0.04)] flex flex-col gap-space-lg">
+                {/* Chronomètre */}
+                <div className="flex items-center justify-between gap-space-md">
+                  <div className="flex items-center gap-space-md min-w-0">
+                    <div className="w-10 h-10 rounded-xl bg-primary-fixed/40 flex items-center justify-center shrink-0">
+                      <span className="material-symbols-outlined text-primary text-[20px]">timer</span>
+                    </div>
+                    <div className="flex flex-col min-w-0">
+                      <span className="text-title-md text-on-surface truncate">{t('common.parent_timer_title')}</span>
+                      <span className="text-body-sm text-on-surface-variant truncate">{t('common.parent_timer_desc')}</span>
                     </div>
                   </div>
                   <button
-                    onClick={handleTimerToggle}
-                    className={`px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-tight cursor-pointer transition-all border ${
-                      timerEnabled 
-                        ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 btn-3d-emerald' 
-                        : theme === 'dark'
-                          ? 'bg-slate-900 text-slate-500 border-slate-800'
-                          : 'bg-stone-100 text-stone-400 border-stone-200'
-                    }`}
+                    type="button"
+                    role="switch"
+                    aria-checked={timerEnabled}
+                    onClick={() => { playSelectSound(); onToggleTimer(!timerEnabled); }}
+                    className={`w-12 h-7 rounded-full p-1 transition-colors duration-200 shrink-0 flex items-center cursor-pointer ${timerEnabled ? 'bg-primary justify-end' : 'bg-surface-container-highest justify-start'}`}
                   >
-                    {timerEnabled ? t('parental.enabled') : t('parental.disabled')}
+                    <span className="w-5 h-5 rounded-full bg-on-primary shadow-sm" />
                   </button>
                 </div>
 
-                {/* Rule 2: Oustaz Block */}
-                <div className={`flex items-center justify-between p-3.5 border rounded-xl shadow-sm ${
-                  theme === 'dark' ? 'bg-slate-900/40 border-slate-850' : 'bg-white border-stone-150'
-                }`}>
-                  <div className="flex gap-2 items-center">
-                    {isOustazBlocked 
-                      ? <EyeOff className="w-4 h-4 text-rose-500" /> 
-                      : <Eye className={`w-4 h-4 ${theme === 'dark' ? 'text-emerald-400' : 'text-emerald-500'}`} />}
-                    <div>
-                      <span className={`text-xs font-bold block leading-none ${theme === 'dark' ? 'text-white' : 'text-stone-850'}`}>{t('parental.oustaz_access')}</span>
-                      <span className={`text-[9px] ${theme === 'dark' ? 'text-slate-500' : 'text-stone-400'}`}>{t('parental.oustaz_desc')}</span>
+                {/* Sons */}
+                <div className="flex items-center justify-between gap-space-md">
+                  <div className="flex items-center gap-space-md min-w-0">
+                    <div className="w-10 h-10 rounded-xl bg-secondary-fixed/50 flex items-center justify-center shrink-0">
+                      <span className="material-symbols-outlined text-secondary text-[20px]">volume_up</span>
+                    </div>
+                    <div className="flex flex-col min-w-0">
+                      <span className="text-title-md text-on-surface truncate">{t('common.parent_sound_title')}</span>
+                      <span className="text-body-sm text-on-surface-variant truncate">{t('common.parent_sound_desc')}</span>
                     </div>
                   </div>
                   <button
-                    onClick={handleOustazToggle}
-                    className={`px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-tight cursor-pointer transition-all border ${
-                      !isOustazBlocked 
-                        ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 btn-3d-emerald' 
-                        : 'bg-rose-500/10 text-rose-400 border-rose-500/20 btn-3d-slate'
-                    }`}
+                    type="button"
+                    role="switch"
+                    aria-checked={!isMuted}
+                    onClick={() => { playSelectSound(); onToggleMute(!isMuted); }}
+                    className={`w-12 h-7 rounded-full p-1 transition-colors duration-200 shrink-0 flex items-center cursor-pointer ${!isMuted ? 'bg-primary justify-end' : 'bg-surface-container-highest justify-start'}`}
                   >
-                    {!isOustazBlocked ? t('parental.allowed') : t('parental.blocked')}
+                    <span className="w-5 h-5 rounded-full bg-on-primary shadow-sm" />
                   </button>
                 </div>
 
-                {/* Rule 3: Sound effects control */}
-                <div className={`flex items-center justify-between p-3.5 border rounded-xl shadow-sm ${
-                  theme === 'dark' ? 'bg-slate-900/40 border-slate-850' : 'bg-white border-stone-150'
-                }`}>
-                  <div className="flex gap-2 items-center">
-                    {isMuted 
-                      ? <VolumeX className="w-4 h-4 text-rose-500" /> 
-                      : <Volume2 className={`w-4 h-4 ${theme === 'dark' ? 'text-emerald-400' : 'text-emerald-500'}`} />}
-                    <div>
-                      <span className={`text-xs font-bold block leading-none ${theme === 'dark' ? 'text-white' : 'text-stone-850'}`}>{t('parental.sound_effects')}</span>
-                      <span className={`text-[9px] ${theme === 'dark' ? 'text-slate-500' : 'text-stone-400'}`}>{t('parental.sound_effects_desc')}</span>
+                {/* Bloquer Oustaz AI */}
+                <div className="flex items-center justify-between gap-space-md">
+                  <div className="flex items-center gap-space-md min-w-0">
+                    <div className="w-10 h-10 rounded-xl bg-error-container flex items-center justify-center shrink-0">
+                      <span className="material-symbols-outlined text-error text-[20px]">block</span>
+                    </div>
+                    <div className="flex flex-col min-w-0">
+                      <span className="text-title-md text-on-surface truncate">{t('common.parent_oustaz_block_title')}</span>
+                      <span className="text-body-sm text-on-surface-variant truncate">{t('common.parent_oustaz_block_desc')}</span>
                     </div>
                   </div>
                   <button
-                    onClick={handleMuteToggle}
-                    className={`px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-tight cursor-pointer transition-all border ${
-                      !isMuted 
-                        ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 btn-3d-emerald' 
-                        : theme === 'dark'
-                          ? 'bg-slate-900 text-slate-500 border-slate-800'
-                          : 'bg-stone-100 text-stone-400 border-stone-200'
-                    }`}
+                    type="button"
+                    role="switch"
+                    aria-checked={isOustazBlocked}
+                    onClick={() => { playSelectSound(); onToggleOustazBlocked(!isOustazBlocked); }}
+                    className={`w-12 h-7 rounded-full p-1 transition-colors duration-200 shrink-0 flex items-center cursor-pointer ${isOustazBlocked ? 'bg-error justify-end' : 'bg-surface-container-highest justify-start'}`}
                   >
-                    {!isMuted ? t('parental.enabled') : t('parental.disabled')}
+                    <span className="w-5 h-5 rounded-full bg-on-primary shadow-sm" />
                   </button>
                 </div>
-
               </div>
-            </div>
 
-            {/* Reset progress block */}
-            <div className={`border-t pt-4 space-y-3 ${
-              theme === 'dark' ? 'border-slate-800/80' : 'border-stone-200/60'
-            }`}>
-              <span className="text-[9px] font-bold text-rose-500 uppercase tracking-widest block font-mono">
-                {t('parental.danger_zone')}
-              </span>
-
+              {/* Réinitialisation sécurisée */}
               {showConfirmReset ? (
-                <div className={`p-4 border rounded-xl space-y-3 ${
-                  theme === 'dark' ? 'bg-rose-955/20 border-rose-900/30' : 'bg-rose-50 border-rose-150'
-                }`}>
-                  <div className={`flex gap-2 items-start text-xs ${theme === 'dark' ? 'text-rose-350' : 'text-rose-850'}`}>
-                    <AlertTriangle className="w-5 h-5 text-rose-500 shrink-0" />
-                    <div>
-                      <strong>{t('parental.reset_confirm')}</strong>
-                    </div>
-                  </div>
+                <div className="p-space-md rounded-2xl bg-error-container/50 flex flex-col gap-space-sm">
+                  <p className="text-body-md text-on-error-container font-bold">{t('parental.reset_confirm')}</p>
                   <div className="flex gap-2 justify-end">
                     <button
+                      type="button"
                       onClick={() => { playSelectSound(); setShowConfirmReset(false); }}
-                      className={`px-3 py-1.5 rounded-xl text-[10px] font-black border uppercase transition-all duration-200 active:translate-y-0.5 btn-3d-slate ${
-                        theme === 'dark'
-                          ? 'bg-slate-900 border-slate-800 text-slate-350 hover:bg-slate-850 hover:text-white shadow-sm'
-                          : 'bg-white border-stone-200 text-stone-600 hover:bg-stone-50 shadow-sm'
-                      }`}
+                      className="px-4 py-2 rounded-full bg-surface-container-lowest text-on-surface text-label-sm cursor-pointer"
                     >
                       {t('parental.reset_cancel')}
                     </button>
                     <button
+                      type="button"
                       onClick={handleConfirmReset}
-                      className="px-3.5 py-1.5 bg-rose-600 text-[#FCF8F2] border border-rose-700/20 rounded-xl text-[10px] font-black uppercase shadow-md transition-all duration-200 active:translate-y-0.5 btn-3d-rose cursor-pointer"
+                      className="px-4 py-2 rounded-full bg-error text-on-error text-label-sm font-bold cursor-pointer"
                     >
                       {t('parental.reset_yes')}
                     </button>
@@ -749,22 +739,17 @@ export default function ParentalDashboard({
                 </div>
               ) : (
                 <button
+                  type="button"
                   onClick={handleTriggerReset}
-                  className={`w-full py-3 font-extrabold uppercase text-[9px] tracking-widest rounded-xl border transition-all duration-200 active:translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer btn-3d-rose ${
-                    theme === 'dark'
-                      ? 'bg-rose-950/20 hover:bg-rose-950/30 text-rose-400 border-rose-900/30 shadow-sm'
-                      : 'bg-rose-50 hover:bg-rose-100 text-rose-700 border-rose-200 shadow-sm'
-                  }`}
+                  className="w-full py-3 rounded-full bg-error-container/40 hover:bg-error-container text-on-error-container text-label-sm font-bold flex items-center justify-center gap-2 cursor-pointer transition-colors"
                 >
                   <RefreshCw className="w-4 h-4" />
                   <span>{t('parental.reset_progress')}</span>
                 </button>
               )}
-            </div>
-
+            </section>
           </motion.div>
         )}
-
       </AnimatePresence>
     </div>
   );

@@ -124,46 +124,8 @@ export default function AdventureMode({ adventureState, onUpdateState, onRewardU
     setView('map');
   };
 
-  const activeZone = ADVENTURE_ZONES.find(z => z.nodes.some(node => node.id === adventureState.currentNodeId))
-    || ADVENTURE_ZONES.find(z => adventureState.unlockedZones.includes(z.id))
-    || ADVENTURE_ZONES[0];
-  const completedCount = activeZone.nodes.filter(node => adventureState.completedNodes.includes(node.id)).length;
-  const totalCount = activeZone.nodes.length;
-
   return (
-    <div className="w-full relative h-[100dvh] overflow-hidden bg-[#04110b]">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_12%,rgba(16,185,129,0.14),transparent_52%),radial-gradient(circle_at_84%_22%,rgba(180,83,9,0.08),transparent_45%),linear-gradient(180deg,#061811_0%,#04110b_52%,#030c08_100%)]" />
-      <div className="pointer-events-none absolute inset-0 opacity-[0.05] bg-[url('https://www.transparenttextures.com/patterns/asfalt-light.png')]" />
-
-      {/* Adventure-only top HUD (safe-area aware) */}
-      <div
-        className="absolute inset-x-0 top-0 z-50 px-3 pb-2"
-        style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
-      >
-        <div className="mx-auto flex h-11 max-w-lg items-center justify-between rounded-xl border border-white/5 bg-gradient-to-b from-black/22 to-black/10 px-2.5 backdrop-blur-[4px]">
-          <button
-            onClick={onExitAdventure}
-            aria-label={t('common.back', 'Retour')}
-            className="flex h-8 w-8 items-center justify-center text-white/65 transition hover:text-white/90"
-          >
-            <Menu className="h-[18px] w-[18px]" />
-          </button>
-
-          <div className="text-center">
-            <p className="text-[9px] font-extrabold uppercase tracking-wider text-emerald-300/70">{t('adventure.current_progress')}</p>
-            <p className="text-[11px] font-bold text-white/75">{completedCount}/{totalCount}</p>
-          </div>
-
-          <button
-            onClick={onOpenProfile}
-            aria-label={t('common.user_profile', 'Profil utilisateur')}
-            className="flex h-8 w-8 items-center justify-center text-white/65 transition hover:text-white/90"
-          >
-            <User className="h-[18px] w-[18px]" />
-          </button>
-        </div>
-      </div>
-
+    <div className="w-full relative">
       {/* MAP VIEW */}
       <AdventureMap 
         zones={ADVENTURE_ZONES} 

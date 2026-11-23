@@ -640,45 +640,103 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
   };
 
   return (
-    <div className="max-w-xl mx-auto flex flex-col h-[520px] bg-white border border-stone-200 rounded-2xl shadow-xl overflow-hidden relative">
-      
-      {/* Dynamic Header */}
-      <div className="bg-[#004D40] p-4 text-[#FCF8F2] flex items-center justify-between border-b border-[#D0A21C]/25 z-10 shrink-0">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center relative p-0.5">
-            <SchoolLogo size={36} className="shrink-0" />
-            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full border border-white animate-pulse" />
+    <div className="max-w-3xl mx-auto flex flex-col gap-space-lg pb-6 relative">
+      {/* Top Assistant Status Banner */}
+      <div className="w-full bg-primary-container text-on-primary rounded-2xl p-space-lg relative overflow-hidden shadow-[0_4px_20px_-2px_rgba(13,77,67,0.18)]">
+        <div className="absolute -end-6 -bottom-6 w-32 h-32 rounded-full bg-secondary-fixed/10 pointer-events-none blur-xl" />
+        <div className="relative z-10 flex items-center justify-between gap-space-md">
+          <div className="flex items-center gap-space-md min-w-0">
+            <div className="relative shrink-0">
+              <div className="w-14 h-14 rounded-full bg-surface-container-lowest p-0.5 shadow-md flex items-center justify-center">
+                <SchoolLogo size={48} className="shrink-0" />
+              </div>
+              <span className="absolute bottom-0 end-0 w-3.5 h-3.5 bg-tertiary-fixed rounded-full shadow-[0_0_0_2px_#0d4d43]" />
+            </div>
+            <div className="flex flex-col min-w-0">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className="text-label-caps text-secondary-fixed tracking-wider uppercase">
+                  {t('common.oustaz_banner_eyebrow')}
+                </span>
+                <span className="material-symbols-outlined text-secondary-fixed text-[14px]">verified</span>
+              </div>
+              <h1 className="text-headline-sm text-on-primary leading-tight truncate">
+                {t('common.oustaz_banner_title')}
+              </h1>
+              <p className="text-body-sm text-on-primary-container mt-0.5 flex items-center gap-1 truncate">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-tertiary-fixed shrink-0" />
+                <span className="truncate">{t('common.oustaz_banner_sub')}</span>
+              </p>
+            </div>
           </div>
-          <div>
-            <h3 className="text-xs font-black tracking-wider uppercase">{t('oustaz.oustaz_title', "L'Oustaz Virtuel AI")}</h3>
-            <p className="text-[10px] text-[#FCF8F2]/75 font-mono italic">{t('oustaz.oustaz_subtitle', "Bienveillant, doux & pédagogue")}</p>
-          </div>
-        </div>
 
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => {
-              playSelectSound();
-              setShowHistoryDrawer(!showHistoryDrawer);
-            }}
-            title={t('oustaz.oustaz_history', "Discussions")}
-            className="p-1.5 rounded-lg bg-[#FCF8F2]/10 hover:bg-[#FCF8F2]/20 border border-[#FCF8F2]/15 text-[#FCF8F2]/80 hover:text-[#FCF8F2] transition-colors cursor-pointer flex items-center gap-1.5 text-[11px]"
-          >
-            <FolderOpen className="w-4 h-4 text-[#D0A21C]" />
-            <span className="hidden sm:inline font-bold">{t('oustaz.oustaz_history', "Discussions")} ({savedChats.length})</span>
-          </button>
-
-          {messages.length > 1 && (
+          <div className="flex items-center gap-2 shrink-0">
             <button
-              onClick={handleClearHistory}
-              title={t('oustaz.oustaz_confirm_clear', "Effacer la conversation active")}
-              className="p-1.5 rounded-lg bg-[#FCF8F2]/10 hover:bg-[#FCF8F2]/20 border border-[#FCF8F2]/15 text-[#FCF8F2]/80 hover:text-[#FCF8F2] transition-colors cursor-pointer"
+              type="button"
+              onClick={() => {
+                playSelectSound();
+                setShowHistoryDrawer(!showHistoryDrawer);
+              }}
+              title={t('oustaz.oustaz_history')}
+              className="p-2 rounded-xl bg-on-primary/10 hover:bg-on-primary/20 text-on-primary transition-colors cursor-pointer flex items-center gap-1.5 text-label-sm"
             >
-              <RotateCcw className="w-4 h-4" />
+              <FolderOpen className="w-4 h-4 text-secondary-fixed" />
+              <span className="hidden sm:inline font-bold">{savedChats.length}</span>
             </button>
-          )}
+
+            {messages.length > 1 && (
+              <button
+                type="button"
+                onClick={handleClearHistory}
+                title={t('oustaz.oustaz_confirm_clear')}
+                className="p-2 rounded-xl bg-on-primary/10 hover:bg-on-primary/20 text-on-primary transition-colors cursor-pointer"
+              >
+                <RotateCcw className="w-4 h-4" />
+              </button>
+            )}
+          </div>
         </div>
       </div>
+
+      {/* Prompt Chips: Horizontal Scroll Suggestions */}
+      <div className="flex flex-col gap-1.5">
+        <div className="flex items-center justify-between px-1">
+          <span className="text-label-caps text-on-surface-variant uppercase tracking-wider">
+            {t('common.oustaz_suggestions_title')}
+          </span>
+          <span className="text-label-sm text-secondary flex items-center gap-0.5">
+            <span className="material-symbols-outlined text-[15px]">auto_awesome</span>
+            <span>{t('common.oustaz_suggestions_explore')}</span>
+          </span>
+        </div>
+        <div className="flex items-center gap-space-xs overflow-x-auto no-scrollbar pb-1">
+          {[
+            t('common.oustaz_chip_1'),
+            t('common.oustaz_chip_2'),
+            t('common.oustaz_chip_3'),
+            t('common.oustaz_chip_4'),
+            ...suggestedPrompts.map((p) => p.query),
+          ]
+            .filter((v, i, a) => Boolean(v) && a.indexOf(v) === i)
+            .slice(0, 6)
+            .map((chipText, i) => (
+              <button
+                key={i}
+                type="button"
+                disabled={isLoading}
+                onClick={() => {
+                  playSelectSound();
+                  setInputValue(chipText);
+                }}
+                className="shrink-0 bg-surface-container-lowest text-primary hover:bg-surface-container-low transition-all active:scale-95 px-3.5 py-2 rounded-full shadow-[0_2px_8px_rgba(13,77,67,0.06)] text-label-sm cursor-pointer"
+              >
+                {chipText}
+              </button>
+            ))}
+        </div>
+      </div>
+
+      {/* Chat Container */}
+      <div className="relative flex flex-col gap-space-md min-h-[340px]">
 
       {/* Historique Drawer Slide-over Panel */}
       <AnimatePresence>
@@ -800,52 +858,77 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
       </AnimatePresence>
 
       {/* Message History scrolling window */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-amber-500/[0.01]">
+      <div className="flex flex-col gap-space-md w-full">
+        <div className="flex items-center justify-center my-0.5">
+          <span className="bg-surface-container-high text-on-surface-variant px-3 py-0.5 rounded-full text-label-caps tracking-widest uppercase">
+            {t('common.oustaz_today_divider')}
+          </span>
+        </div>
+
         {messages.map((msg, idx) => {
           const isModel = msg.role === 'model';
           const isLatestModelMsg = isModel && idx === messages.length - 1;
           const isHighlighted = isLatestModelMsg && finishedGenerating;
+
+          if (!isModel) {
+            return (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex justify-end w-full ps-8"
+              >
+                <div className="bg-primary text-on-primary px-4 py-3 rounded-2xl rounded-te-sm shadow-[0_4px_12px_rgba(0,53,45,0.12)] max-w-[88%]">
+                  <p className="text-body-md leading-snug whitespace-pre-wrap">{msg.parts[0].text}</p>
+                </div>
+              </motion.div>
+            );
+          }
 
           return (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className={`flex ${isModel ? 'justify-start' : 'justify-end'}`}
+              className="flex gap-space-sm w-full pe-4 items-start"
             >
-              <div className={`max-w-[85%] rounded-2xl p-3.5 text-xs shadow-sm leading-relaxed transition-all duration-1000 ease-in-out ${
-                isModel
-                  ? isHighlighted
-                    ? 'bg-amber-100/90 text-[#004D40] border-2 border-[#D0A21C] rounded-tl-none font-serif shadow-md scale-[1.01]'
-                    : 'bg-amber-50 text-[#004D40] border border-[#D0A21C]/20 rounded-tl-none font-serif'
-                  : 'bg-[#004D40] text-white rounded-tr-none font-sans'
-              }`}>
-                {isModel && (
-                  <div className="flex items-center justify-between gap-4 mb-1">
-                    <span className="font-extrabold text-[9px] uppercase tracking-wider block text-[#D0A21C] font-sans">
-                      {t('oustaz.oustaz_title', "Oustaz Al-Mouyassar")} :
+              <div className="w-8 h-8 rounded-full bg-primary-container text-secondary-fixed shrink-0 flex items-center justify-center shadow-sm mt-1">
+                <span className="material-symbols-outlined text-[18px]">psychology</span>
+              </div>
+              <div className="flex flex-col gap-space-sm flex-1 min-w-0">
+                <div
+                  className={`bg-surface-container-lowest rounded-2xl rounded-ts-sm p-4 shadow-[0_4px_20px_-2px_rgba(13,77,67,0.06)] transition-all ${
+                    isHighlighted ? 'ring-2 ring-secondary-container' : ''
+                  }`}
+                >
+                  <div className="flex items-center justify-between pb-2 mb-2 bg-surface-container-low/60 rounded-lg px-2.5 py-1">
+                    <span className="text-label-caps text-secondary font-bold flex items-center gap-1 uppercase">
+                      <span className="material-symbols-outlined text-[14px] text-secondary">menu_book</span>
+                      <span>{t('oustaz.oustaz_title')}</span>
                     </span>
                     <button
+                      type="button"
                       onClick={() => speakMessage(msg.parts[0].text, idx)}
-                      className="p-1 hover:bg-[#D0A21C]/10 rounded-md transition-all cursor-pointer flex items-center justify-center shrink-0 border border-transparent hover:border-[#D0A21C]/15"
-                      title={currentlySpeakingIdx === idx ? "Arrêter la lecture" : "Écouter la réponse"}
+                      aria-label={t('common.home_pitch_listen')}
+                      className="text-on-surface-variant hover:text-primary active:scale-95 transition-transform cursor-pointer flex items-center"
                     >
                       {currentlySpeakingIdx === idx ? (
-                        <div className="flex items-center gap-1">
-                          <div className="flex gap-0.5 h-2.5 items-end">
-                            <span className="w-0.5 h-1.5 bg-[#D0A21C] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                            <span className="w-0.5 h-2 bg-[#D0A21C] rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                            <span className="w-0.5 h-1 bg-[#D0A21C] rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-                          </div>
-                          <Square className="w-2.5 h-2.5 text-[#D0A21C] fill-[#D0A21C] shrink-0" />
-                        </div>
+                        <Square className="w-3.5 h-3.5 text-secondary fill-secondary" />
                       ) : (
-                        <Volume2 className="w-3.5 h-3.5 text-[#D0A21C] shrink-0" />
+                        <span className="material-symbols-outlined text-[18px]">volume_up</span>
                       )}
                     </button>
                   </div>
-                )}
-                <p className="whitespace-pre-wrap">{msg.parts[0].text}</p>
+                  <p className="text-body-md text-on-surface leading-relaxed whitespace-pre-wrap">
+                    {msg.parts[0].text}
+                  </p>
+                  <div className="flex items-center justify-between mt-3 pt-2 text-on-surface-variant text-label-caps">
+                    <span className="flex items-center gap-1 text-primary">
+                      <span className="material-symbols-outlined text-[14px]">auto_stories</span>
+                      <span>{t('common.oustaz_source_label')}</span>
+                    </span>
+                  </div>
+                </div>
               </div>
             </motion.div>
           );
@@ -853,103 +936,73 @@ export default function OustazVirtual({ currentUser }: OustazVirtualProps) {
 
         {/* Loading Bubble */}
         {isLoading && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex justify-start"
-          >
-            <div className="bg-amber-50 text-[#004D40] max-w-[85%] rounded-2xl rounded-tl-none p-3.5 border border-[#D0A21C]/20 text-xs shadow-sm shadow-stone-100 flex items-center gap-3">
-              <span className="text-[10px] font-black text-[#D0A21C] uppercase font-sans animate-pulse">
-                {t('oustaz.oustaz_thinking', "L'Oustaz réfléchit d'un air bienveillant")}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex gap-space-sm items-start">
+            <div className="w-8 h-8 rounded-full bg-primary-container text-secondary-fixed shrink-0 flex items-center justify-center shadow-sm">
+              <span className="material-symbols-outlined text-[18px]">psychology</span>
+            </div>
+            <div className="bg-surface-container-lowest rounded-2xl p-4 shadow-sm flex items-center gap-3">
+              <span className="text-label-caps text-secondary uppercase animate-pulse">
+                {t('oustaz.oustaz_thinking')}
               </span>
-              <div className="flex gap-1.5 items-center">
-                {[0, 1, 2].map((i) => (
-                  <motion.span
-                    key={i}
-                    className="w-1.5 h-1.5 bg-[#D0A21C] rounded-full"
-                    animate={{
-                      scale: [0.6, 1.2, 0.6],
-                      opacity: [0.3, 1, 0.3]
-                    }}
-                    transition={{
-                      duration: 1.2,
-                      repeat: Infinity,
-                      delay: i * 0.22,
-                      ease: "easeInOut"
-                    }}
-                  />
-                ))}
-              </div>
             </div>
           </motion.div>
         )}
 
-        {/* Localized Error Banner inside chat */}
+        {/* Localized Error Banner */}
         {errorStatus && (
-          <div className="p-4 bg-rose-50 border border-rose-500/20 text-rose-700 text-xs rounded-2xl flex items-center gap-3 shadow-soft">
-            <AlertCircle className="w-5 h-5 shrink-0 text-rose-500 animate-bounce" />
+          <div className="p-4 bg-error-container text-on-error-container text-body-sm rounded-2xl flex items-center gap-3 shadow-sm">
+            <AlertCircle className="w-5 h-5 shrink-0" />
             <p className="flex-1 font-medium">{errorStatus}</p>
             <button
+              type="button"
               onClick={() => handleSendMessage(messages[messages.length - 1]?.parts[0].text || '')}
-              className="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-[10px] font-extrabold uppercase tracking-wider transition-all duration-200 active:translate-y-0.5 btn-3d-rose shrink-0"
+              className="px-3 py-1.5 bg-error text-on-error rounded-full text-label-sm font-bold shrink-0 cursor-pointer"
             >
-              {t('oustaz.oustaz_retry', "Réessayer")}
+              {t('oustaz.oustaz_retry')}
             </button>
           </div>
         )}
 
         <div ref={listEndRef} />
       </div>
-
-      {/* Suggested prompts box only displayed when chat has low activities */}
-      {messages.length < 3 && (
-        <div className="px-4 py-3 bg-stone-50 border-t border-stone-100/80 shrink-0 space-y-2">
-          <p className="text-[9px] text-stone-500 font-extrabold uppercase tracking-wider flex items-center gap-1">
-            <Sparkles className="w-3.5 h-3.5 text-[#D0A21C]" />
-            <span>{t('oustaz.oustaz_recommended', "Questions recommandées :")}</span>
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {suggestedPrompts.map((p, i) => (
-              <button
-                key={i}
-                onClick={() => {
-                  playSelectSound();
-                  setInputValue(p.query);
-                }}
-                disabled={isLoading}
-                className="text-[10px] font-extrabold text-[#004D40] bg-white border border-[#004D40]/15 hover:border-[#D0A21C] hover:text-[#004D40] px-3 py-2 rounded-xl shrink-0 cursor-pointer shadow-sm transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-[0_1px_0_#d0a21c]"
-              >
-                {p.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Dynamic input bar */}
-      <div className="p-4 bg-white border-t border-stone-100 shrink-0 flex gap-3">
-        <input
-          type="text"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && handleSendMessage(inputValue)}
-          placeholder={t('oustaz.oustaz_placeholder', "Pose une question à l'Oustaz... (ex: C'est quoi la prière ?)")}
-          disabled={isLoading}
-          className="flex-1 px-4 py-3 border border-stone-200 text-stone-800 rounded-2xl text-xs focus:outline-none focus:border-[#D0A21C] disabled:bg-stone-50 disabled:text-stone-400 focus:ring-1 focus:ring-[#D0A21C]/30 transition-all"
-        />
-        <button
-          onClick={() => handleSendMessage(inputValue)}
-          disabled={!inputValue.trim() || isLoading}
-          className={`p-3 rounded-2xl transition-all font-extrabold shrink-0 cursor-pointer flex items-center justify-center ${
-            inputValue.trim() && !isLoading
-              ? 'bg-[#004D40] text-[#FCF8F2] hover:bg-[#004D40]/90 active:translate-y-0.5 btn-3d-emerald shadow-md'
-              : 'bg-stone-100 text-stone-400 border border-stone-200 cursor-not-allowed'
-          }`}
-        >
-          <Send className="w-4 h-4" />
-        </button>
       </div>
 
+      {/* Interactive Input Deck */}
+      <div className="sticky bottom-2 z-20 flex flex-col gap-2 pt-2">
+        <div className="bg-surface-container-lowest p-2 rounded-2xl shadow-[0_8px_30px_rgba(13,77,67,0.12)] flex items-center gap-2">
+          <div className="flex-1 relative flex items-center">
+            <input
+              type="text"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSendMessage(inputValue)}
+              placeholder={t('common.oustaz_input_placeholder')}
+              disabled={isLoading}
+              className="w-full bg-surface-container-low text-on-surface placeholder:text-on-surface-variant text-body-md px-3.5 py-2.5 rounded-xl outline-none focus:bg-surface-container-lowest transition-colors"
+            />
+          </div>
+          <button
+            type="button"
+            onClick={() => handleSendMessage(inputValue)}
+            disabled={!inputValue.trim() || isLoading}
+            aria-label={t('common.oustaz_input_placeholder')}
+            className={`w-11 h-11 shrink-0 rounded-xl flex items-center justify-center transition-all cursor-pointer ${
+              inputValue.trim() && !isLoading
+                ? 'bg-primary text-on-primary shadow-[0_3px_0_0_#072d27] active:translate-y-0.5'
+                : 'bg-surface-container text-outline cursor-not-allowed'
+            }`}
+          >
+            <span className="material-symbols-outlined text-[20px]">send</span>
+          </button>
+        </div>
+
+        <div className="flex items-center justify-center gap-1.5 text-center">
+          <span className="material-symbols-outlined text-[14px] text-primary">verified_user</span>
+          <span className="text-label-caps text-on-surface-variant">
+            {t('common.oustaz_supervised_badge')}
+          </span>
+        </div>
+      </div>
     </div>
   );
 }
