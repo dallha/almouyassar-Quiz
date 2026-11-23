@@ -5,6 +5,97 @@ import { DailyRewardData } from './components/ui/DailyReward';
 import { BadgeData } from './components/ui/BadgeGallery';
 import { BADGES, QUESTIONS } from './data';
 
+function fisherYatesShuffle<T>(items: T[]): T[] {
+  const arr = [...items];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+/**
+ * Sélectionne intelligemment les questions avec persistance LRU :
+ * 1. Priorité absolue aux questions jamais vues (`seenTimestamps[id] === undefined`), mélangées aléatoirement.
+ * 2. Légère priorité (jusqu'à floor(count/4), max 2) aux questions dues en révision SM-2 vues il y a plus de 5 min.
+ * 3. Complément LRU (plus anciennement vues en premier, avec léger mélange par tranches de 3) pour garantir
+ *    zéro répétition tant que l'ensemble du pool n'a pas été parcouru.
+ */
+export function pickSmartQuestions(
+  pool: Question[],
+  count: number,
+  seenTimestamps: Record<string, number> = {},
+  dueReviewIds: Set<string | number> = new Set(),
+  now: number = Date.now()
+): { selected: Question[]; updatedSeenTimestamps: Record<string, number> } {
+  if (pool.length === 0 || count <= 0) {
+    return { selected: [], updatedSeenTimestamps: { ...seenTimestamps } };
+  }
+
+  const targetCount = Math.min(count, pool.length);
+  const fiveMinutesMs = 5 * 60 * 1000;
+
+  const unseen: Question[] = [];
+  const dueReviewCandidates: Question[] = [];
+  const seenCandidates: Question[] = [];
+
+  for (const q of pool) {
+    const key = String(q.id);
+    const ts = seenTimestamps[key];
+    if (ts === undefined) {
+      unseen.push(q);
+    } else if (dueReviewIds.has(q.id) && now - ts > fiveMinutesMs) {
+      dueReviewCandidates.push(q);
+    } else {
+      seenCandidates.push(q);
+    }
+  }
+
+  const shuffledUnseen = fisherYatesShuffle(unseen);
+
+  const sortedDue = [...dueReviewCandidates].sort(
+    (a, b) => (seenTimestamps[String(a.id)] ?? 0) - (seenTimestamps[String(b.id)] ?? 0)
+  );
+  const maxDueQuota = unseen.length >= targetCount ? Math.min(2, Math.floor(targetCount / 4)) : targetCount;
+  const pickedDue: Question[] = sortedDue.slice(0, maxDueQuota);
+
+  // Build LRU bucket with mild local chunk shuffling (group size 3) for freshness without breaking LRU guarantees
+  const remainingSeen = [...seenCandidates, ...sortedDue.slice(pickedDue.length)].sort(
+    (a, b) => (seenTimestamps[String(a.id)] ?? 0) - (seenTimestamps[String(b.id)] ?? 0)
+  );
+  const chunkedLru: Question[] = [];
+  for (let i = 0; i < remainingSeen.length; i += 3) {
+    chunkedLru.push(...fisherYatesShuffle(remainingSeen.slice(i, i + 3)));
+  }
+
+  const selected: Question[] = [];
+  const selectedKeys = new Set<string>();
+  const addIfNew = (q: Question) => {
+    const key = String(q.id);
+    if (selected.length < targetCount && !selectedKeys.has(key)) {
+      selectedKeys.add(key);
+      selected.push(q);
+    }
+  };
+
+  // Reserve up to maxDueQuota slots for due review items if available so spaced repetition still surfaces
+  const dueReserve = Math.min(pickedDue.length, maxDueQuota);
+  const primaryUnseenLimit = Math.max(0, targetCount - dueReserve);
+
+  for (const q of shuffledUnseen.slice(0, primaryUnseenLimit)) addIfNew(q);
+  for (const q of pickedDue) addIfNew(q);
+  for (const q of shuffledUnseen.slice(primaryUnseenLimit)) addIfNew(q);
+  for (const q of chunkedLru) addIfNew(q);
+
+  const finalSelected = fisherYatesShuffle(selected);
+  const updatedSeenTimestamps: Record<string, number> = { ...seenTimestamps };
+  finalSelected.forEach((q, idx) => {
+    updatedSeenTimestamps[String(q.id)] = now + idx;
+  });
+
+  return { selected: finalSelected, updatedSeenTimestamps };
+}
+
 /**
  * Sélectionne des questions aléatoires avec un historique pour éviter les répétitions.
  * Les questions vues récemment sont exclues du pool de sélection.
@@ -18,25 +109,13 @@ export function pickRandomQuestions(
 ): { selected: Question[]; updatedRecentIds: (string | number)[] } {
   if (pool.length === 0) return { selected: [], updatedRecentIds: recentIds };
 
-  // Filtrer les questions récentes pour éviter les répétitions
-  const recentSet = new Set(recentIds);
-  let available = pool.filter(q => !recentSet.has(q.id));
+  const baseNow = Date.now() - recentIds.length * 10;
+  const seenMap: Record<string, number> = {};
+  recentIds.forEach((id, idx) => {
+    seenMap[String(id)] = baseNow + idx;
+  });
 
-  // Si le pool disponible est trop petit, on prend toutes les questions
-  if (available.length < count) {
-    available = [...pool];
-  }
-
-  // Fisher-Yates shuffle pour un mélange vraiment aléatoire
-  const shuffled = [...available];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-
-  const selected = shuffled.slice(0, Math.min(count, shuffled.length));
-
-  // Mettre à jour l'historique des IDs récents
+  const { selected } = pickSmartQuestions(pool, count, seenMap, new Set(), Date.now());
   const selectedIds = selected.map(q => q.id);
   const updatedRecentIds = [...recentIds, ...selectedIds].slice(-maxRecentHistory);
 

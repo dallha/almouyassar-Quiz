@@ -1,5 +1,6 @@
 import { Question, Badge } from './types';
 import { EXTRA_QUESTIONS } from './questions_extra';
+import { ENRICHED_QUESTIONS } from './data/questions_enriched';
 
 export const QUESTIONS: Question[] = [
   {
@@ -10185,7 +10186,8 @@ export const QUESTIONS: Question[] = [
       }
     }
   },
-  ...EXTRA_QUESTIONS
+  ...EXTRA_QUESTIONS,
+  ...ENRICHED_QUESTIONS
 ];
 
 export const BADGES: Badge[] = [

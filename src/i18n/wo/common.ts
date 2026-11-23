@@ -279,6 +279,8 @@ export default {
   auth_password_placeholder: "••••••••",
   auth_signin_btn: "Se connecter",
   auth_signup_btn: "S'inscrire",
+  auth_google_btn: "Kontinye ak Google",
+  auth_or_divider: "walla",
   auth_switch_to_signup: "Créer un compte à la place",
   auth_switch_to_signin: "Déjà un compte ? Se connecter",
   auth_error_empty: "Veuillez remplir tous les champs.",
@@ -552,4 +554,10 @@ export default {
   oustaz_chip_2: "Nettali Yonent bi Younous",
   oustaz_chip_3: "Naka lañuy xusoo ci julli ?",
   oustaz_chip_4: "Maanaam Suura Al-Ikhlas",
+
+  // Quiz Hint
+  quiz_hint_show: "Ndax bëgg nga ab ndimbal?",
+  quiz_hint_hide: "Nëbb ndimbal bi",
+  quiz_hint_label: "Ndimbal",
+  quiz_hint_fallback: "Xalaatal ci « {category} » te dindi tontu yi ko sori.",
 };

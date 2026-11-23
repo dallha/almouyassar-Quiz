@@ -279,6 +279,8 @@ export default {
   auth_password_placeholder: "••••••••",
   auth_signin_btn: "تسجيل الدخول",
   auth_signup_btn: "إنشاء حساب",
+  auth_google_btn: "المتابعة باستخدام Google",
+  auth_or_divider: "أو",
   auth_switch_to_signup: "إنشاء حساب بدلاً من ذلك",
   auth_switch_to_signin: "لديك حساب بالفعل؟ سجّل الدخول",
   auth_error_empty: "يرجى ملء جميع الحقول.",
@@ -550,4 +552,10 @@ export default {
   oustaz_chip_2: "قصة النبي يونس عليه السلام",
   oustaz_chip_3: "كيف أخشع في صلاتي؟",
   oustaz_chip_4: "معنى سورة الإخلاص",
+
+  // Quiz Hint
+  quiz_hint_show: "هل تحتاج إلى تلميح؟",
+  quiz_hint_hide: "إخفاء التلميح",
+  quiz_hint_label: "تلميح",
+  quiz_hint_fallback: "فكّر في موضوع « {category} » واستبعد الإجابات البعيدة عنه.",
 };

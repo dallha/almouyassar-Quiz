@@ -18,7 +18,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Question, getLocalizedQuestion } from '../types';
 import { Sparkles, Clock, Check, X, ChevronRight, Star, Zap, Trophy, RotateCcw, Flame } from 'lucide-react';
 import { useLanguage } from '../LanguageContext';
-import { playSuccessSound, playErrorSound } from './SoundEngine';
+import { playSuccessSound, playErrorSound, playSelectSound } from './SoundEngine';
 
 /* ── PROPS ── */
 interface QuizCardProps {
@@ -240,6 +240,7 @@ export default function QuizCard({
   const [showFeedback, setShowFeedback] = useState(false);
   const [hasAnswered, setHasAnswered] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [showHint, setShowHint] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startTime = useRef(Date.now());
 
@@ -274,6 +275,7 @@ export default function QuizCard({
     setShowFeedback(false);
     setHasAnswered(false);
     setShowConfetti(false);
+    setShowHint(false);
     startTime.current = Date.now();
 
     timerRef.current = setInterval(() => {
@@ -404,7 +406,7 @@ export default function QuizCard({
           </div>
 
           {/* ── QUESTION — DOMINANTE, CENTRALE ── */}
-          <div className="px-5 py-5 md:py-6">
+          <div className="px-5 py-5 md:py-6 space-y-3">
             <motion.h3
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -413,6 +415,52 @@ export default function QuizCard({
             >
               {localizedQuestion.question}
             </motion.h3>
+
+            {(() => {
+              const hasExplicitHint = Boolean(localizedQuestion.hint);
+              const isDifficult = question.niveau !== 'Débutant';
+              if (hasAnswered || (!hasExplicitHint && !isDifficult)) return null;
+
+              const localizedCat = t(
+                `quiz.cat_${question.categorie.toLowerCase().replace(/[^a-z]/g, '_')}`,
+                question.categorie
+              );
+              const hintText =
+                localizedQuestion.hint ||
+                t('common.quiz_hint_fallback').replace('{category}', localizedCat);
+
+              return (
+                <div className="flex flex-col items-center gap-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      playSelectSound();
+                      setShowHint((prev) => !prev);
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary-fixed/40 hover:bg-secondary-fixed/70 text-on-secondary-fixed text-label-sm transition-colors cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-[16px] text-secondary">lightbulb</span>
+                    <span>{showHint ? t('common.quiz_hint_hide') : t('common.quiz_hint_show')}</span>
+                  </button>
+
+                  <AnimatePresence>
+                    {showHint && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                        className="w-full max-w-md bg-secondary-fixed/25 rounded-xl p-3 text-center shadow-xs"
+                      >
+                        <span className="text-label-caps text-secondary uppercase block mb-0.5">
+                          {t('common.quiz_hint_label')}
+                        </span>
+                        <p className="text-body-sm text-on-secondary-fixed leading-relaxed">{hintText}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })()}
           </div>
 
           {/* ── OPTIONS — CARDS INTERACTIVES ── */}

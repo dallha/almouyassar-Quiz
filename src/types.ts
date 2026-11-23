@@ -8,6 +8,7 @@ export interface QuestionTranslation {
   options: string[];
   reponse_correcte: string;
   explication: string;
+  hint?: string;
 }
 
 export interface Question {
@@ -18,6 +19,7 @@ export interface Question {
   options: string[];
   reponse_correcte: string;
   explication: string;
+  hint?: string;             // Indice pédagogique discret pour les questions difficiles
   source?: string;           // Source authentique (ex: "Sahih Bukhari")
   reference?: string;        // Référence précise (ex: "Hadith n°1234")
   objectif_pedagogique?: string; // Objectif d'apprentissage
@@ -38,6 +40,7 @@ export function getLocalizedQuestion(q: Question, lang: string): {
   options: string[];
   reponse_correcte: string;
   explication: string;
+  hint?: string;
 } {
   if (lang !== 'fr' && q.translations && q.translations[lang as 'ar' | 'wo']) {
     const tr = q.translations[lang as 'ar' | 'wo']!;
@@ -46,7 +49,8 @@ export function getLocalizedQuestion(q: Question, lang: string): {
       question: tr.question || q.question,
       options: tr.options && tr.options.length === q.options.length ? tr.options : q.options,
       reponse_correcte: tr.reponse_correcte || q.reponse_correcte,
-      explication: tr.explication || q.explication
+      explication: tr.explication || q.explication,
+      hint: tr.hint || q.hint
     };
   }
   return q;

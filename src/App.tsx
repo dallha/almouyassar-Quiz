@@ -36,7 +36,7 @@ import QuizRecommender from './components/QuizRecommender';
 import DailyReward, { DailyRewardData } from './components/ui/DailyReward';
 import BadgeGallery, { BadgeData } from './components/ui/BadgeGallery';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
-import { useAppStore, pickRandomQuestions } from './store';
+import { useAppStore, pickSmartQuestions } from './store';
 import { summarizeLearningPath } from './features/learning';
 import { applyAnswerToProgress } from './features/quiz/sessionService';
 import { getProgressSnapshot, getRecommendedReviewQueue } from './services/learningService';
@@ -322,10 +322,24 @@ export default function App() {
   // Listen for Neon Authentication status
   useEffect(() => {
     if (!isNeonAuthConfigured()) return;
-    neonAuth.getSession().then(({ data: { session } }) => setCurrentUser(session?.user ?? null));
-    const { data: { subscription } } = neonAuth.onAuthStateChange((_event, session) => setCurrentUser(session?.user ?? null));
+    neonAuth.getSession().then(({ data: { session } }) => {
+      const user = session?.user ?? null;
+      setCurrentUser(user as any);
+      const name = (user as any)?.name || (user as any)?.user_metadata?.full_name || (user as any)?.user_metadata?.name;
+      if (name && (!username || username === 'Explorateur')) {
+        setUsername(name);
+      }
+    });
+    const { data: { subscription } } = neonAuth.onAuthStateChange((_event, session) => {
+      const user = session?.user ?? null;
+      setCurrentUser(user as any);
+      const name = (user as any)?.name || (user as any)?.user_metadata?.full_name || (user as any)?.user_metadata?.name;
+      if (name && (!username || username === 'Explorateur')) {
+        setUsername(name);
+      }
+    });
     return () => subscription.unsubscribe();
-  }, []);
+  }, [username, setUsername]);
 
   const handleResendConfirmationEmail = async () => {
     // Resend the email verification for users who have signed up but not yet confirmed.
@@ -530,15 +544,44 @@ export default function App() {
   const [latestSessionBadges, setLatestSessionBadges] = useState<Badge[]>([]);
   const [showSessionBadgeBanner, setShowSessionBadgeBanner] = useState(false);
 
-  // Historique des IDs de questions vues récemment (pour éviter les répétitions)
-  const [recentQuestionIds, setRecentQuestionIds] = useState<number[]>(() => {
+  // Historique LRU persistant des questions vues (horodatage par ID pour zéro répétition)
+  const [questionSeenTimestamps, setQuestionSeenTimestamps] = useState<Record<string, number>>(() => {
     try {
-      const saved = localStorage.getItem('mouyassar_recent_question_ids');
-      return saved ? JSON.parse(saved) : [];
+      const savedV2 = localStorage.getItem('mouyassar_question_seen_v2');
+      if (savedV2) {
+        const parsed = JSON.parse(savedV2);
+        if (parsed && typeof parsed === 'object') return parsed;
+      }
+      const legacy = localStorage.getItem('mouyassar_recent_question_ids');
+      if (legacy) {
+        const legacyIds: (string | number)[] = JSON.parse(legacy);
+        if (Array.isArray(legacyIds)) {
+          const base = Date.now() - legacyIds.length * 1000;
+          const migrated: Record<string, number> = {};
+          legacyIds.forEach((id, idx) => {
+            migrated[String(id)] = base + idx;
+          });
+          return migrated;
+        }
+      }
+      return {};
     } catch {
-      return [];
+      return {};
     }
   });
+
+  const getDueReviewIdSet = (): Set<string | number> => {
+    const dueSet = new Set<string | number>();
+    for (const id of learningSnapshot.reviewPlan.dueItems) {
+      dueSet.add(id);
+      const numId = Number(id);
+      if (!Number.isNaN(numId)) dueSet.add(numId);
+    }
+    for (const q of getRecommendedReviewQueue(QUESTIONS, stats, 10)) {
+      if (stats.reviewItems?.[q.id]) dueSet.add(q.id);
+    }
+    return dueSet;
+  };
 
   // --- Cache de Traduction IA et États ---
   const [aiTranslationsCache, setAiTranslationsCache] = useState<Record<string, any>>(() => {
@@ -783,15 +826,15 @@ export default function App() {
       return;
     }
 
-    // Utiliser pickRandomQuestions avec l'historique pour éviter les répétitions
-    const { selected, updatedRecentIds } = pickRandomQuestions(
+    // Sélection intelligente LRU anti-répétition + révisions dues
+    const { selected, updatedSeenTimestamps } = pickSmartQuestions(
       filtered,
       countToPick,
-      recentQuestionIds,
-      300 // Historique des 300 dernières questions vues
+      questionSeenTimestamps,
+      getDueReviewIdSet()
     );
-    setRecentQuestionIds(updatedRecentIds);
-    localStorage.setItem('mouyassar_recent_question_ids', JSON.stringify(updatedRecentIds));
+    setQuestionSeenTimestamps(updatedSeenTimestamps);
+    localStorage.setItem('mouyassar_question_seen_v2', JSON.stringify(updatedSeenTimestamps));
 
     launchSessionWithTransition(
       selected,
@@ -813,15 +856,15 @@ export default function App() {
       return;
     }
 
-    // Utiliser pickRandomQuestions avec l'historique pour éviter les répétitions
-    const { selected, updatedRecentIds } = pickRandomQuestions(
+    // Sélection intelligente LRU anti-répétition + révisions dues
+    const { selected, updatedSeenTimestamps } = pickSmartQuestions(
       filtered,
-      10, // Augmenté de 7 à 10 questions
-      recentQuestionIds,
-      300
+      10,
+      questionSeenTimestamps,
+      getDueReviewIdSet()
     );
-    setRecentQuestionIds(updatedRecentIds);
-    localStorage.setItem('mouyassar_recent_question_ids', JSON.stringify(updatedRecentIds));
+    setQuestionSeenTimestamps(updatedSeenTimestamps);
+    localStorage.setItem('mouyassar_question_seen_v2', JSON.stringify(updatedSeenTimestamps));
 
     launchSessionWithTransition(
       selected,
@@ -838,14 +881,15 @@ export default function App() {
       return;
     }
 
-    // Utiliser pickRandomQuestions avec l'historique pour éviter les répétitions
-    const { selected, updatedRecentIds } = pickRandomQuestions(
+    // Sélection intelligente LRU anti-répétition
+    const { selected, updatedSeenTimestamps } = pickSmartQuestions(
       questionsList,
       7,
-      recentQuestionIds,
-      300
+      questionSeenTimestamps,
+      getDueReviewIdSet()
     );
-    setRecentQuestionIds(updatedRecentIds);
+    setQuestionSeenTimestamps(updatedSeenTimestamps);
+    localStorage.setItem('mouyassar_question_seen_v2', JSON.stringify(updatedSeenTimestamps));
 
     launchSessionWithTransition(
       selected,
@@ -1992,16 +2036,39 @@ export default function App() {
                         setAuthRecoveryFlow(false);
                         setShowAuthModal(true);
                       } else {
+                        let userCreated = false;
+                        let sessionCreated = false;
+
                         const { data, error } = await neonAuth.signUp({
                           email: authEmail,
                           password: authPassword,
                         });
-                        if (error) throw error;
+
+                        if (error) {
+                          if (error.code === 'session_not_found' || error.message?.includes('session')) {
+                            // User account was created in Neon Auth. Attempt immediate login:
+                            userCreated = true;
+                            const signInRes = await neonAuth.signInWithPassword({
+                              email: authEmail,
+                              password: authPassword,
+                            });
+                            if (signInRes.data?.session) {
+                              sessionCreated = true;
+                            }
+                          } else {
+                            throw error;
+                          }
+                        } else {
+                          userCreated = true;
+                          if (data?.session) {
+                            sessionCreated = true;
+                          }
+                        }
                         
-                        const finalUsername = authUsername.trim() || currentUser?.email?.split('@')[0] || 'Explorateur';
-                        if (data?.user) setUsername(finalUsername);
+                        const finalUsername = authUsername.trim() || currentUser?.email?.split('@')[0] || authEmail.split('@')[0] || 'Explorateur';
+                        if (userCreated || sessionCreated) setUsername(finalUsername);
                         
-                        if (data?.session) {
+                        if (sessionCreated) {
                           setAuthMessage(t('common.auth_success_signup'));
                           setAuthEmail('');
                           setAuthPassword('');
@@ -2103,6 +2170,61 @@ export default function App() {
                       t('common.auth_set_new_password_btn')
                     )}
                   </button>
+
+                  {(authMode === 'signin' || authMode === 'signup') && (
+                    <div className="space-y-3 pt-1">
+                      <div className="flex items-center gap-3">
+                        <div className="flex-1 h-px bg-stone-200" />
+                        <span className="text-[11px] font-semibold text-stone-400 uppercase tracking-wider">
+                          {t('common.auth_or_divider')}
+                        </span>
+                        <div className="flex-1 h-px bg-stone-200" />
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={async () => {
+                          playSelectSound();
+                          setAuthLoading(true);
+                          setAuthError(null);
+                          try {
+                            const { error } = await neonAuth.signInWithOAuth({
+                              provider: 'google',
+                              options: {
+                                redirectTo: window.location.origin,
+                              },
+                            });
+                            if (error) throw error;
+                          } catch (err: any) {
+                            setAuthError(err.message || t('common.auth_error_generic'));
+                            setAuthLoading(false);
+                          }
+                        }}
+                        disabled={authLoading}
+                        className="w-full py-2.5 px-4 bg-white hover:bg-stone-50 border border-stone-200 hover:border-stone-300 text-stone-700 font-bold text-xs rounded-xl transition-all cursor-pointer shadow-sm hover:shadow active:scale-[0.99] disabled:opacity-50 flex items-center justify-center gap-2.5"
+                      >
+                        <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+                          <path
+                            fill="#4285F4"
+                            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                          />
+                          <path
+                            fill="#34A853"
+                            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                          />
+                          <path
+                            fill="#FBBC05"
+                            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+                          />
+                          <path
+                            fill="#EA4335"
+                            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+                          />
+                        </svg>
+                        <span>{t('common.auth_google_btn')}</span>
+                      </button>
+                    </div>
+                  )}
 
                   {authMode === 'signin' && (
                     <div className="flex flex-col gap-2 text-center pt-3">
